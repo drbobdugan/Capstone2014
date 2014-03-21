@@ -12,6 +12,8 @@ import org.apache.wicket.markup.html.basic.Label;
  * Kelsey here... adding a comment.
  * I love playing with git
  * bdugan adding a line here
+ * bdugan adding a line here II
+ * kelsey adding a comment
  *
  */
 public class Kelseytest extends WebPage
