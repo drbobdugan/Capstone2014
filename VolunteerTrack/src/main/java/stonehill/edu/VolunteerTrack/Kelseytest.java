@@ -11,9 +11,10 @@ import org.apache.wicket.markup.html.basic.Label;
  * @author ubuntu comment comment comment
  * Kelsey here... adding a comment.
  * I love playing with git
- * kelsey adding a comment
- * kelsey adding a comment II
  * bdugan adding a line here
+ * bdugan adding a line here II
+ * kelsey adding a comment
+ * kelsey adding a comment
  *
  */
 public class Kelseytest extends WebPage
