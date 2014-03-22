@@ -13,6 +13,8 @@ import org.apache.wicket.markup.html.basic.Label;
  * I love playing with git
  * bdugan adding a line here
  * bdugan adding a line here II
+ * bdugan adding a line here III
+ * kelsey adding a comment
  * kelsey adding a comment
  * kelsey adding a comment
  *
