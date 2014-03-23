@@ -25,7 +25,10 @@ public class Kelseytest extends WebPage
 private Label message;
 public Kelseytest()
 {
-message=new Label("Happy Friday Everyone!!");
+message=new Label("Happy Sunday Everyone!!");
 add(message);
 }
 }
+/**
+ * 
+ */
