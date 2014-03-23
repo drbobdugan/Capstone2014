@@ -11,7 +11,7 @@ public class KaushalTest extends WebPage
 public Label message;
 public KaushalTest()
 {
-message=new Label("Yippie Kiyay");
+message=new Label("message", "Yippie Kiyay");
 add(message);
 }
 
