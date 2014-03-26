@@ -11,7 +11,7 @@ public class TaylorTest extends WebPage
 public Label message;
 public TaylorTest()
 {
-message=new Label("message", "Taylor");
+message=new Label("message", "That Means Hello");
 add(message);
 }
 }
