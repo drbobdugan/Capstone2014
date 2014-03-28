@@ -6,13 +6,12 @@ import org.apache.wicket.markup.html.*;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.basic.Label;
 
-public class KaushalTest extends WebPage
+public class TaylorTest extends WebPage
 {
 public Label message;
-public KaushalTest()
+public TaylorTest()
 {
-message=new Label("message", "Yippie Kiyay");
+message=new Label("message", "That Means Hello");
 add(message);
 }
-
 }

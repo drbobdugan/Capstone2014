@@ -4,14 +4,13 @@ import java.io.Serializable;
 
 import org.apache.wicket.markup.html.*;
 import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.basic.Label;
 
-public class KaushalTest extends WebPage
+public class JoeyTest extends WebPage
 {
 public Label message;
-public KaushalTest()
+public JoeyTest()
 {
-message=new Label("message", "Yippie Kiyay");
+message=new Label("message","Joey");
 add(message);
 }
 

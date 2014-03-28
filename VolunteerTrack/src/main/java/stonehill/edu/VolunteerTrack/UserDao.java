@@ -1,67 +1,268 @@
 package stonehill.edu.VolunteerTrack;
-
-import org.apache.log4j.*;
-
-
-
-public class UserDao extends Dao {
-
-	// Example of how to setup a logger... google log4j
-	Logger logger = Logger.getLogger(UserDao.class);
-	
-	UserDao()
-	{
-		// *** IMPORTANT READ THIS ***
-		// This is a superior way to access the users.xml file.  The xml file is treated as a resource.
-		// A resource can be any kind of file, provided it is stored in the resources directory associated
-		// with the class that is using the resource.  All of the java code that you write for Wicket
-		// is stored in the "src/main/java" directory.  All of the resources for this java code are stored
-		// in the "src/main/resources" directory.  When the project is built, the class files get copied
-		// to the "/WEB-INF/classes/edu/stonehill" directory and the resources get copied to the
-		// "/WEB-INF/classes" directory.  The getResource() method knows how to find the files in this
-		// directory.
-		//
-		// *** IMPORTANT READ THIS TOO ***
-		// The file path returned from getPath() contains webified character substitutes for non-standard
-		// characters like "%20" instead of " " that can appear in a file path.  We need to replace the 
-		// substitute with the actual character.
-		path = this.getClass().getClassLoader().getResource("users.xml").getPath().replace("%20"," ");
-		
-		// Example of how use a logger... you can configure what gets printed out using the
-		// log4j.properties file
-		logger.info("The path is: " + path);
-		
-		open();
-	}
-
-	@Override
-	protected int indexOf(Object value) 
-	{
-		User user = (User) value;
-		
-		// Iterate through users looking for match
-		for (int i=0; i<list.size(); i++)
-		{		
-			// Locate user
-			if (user.getUserId().equals(((User)list.get(i)).getUserId()))
-			{
-				return i;
-			}
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Date;
+public class UserDao extends Dao{
+	public void delete(Object value) {
+		User user=(User) value;
+		try{
+			//connect
+			connectToDatabase();
+			//SQL statement
+			Statement statement=connection.createStatement();
+			statement.executeQuery("DELETE FROM UserEntity VALUES "+
+		    "Email='"+user.getEmail()+"', "+
+		    "Password='"+user.getPassword()+"'");
+			statement.close();
+			disconnectFromDatabase();
 		}
-		
-		// Invalid user
-		return -1;
+	    catch(Exception e){
+			e.printStackTrace();
+		}
 	}
-	
-	public Object selectByUserId(String value) 
-	{	
-		User result = null;
-		
-		User proxy = new User(value,"");
-		
-		if (indexOf(proxy) >= 0)
-		{
-			result = (User) list.get(indexOf(proxy));
+	public void insert(Object value) {
+		User user=(User) value;
+		try{
+			//connect
+			connectToDatabase();
+			//SQL statement
+			Statement statement=connection.createStatement();
+			statement.executeQuery("INSERT INTO UserEntity VALUES "+
+		    "Email='"+user.getEmail()+"', "+
+		    "Password='"+user.getPassword()+"', "+
+		    "FirstName='"+user.getFirstName()+"', "+
+		    "LastName='"+user.getLastName()+"', "+
+		    "Street='"+user.getStreet()+"', "+
+		    "City='"+user.getCity()+"', "+
+		    "State='"+user.getState()+"', "+
+		    "Zip='"+user.getZip()+"', "+
+		    "PhoneNumber='"+user.getPhoneNumber()+"', "+
+		    "PartnerDescription='"+user.getPartnerDescription()+"', "+
+		    "VolunteerDescription='"+user.getVolunteerDescription()+"', "+
+			"IsApproved='"+(user.getIsApproved()?1:0)+"', "+
+			"IsPartner='"+(user.getIsPartner()?1:0)+"', "+
+			"IsCoordinator='"+(user.getIsCoordinator()?1:0)+"', "+
+			"IsVolunteer='"+(user.getIsVolunteer()?1:0)+"'");
+			statement.close();
+			disconnectFromDatabase();
+		}
+	    catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	public ArrayList<Object> selectAll() {
+		ArrayList<Object> result=new ArrayList<Object>();
+		try{
+			//connect
+			connectToDatabase();
+			//SQL statement
+			Statement statement=connection.createStatement();
+			ResultSet resultSet=statement.executeQuery("SELECT * FROM UserEntity");
+			//get tuples
+			while(resultSet.next()){
+				String e=resultSet.getString("UserEmail");
+				String p=resultSet.getString("Password");
+				String fn=resultSet.getString("FirstName");
+				String ln=resultSet.getString("LastName");
+				String s=resultSet.getString("Street");
+				String c=resultSet.getString("City");
+				String st=resultSet.getString("State");
+				String z=resultSet.getString("Zip");
+				String pn=resultSet.getString("PhoneNumber");
+				String pd=resultSet.getString("PartnerDescription");
+				String vd=resultSet.getString("VolunteerDescription");
+				boolean ip=resultSet.getBoolean("IsPartner");
+				boolean ic=resultSet.getBoolean("IsCoordinator");
+				boolean iv=resultSet.getBoolean("IsVolunteer");
+				boolean ia=resultSet.getBoolean("IsApproved");
+				result.add(new User(e,p,fn,ln,s,c,st,z,pn,pd,vd,ip,ic,iv,ia));
+			}
+			//clean up
+			resultSet.close();
+			statement.close();
+			disconnectFromDatabase();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		return result;
+	}
+	public void update(Object value) {
+		User user=(User) value;
+		try{
+			//connect
+			connectToDatabase();
+			//SQL statement
+			Statement statement=connection.createStatement();
+			statement.executeQuery("UPDATE UserEntity SET "+
+		    "Email='"+user.getEmail()+"', "+
+		    "Password='"+user.getPassword()+"', "+
+		    "FirstName='"+user.getFirstName()+"', "+
+		    "LastName='"+user.getLastName()+"', "+
+		    "Street='"+user.getStreet()+"', "+
+		    "City='"+user.getCity()+"', "+
+		    "State='"+user.getState()+"', "+
+		    "Zip='"+user.getZip()+"', "+
+		    "PhoneNumber='"+user.getPhoneNumber()+"', "+
+		    "PartnerDescription='"+user.getPartnerDescription()+"', "+
+		    "VolunteerDescription='"+user.getVolunteerDescription()+"', "+
+			"IsApproved='"+(user.getIsApproved()?1:0)+"', "+
+			"IsPartner='"+(user.getIsPartner()?1:0)+"', "+
+			"IsCoordinator='"+(user.getIsCoordinator()?1:0)+"', "+
+			"IsVolunteer='"+(user.getIsVolunteer()?1:0)+"'");
+			statement.close();
+			disconnectFromDatabase();
+		}
+	    catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	public User getUserByUsername(String name) {
+		User result=null;
+		try{
+			//connect
+			connectToDatabase();
+			//SQL statement
+			Statement statement=connection.createStatement();
+			ResultSet resultSet=statement.executeQuery("SELECT * FROM UserEntity WHERE Email='"+name+"'");
+			//get tuples
+			if(resultSet.next()){
+				String e=resultSet.getString("UserEmail");
+				String p=resultSet.getString("Password");
+				String fn=resultSet.getString("FirstName");
+				String ln=resultSet.getString("LastName");
+				String s=resultSet.getString("Street");
+				String c=resultSet.getString("City");
+				String st=resultSet.getString("State");
+				String z=resultSet.getString("Zip");
+				String pn=resultSet.getString("PhoneNumber");
+				String pd=resultSet.getString("PartnerDescription");
+				String vd=resultSet.getString("VolunteerDescription");
+				boolean ip=resultSet.getBoolean("IsPartner");
+				boolean ic=resultSet.getBoolean("IsCoordinator");
+				boolean iv=resultSet.getBoolean("IsVolunteer");
+				boolean ia=resultSet.getBoolean("IsApproved");
+				result=(new User(e,p,fn,ln,s,c,st,z,pn,pd,vd,ip,ic,iv,ia));
+			}
+			//clean up
+			resultSet.close();
+			statement.close();
+			disconnectFromDatabase();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		return result;
+	}
+	public User getAllPartners() {
+		ArrayList<Object> result=new ArrayList<Object>();
+		try{
+			//connect
+			connectToDatabase();
+			//SQL statement
+			Statement statement=connection.createStatement();
+			ResultSet resultSet=statement.executeQuery("SELECT * FROM UserEntity WHERE IsPartner='1'");
+			//get tuples
+			while(resultSet.next()){
+				String e=resultSet.getString("UserEmail");
+				String p=resultSet.getString("Password");
+				String fn=resultSet.getString("FirstName");
+				String ln=resultSet.getString("LastName");
+				String s=resultSet.getString("Street");
+				String c=resultSet.getString("City");
+				String st=resultSet.getString("State");
+				String z=resultSet.getString("Zip");
+				String pn=resultSet.getString("PhoneNumber");
+				String pd=resultSet.getString("PartnerDescription");
+				String vd=resultSet.getString("VolunteerDescription");
+				boolean ip=resultSet.getBoolean("IsPartner");
+				boolean ic=resultSet.getBoolean("IsCoordinator");
+				boolean iv=resultSet.getBoolean("IsVolunteer");
+				boolean ia=resultSet.getBoolean("IsApproved");
+				result.add(new User(e,p,fn,ln,s,c,st,z,pn,pd,vd,ip,ic,iv,ia));
+			}
+			//clean up
+			resultSet.close();
+			statement.close();
+			disconnectFromDatabase();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		return result;
+	}
+	public User getAllCoordinators() {
+		ArrayList<Object> result=new ArrayList<Object>();
+		try{
+			//connect
+			connectToDatabase();
+			//SQL statement
+			Statement statement=connection.createStatement();
+			ResultSet resultSet=statement.executeQuery("SELECT * FROM UserEntity WHERE IsCoordinator='1'");
+			//get tuples
+			while(resultSet.next()){
+				String e=resultSet.getString("UserEmail");
+				String p=resultSet.getString("Password");
+				String fn=resultSet.getString("FirstName");
+				String ln=resultSet.getString("LastName");
+				String s=resultSet.getString("Street");
+				String c=resultSet.getString("City");
+				String st=resultSet.getString("State");
+				String z=resultSet.getString("Zip");
+				String pn=resultSet.getString("PhoneNumber");
+				String pd=resultSet.getString("PartnerDescription");
+				String vd=resultSet.getString("VolunteerDescription");
+				boolean ip=resultSet.getBoolean("IsPartner");
+				boolean ic=resultSet.getBoolean("IsCoordinator");
+				boolean iv=resultSet.getBoolean("IsVolunteer");
+				boolean ia=resultSet.getBoolean("IsApproved");
+				result.add(new User(e,p,fn,ln,s,c,st,z,pn,pd,vd,ip,ic,iv,ia));
+			}
+			//clean up
+			resultSet.close();
+			statement.close();
+			disconnectFromDatabase();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		return result;
+	}
+	public User getAllVolunteers() {
+		ArrayList<Object> result=new ArrayList<Object>();
+		try{
+			//connect
+			connectToDatabase();
+			//SQL statement
+			Statement statement=connection.createStatement();
+			ResultSet resultSet=statement.executeQuery("SELECT * FROM UserEntity WHERE IsVolunteer='1'");
+			//get tuples
+			while(resultSet.next()){
+				String e=resultSet.getString("UserEmail");
+				String p=resultSet.getString("Password");
+				String fn=resultSet.getString("FirstName");
+				String ln=resultSet.getString("LastName");
+				String s=resultSet.getString("Street");
+				String c=resultSet.getString("City");
+				String st=resultSet.getString("State");
+				String z=resultSet.getString("Zip");
+				String pn=resultSet.getString("PhoneNumber");
+				String pd=resultSet.getString("PartnerDescription");
+				String vd=resultSet.getString("VolunteerDescription");
+				boolean ip=resultSet.getBoolean("IsPartner");
+				boolean ic=resultSet.getBoolean("IsCoordinator");
+				boolean iv=resultSet.getBoolean("IsVolunteer");
+				boolean ia=resultSet.getBoolean("IsApproved");
+				result.add(new User(e,p,fn,ln,s,c,st,z,pn,pd,vd,ip,ic,iv,ia));
+			}
+			//clean up
+			resultSet.close();
+			statement.close();
+			disconnectFromDatabase();
+		}
+		catch(Exception e){
+			e.printStackTrace();
 		}
 		return result;
 	}
