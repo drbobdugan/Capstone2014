@@ -39,8 +39,8 @@ public class TimesheetEntryDao extends Dao{
 		    "EventName='"+timesheetEntry.getEventName()+"', "+
 			"HoursLogged='"+timesheetEntry.getHoursLogged()+"', "+
 			"DateTime='"+new java.sql.Date(timesheetEntry.getDateTime().getTime())+"', "+
-			"IsApproved='"+timesheetEntry.getIsApproved()+"', "+
-			"IsSubmitted='"+timesheetEntry.getIsSubmitted()+"'");
+			"IsApproved='"+(timesheetEntry.getIsApproved()?1:0)+"', "+
+			"IsSubmitted='"+(timesheetEntry.getIsSubmitted()?1:0)+"'");
 			statement.close();
 			disconnectFromDatabase();
 		}
@@ -62,7 +62,7 @@ public class TimesheetEntryDao extends Dao{
 				String userEmail=resultSet.getString("UserEmail");
 				Date date=resultSet.getDate("DateTime");
 				String eventName=resultSet.getString("EventName");
-				boolean isApproved=resultSet.getBoolean("IsAproved");
+				boolean isApproved=resultSet.getBoolean("IsApproved");
 				boolean isSubmitted=resultSet.getBoolean("IsSubmitted");
 				int hoursLogged=resultSet.getInt("HoursLogged");
 				result.add(new TimesheetEntry(userEmail,date,eventName,isSubmitted,isApproved,hoursLogged));
@@ -90,8 +90,8 @@ public class TimesheetEntryDao extends Dao{
 			"EventName='"+timesheetEntry.getEventName()+"', "+
 			"HoursLogged='"+timesheetEntry.getHoursLogged()+"', "+
 			"DateTime='"+new java.sql.Date(timesheetEntry.getDateTime().getTime())+"', "+
-			"IsApproved='"+timesheetEntry.getIsApproved()+"', "+
-			"IsSubmitted='"+timesheetEntry.getIsSubmitted()+"'");
+			"IsApproved='"+(timesheetEntry.getIsApproved()?1:0)+"', "+
+			"IsSubmitted='"+(timesheetEntry.getIsSubmitted()?1:0)+"'");
 			statement.close();
 			disconnectFromDatabase();
 		}
@@ -113,7 +113,7 @@ public class TimesheetEntryDao extends Dao{
 				String ue=resultSet.getString("UserEmail");
 				Date d=resultSet.getDate("DateTime");
 				String en=resultSet.getString("EventName");
-				boolean isApproved=resultSet.getBoolean("IsAproved");
+				boolean isApproved=resultSet.getBoolean("IsApproved");
 				boolean isSubmitted=resultSet.getBoolean("IsSubmitted");
 				int hoursLogged=resultSet.getInt("HoursLogged");
 				result=(new TimesheetEntry(ue,d,en,isSubmitted,isApproved,hoursLogged));
@@ -145,7 +145,7 @@ public class TimesheetEntryDao extends Dao{
 				String userEmail=resultSet.getString("UserEmail");
 				Date date=resultSet.getDate("DateTime");
 				String eventName=resultSet.getString("EventName");
-				boolean isApproved=resultSet.getBoolean("IsAproved");
+				boolean isApproved=resultSet.getBoolean("IsApproved");
 				boolean isSubmitted=resultSet.getBoolean("IsSubmitted");
 				int hoursLogged=resultSet.getInt("HoursLogged");
 				result.add(new TimesheetEntry(userEmail,date,eventName,isSubmitted,isApproved,hoursLogged));
