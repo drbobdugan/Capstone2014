@@ -26,6 +26,26 @@ public class User implements Serializable {
 	{
 	}
 
+	public User(String ema, String pass, String fir, String las, String str, String cit, String sta, int zi, String pho, String par, String vol, int isp, int isc, int isv, int isa)
+	{
+		email = ema;
+		password = pass;
+		firstName = fir;
+		lastName = las;
+		street = str;
+		city = cit;
+		state = sta;
+		zip = zi;
+		phoneNumber = pho;
+		partnerDescription = par;
+		volunteerDescription = vol;
+		isPartner = isp;
+		isCoordinator = isc;
+		isVolunteer = isv;
+		isApproved = isa;
+				
+	}
+	
 	/**
 	 * @return the email
 	 */
