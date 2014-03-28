@@ -10,7 +10,21 @@ public class DocumentModel {
 	String link;
 	String userEmail;
 	boolean isSharedDocument;
+public DocumentModel() {
+	
+}
 
+public DocumentModel(String a, String b, Date c, String d, String e,boolean f)
+{
+	name=a;
+	type=b;
+	dateUploaded=c;
+	link=d;
+	userEmail=e;
+	isSharedDocument=f;
+}
+
+	
 public String getName()
 {
 	return name;
