@@ -1,106 +1,41 @@
 package stonehill.edu.VolunteerTrack;
-
-import java.beans.XMLEncoder;
-import java.beans.XMLDecoder;
-
-import java.io.BufferedOutputStream;
-import java.io.BufferedInputStream;
-import java.io.FileOutputStream;
-import java.io.FileInputStream;
+import java.sql.Connection;
+import java.sql.Driver;
+import java.sql.DriverManager;
 import java.util.ArrayList;
 
-import javax.servlet.http.HttpServlet;
-
 public abstract class Dao {
+	private String driverName="oracle.jdbc.driver.OracleDriver";
+	private String connectionURL="jdbc:oracle:thin:@//204.144.14.137:1521/orcl";
+	private Driver driver;
+	protected Connection connection;
 	
-	XMLEncoder encoder;
-	XMLDecoder decoder;
-	ArrayList list;
-	
-	String path;
-	HttpServlet servlet;
-	
-	Dao()
-	{
-	}
-	
-	Dao(HttpServlet servletValue)
-	{
-		servlet = servletValue;
-	}
-	
-	protected void open()
-	{	
-  		// Get all objects
-  		list = new ArrayList();
-  		
-//		Thread.currentThread().setContextClassLoader(getClass().getClassLoader());
-  		
-	    try {
-	    	
-	    	decoder = new XMLDecoder(new BufferedInputStream(new FileInputStream(path)));
-	    	
-	  		try
-	  		{
-	  			while (true)
-	  			{
-	  				list.add(decoder.readObject());
-	  			}
-	  			
-	  		}
-	  		catch (ArrayIndexOutOfBoundsException e)
-	  		{
-	  			System.out.println("End of object stream...");
-	  			decoder.close();
-	  		}
-	    } 
-	    catch (Exception e)
-	    {
-	    	e.printStackTrace();
-	    }
-	}
-	
-	public void close()
-	{
-	//	Thread.currentThread().setContextClassLoader(getClass().getClassLoader());
-		
-		try {
-			
-	    	  encoder = new XMLEncoder(new BufferedOutputStream(new FileOutputStream(path)));
-	    	  
-	    	  for (int i=0; i<list.size(); i++)
-	    	  {
-	    		  encoder.writeObject(list.get(i));
-	    		  encoder.flush();
-	    	  }
-	    	  
-	    	  encoder.close();
+	//connect to the database
+	protected void connectToDatabase(){
+		try{
+			System.out.println("Trying to connect to database...");
+			//Load the database specific vendor driver
+			driver=(java.sql.Driver)Class.forName(driverName).newInstance();
+			//Connect to the database
+			connection=DriverManager.getConnection(connectionURL,"Capstone2014","csrocks55");
+			System.out.println("Connection successfull!");
 		}
-		catch (Exception e)
-		{
+		catch(Exception e){
 			e.printStackTrace();
 		}
 	}
-	
-	public void delete(Object value) 
-	{
-		list.remove(indexOf(value));
+	protected void disconnectFromDatabase(){
+		try{
+			System.out.println("Trying to disconnect from the database...");
+			connection.close();
+			System.out.println("Disconnection successful!");
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
 	}
-	
-	public void insert(Object value) {
-		
-		list.add(value);
-	}
-
-	public ArrayList<Object> selectAll() 
-	{	
-		return (ArrayList<Object>) list;
-	}
-
-	public void update(Object value) {
-
-		list.set(indexOf(value), value);
-	}
-	
-	protected abstract int indexOf(Object value);
+	public abstract void delete(Object value);
+	public abstract void insert(Object value);
+	public abstract ArrayList<Object> selectAll();
+	public abstract void update(Object value);
 }
