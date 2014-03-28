@@ -10,14 +10,14 @@ public class User implements Serializable {
 	private String street;
 	private String city;
 	private String state;
-	private int zip;
+	private String zip;
 	private String phoneNumber;
 	private String partnerDescription;
 	private String volunteerDescription;
-	private int isPartner;
-	private int isCoordinator;
-	private int isVolunteer;
-	private int isApproved;
+	private boolean isPartner;
+	private boolean isCoordinator;
+	private boolean isVolunteer;
+	private boolean isApproved;
 	
 	// For serialization
 	static final long serialVersionUID = 9L;
@@ -26,7 +26,7 @@ public class User implements Serializable {
 	{
 	}
 
-	public User(String ema, String pass, String fir, String las, String str, String cit, String sta, int zi, String pho, String par, String vol, int isp, int isc, int isv, int isa)
+	public User(String ema, String pass, String fir, String las, String str, String cit, String sta, String zi, String pho, String par, String vol, boolean isp, boolean isc, boolean isv, boolean isa)
 	{
 		email = ema;
 		password = pass;
@@ -147,14 +147,14 @@ public class User implements Serializable {
 	/**
 	 * @return the zip
 	 */
-	public int getZip() {
+	public String getZip() {
 		return zip;
 	}
 
 	/**
 	 * @param zip the zip to set
 	 */
-	public void setZip(int zip) {
+	public void setZip(String zip) {
 		this.zip = zip;
 	}
 
@@ -203,56 +203,56 @@ public class User implements Serializable {
 	/**
 	 * @return the isPartner
 	 */
-	public int getIsPartner() {
+	public boolean getIsPartner() {
 		return isPartner;
 	}
 
 	/**
 	 * @param isPartner the isPartner to set
 	 */
-	public void setIsPartner(int isPartner) {
+	public void setIsPartner(boolean isPartner) {
 		this.isPartner = isPartner;
 	}
 
 	/**
 	 * @return the isCoordinator
 	 */
-	public int getIsCoordinator() {
+	public boolean getIsCoordinator() {
 		return isCoordinator;
 	}
 
 	/**
 	 * @param isCoordinator the isCoordinator to set
 	 */
-	public void setIsCoordinator(int isCoordinator) {
+	public void setIsCoordinator(boolean isCoordinator) {
 		this.isCoordinator = isCoordinator;
 	}
 
 	/**
 	 * @return the isVolunteer
 	 */
-	public int getIsVolunteer() {
+	public boolean getIsVolunteer() {
 		return isVolunteer;
 	}
 
 	/**
 	 * @param isVolunteer the isVolunteer to set
 	 */
-	public void setIsVolunteer(int isVolunteer) {
+	public void setIsVolunteer(boolean isVolunteer) {
 		this.isVolunteer = isVolunteer;
 	}
 
 	/**
 	 * @return the isApproved
 	 */
-	public int getIsApproved() {
+	public boolean getIsApproved() {
 		return isApproved;
 	}
 
 	/**
 	 * @param isApproved the isApproved to set
 	 */
-	public void setIsApproved(int isApproved) {
+	public void setIsApproved(boolean isApproved) {
 		this.isApproved = isApproved;
 	}
 	

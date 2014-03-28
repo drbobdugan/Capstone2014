@@ -58,7 +58,7 @@ public class DocumentDao extends Dao{
 				String link=resultSet.getString("Link");
 				String userEmail=resultSet.getString("UserEmail");
 				boolean isSharedDocument=resultSet.getBoolean("IsSharedDocument");
-				result.add(new Document(name,type,date,link,userEmail));
+				result.add(new Document(name,type,date,link,userEmail,isSharedDocument));
 			}
 			//clean up
 			resultSet.close();
@@ -107,7 +107,7 @@ public class DocumentDao extends Dao{
 				String link=resultSet.getString("Link");
 				String userEmail=resultSet.getString("UserEmail");
 				boolean isSharedDocument=resultSet.getBoolean("IsSharedDocument");
-				result=(new Document(name,type,date,link,userEmail));
+				result=(new Document(name,type,date,link,userEmail,isSharedDocument));
 			}
 			//clean up
 			resultSet.close();
@@ -135,7 +135,7 @@ public class DocumentDao extends Dao{
 				String link=resultSet.getString("Link");
 				String userEmail=resultSet.getString("UserEmail");
 				boolean isSharedDocument=resultSet.getBoolean("IsSharedDocument");
-				result.add(new Document(name,type,date,link,userEmail));
+				result.add(new Document(name,type,date,link,userEmail,isSharedDocument));
 			}
 			//clean up
 			resultSet.close();
@@ -163,7 +163,7 @@ public class DocumentDao extends Dao{
 				String link=resultSet.getString("Link");
 				String userEmail=resultSet.getString("UserEmail");
 				boolean isSharedDocument=resultSet.getBoolean("IsSharedDocument");
-				result.add(new Document(name,type,date,link,userEmail));
+				result.add(new Document(name,type,date,link,userEmail,isSharedDocument));
 			}
 			//clean up
 			resultSet.close();

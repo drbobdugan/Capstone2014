@@ -155,7 +155,7 @@ public class UserDao extends Dao{
 		}
 		return result;
 	}
-	public User getAllPartners() {
+	public ArrayList<Object> getAllPartners() {
 		ArrayList<Object> result=new ArrayList<Object>();
 		try{
 			//connect
@@ -192,7 +192,7 @@ public class UserDao extends Dao{
 		}
 		return result;
 	}
-	public User getAllCoordinators() {
+	public ArrayList<Object> getAllCoordinators() {
 		ArrayList<Object> result=new ArrayList<Object>();
 		try{
 			//connect
@@ -229,7 +229,7 @@ public class UserDao extends Dao{
 		}
 		return result;
 	}
-	public User getAllVolunteers() {
+	public ArrayList<Object> getAllVolunteers() {
 		ArrayList<Object> result=new ArrayList<Object>();
 		try{
 			//connect

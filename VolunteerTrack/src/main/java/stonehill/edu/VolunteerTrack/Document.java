@@ -2,7 +2,7 @@ package stonehill.edu.VolunteerTrack;
 
 import java.util.Date;
 import java.util.*;
-public class DocumentModel {
+public class Document {
 	
 	String name;
 	String type;
@@ -10,11 +10,11 @@ public class DocumentModel {
 	String link;
 	String userEmail;
 	boolean isSharedDocument;
-public DocumentModel() {
+public Document() {
 	
 }
 
-public DocumentModel(String a, String b, Date c, String d, String e,boolean f)
+public Document(String a, String b, Date c, String d, String e,boolean f)
 {
 	name=a;
 	type=b;

@@ -40,14 +40,14 @@ public class Photo implements Serializable
 	/**
 	 * @return the link
 	 */
-	public String getlink()
+	public String getLink()
 	{
 		return link;
 	}
 	/**
 	 * @param isProfilePicture the isProfilePicture to set
 	 */
-	public void setlink(String link) 
+	public void setLink(String link) 
 	{
 		this.link = link;
 	}
