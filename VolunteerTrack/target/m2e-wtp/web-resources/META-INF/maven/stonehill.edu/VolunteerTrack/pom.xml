@@ -48,6 +48,11 @@
 			<artifactId>wicket-core</artifactId>
 			<version>${wicket.version}</version>
 		</dependency>
+		<dependency>
+		      <groupId>com.oracle</groupId>
+              <artifactId>ojdbc</artifactId>
+              <version>11.2.0.4</version>
+		</dependency>
 		<!-- OPTIONAL DEPENDENCY
 		<dependency>
 			<groupId>org.apache.wicket</groupId>

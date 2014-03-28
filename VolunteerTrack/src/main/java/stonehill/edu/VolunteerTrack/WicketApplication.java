@@ -16,16 +16,16 @@ public class WicketApplication extends WebApplication
 	// This method allows us to create a customized session object which we can populate with 
 	public Session newSession(Request request, Response response) {
 		System.out.println("newSession()");
-		daoTest.test();
+		//daoTest.test();
 		return new CustomSession(request);
 	}
 	
 	/**
 	 * @see org.apache.wicket.Application#getHomePage()
 	 */
-	public Class<LoginView> getHomePage()
+	public Class<HelloWorldNP> getHomePage()
 	{
-		return LoginView.class;
+		return HelloWorldNP.class;
 	}
 
 }
