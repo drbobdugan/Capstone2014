@@ -11,9 +11,8 @@ public class UserDao extends Dao{
 			connectToDatabase();
 			//SQL statement
 			Statement statement=connection.createStatement();
-			statement.executeQuery("DELETE FROM UserEntity VALUES "+
-		    "Email='"+user.getEmail()+"', "+
-		    "Password='"+user.getPassword()+"'");
+			statement.executeQuery("DELETE FROM UserEntity WHERE "+
+		    "Email='"+user.getEmail()+"'");
 			statement.close();
 			disconnectFromDatabase();
 		}
@@ -28,22 +27,22 @@ public class UserDao extends Dao{
 			connectToDatabase();
 			//SQL statement
 			Statement statement=connection.createStatement();
-			statement.executeQuery("INSERT INTO UserEntity VALUES "+
-		    "Email='"+user.getEmail()+"', "+
-		    "Password='"+user.getPassword()+"', "+
-		    "FirstName='"+user.getFirstName()+"', "+
-		    "LastName='"+user.getLastName()+"', "+
-		    "Street='"+user.getStreet()+"', "+
-		    "City='"+user.getCity()+"', "+
-		    "State='"+user.getState()+"', "+
-		    "Zip='"+user.getZip()+"', "+
-		    "PhoneNumber='"+user.getPhoneNumber()+"', "+
-		    "PartnerDescription='"+user.getPartnerDescription()+"', "+
-		    "VolunteerDescription='"+user.getVolunteerDescription()+"', "+
-			"IsApproved='"+(user.getIsApproved()?1:0)+"', "+
-			"IsPartner='"+(user.getIsPartner()?1:0)+"', "+
-			"IsCoordinator='"+(user.getIsCoordinator()?1:0)+"', "+
-			"IsVolunteer='"+(user.getIsVolunteer()?1:0)+"'");
+			statement.executeQuery("INSERT INTO UserEntity VALUES("+
+		    "'"+user.getEmail()+"', "+
+		    "'"+user.getPassword()+"', "+
+		    "'"+user.getFirstName()+"', "+
+		    "'"+user.getLastName()+"', "+
+		    "'"+user.getStreet()+"', "+
+		    "'"+user.getCity()+"', "+
+		    "'"+user.getState()+"', "+
+		    "'"+user.getZip()+"', "+
+		    "'"+user.getPhoneNumber()+"', "+
+		    "'"+user.getPartnerDescription()+"', "+
+		    "'"+user.getVolunteerDescription()+"', "+
+			"'"+(user.getIsPartner()?1:0)+"', "+
+			"'"+(user.getIsCoordinator()?1:0)+"', "+
+			"'"+(user.getIsVolunteer()?1:0)+"', "+
+			"'"+(user.getIsApproved()?1:0)+"')");
 			statement.close();
 			disconnectFromDatabase();
 		}
@@ -61,7 +60,7 @@ public class UserDao extends Dao{
 			ResultSet resultSet=statement.executeQuery("SELECT * FROM UserEntity");
 			//get tuples
 			while(resultSet.next()){
-				String e=resultSet.getString("UserEmail");
+				String e=resultSet.getString("Email");
 				String p=resultSet.getString("Password");
 				String fn=resultSet.getString("FirstName");
 				String ln=resultSet.getString("LastName");
@@ -96,7 +95,6 @@ public class UserDao extends Dao{
 			//SQL statement
 			Statement statement=connection.createStatement();
 			statement.executeQuery("UPDATE UserEntity SET "+
-		    "Email='"+user.getEmail()+"', "+
 		    "Password='"+user.getPassword()+"', "+
 		    "FirstName='"+user.getFirstName()+"', "+
 		    "LastName='"+user.getLastName()+"', "+
@@ -110,7 +108,8 @@ public class UserDao extends Dao{
 			"IsApproved='"+(user.getIsApproved()?1:0)+"', "+
 			"IsPartner='"+(user.getIsPartner()?1:0)+"', "+
 			"IsCoordinator='"+(user.getIsCoordinator()?1:0)+"', "+
-			"IsVolunteer='"+(user.getIsVolunteer()?1:0)+"'");
+			"IsVolunteer='"+(user.getIsVolunteer()?1:0)+"' WHERE "+
+			"Email='"+user.getEmail()+"'");
 			statement.close();
 			disconnectFromDatabase();
 		}
@@ -128,7 +127,7 @@ public class UserDao extends Dao{
 			ResultSet resultSet=statement.executeQuery("SELECT * FROM UserEntity WHERE Email='"+name+"'");
 			//get tuples
 			if(resultSet.next()){
-				String e=resultSet.getString("UserEmail");
+				String e=resultSet.getString("Email");
 				String p=resultSet.getString("Password");
 				String fn=resultSet.getString("FirstName");
 				String ln=resultSet.getString("LastName");
@@ -165,7 +164,7 @@ public class UserDao extends Dao{
 			ResultSet resultSet=statement.executeQuery("SELECT * FROM UserEntity WHERE IsPartner='1'");
 			//get tuples
 			while(resultSet.next()){
-				String e=resultSet.getString("UserEmail");
+				String e=resultSet.getString("Email");
 				String p=resultSet.getString("Password");
 				String fn=resultSet.getString("FirstName");
 				String ln=resultSet.getString("LastName");
@@ -202,7 +201,7 @@ public class UserDao extends Dao{
 			ResultSet resultSet=statement.executeQuery("SELECT * FROM UserEntity WHERE IsCoordinator='1'");
 			//get tuples
 			while(resultSet.next()){
-				String e=resultSet.getString("UserEmail");
+				String e=resultSet.getString("Email");
 				String p=resultSet.getString("Password");
 				String fn=resultSet.getString("FirstName");
 				String ln=resultSet.getString("LastName");
@@ -239,7 +238,8 @@ public class UserDao extends Dao{
 			ResultSet resultSet=statement.executeQuery("SELECT * FROM UserEntity WHERE IsVolunteer='1'");
 			//get tuples
 			while(resultSet.next()){
-				String e=resultSet.getString("UserEmail");
+				
+				String e=resultSet.getString("Email");
 				String p=resultSet.getString("Password");
 				String fn=resultSet.getString("FirstName");
 				String ln=resultSet.getString("LastName");

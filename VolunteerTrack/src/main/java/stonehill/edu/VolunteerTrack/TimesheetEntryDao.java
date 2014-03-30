@@ -16,9 +16,9 @@ public class TimesheetEntryDao extends Dao{
 			//SQL statement
 			Statement statement=connection.createStatement();
 			statement.executeQuery("DELETE FROM TimeSheetEntry WHERE "+
-		    "UserEmail='"+timesheetEntry.getUserEmail()+"', AND"+
-		    "EventName='"+timesheetEntry.getEventName()+"', AND"+
-			"DateTime='"+new java.sql.Date(timesheetEntry.getDateTime().getTime())+"'");
+		    "UserEmail='"+timesheetEntry.getUserEmail()+"' AND "+
+		    "EventName='"+timesheetEntry.getEventName()+"' AND "+
+			"DateTime=to_date('"+new java.sql.Date(timesheetEntry.getDateTime().getTime())+"','yyyy-mm-dd')");
 			statement.close();
 			disconnectFromDatabase();
 		}
@@ -34,13 +34,14 @@ public class TimesheetEntryDao extends Dao{
 			connectToDatabase();
 			//SQL statement
 			Statement statement=connection.createStatement();
-			statement.executeQuery("INSERT INTO TimeSheetEntry VALUES "+
-		    "UserEmail='"+timesheetEntry.getUserEmail()+"', "+
-		    "EventName='"+timesheetEntry.getEventName()+"', "+
-			"HoursLogged='"+timesheetEntry.getHoursLogged()+"', "+
-			"DateTime='"+new java.sql.Date(timesheetEntry.getDateTime().getTime())+"', "+
-			"IsApproved='"+(timesheetEntry.getIsApproved()?1:0)+"', "+
-			"IsSubmitted='"+(timesheetEntry.getIsSubmitted()?1:0)+"'");
+			statement.executeQuery("INSERT INTO TimeSheetEntry VALUES("+
+		    "'"+timesheetEntry.getUserEmail()+"', "+
+		    "to_date('"+new java.sql.Date(timesheetEntry.getDateTime().getTime())+"','yyyy-mm-dd'), "+
+		   //"to_date('2000-10-10','yyyy-mm-dd'), "+
+		    "'"+timesheetEntry.getEventName()+"', "+
+			"'"+(timesheetEntry.getIsSubmitted()?1:0)+"', "+
+			"'"+(timesheetEntry.getIsApproved()?1:0)+"', "+
+			"'"+timesheetEntry.getHoursLogged()+"')");
 			statement.close();
 			disconnectFromDatabase();
 		}
@@ -86,12 +87,12 @@ public class TimesheetEntryDao extends Dao{
 			//SQL statement
 			Statement statement=connection.createStatement();
 			statement.executeQuery("UPDATE TimeSheetEntry SET "+
-			"UserEmail='"+timesheetEntry.getUserEmail()+"', "+
-			"EventName='"+timesheetEntry.getEventName()+"', "+
 			"HoursLogged='"+timesheetEntry.getHoursLogged()+"', "+
-			"DateTime='"+new java.sql.Date(timesheetEntry.getDateTime().getTime())+"', "+
 			"IsApproved='"+(timesheetEntry.getIsApproved()?1:0)+"', "+
-			"IsSubmitted='"+(timesheetEntry.getIsSubmitted()?1:0)+"'");
+			"IsSubmitted='"+(timesheetEntry.getIsSubmitted()?1:0)+"' WHERE "+
+			"UserEmail='"+timesheetEntry.getUserEmail()+"' AND "+
+			"EventName='"+timesheetEntry.getEventName()+"' AND "+
+			"DateTime=to_date('"+new java.sql.Date(timesheetEntry.getDateTime().getTime())+"','yyyy-mm-dd') ");
 			statement.close();
 			disconnectFromDatabase();
 		}
@@ -107,7 +108,7 @@ public class TimesheetEntryDao extends Dao{
 			connectToDatabase();
 			//SQL statement
 			Statement statement=connection.createStatement();
-			ResultSet resultSet=statement.executeQuery("SELECT * FROM TimeSheetEntry WHERE DateTime='"+new java.sql.Date(date.getTime())+"' AND EventName='"+eventName+"' AND UserEmail='"+userEmail+"'");
+			ResultSet resultSet=statement.executeQuery("SELECT * FROM TimeSheetEntry WHERE DateTime=to_date('"+new java.sql.Date(date.getTime())+"','yyyy-mm-dd') AND EventName='"+eventName+"' AND UserEmail='"+userEmail+"'");
 			//get tuples
 			if(resultSet.next()){
 				String ue=resultSet.getString("UserEmail");

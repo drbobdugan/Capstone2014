@@ -12,8 +12,8 @@ public class DocumentDao extends Dao{
 			//SQL statement
 			Statement statement=connection.createStatement();
 			statement.executeQuery("DELETE FROM Document WHERE "+
-		    "Link='"+document.getLink()+"', AND"+
-		    "UserEmail'"+document.getUserEmail()+"'");
+		    "Link='"+document.getLink()+"' AND "+
+		    "UserEmail='"+document.getUserEmail()+"'");
 			statement.close();
 			disconnectFromDatabase();
 		}
@@ -28,13 +28,13 @@ public class DocumentDao extends Dao{
 			connectToDatabase();
 			//SQL statement
 			Statement statement=connection.createStatement();
-			statement.executeQuery("INSERT INTO Document VALUES "+
-		    "Name='"+document.getName()+"', AND"+
-		    "Type='"+document.getType()+"', AND"+
-		    "DateUploaded='"+new java.sql.Date(document.getDateUploaded().getTime())+"', AND"+
-		    "Link='"+document.getLink()+"', AND"+
-		    "IsSharedDocument='"+(document.getIsSharedDocument()?1:0)+"', AND"+
-		    "UserEmail'"+document.getUserEmail()+"'");
+			statement.executeQuery("INSERT INTO Document VALUES("+
+		    "'"+document.getName()+"', "+
+		    "'"+document.getType()+"', "+
+		    "to_date('"+new java.sql.Date(document.getDateUploaded().getTime())+"', 'yyyy-mm-dd'), "+
+		    "'"+document.getLink()+"', "+
+		    "'"+document.getUserEmail()+"', "+
+		    "'"+(document.getIsSharedDocument()?1:0)+"')");
 			statement.close();
 			disconnectFromDatabase();
 		}
@@ -78,12 +78,12 @@ public class DocumentDao extends Dao{
 			//SQL statement
 			Statement statement=connection.createStatement();
 			statement.executeQuery("UPDATE Document SET "+
-		    "Name='"+document.getName()+"', AND"+
-		    "Type='"+document.getType()+"', AND"+
-		    "DateUploaded='"+new java.sql.Date(document.getDateUploaded().getTime())+"', AND"+
-		    "Link='"+document.getLink()+"', AND"+
-		    "IsSharedDocument='"+(document.getIsSharedDocument()?1:0)+"', AND"+
-		    "UserEmail'"+document.getUserEmail()+"'");
+		    "Type='"+document.getType()+"', "+
+		    "DateUploaded=to_date('"+new java.sql.Date(document.getDateUploaded().getTime())+"', 'yyyy-mm-dd'), "+
+		    "IsSharedDocument='"+(document.getIsSharedDocument()?1:0)+"', "+
+		    "UserEmail='"+document.getUserEmail()+"' WHERE "+
+		    "Name='"+document.getName()+"' AND "+
+		    "Link='"+document.getLink()+"'");
 			statement.close();
 			disconnectFromDatabase();
 		}
@@ -98,7 +98,7 @@ public class DocumentDao extends Dao{
 			connectToDatabase();
 			//SQL statement
 			Statement statement=connection.createStatement();
-			ResultSet resultSet=statement.executeQuery("SELECT * FROM Document WHERE UserEmail='"+user.getEmail()+"' AND Name='"+n+"' AND DateUploaded='"+new java.sql.Date(d.getTime())+"'");
+			ResultSet resultSet=statement.executeQuery("SELECT * FROM Document WHERE UserEmail='"+user.getEmail()+"' AND Name='"+n+"' AND DateUploaded=to_date('"+new java.sql.Date(d.getTime())+"', 'yyyy-mm-dd')");
 			//get tuples
 			if(resultSet.next()){
 				String name=resultSet.getString("Name");

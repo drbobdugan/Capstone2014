@@ -27,13 +27,12 @@ public class PhotoDao extends Dao{
 			connectToDatabase();
 			//SQL statement
 			Statement statement=connection.createStatement();
-			statement.executeQuery("INSERT INTO Photo VALUES "+
-		    "Name='"+photo.getName()+"', AND"+
-		    "Link='"+photo.getLink()+"', AND"+
-		    "UserEmail='"+photo.getUserEmail()+"', AND"+
-		    "IsProfilePicture='"+(photo.getIsProfilePicture()?1:0)+"', AND"+
-		    "IsVolunteerPicture='"+(photo.getIsVolunteerPicture()?1:0)+"', AND"+
-		    "IsCoordinatorPicture='"+(photo.getIsCoordinatorPicture()?1:0)+"', AND"+
+			statement.executeQuery("INSERT INTO Photo VALUES("+
+		    "Name='"+photo.getName()+"', "+
+		    "Link='"+photo.getLink()+"', "+
+		    "IsProfilePicture='"+(photo.getIsProfilePicture()?1:0)+"', "+
+		    "IsVolunteerPicture='"+(photo.getIsVolunteerPicture()?1:0)+"', "+
+		    "IsCoordinatorPicture='"+(photo.getIsCoordinatorPicture()?1:0)+"', "+
 		    "IsPartnerPicture='"+(photo.getIsPartnerPicture()?1:0)+"'");
 			statement.close();
 			disconnectFromDatabase();
@@ -79,13 +78,13 @@ public class PhotoDao extends Dao{
 			//SQL statement
 			Statement statement=connection.createStatement();
 			statement.executeQuery("UPDATE Photo SET "+
-		    "Name='"+photo.getName()+"', AND"+
-		    "Link='"+photo.getLink()+"', AND"+
-		    "UserEmail='"+photo.getUserEmail()+"', AND"+
-		    "IsProfilePicture='"+(photo.getIsProfilePicture()?1:0)+"', AND"+
-		    "IsVolunteerPicture='"+(photo.getIsVolunteerPicture()?1:0)+"', AND"+
-		    "IsCoordinatorPicture='"+(photo.getIsCoordinatorPicture()?1:0)+"', AND"+
-		    "IsPartnerPicture='"+(photo.getIsPartnerPicture()?1:0)+"'");
+		    "Name='"+photo.getName()+"', "+
+		    "UserEmail='"+photo.getUserEmail()+"', "+
+		    "IsProfilePicture='"+(photo.getIsProfilePicture()?1:0)+"', "+
+		    "IsVolunteerPicture='"+(photo.getIsVolunteerPicture()?1:0)+"', "+
+		    "IsCoordinatorPicture='"+(photo.getIsCoordinatorPicture()?1:0)+"', "+
+		    "IsPartnerPicture='"+(photo.getIsPartnerPicture()?1:0)+"' WHERE "+
+		    "Link='"+photo.getLink()+"'");
 			statement.close();
 			disconnectFromDatabase();
 		}
