@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite failures="0" time="15.986" errors="0" skipped="0" tests="1" name="stonehill.edu.VolunteerTrack.TestHomePage">
+<testsuite failures="0" time="19.988" errors="0" skipped="0" tests="1" name="stonehill.edu.VolunteerTrack.TestHomePage">
   <properties>
     <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
     <property name="sun.boot.library.path" value="/usr/lib/jvm/java-6-openjdk-amd64/jre/lib/amd64"/>
@@ -24,7 +24,7 @@
 "/>
     <property name="java.vm.specification.vendor" value="Sun Microsystems Inc."/>
     <property name="os.name" value="Linux"/>
-    <property name="classworlds.conf" value="/home/ubuntu/workspace/.metadata/.plugins/org.eclipse.m2e.launching/launches/m2conf1696483897916906454.tmp"/>
+    <property name="classworlds.conf" value="/home/ubuntu/workspace/.metadata/.plugins/org.eclipse.m2e.launching/launches/m2conf917281382865543550.tmp"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
     <property name="java.library.path" value="/usr/lib/jvm/java-6-openjdk-amd64/jre/lib/amd64/server:/usr/lib/jvm/java-6-openjdk-amd64/jre/lib/amd64:/usr/lib/jvm/java-6-openjdk-amd64/jre/../lib/amd64:/usr/java/packages/lib/amd64:/usr/lib/x86_64-linux-gnu/jni:/lib/x86_64-linux-gnu:/usr/lib/x86_64-linux-gnu:/usr/lib/jni:/lib:/usr/lib"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
@@ -58,5 +58,5 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="sun.cpu.isalist" value=""/>
   </properties>
-  <testcase time="15.928" classname="stonehill.edu.VolunteerTrack.TestHomePage" name="homepageRendersSuccessfully"/>
+  <testcase time="19.913" classname="stonehill.edu.VolunteerTrack.TestHomePage" name="homepageRendersSuccessfully"/>
 </testsuite>

@@ -47,6 +47,17 @@ public class daoTest {
 		}
 		dao4.update(s);
 		dao4.delete(s);
+		
+		PhotoDao dao5=new PhotoDao();
+		ArrayList<Object> list5=new ArrayList<Object>();
+		Photo p;
+		dao5.insert(p=new Photo("photo",".com",true,true,true,true,"j.com"));
+		list5=dao5.selectAll();
+		for(Iterator i=list5.iterator();i.hasNext();){
+			System.out.println(((Photo)i.next()).getName());
+		}
+		dao5.update(p);
+		dao5.delete(p);
 	}
 
 }
