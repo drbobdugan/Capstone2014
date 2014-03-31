@@ -8,22 +8,19 @@ public class Event {
      private String partnerEmail, name, description, location;
      private int numPositions, numPositionsRemaining;
      private Date dateTime;
-    /// private Interest[] interests;
-    /// private Skill [] skills;
+     private Skill [] skills;
      
      public Event () {
     	 partnerEmail = "";
     	 name = "";
-    	 dateTime = null;
+    	 dateTime = new Date();
     	 description = "";
     	 location = "";
     	 numPositions = 0;
     	 numPositionsRemaining = 0;
-    	 // interests = {};
-    	 // skills = {};
+    	 skills = new Skill[0];
      }
-     // public Event (String partnerEmail, String name, Date dateTime, String description, String location , int numPositions, int numPositionsRemaining, Interest[] interests, Skill[] skills) {
-     public Event (String partnerEmail, String name, Date dateTime, String description, String location , int numPositions, int numPositionsRemaining) {
+     public Event (String partnerEmail, String name, Date dateTime, String description, String location , int numPositions, int numPositionsRemaining, Skill[] skills) {
     	 this.partnerEmail = partnerEmail;
     	 this.name = name;
     	 this.dateTime = dateTime;
@@ -31,8 +28,7 @@ public class Event {
     	 this.location = location;
     	 this.numPositions = numPositions;
     	 this.numPositionsRemaining = numPositionsRemaining;
-    	 // this.interests = interests;
-    	 // this.skills = skills;
+    	 this.skills = skills;
      }
      
      public User getPartner(){
@@ -88,22 +84,4 @@ public class Event {
      public void setNumPositionsRemaining(int value){
     	 numPositionsRemaining = value;
      }
-     
-     /*
-     public Skill[] getSkills(){
-    	 return Skills;
-     }
-     
-     public void setSkills(Skill [] value){
-          skills = value;
-     }
-     
-     public Interest[] getInterests(){
-         return interests;
-     }
-     
-     public void setInterests(Interest[] value){
-          interests = value;
-     }
-     */
 }
