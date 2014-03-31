@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+
+<link href="kh.css" rel="stylesheet" type="text/css">
+
+</head>
+<body>
+	<div id="head">
+		<img src="Stonehill.png" height="102" width="500"
+			alt="Stonehill emblem">
+	</div>
+	<div id="menu-contain">
+		<div id="menu">
+			<ul class="tablist">
+				<li id="current"><a href="#HomeView.html">Home</a></li>
+				<li id="hours"><a href="#HoursView.html">Events</a></li>
+				<li id="profile"><a href="#ProfileView.html">Profile</a></li>
+				<li id="documents"><a href="#DocumentsView.html">Documents</a></li>
+				<li id="reports"><a href="#ReportsView.html">Reports</a></li>
+				<li id="search"><a href="#SearchView.html">Search</a></li>
+
+			</ul>
+		</div>
+	</div>
+
+	<br>
+	<table>
+		<tr>
+			<th>Name</th>
+			<th>Type</th>
+			<th>Option</th>
+			<th>Last Update</th>
+			<th>Partner</th>
+			<th></th>
+		</tr>
+
+		<tr>
+			<td>Nemi Cori</td>
+			<td>Cory Form</td>
+			<td>
+				<button type="button" onclick="alert('Delete')">Delete</button>
+				<button type="button" onclick="alert('Update')">Update</button>
+				<button type="button" onclick="alert('View')">View</button>
+			</td>
+			<td>Date</td>
+			<td><select wicket:id="sites"></select></td>
+			<td><button type="button" onclick="alert('Sent')">Send</button></td>
+		</tr>
+		<tr>
+			<td>Nemi Cori2</td>
+			<td>Cory Form</td>
+			<td>
+				<button type="button" onclick="alert('Delete')">Delete</button>
+				<button type="button" onclick="alert('Update')">Update</button>
+				<button type="button" onclick="alert('View')">View</button>
+			</td>
+			<td>Date</td>
+			<td><select wicket:id="sites2"></select></td>
+			<td><button type="button" onclick="alert('Sent')">Send</button></td>
+		</tr>
+		
+	</table>
+  <br>
+  <br>
+  
+<table cellspacing="0" class="dataview">
+    <tr>
+        <th>Actions</th>
+        <th>ID</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Home Phone</th>
+        <th>Cell Phone</th>
+    </tr>
+    <tr wicket:id="repeating">
+        
+        <td><span wicket:id="contactid">[contactid]</span> </td>
+        <td><span wicket:id="firstname">[firstname]</span></td>
+        <td><span wicket:id="lastname">[lastname]</span></td>
+        <td><span wicket:id="homephone">[homephone]</span></td>
+        <td><span wicket:id="cellphone">[cellphone]</span></td>
+    </tr>
+</table>
+  
+  
+  <br>
+  <br>
+  <input wicket:id ="fileUpload" type ="file"/>
+  <input type="submit" value="Upload"/>
+
+</body>
+</html>
