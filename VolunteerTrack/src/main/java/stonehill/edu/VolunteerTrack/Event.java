@@ -4,7 +4,7 @@ import java.awt.Point;
 import java.io.Serializable;
 import java.util.Date;
 
-public class Event {
+public class Event implements Serializable {
      private String partnerEmail, name, description, location;
      private int numPositions, numPositionsRemaining;
      private Date dateTime;
@@ -13,15 +13,15 @@ public class Event {
      public Event () {
     	 partnerEmail = "";
     	 name = "";
-    	 dateTime = new Date();
+    	 dateTime = null;
     	 description = "";
     	 location = "";
     	 numPositions = 0;
     	 numPositionsRemaining = 0;
     	 skills = new Skill[0];
      }
-     public Event (String partnerEmail, String name, Date dateTime, String description, String location , int numPositions, int numPositionsRemaining, Skill[] skills) {
-    	 this.partnerEmail = partnerEmail;
+     public Event (String partnerEmail, String name, Date dateTime, String description, String location , int numPositions, int numPositionsRemaining,Skill[] skills) {
+     	 this.partnerEmail = partnerEmail;
     	 this.name = name;
     	 this.dateTime = dateTime;
     	 this.description = description;
@@ -32,9 +32,8 @@ public class Event {
      }
      
      public User getPartner(){
-    	 User partner = null;
-    	 // get the user from the user dao using partnerEmail and return it
-    	 return partner;
+    	 UserDao dao = new UserDao();
+    	 return dao.getUserByUsername(partnerEmail);
      }
      
      public String getName(){
@@ -83,5 +82,13 @@ public class Event {
      
      public void setNumPositionsRemaining(int value){
     	 numPositionsRemaining = value;
+     }
+
+     public Skill[] getSkills(){
+         return skills;
+     }
+     
+     public void setInterests(Skill[] value){
+          skills = value;
      }
 }
