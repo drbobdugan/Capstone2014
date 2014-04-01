@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Volunteer Profile</title>
+<link rel="stylesheet" href="kh.css" type="text/css" media="screen" title="Stylesheet" charset="utf-8" />
+</head>
+<body>
+
+<wicket:extend>
+
+
+
+<form wicket:id ="form1">
+<p>Email<input wicket:id="email" /></p>
+<p>First Name<input wicket:id="firstName" /></p>
+<p>Last Name<input wicket:id="lastName" /></p>
+<p>Street<input wicket:id="street" /></p>
+<p>City<input wicket:id="city" /></p>
+<p>State<input wicket:id="state" /></p>
+<p>Zip<input wicket:id="zip" /></p>
+<p>Phone Number<input wicket:id="phoneNumber" /></p>
+<p>Description<textarea wicket:id = "description" rows ="6" col = "25" /></p>
+<input type="submit" wicket:id="save" name="submit" value="Save Information" />
+<input type="submit" wicket:id="cancel" name="submit" value="Cancel Information" />
+</form>
+
+<form wicket:id ="form2">
+<span wicket:id="skills"></span>
+<input type="submit" wicket:id="saveskills" name="submit" value="Save Skills" />
+<input type="submit" wicket:id="cancelskills" name="submit" value="Cancel Information" />
+<span wicket:id = "message3">bad1</span>
+<span wicket:id = "message4"> bad </span>
+</form>
+
+<form wicket:id = "form3">
+<img wicket:id= "propic"/>
+<input type="submit" wicket:id="upload" name="submit" value="Upload" />
+</form>
+
+</wicket:extend>
+
+</body>
+</html>
