@@ -1,6 +1,6 @@
 <wicket:child>
 <wicket:extend>
-     <table cellspalceing="0" class="dataView">
+     <table cellspalceing="0" class="dataView" table-border="1" style="position:relative; top:100px; left: 300px;">
 	     <tbody>
 	          <tr>
 	               <th>&nbsp;</th>
@@ -22,8 +22,50 @@
 	               <td><span wicket:id = "positions"> The number of positions </span></td>
 	               <td><span wicket:id = "available"> The positions left</span></td>
 	          </tr>
+	          <tr>
+	          <th>&nbsp;</th>
+	               <th>&nbsp;</th>
+	               <th>&nbsp;</th>
+	               <th>&nbsp;</th>
+	             <td>
+	          <div wicket:id="navigator"></div> 
+	          </td>
+	          </tr>
 	     </tbody>
 	 </table>
-	 <div wicket:id="navigator"></div>   </wicket:extend>
+	 <table cellspalceing="0" class="dataView" table-border="1" style="position:relative; top:100px; left: 300px;">
+	     <tbody>
+	          <tr>
+	               <th>&nbsp;</th>
+	               <th>&nbsp;</th>
+	               <th>&nbsp;</th>
+	               <th>Name</th>
+	               <th>Location</th>
+	               <th>Date</th>
+	               <th>Positions</th>
+	               <th>Available</th>
+	          </tr>
+	          <tr wicket:id = "simple2">
+	               <td><a href="#">delete</a></td>
+	               <td><a href="#">view</a></td>
+	               <td><a href="#">edit</a></td>
+	               <td><span wicket:id = "name2"> The Event Name </span></td>
+	               <td><span wicket:id = "location2"> The Event location </span></td>
+	               <td><span wicket:id = "date2"> The Event date </span></td>
+	               <td><span wicket:id = "positions2"> The number of positions </span></td>
+	               <td><span wicket:id = "available2"> The positions left</span></td>
+	          </tr>
+	          <tr>
+	          <th>&nbsp;</th>
+	               <th>&nbsp;</th>
+	               <th>&nbsp;</th>
+	               <th>&nbsp;</th>
+	             <td>
+	          <div wicket:id="navigator2"></div> 
+	          </td>
+	          </tr>
+	     </tbody>
+	 </table>
+  </wicket:extend>
 </wicket:child>
 	
