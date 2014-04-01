@@ -2,30 +2,18 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<link rel="stylesheet" href="kh.css" type="text/css" media="screen" title="Stylesheet" charset="utf-8" />
+<wicket:link>
+<link href="kh.css" rel="stylesheet" type="text/css">
+</wicket:link>
 <title>Volunteer Track Archtype Page</title>
 </head>
 <body>
-	<div id = "head">
-	<img src = "Stonehill.png" style="float:left" height="102" width="500" alt="Stonehill Emblem">
-	</div>
-	<div id = "menu-contain">
-		<div id = "menu">
-		<ul class = "tablist">
-			<li id = "current"><a href="#HomeView.html">Home</a></li>
-			<li id = "hours"><a href="#HoursView.html">Events</a></li>
-			<li id = "profile"><a href="#ProfileView.html">Profile</a></li>
-			<li id = "documents"><a href="#DocumentsView.html">Documents</a></li>
-			<li id = "reports"><a href="ReportsView.html">Reports</a></li>
-			<li id = "search"><a href="SearchView.html">Search</a></li>
-		</ul>
-	</div>
-	</div>
-	
+  <wicket:extend>
+
 	<form wicket:id="form">
 	
-	<span wicket:id=profile_picture">profile pic will go here</span>
-	<input wicket:id=upload_photo" type="submit" value="Upload Photo"/>
+	
+	<input wicket:id="upload_photo" type="submit" value="Upload Photo"/>
 	<table>
 	<tr>
 	<td>Organization:</td>
@@ -78,32 +66,22 @@
 	</tr>
 	</table>
 	
-	<span wicket:id="group">
-	<input type="checkbox" wicket:id="groupselector">Select All Categories</input>
-	<tr wicket:id="categories">
-	<td><input type="checkbox" wicket:id="checkbox"/></td>
-	<td><span wicket:id="category">[category name will go here]</span></td>
-	</tr>
-	</span>
 	
-	<table>
-	<tr>
-	<td>Mission Statement</td>
-	</tr>
-	<tr>
-	<td><textarea wicket:id="mission" rows ="6" cols="25">Mission Statement goes here</textarea></td>
-	</tr>
-	</table>
+    <span wicket:id="skills"></span>
 	
+
+	<p>Mission Statement</p>
+	<textarea wicket:id="mission" rows ="6" cols="25">Mission Statement goes here</textarea>
+
     <table>
 	<tr>
-	<td><input wicket:id=submit" type="submit" value="Save"/></td>
-	<td><input wicket:id=cancel" type="submit" value="Cancel"/>
-	</td>
+	<td><input wicket:id="submit" type="submit" value="Save"/> <input wicket:id="cancel" type="submit" value="Cancel"/></td>
 	</tr>
 	</table>
 	
 	</form>
+	
+	</wicket:extend>
 	</body>
 	</html>
 	

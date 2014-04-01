@@ -1,9 +1,15 @@
 package stonehill.edu.VolunteerTrack;
 
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.form.CheckBox;
+import org.apache.wicket.markup.html.form.CheckBoxMultipleChoice;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.form.TextArea;
@@ -12,15 +18,17 @@ import org.apache.wicket.markup.html.form.CheckGroup;
 import org.apache.wicket.markup.html.form.CheckGroupSelector;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.model.Model;
+import org.apache.wicket.request.mapper.parameter.PageParameters;
 
-public class PartnerProfileView extends WebPage {
+public class PartnerProfileView extends VoltrackPage {
 	
-	public PartnerProfileView()
+	public PartnerProfileView(final PageParameters parameters)
 	{
-		final Input input= new Input();
-		setDefaultModel(new CompoundPropertyModel<Input>(input));
+		//final Input input= new Input();
+		//setDefaultModel(new CompoundPropertyModel<Input>(input));
 		
-		Form<?> form = new Form("form")
+		Form<?> form = new Form<Void>("form")
 		{
 			@Override
 			protected void onSubmit()
@@ -56,30 +64,60 @@ public class PartnerProfileView extends WebPage {
 				info("cancel.onSubmit executed");
 			}
 		};
+		
+		//ssiff@students.stonehill.edu
+		UserDao userDao= new UserDao();
+		User user= userDao.getUserByUsername("ssiff@students.stonehill.edu");
+		
+		SkillDao skillsDao = new SkillDao();
+		ArrayList<Object> skillslist = skillsDao.selectAll();
+		ArrayList<Object> userskills = skillsDao.getAllSkillsByUser(user);
+		ArrayList<String> skillsSelect = new ArrayList<String>();
+		
+		String[] skillarray = new String[skillslist.size()];
+		
+		for(int i=0;i<userskills.size();i++)
+		{
+			skillsSelect.add(((Skill)userskills.get(i)).getName());
+		}
+		
+		for(int i=0;i<skillslist.size();i++)
+		{
+		     skillarray[i]=((Skill)skillslist.get(i)).getName();
+		}
+
+		List<String> fixedskills = Arrays.asList(skillarray);
+		
+		final CheckBoxMultipleChoice<String> skillsBoxes = new CheckBoxMultipleChoice<String>("skills",new Model(skillsSelect),fixedskills);
 		form.add(upload);
 		form.add(save);
 		form.add(cancel);
+		
+		form.add(new TextField<String>("organization",Model.of("")));
+		form.add(new TextField<String>("email",Model.of("")));
+		form.add(new TextField<String>("phone",Model.of("")));
+		form.add(new TextField<String>("street",Model.of("")));
+		form.add(new TextField<String>("city",Model.of("")));
+		form.add(new TextField<String>("state",Model.of("")));
+		form.add(new TextField<String>("zip",Model.of("")));
+		form.add(new TextField<String>("links",Model.of("")));
+		form.add(new TextField<String>("current",Model.of("")));
+		form.add(new TextField<String>("new_password",Model.of("")));
+		form.add(new TextField<String>("confirm_password",Model.of("")));
+		
+		//form.add(new CheckBox("category"));
+		form.add(skillsBoxes);
+		form.add(new TextArea<String>("mission"));
 		add(form);
 		
-		form.add(new TextField<String>("organization"));
-		form.add(new TextField<String>("email"));
-		form.add(new TextField<String>("phone"));
-		form.add(new TextField<String>("street"));
-		form.add(new TextField<String>("city"));
-		form.add(new TextField<String>("state"));
-		form.add(new TextField<String>("zip"));
-		form.add(new TextField<String>("links"));
-		form.add(new TextField<String>("current"));
-		form.add(new TextField<String>("new_password"));
-		form.add(new TextField<String>("confirm_password"));
-		
-		form.add(new TextArea<String>("mission"));
+
+
 		
 
 	}
 	
-	private static class Input
-	{
+	//private static class Input
+	//{
 		//create partner object by selecting from userDao
 		
 		/*
@@ -97,6 +135,6 @@ public class PartnerProfileView extends WebPage {
 		public String mission="";
 
 		*/
-	}
+	//}
 
 }
