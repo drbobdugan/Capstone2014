@@ -25,7 +25,7 @@
 	</tr>
 	<tr>
 	<td>Phone Number:</td>
-	<td><input type="text" wicket:id="phone"/></td>
+	<td><input type="text" wicket:id="phoneNumber"/></td>
 	</tr>
 	<tr>
 	<td>Street Address:</td>
@@ -65,22 +65,21 @@
 	<td><input type="text" wicket:id="confirm_password"/></td>
 	</tr>
 	</table>
-	
-	
-    <span wicket:id="skills"></span>
-	
 
 	<p>Mission Statement</p>
 	<textarea wicket:id="mission" rows ="6" cols="25">Mission Statement goes here</textarea>
 
     <table>
 	<tr>
-	<td><input wicket:id="submit" type="submit" value="Save"/> <input wicket:id="cancel" type="submit" value="Cancel"/></td>
+	<td><input wicket:id="saveProfile" type="submit" value="Save"/> <input wicket:id="cancel" type="submit" value="Cancel"/></td>
 	</tr>
 	</table>
 	
 	</form>
 	
+	<form wicket:id="form2">
+	    <span wicket:id="skills"></span>
+	</form>
 	</wicket:extend>
 	</body>
 	</html>

@@ -19,14 +19,25 @@ import org.apache.wicket.markup.html.form.CheckGroupSelector;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 public class PartnerProfileView extends VoltrackPage {
+	
+	UserDao userDao= new UserDao();
+	SkillDao skillsDao = new SkillDao();
+	
+	User currentuser;
+	Label message;
 	
 	public PartnerProfileView(final PageParameters parameters)
 	{
 		//final Input input= new Input();
 		//setDefaultModel(new CompoundPropertyModel<Input>(input));
+		
+
+		//will eventually get from session
+		currentuser = userDao.getUserByUsername("ssiff@students.stonehill.edu");
 		
 		Form<?> form = new Form<Void>("form")
 		{
@@ -37,6 +48,7 @@ public class PartnerProfileView extends VoltrackPage {
 			}
 		};
 		
+		form.setModel(new Model(currentuser));
 		
 		Button upload = new Button("upload_photo")
 		{
@@ -47,12 +59,15 @@ public class PartnerProfileView extends VoltrackPage {
 			}
 		};
 		
-		Button save = new Button("submit")
+		Button save = new Button("saveProfile")
 		{
 			@Override
 			public void onSubmit()
 			{
 				//overwrite current partner info using dao and values in input fields
+				//userDao = new UserDao();
+				//userDao.update(currentuser);
+				//this.setResponsePage(PartnerProfileView.class);
 			}
 		};
 		
@@ -61,17 +76,43 @@ public class PartnerProfileView extends VoltrackPage {
 			@Override
 			public void onSubmit()
 			{
-				info("cancel.onSubmit executed");
+				//this.setResponsePage(PartnerProfileView.class);
 			}
 		};
 		
-		//ssiff@students.stonehill.edu
-		UserDao userDao= new UserDao();
-		User user= userDao.getUserByUsername("ssiff@students.stonehill.edu");
+		form.add(upload);
+		form.add(save);
+		form.add(cancel);
 		
-		SkillDao skillsDao = new SkillDao();
+		form.add(new TextField<String>("organization"));
+		form.add(new TextField<String>("email",new PropertyModel(currentuser, "email")));
+		form.add(new TextField<String>("phoneNumber",new PropertyModel(currentuser, "phoneNumber")));
+		form.add(new TextField<String>("street",new PropertyModel(currentuser, "street")));
+		form.add(new TextField<String>("city",new PropertyModel(currentuser, "city")));
+		form.add(new TextField<String>("state",new PropertyModel(currentuser, "state")));
+		form.add(new TextField<String>("zip",new PropertyModel(currentuser, "zip")));
+		form.add(new TextField<String>("links"));
+		form.add(new TextField<String>("current"));
+		form.add(new TextField<String>("new_password"));
+		form.add(new TextField<String>("confirm_password"));
+		form.add(new TextArea<String>("mission"));
+		
+		//Form 2-------------------------------
+		Form<?> form2 = new Form<Void>("form2")
+		{
+			@Override
+			protected void onSubmit()
+			{
+				//do some stuff
+			}
+		};
+		//checklist stuff
+		
+		//User user= userDao.getUserByUsername("ssiff@students.stonehill.edu");
+		
+		
 		ArrayList<Object> skillslist = skillsDao.selectAll();
-		ArrayList<Object> userskills = skillsDao.getAllSkillsByUser(user);
+		ArrayList<Object> userskills = skillsDao.getAllSkillsByUser(currentuser);
 		ArrayList<String> skillsSelect = new ArrayList<String>();
 		
 		String[] skillarray = new String[skillslist.size()];
@@ -88,27 +129,14 @@ public class PartnerProfileView extends VoltrackPage {
 
 		List<String> fixedskills = Arrays.asList(skillarray);
 		
+		skillsSelect.add("Animals");
+		
 		final CheckBoxMultipleChoice<String> skillsBoxes = new CheckBoxMultipleChoice<String>("skills",new Model(skillsSelect),fixedskills);
-		form.add(upload);
-		form.add(save);
-		form.add(cancel);
 		
-		form.add(new TextField<String>("organization",Model.of("")));
-		form.add(new TextField<String>("email",Model.of("")));
-		form.add(new TextField<String>("phone",Model.of("")));
-		form.add(new TextField<String>("street",Model.of("")));
-		form.add(new TextField<String>("city",Model.of("")));
-		form.add(new TextField<String>("state",Model.of("")));
-		form.add(new TextField<String>("zip",Model.of("")));
-		form.add(new TextField<String>("links",Model.of("")));
-		form.add(new TextField<String>("current",Model.of("")));
-		form.add(new TextField<String>("new_password",Model.of("")));
-		form.add(new TextField<String>("confirm_password",Model.of("")));
-		
-		//form.add(new CheckBox("category"));
-		form.add(skillsBoxes);
-		form.add(new TextArea<String>("mission"));
+		form2.add(skillsBoxes);
+
 		add(form);
+		add(form2);
 		
 
 
@@ -116,25 +144,4 @@ public class PartnerProfileView extends VoltrackPage {
 
 	}
 	
-	//private static class Input
-	//{
-		//create partner object by selecting from userDao
-		
-		/*
-		 * Partner p= new Partner();
-		 * use getters from partner object model to set fields
-		public String organization = "";
-		public String email = "";
-		public String phone = "";
-		public String street = "";
-		public String city = "";
-		public String state = "";
-		public String zip = "";
-		public String links = "";
-		
-		public String mission="";
-
-		*/
-	//}
-
 }
