@@ -24,6 +24,21 @@ public class User implements Serializable {
 	
 	public User()
 	{
+		email = "";
+		password = "";
+		firstName = "";
+		lastName = "";
+		street = "";
+		city = "";
+		state = "";
+		zip = "";
+		phoneNumber = "";
+		partnerDescription = "";
+		volunteerDescription = "";
+		isPartner = false;
+		isCoordinator = false;
+		isVolunteer = false;
+		isApproved = false;
 	}
 
 	public User(String ema, String pass, String fir, String las, String str, String cit, String sta, String zi, String pho, String par, String vol, boolean isp, boolean isc, boolean isv, boolean isa)
@@ -44,6 +59,26 @@ public class User implements Serializable {
 		isVolunteer = isv;
 		isApproved = isa;
 				
+	}
+	
+	//added constructor to create a user from a user for login purpose
+	public User(User user)
+	{
+		email = user.getEmail();
+		password = user.getPassword();
+		firstName = user.getFirstName();
+		lastName = user.getLastName();
+		street = user.getStreet();
+		city = user.getCity();
+		state = user.getState();
+		zip = user.getZip();
+		phoneNumber = user.getPhoneNumber();
+		partnerDescription = user.getPartnerDescription();
+		volunteerDescription = user.getVolunteerDescription();
+		isPartner = user.getIsPartner();
+		isCoordinator = user.getIsCoordinator();
+		isVolunteer = user.getIsVolunteer();
+		isApproved = user.getIsApproved();
 	}
 	
 	/**
@@ -254,6 +289,12 @@ public class User implements Serializable {
 	 */
 	public void setIsApproved(boolean isApproved) {
 		this.isApproved = isApproved;
+	}
+	
+	@Override
+	public String toString()
+	{
+		return ""+email+" / "+password+" / "+firstName+" / "+lastName;
 	}
 	
 	
