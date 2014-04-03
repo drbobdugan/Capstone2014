@@ -21,26 +21,9 @@ public class PartnerEventView extends VoltrackPage
 		futureEvents = new ArrayList<Event>(0);
 		pastEvents = new ArrayList<Event>(0);
 		// TODO get current user -> 
-		User theUser = new User("testEmail", "pass", "adsf", "asdf", "asdf", "aadsf", "asdf", "asdf", "af", "", "aasf", false, false, false, false);
-	    EventDao dao = new EventDao();
-	    
-	    
-	    Event e = new Event("joe@yahoo.com", "Event Name 1", new Date(), "des", "loc", 6, 4, new Skill[0]);
-		dao.insert(e);
-		e = new Event("zac@stonehill.edu", "Event Name 2", new Date(), "des", "loc", 3, 1, new Skill[0]);
-		dao.insert(e);
-	    e = new Event("billy@bob.com", "Event Name 3", new Date(), "des", "loc", 4, 2, new Skill[0]);
-		dao.insert(e);
-		
-		
-		futureEvents = dao.selectAll();
-		//System.out.println(ed.selectAll().size());
-		
-	//    ed.delete(e);
-	    
-	    
-	    /* TODO must test dao first 
-	    ArrayList<Object> events = (ArrayList<Object>) dao.getAllEventsByPartener(theUser);
+		User user = new User("zbrown2@studesnt.stonehill.edu", "csrocks55", "Zac", "Brown", "320 Washington St.", "Easton", "Ma", "02357", "8025952931", "We help", "I help", true, false, false, false);
+		EventDao dao = new EventDao();
+	    ArrayList<Object> events = dao.selectAllByPartner(user);
 	    for(Object o: events){
 	    	if(((Event)o).getDate().after(new Date())){
 	    		futureEvents.add((Event)o);
@@ -48,12 +31,10 @@ public class PartnerEventView extends VoltrackPage
 	    		pastEvents.add((Event)o);
 	    	}
 	    }
-	    */
 	    populateTables();
 	}  
 	
 	 private void populateTables() {
-	
 		final DataView dataView = new DataView("simple", new ListDataProvider(futureEvents)) {
 			protected void populateItem(Item item) {
 				final Event event = (Event)item.getModelObject();
@@ -64,8 +45,6 @@ public class PartnerEventView extends VoltrackPage
 				item.add(new Label("available", event.getNumPositionsRemaining()));
 			}
 		};
-		
-
 		final DataView dataView2 = new DataView("simple2", new ListDataProvider(pastEvents)) {
 			protected void populateItem(Item item) {
 				final Event event = (Event)item.getModelObject();
@@ -78,13 +57,13 @@ public class PartnerEventView extends VoltrackPage
 		};
 		
 		dataView.setItemsPerPage(5);
-		add(dataView);
-		add(new PagingNavigator("navigator", dataView));
-		
 		dataView2.setItemsPerPage(5);
-		add(dataView2);
-		add(new PagingNavigator("navigator2", dataView2));
 		
+		add(dataView);
+		add(dataView2);
+		
+		add(new PagingNavigator("navigator", dataView));	
+		add(new PagingNavigator("navigator2", dataView2));
 	}
 
 	// view an event
