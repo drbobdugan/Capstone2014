@@ -27,7 +27,7 @@ import org.apache.wicket.markup.repeater.RepeatingView;
 import org.apache.wicket.model.AbstractReadOnlyModel;
 
 
-public class VolunteerDocuments extends WebPage
+public class VolDocumentView extends VoltrackPage
 {
 
 	public Label message;
@@ -35,7 +35,7 @@ public class VolunteerDocuments extends WebPage
  	public ArrayList<Document> theDocs;
  	DocumentDao dao;
  	
-	public VolunteerDocuments()
+	public VolDocumentView()
 	{
 	  Document one = new Document("Document1","Cori Form", new Date(),"blank1","ssiff@students.stonehill.edu", false);
 	  Document two = new Document("Nemi","Cori Form", new Date(),"blank2","ssiff@students.stonehill.edu", false);
@@ -201,27 +201,27 @@ public class VolunteerDocuments extends WebPage
 	public void delete(int x){
 		
 		dao.delete(theDocs.get(x));
-		this.setResponsePage(VolunteerDocuments.class);
+		this.setResponsePage(VolDocumentView.class);
    	
     }
 	public void view(int x){
    	 
-		this.setResponsePage(VolunteerDocuments.class);
+		this.setResponsePage(VolDocumentView.class);
 		
     }
 	public void update(int x){
 		
-		this.setResponsePage(VolunteerDocuments.class);
+		this.setResponsePage(VolDocumentView.class);
    	 
     }
 	public void create(){
 		
-		this.setResponsePage(VolunteerDocuments.class);
+		this.setResponsePage(VolDocumentView.class);
    	 
     }
     public void sendDoc(String receiver, int x){
 		
-		this.setResponsePage(VolunteerDocuments.class);
+		this.setResponsePage(VolDocumentView.class);
    	 
     }
 }

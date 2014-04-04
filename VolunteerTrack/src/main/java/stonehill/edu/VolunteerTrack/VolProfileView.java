@@ -17,7 +17,7 @@ import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.request.resource.ContextRelativeResource;
 
-public class VolunteerProfileView extends VoltrackPage {
+public class VolProfileView extends VoltrackPage {
 	/**
 	 * 
 	 */
@@ -30,7 +30,7 @@ public class VolunteerProfileView extends VoltrackPage {
 	UserDao userDao = new UserDao();
 	Label message;
 	
-    public VolunteerProfileView()
+    public VolProfileView()
 	{
     	// hardcode current user, eventually will get user from session
     	currentuser = userDao.getUserByUsername("ssiff@students.stonehill.edu");
@@ -63,7 +63,7 @@ public class VolunteerProfileView extends VoltrackPage {
 			public void onSubmit() {
 			userDao = new UserDao();
 			userDao.update(currentuser);
-			this.setResponsePage(VolunteerProfileView.class);
+			this.setResponsePage(VolProfileView.class);
 			}
 		});
 		
@@ -71,7 +71,7 @@ public class VolunteerProfileView extends VoltrackPage {
 		form1.add(new Button("cancel") {
 			@Override
 			public void onSubmit() {
-			this.setResponsePage(VolunteerProfileView.class);
+			this.setResponsePage(VolProfileView.class);
 			}
 		});
 		
@@ -125,7 +125,7 @@ public class VolunteerProfileView extends VoltrackPage {
 				
 				
 				
-			this.setResponsePage(VolunteerProfileView.class);
+			this.setResponsePage(VolProfileView.class);
 			}
 		});
 		
@@ -133,7 +133,7 @@ public class VolunteerProfileView extends VoltrackPage {
 		form2.add(new Button("cancelskills") {
 			@Override
 			public void onSubmit() {
-			this.setResponsePage(VolunteerProfileView.class);
+			this.setResponsePage(VolProfileView.class);
 			}
 		});
 		

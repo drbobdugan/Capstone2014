@@ -22,7 +22,7 @@ import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
-public class PartnerProfileView extends VoltrackPage {
+public class ParProfileView extends VoltrackPage {
 	
 	UserDao userDao= new UserDao();
 	SkillDao skillsDao = new SkillDao();
@@ -30,7 +30,7 @@ public class PartnerProfileView extends VoltrackPage {
 	User currentuser;
 	Label message;
 	
-	public PartnerProfileView(final PageParameters parameters)
+	public ParProfileView(final PageParameters parameters)
 	{
 		//final Input input= new Input();
 		//setDefaultModel(new CompoundPropertyModel<Input>(input));

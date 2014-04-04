@@ -12,11 +12,11 @@ import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.DataView;
 import org.apache.wicket.markup.repeater.data.ListDataProvider;
 
-public class PartnerEventView extends VoltrackPage 
+public class ParEventView extends VoltrackPage 
 {
 	private ArrayList futureEvents,pastEvents;  // list of events specific to the partner
 	
-	public PartnerEventView()
+	public ParEventView()
 	{
 		futureEvents = new ArrayList<Event>(0);
 		pastEvents = new ArrayList<Event>(0);

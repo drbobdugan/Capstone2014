@@ -18,7 +18,7 @@ public class daoTest {
 		UserDao dao2=new UserDao();
 		ArrayList<Object> list2=new ArrayList<Object>();
 		User u;
-		dao2.insert(u=new User("jscherr@gmail.com","g","","","","","","","","","",true,true,true,true));
+		dao2.insert(u=new User("jscherr@gmail.com","g","","","","","","","","","",true,false,false,true));
 		list2=dao2.selectAll();
 		for(Iterator i=list2.iterator();i.hasNext();){
 			System.out.println(((User)i.next()).getEmail());

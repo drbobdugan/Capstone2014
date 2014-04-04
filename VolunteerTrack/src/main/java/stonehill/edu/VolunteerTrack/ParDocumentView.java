@@ -12,7 +12,7 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.*;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.list.ListItem;
-public class PartnerDocumentView  extends WebPage {
+public class ParDocumentView  extends VoltrackPage {
 	
 	User[]User; //user array that populates the volunteers that have entered documents linked to this partner
 	ArrayList<Document> documents=new ArrayList<Document>(); //this populates the top table with documents that the partner may require for an event with them, and also 
@@ -25,7 +25,7 @@ public class PartnerDocumentView  extends WebPage {
 	private Label message2;
 	private Label message3;
 	Document document;
-	public PartnerDocumentView()
+	public ParDocumentView()
 	{
     //message=new Label("message", "Happy Sunday Everyone!!");
     //add(message);

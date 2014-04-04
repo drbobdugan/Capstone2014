@@ -1,14 +1,13 @@
 package stonehill.edu.VolunteerTrack;
 
 import org.apache.log4j.Logger;
+import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.form.*;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 
-public class LoginView extends VoltrackPage {
-
-	private static final Logger logger = Logger.getLogger(HomePage.class);
+public class LoginView extends WebPage {
 	User user;
 	UserDao userDao = new UserDao();
 	TextField email;
@@ -34,12 +33,16 @@ public class LoginView extends VoltrackPage {
 			@Override
 			public void onSubmit() {   
 				//error checking
-				user = new User((User)login.getModelObject());
+			    //User test = new User("kholmander@stonehill.edu","gunslinger", "keith", "holmander", "", "", "", "", "", "", "", false, false, true, true);
+				//userDao.update(test);			    
+			    user = new User((User)login.getModelObject());
 				user = userDao.getUserByUsername(user.getEmail());
 				if(!user.getEmail().equals("") && user.getPassword().equals(password.getInput()))
 				{
-					CustomSession.get().setUser(user);
-					setResponsePage(HomePage.class);
+					CustomSession.get().setUser(new User(user));
+					System.out.println("@@ "+CustomSession.get().getUser().getIsVolunteer()+" / "+CustomSession.get().getUser().toString()+" @@");
+					//System.out.println("@@ "+test.toString()+" / "+test.getIsVolunteer());
+					setResponsePage(VolHomeView.class);
 				}
 				else
 				{
@@ -54,7 +57,7 @@ public class LoginView extends VoltrackPage {
 		register.add(new Button("registerButton") {
 			@Override
 			public void onSubmit() {
-				setResponsePage(new RegisterPage());
+				setResponsePage(RegisterPage.class);
 			}
 		});
 		add(register);
