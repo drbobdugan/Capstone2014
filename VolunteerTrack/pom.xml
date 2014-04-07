@@ -53,13 +53,19 @@
               <artifactId>ojdbc</artifactId>
               <version>11.2.0.4</version>
 		</dependency>
-		<!-- OPTIONAL DEPENDENCY
+		<!-- OPTIONAL DEPENDENCY -->
 		<dependency>
 			<groupId>org.apache.wicket</groupId>
 			<artifactId>wicket-extensions</artifactId>
 			<version>${wicket.version}</version>
+			<type>jar</type>
+			<scope>compile</scope>
 		</dependency>
-		-->
+		<dependency>
+		    <groupId>org.apache.wicket</groupId>
+		    <artifactId>wicket-datetime</artifactId>
+		    <version>${wicket.version}</version>
+	    </dependency>
 
 		<!-- LOGGING DEPENDENCIES - LOG4J -->
 		<dependency>
@@ -87,6 +93,12 @@
 			<artifactId>jetty-all-server</artifactId>
 			<version>${jetty.version}</version>
 			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.wicket</groupId>
+			<artifactId>wicket-util</artifactId>
+			<version>6.4.0</version>
 		</dependency>
 	</dependencies>
 	<build>
@@ -185,5 +197,6 @@
 			<snapshots>
 			</snapshots>
 		</repository>
+
 	</repositories>
 	</project>
