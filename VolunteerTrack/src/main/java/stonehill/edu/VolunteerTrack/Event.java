@@ -5,13 +5,13 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class Event implements Serializable {
-     private String partnerEmail, name, description, location;
+     private String OwnerEmail, name, description, location;
      private int numPositions, numPositionsRemaining;
      private Date dateTime;
      private Skill [] skills;
      
      public Event () {
-    	 partnerEmail = "";
+    	 OwnerEmail = "";
     	 name = "";
     	 dateTime = null;
     	 description = "";
@@ -21,7 +21,7 @@ public class Event implements Serializable {
     	 skills = new Skill[0];
      }
      public Event (String partnerEmail, String name, Date dateTime, String description, String location , int numPositions, int numPositionsRemaining,Skill[] skills) {
-     	 this.partnerEmail = partnerEmail;
+     	 this.OwnerEmail = partnerEmail;
     	 this.name = name;
     	 this.dateTime = dateTime;
     	 this.description = description;
@@ -33,7 +33,7 @@ public class Event implements Serializable {
      
      public User getPartner(){
     	 UserDao dao = new UserDao();
-    	 return dao.getUserByUsername(partnerEmail);
+    	 return dao.getUserByUsername(OwnerEmail);
      }
      
      public String getName(){
@@ -91,4 +91,34 @@ public class Event implements Serializable {
      public void setInterests(Skill[] value){
           skills = value;
      }
+	/**
+	 * @return the ownerEmail
+	 */
+	public String getOwnerEmail() {
+		return OwnerEmail;
+	}
+	/**
+	 * @param ownerEmail the ownerEmail to set
+	 */
+	public void setOwnerEmail(String ownerEmail) {
+		OwnerEmail = ownerEmail;
+	}
+	/**
+	 * @return the dateTime
+	 */
+	public Date getDateTime() {
+		return dateTime;
+	}
+	/**
+	 * @param dateTime the dateTime to set
+	 */
+	public void setDateTime(Date dateTime) {
+		this.dateTime = dateTime;
+	}
+	/**
+	 * @param skills the skills to set
+	 */
+	public void setSkills(Skill[] skills) {
+		this.skills = skills;
+	}
 }

@@ -1,8 +1,12 @@
 package stonehill.edu.VolunteerTrack;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.sql.PreparedStatement;
+import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.Date;
+import java.io.*;
+
 public class DocumentDao extends Dao{
 	public void delete(Object value) {
 		Document document=(Document) value;
@@ -12,7 +16,8 @@ public class DocumentDao extends Dao{
 			//SQL statement
 			Statement statement=connection.createStatement();
 			statement.executeQuery("DELETE FROM Document WHERE "+
-		    "Link='"+document.getLink()+"' AND "+
+			"Name='"+document.getName()+"' AND "+
+		    "dateUploaded=to_date('"+new java.sql.Date(document.getDateUploaded().getTime())+"', 'yyyy-mm-dd'), AND "+
 		    "UserEmail='"+document.getUserEmail()+"'");
 			statement.close();
 			disconnectFromDatabase();
@@ -21,21 +26,25 @@ public class DocumentDao extends Dao{
 			e.printStackTrace();
 		}
 	}
-	public void insert(Object value) {
+	public void insert(Object value){
+		//working with file
 		Document document=(Document) value;
 		try{
+			//create fileInputStream
+			File file=document.getFile();
+			FileInputStream in=new FileInputStream(file); 
 			//connect
 			connectToDatabase();
 			//SQL statement
-			Statement statement=connection.createStatement();
-			statement.executeQuery("INSERT INTO Document VALUES("+
+			PreparedStatement statement=connection.prepareStatement("INSERT INTO Document VALUES("+
 		    "'"+document.getName()+"', "+
 		    "'"+document.getType()+"', "+
 		    "to_date('"+new java.sql.Date(document.getDateUploaded().getTime())+"', 'yyyy-mm-dd'), "+
-		    "'"+document.getLink()+"', "+
+		    " ? , "+
 		    "'"+document.getUserEmail()+"', "+
 		    "'"+(document.getIsSharedDocument()?1:0)+"')");
-			statement.close();
+			statement.setBinaryStream(1, in, (int)file.length());
+			statement.executeUpdate();
 			disconnectFromDatabase();
 		}
 	    catch(Exception e){
@@ -55,10 +64,23 @@ public class DocumentDao extends Dao{
 				String name=resultSet.getString("Name");
 				String type=resultSet.getString("Type");
 				Date date=resultSet.getDate("DateUploaded");
-				String link=resultSet.getString("Link");
+				Blob blob=resultSet.getBlob("Blob");
 				String userEmail=resultSet.getString("UserEmail");
 				boolean isSharedDocument=resultSet.getBoolean("IsSharedDocument");
-				result.add(new Document(name,type,date,link,userEmail,isSharedDocument));
+				//blob to file
+				File file=new File("");
+				BufferedInputStream in= new BufferedInputStream(blob.getBinaryStream());
+				FileOutputStream out=new FileOutputStream(file);
+				byte[] buffer=new byte[1024];
+				int r=0;
+				while((r=in.read(buffer))!=-1){
+					out.write(buffer,0,r);
+				}
+				out.flush();
+				out.close();
+				in.close();
+				blob.free();
+				result.add(new Document(name,type,date,file,userEmail,isSharedDocument));
 			}
 			//clean up
 			resultSet.close();
@@ -73,18 +95,21 @@ public class DocumentDao extends Dao{
 	public void update(Object value) {
 		Document document=(Document) value;
 		try{
+			//create fileInputStream
+			File file=document.getFile();
+			FileInputStream in=new FileInputStream(file); 
 			//connect
 			connectToDatabase();
 			//SQL statement
-			Statement statement=connection.createStatement();
-			statement.executeQuery("UPDATE Document SET "+
+			PreparedStatement statement=connection.prepareStatement("UPDATE Document SET "+
 		    "Type='"+document.getType()+"', "+
 		    "DateUploaded=to_date('"+new java.sql.Date(document.getDateUploaded().getTime())+"', 'yyyy-mm-dd'), "+
 		    "IsSharedDocument='"+(document.getIsSharedDocument()?1:0)+"', "+
 		    "UserEmail='"+document.getUserEmail()+"' WHERE "+
 		    "Name='"+document.getName()+"' AND "+
-		    "Link='"+document.getLink()+"'");
-			statement.close();
+		    "Blob= ? ");
+			statement.setBinaryStream(1, in, (int)file.length());
+			statement.executeUpdate();
 			disconnectFromDatabase();
 		}
 	    catch(Exception e){
@@ -100,14 +125,27 @@ public class DocumentDao extends Dao{
 			Statement statement=connection.createStatement();
 			ResultSet resultSet=statement.executeQuery("SELECT * FROM Document WHERE UserEmail='"+user.getEmail()+"' AND Name='"+n+"' AND DateUploaded=to_date('"+new java.sql.Date(d.getTime())+"', 'yyyy-mm-dd')");
 			//get tuples
-			if(resultSet.next()){
+			while(resultSet.next()){
 				String name=resultSet.getString("Name");
 				String type=resultSet.getString("Type");
 				Date date=resultSet.getDate("DateUploaded");
-				String link=resultSet.getString("Link");
+				Blob blob=resultSet.getBlob("Blob");
 				String userEmail=resultSet.getString("UserEmail");
 				boolean isSharedDocument=resultSet.getBoolean("IsSharedDocument");
-				result=(new Document(name,type,date,link,userEmail,isSharedDocument));
+				//blob to file
+				File file=new File("");
+				BufferedInputStream in= new BufferedInputStream(blob.getBinaryStream());
+				FileOutputStream out=new FileOutputStream(file);
+				byte[] buffer=new byte[1024];
+				int r=0;
+				while((r=in.read(buffer))!=-1){
+					out.write(buffer,0,r);
+				}
+				out.flush();
+				out.close();
+				in.close();
+				blob.free();
+				result =(new Document(name,type,date,file,userEmail,isSharedDocument));
 			}
 			//clean up
 			resultSet.close();
@@ -132,10 +170,23 @@ public class DocumentDao extends Dao{
 				String name=resultSet.getString("Name");
 				String type=resultSet.getString("Type");
 				Date date=resultSet.getDate("DateUploaded");
-				String link=resultSet.getString("Link");
+				Blob blob=resultSet.getBlob("Blob");
 				String userEmail=resultSet.getString("UserEmail");
 				boolean isSharedDocument=resultSet.getBoolean("IsSharedDocument");
-				result.add(new Document(name,type,date,link,userEmail,isSharedDocument));
+				//blob to file
+				File file=new File("");
+				BufferedInputStream in= new BufferedInputStream(blob.getBinaryStream());
+				FileOutputStream out=new FileOutputStream(file);
+				byte[] buffer=new byte[1024];
+				int r=0;
+				while((r=in.read(buffer))!=-1){
+					out.write(buffer,0,r);
+				}
+				out.flush();
+				out.close();
+				in.close();
+				blob.free();
+				result.add(new Document(name,type,date,file,userEmail,isSharedDocument));
 			}
 			//clean up
 			resultSet.close();
@@ -160,10 +211,23 @@ public class DocumentDao extends Dao{
 				String name=resultSet.getString("Name");
 				String type=resultSet.getString("Type");
 				Date date=resultSet.getDate("DateUploaded");
-				String link=resultSet.getString("Link");
+				Blob blob=resultSet.getBlob("Blob");
 				String userEmail=resultSet.getString("UserEmail");
 				boolean isSharedDocument=resultSet.getBoolean("IsSharedDocument");
-				result.add(new Document(name,type,date,link,userEmail,isSharedDocument));
+				//blob to file
+				File file=new File("");
+				BufferedInputStream in= new BufferedInputStream(blob.getBinaryStream());
+				FileOutputStream out=new FileOutputStream(file);
+				byte[] buffer=new byte[1024];
+				int r=0;
+				while((r=in.read(buffer))!=-1){
+					out.write(buffer,0,r);
+				}
+				out.flush();
+				out.close();
+				in.close();
+				blob.free();
+				result.add(new Document(name,type,date,file,userEmail,isSharedDocument));
 			}
 			//clean up
 			resultSet.close();

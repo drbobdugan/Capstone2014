@@ -1,87 +1,112 @@
 package stonehill.edu.VolunteerTrack;
 
 import java.util.Date;
-import java.util.*;
+import java.io.File;
+
 public class Document {
 	
 	String name;
 	String type;
 	Date dateUploaded;
-	String link;
+	File file;
 	String userEmail;
 	boolean isSharedDocument;
 public Document() {
 	
 }
 
-public Document(String a, String b, Date c, String d, String e,boolean f)
+public Document(String a, String b, Date c, File d, String e,boolean f)
 {
 	name=a;
 	type=b;
 	dateUploaded=c;
-	link=d;
+	file=d;
 	userEmail=e;
 	isSharedDocument=f;
 }
 
-	
-public String getName()
-{
+/**
+ * @return the name
+ */
+public String getName() {
 	return name;
 }
 
-public void setName(String s)
-{
-	name=s;
+/**
+ * @param name the name to set
+ */
+public void setName(String name) {
+	this.name = name;
 }
 
-
-public String getType()
-{
+/**
+ * @return the type
+ */
+public String getType() {
 	return type;
 }
 
-public void setType(String b)
-{
-type=b;	
+/**
+ * @param type the type to set
+ */
+public void setType(String type) {
+	this.type = type;
 }
 
-public Date getDateUploaded()
-{
+/**
+ * @return the dateUploaded
+ */
+public Date getDateUploaded() {
 	return dateUploaded;
 }
 
-public void setDateUploaded(Date d)
-{
-	dateUploaded=d;	
+/**
+ * @param dateUploaded the dateUploaded to set
+ */
+public void setDateUploaded(Date dateUploaded) {
+	this.dateUploaded = dateUploaded;
 }
 
-public String getLink()
-{
-	return link;
-	
+/**
+ * @return the file
+ */
+public File getFile() {
+	return file;
 }
 
-public void setLink(String l)
-{
-link=l;
+/**
+ * @param file the file to set
+ */
+public void setFile(File file) {
+	this.file = file;
 }
-public String getUserEmail()
-{
+
+/**
+ * @return the userEmail
+ */
+public String getUserEmail() {
 	return userEmail;
 }
-public boolean getIsSharedDocument()
-{
+
+/**
+ * @param userEmail the userEmail to set
+ */
+public void setUserEmail(String userEmail) {
+	this.userEmail = userEmail;
+}
+
+/**
+ * @return the isSharedDocument
+ */
+public boolean getIsSharedDocument() {
 	return isSharedDocument;
 }
-public void setIsSharedDocument(boolean shared)
-{
-	isSharedDocument=shared;
+
+/**
+ * @param isSharedDocument the isSharedDocument to set
+ */
+public void setSharedDocument(boolean isSharedDocument) {
+	this.isSharedDocument = isSharedDocument;
 }
-
-
-
-
-
 
 }

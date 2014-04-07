@@ -25,15 +25,7 @@ public class EventDao extends Dao{
 		}
 	}
 	public void insert(Object value) {
-	     try {
-			throw new Exception();
-		} catch (Exception e) {
-			System.out.println("DONT USE INSERT IN EVENT DAO()");
-		}
-	}
-	public void insert(Object value, Object value2) {
 		Event event=(Event) value;
-		User user = (User)value2;
 		
 		try{
 			//connect
@@ -58,7 +50,7 @@ public class EventDao extends Dao{
 			connectToDatabase();
 			//SQL statement
 			Statement statement=connection.createStatement();
-			statement.executeQuery("INSERT INTO UserOwnsEvent VALUES('"+ user.getEmail() + "', '"+
+			statement.executeQuery("INSERT INTO UserOwnsEvent VALUES('"+ event.getOwnerEmail() + "', '"+
 			event.getName()+"', "+
             "to_date('"+new java.sql.Date(event.getDate().getTime())+"','yyyy-mm-dd'))");
 			statement.close();
@@ -75,9 +67,10 @@ public class EventDao extends Dao{
 			connectToDatabase();
 			//SQL statement
 			Statement statement=connection.createStatement();
-			ResultSet resultSet=statement.executeQuery("SELECT * FROM Event");
+			ResultSet resultSet=statement.executeQuery("SELECT * FROM Event,UserOwnsEvent WHERE Event.Name=UserOwnsEvent.EventName AND Event.DateTime=UserOwnsEvent.EventDateTime");
 			//get tuples
 			while(resultSet.next()){
+				String oe=resultSet.getString("UserEmail");
 				String name=resultSet.getString("Name");
 				Date date =resultSet.getDate("DateTime");
 				String description =resultSet.getString("Description");
@@ -87,7 +80,7 @@ public class EventDao extends Dao{
 				int tp=resultSet.getInt("TotalPositions");
 				int tpr =resultSet.getInt("PositionsRemaining");
 				// TODO owners email
-				result.add( new Event ( "Owners  Email" , name, date,  description,  location ,  tp,  tpr, skills));
+				result.add( new Event ( oe , name, date,  description,  location ,  tp,  tpr, skills));
 			}
 			//clean up
 			resultSet.close();
@@ -119,7 +112,6 @@ public class EventDao extends Dao{
 				Skill [] skills= {new Skill("not coded")};
 				int tp=resultSet.getInt("TotalPositions");
 				int tpr =resultSet.getInt("PositionsRemaining");
-				// TODO owners email
 				result.add( new Event ( owner, name, date,  description,  location ,  tp,  tpr, skills));
 			}
 			//clean up
@@ -187,7 +179,7 @@ public class EventDao extends Dao{
 			statement.executeQuery("DELETE FROM UserOwnsEvent WHERE "+
 		    "UserEmail='"+user.getEmail()+"', AND "+
 		    "EventName='"+event.getName()+"', AND "+
-			"EventDateTime='"+event.getDate()+"')");
+			"EventDateTime=to_date("+new java.sql.Date(event.getDate().getTime())+",'yyyy-mm-dd')");
 			statement.close();
 			disconnectFromDatabase();
 		}
