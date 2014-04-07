@@ -99,7 +99,7 @@ public class EventDao extends Dao{
 		}
 		return result;
 	}
-	public ArrayList<Object> selectAllByPartner(User user) {
+	public ArrayList<Object> getAllEventsByOwner(User user) {
 		ArrayList<Object> result=new ArrayList<Object>();
 		try{
 			//connect
@@ -149,6 +149,45 @@ public class EventDao extends Dao{
 		    "PositionsRemaining='"+event.getNumPositionsRemaining()+"'WHERE "+   
 		    "Name='"+event.getName()+"'");
 		
+			statement.close();
+			disconnectFromDatabase();
+		}
+	    catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	public void insertUserOwnsEvent(Object value1, Object value2) {
+		User user=(User) value1;
+		Event event=(Event) value2;
+		try{
+			//connect
+			connectToDatabase();
+			//SQL statement
+			Statement statement=connection.createStatement();
+			statement.executeQuery("INSERT INTO UserOwnsEvent VALUES("+
+		    "'"+user.getEmail()+"', "+
+		    "'"+event.getName()+"', "+
+			"to_date('"+event.getDate()+"'))");
+			statement.close();
+			disconnectFromDatabase();
+		}
+	    catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	
+	public void deleteUserOwnsEvent(Object value1, Object value2) {
+		User user=(User) value1;
+		Event event=(Event) value2;
+		try{
+			//connect
+			connectToDatabase();
+			//SQL statement
+			Statement statement=connection.createStatement();
+			statement.executeQuery("DELETE FROM UserOwnsEvent WHERE "+
+		    "UserEmail='"+user.getEmail()+"', AND "+
+		    "EventName='"+event.getName()+"', AND "+
+			"EventDateTime='"+event.getDate()+"')");
 			statement.close();
 			disconnectFromDatabase();
 		}

@@ -266,4 +266,107 @@ public class UserDao extends Dao{
 		}
 		return result;
 	}
+	
+	public void insertUserHasSkill(Object value1, Object value2) {
+		User user=(User) value1;
+		Skill skill=(Skill) value2;
+		try{
+			//connect
+			connectToDatabase();
+			//SQL statement
+			Statement statement=connection.createStatement();
+			statement.executeQuery("INSERT INTO UserHasSkill VALUES("+
+		    "'"+user.getEmail()+"', "+
+			"'"+skill.getName()+"')");
+			statement.close();
+			disconnectFromDatabase();
+		}
+	    catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	
+	public void deleteUserHasSkill(Object value1, Object value2) {
+		User user=(User) value1;
+		Skill skill=(Skill) value2;
+		try{
+			//connect
+			connectToDatabase();
+			//SQL statement
+			Statement statement=connection.createStatement();
+			statement.executeQuery("DELETE FROM UserHasSkill WHERE "+
+		    "UserEmail='"+user.getEmail()+"', AND "+
+			"SkillName='"+skill.getName()+"')");
+			statement.close();
+			disconnectFromDatabase();
+		}
+	    catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	
+	public ArrayList<Object> getAllSkillsByUser(Object value) {
+		User user=(User) value;
+		ArrayList<Object> result=new ArrayList<Object>();
+		try{
+			//connect
+			connectToDatabase();
+			//SQL statement
+			Statement statement=connection.createStatement();
+			ResultSet resultSet=statement.executeQuery("SELECT * FROM UserHasSkill WHERE UserEmail='" + user.getEmail() + "'");
+			//get tuples
+			while(resultSet.next()){
+				String n=resultSet.getString("SkillName");
+				result.add(new Skill(n));
+			}
+			//clean up
+			resultSet.close();
+			statement.close();
+			disconnectFromDatabase();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	public void insertUserOwnsEvent(Object value1, Object value2) {
+		User user=(User) value1;
+		Event event=(Event) value2;
+		try{
+			//connect
+			connectToDatabase();
+			//SQL statement
+			Statement statement=connection.createStatement();
+			statement.executeQuery("INSERT INTO UserOwnsEvent VALUES("+
+		    "'"+user.getEmail()+"', "+
+		    "'"+event.getName()+"', "+
+			"to_date('"+event.getDate()+"'))");
+			statement.close();
+			disconnectFromDatabase();
+		}
+	    catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	
+	public void deleteUserOwnsEvent(Object value1, Object value2) {
+		User user=(User) value1;
+		Event event=(Event) value2;
+		try{
+			//connect
+			connectToDatabase();
+			//SQL statement
+			Statement statement=connection.createStatement();
+			statement.executeQuery("DELETE FROM UserOwnsEvent WHERE "+
+		    "UserEmail='"+user.getEmail()+"', AND "+
+		    "EventName='"+event.getName()+"', AND "+
+			"EventDateTime='"+event.getDate()+"')");
+			statement.close();
+			disconnectFromDatabase();
+		}
+	    catch(Exception e){
+			e.printStackTrace();
+		}
+	}
 }
