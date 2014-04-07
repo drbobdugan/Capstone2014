@@ -341,7 +341,7 @@ public class UserDao extends Dao{
 			statement.executeQuery("INSERT INTO UserOwnsEvent VALUES("+
 		    "'"+user.getEmail()+"', "+
 		    "'"+event.getName()+"', "+
-			"to_date('"+event.getDate()+"'))");
+			"to_date("+new java.sql.Date(event.getDate().getTime())+",'yyyy-mm-dd')");
 			statement.close();
 			disconnectFromDatabase();
 		}
@@ -361,7 +361,7 @@ public class UserDao extends Dao{
 			statement.executeQuery("DELETE FROM UserOwnsEvent WHERE "+
 		    "UserEmail='"+user.getEmail()+"', AND "+
 		    "EventName='"+event.getName()+"', AND "+
-			"EventDateTime='"+event.getDate()+"')");
+			"EventDateTime=to_date("+new java.sql.Date(event.getDate().getTime())+",'yyyy-mm-dd')");
 			statement.close();
 			disconnectFromDatabase();
 		}

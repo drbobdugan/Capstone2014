@@ -217,7 +217,7 @@ public class EventDao extends Dao{
 			statement.executeQuery("INSERT INTO UserOwnsEvent VALUES("+
 		    "'"+user.getEmail()+"', "+
 		    "'"+event.getName()+"', "+
-			"to_date('"+event.getDate()+"'))");
+			"to_date("+new java.sql.Date(event.getDate().getTime())+",'yyyy-mm-dd')");
 			statement.close();
 			disconnectFromDatabase();
 		}
