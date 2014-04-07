@@ -18,6 +18,8 @@ public class User implements Serializable {
 	private boolean isCoordinator;
 	private boolean isVolunteer;
 	private boolean isApproved;
+	private String major;
+	private String minor;
 	
 	// For serialization
 	static final long serialVersionUID = 9L;
@@ -39,9 +41,11 @@ public class User implements Serializable {
 		isCoordinator = false;
 		isVolunteer = false;
 		isApproved = false;
+		major="";
+		minor="";
 	}
 
-	public User(String ema, String pass, String fir, String las, String str, String cit, String sta, String zi, String pho, String par, String vol, boolean isp, boolean isc, boolean isv, boolean isa)
+	public User(String ema, String pass, String fir, String las, String str, String cit, String sta, String zi, String pho, String par, String vol, boolean isp, boolean isc, boolean isv, boolean isa,String maj, String min)
 	{
 		email = ema;
 		password = pass;
@@ -58,6 +62,8 @@ public class User implements Serializable {
 		isCoordinator = isc;
 		isVolunteer = isv;
 		isApproved = isa;
+		major=maj;
+		minor=min;
 				
 	}
 	
@@ -79,8 +85,26 @@ public class User implements Serializable {
 		isCoordinator = user.getIsCoordinator();
 		isVolunteer = user.getIsVolunteer();
 		isApproved = user.getIsApproved();
+		major=user.getMajor();
+		minor=user.getMinor();
 	}
 	
+	public String getMinor() {
+		// TODO Auto-generated method stub
+		return minor;
+	}
+
+	public String getMajor() {
+		// TODO Auto-generated method stub
+		return major;
+	}
+	public void setMajor(String major) {
+		this.major = major;
+	}
+	public void setMinor(String minor) {
+		this.minor = minor;
+	}
+
 	/**
 	 * @return the email
 	 */

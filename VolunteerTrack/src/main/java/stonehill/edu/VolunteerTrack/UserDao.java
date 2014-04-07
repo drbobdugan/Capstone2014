@@ -75,7 +75,9 @@ public class UserDao extends Dao{
 				boolean ic=resultSet.getBoolean("IsCoordinator");
 				boolean iv=resultSet.getBoolean("IsVolunteer");
 				boolean ia=resultSet.getBoolean("IsApproved");
-				result.add(new User(e,p,fn,ln,s,c,st,z,pn,pd,vd,ip,ic,iv,ia));
+				String mj=resultSet.getString("major");
+				String mi=resultSet.getString("minor");
+				result.add(new User(e,p,fn,ln,s,c,st,z,pn,pd,vd,ip,ic,iv,ia, mj,mi));
 			}
 			//clean up
 			resultSet.close();
@@ -142,7 +144,9 @@ public class UserDao extends Dao{
 				boolean ic=resultSet.getBoolean("IsCoordinator");
 				boolean iv=resultSet.getBoolean("IsVolunteer");
 				boolean ia=resultSet.getBoolean("IsApproved");
-				result=(new User(e,p,fn,ln,s,c,st,z,pn,pd,vd,ip,ic,iv,ia));
+				String mj=resultSet.getString("major");
+				String mi=resultSet.getString("minor");
+				result=(new User(e,p,fn,ln,s,c,st,z,pn,pd,vd,ip,ic,iv,ia, mj,mi));
 			}
 			//clean up
 			resultSet.close();
@@ -179,7 +183,9 @@ public class UserDao extends Dao{
 				boolean ic=resultSet.getBoolean("IsCoordinator");
 				boolean iv=resultSet.getBoolean("IsVolunteer");
 				boolean ia=resultSet.getBoolean("IsApproved");
-				result.add(new User(e,p,fn,ln,s,c,st,z,pn,pd,vd,ip,ic,iv,ia));
+				String mj=resultSet.getString("major");
+				String mi=resultSet.getString("minor");
+				result.add(new User(e,p,fn,ln,s,c,st,z,pn,pd,vd,ip,ic,iv,ia,mj,mi));
 			}
 			//clean up
 			resultSet.close();
@@ -216,7 +222,9 @@ public class UserDao extends Dao{
 				boolean ic=resultSet.getBoolean("IsCoordinator");
 				boolean iv=resultSet.getBoolean("IsVolunteer");
 				boolean ia=resultSet.getBoolean("IsApproved");
-				result.add(new User(e,p,fn,ln,s,c,st,z,pn,pd,vd,ip,ic,iv,ia));
+				String mj=resultSet.getString("major");
+				String mi=resultSet.getString("minor");
+				result.add(new User(e,p,fn,ln,s,c,st,z,pn,pd,vd,ip,ic,iv,ia,mj,mi));
 			}
 			//clean up
 			resultSet.close();
@@ -254,7 +262,10 @@ public class UserDao extends Dao{
 				boolean ic=resultSet.getBoolean("IsCoordinator");
 				boolean iv=resultSet.getBoolean("IsVolunteer");
 				boolean ia=resultSet.getBoolean("IsApproved");
-				result.add(new User(e,p,fn,ln,s,c,st,z,pn,pd,vd,ip,ic,iv,ia));
+				String mj=resultSet.getString("major");
+				String mi=resultSet.getString("minor");
+				
+				result.add(new User(e,p,fn,ln,s,c,st,z,pn,pd,vd,ip,ic,iv,ia, mj, mi));
 			}
 			//clean up
 			resultSet.close();
@@ -265,6 +276,49 @@ public class UserDao extends Dao{
 			e.printStackTrace();
 		}
 		return result;
+	}
+	
+	
+	public ArrayList<Object> getSearchResults(ArrayList<Object> criteria) {
+		StringBuilder sb=new StringBuilder();
+		for( int i=0; i<criteria.size()-1;i ++)
+		{
+			sb.append(" AND " + criteria.get(i) + " = " +criteria.get(i+1));
+		}
+		ArrayList<Object> searchResult=new ArrayList<Object>();
+		try{
+			//connect
+			connectToDatabase();
+			//SQL statement
+			Statement statement=connection.createStatement();
+			ResultSet resultSet =statement.executeQuery("SELECT * FROM UserEntity WHERE IsVolunteer='1'" + sb);
+while(resultSet.next()){
+				
+				String e=resultSet.getString("Email");
+				String p=resultSet.getString("Password");
+				String fn=resultSet.getString("FirstName");
+				String ln=resultSet.getString("LastName");
+				String s=resultSet.getString("Street");
+				String c=resultSet.getString("City");
+				String st=resultSet.getString("State");
+				String z=resultSet.getString("Zip");
+				String pn=resultSet.getString("PhoneNumber");
+				String pd=resultSet.getString("PartnerDescription");
+				String vd=resultSet.getString("VolunteerDescription");
+				boolean ip=resultSet.getBoolean("IsPartner");
+				boolean ic=resultSet.getBoolean("IsCoordinator");
+				boolean iv=resultSet.getBoolean("IsVolunteer");
+				boolean ia=resultSet.getBoolean("IsApproved");
+				String mj=resultSet.getString("major");
+				String mi=resultSet.getString("minor");
+				
+				searchResult.add(new User(e,p,fn,ln,s,c,st,z,pn,pd,vd,ip,ic,iv,ia, mj, mi));
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return searchResult;
 	}
 	
 	public void insertUserHasSkill(Object value1, Object value2) {
@@ -341,7 +395,7 @@ public class UserDao extends Dao{
 			statement.executeQuery("INSERT INTO UserOwnsEvent VALUES("+
 		    "'"+user.getEmail()+"', "+
 		    "'"+event.getName()+"', "+
-			"to_date('"+event.getDate()+"'))");
+			"to_date("+new java.sql.Date(event.getDate().getTime())+",'yyyy-mm-dd')");
 			statement.close();
 			disconnectFromDatabase();
 		}
@@ -361,7 +415,7 @@ public class UserDao extends Dao{
 			statement.executeQuery("DELETE FROM UserOwnsEvent WHERE "+
 		    "UserEmail='"+user.getEmail()+"', AND "+
 		    "EventName='"+event.getName()+"', AND "+
-			"EventDateTime='"+event.getDate()+"')");
+			"EventDateTime=to_date("+new java.sql.Date(event.getDate().getTime())+",'yyyy-mm-dd')");
 			statement.close();
 			disconnectFromDatabase();
 		}

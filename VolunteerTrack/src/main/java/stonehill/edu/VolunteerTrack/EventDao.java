@@ -148,6 +148,64 @@ public class EventDao extends Dao{
 			e.printStackTrace();
 		}
 	}
+	public Event getEventByNameDateTime(String eventName, Date dateTime) {
+		Event result = null;
+		String email = "";
+		
+		try{
+			//connect
+			connectToDatabase();
+			//SQL statement
+			Statement statement=connection.createStatement();
+			ResultSet resultSet=statement.executeQuery("SELECT * FROM UserOwnsEvent WHERE EventDateTime=to_date('"+new java.sql.Date(dateTime.getTime())+"','yyyy-mm-dd') AND"
+							+ " EventName='"+eventName+"'");
+			//get tuple
+			if(resultSet.next()){
+				email = resultSet.getString("UserEmail");
+			}else{
+				System.out.println("EventDao:getEventByNameDateTime() did not return a tuple.");
+			}
+			//clean up
+			resultSet.close();
+			statement.close();
+			disconnectFromDatabase();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		try{
+			//connect
+			connectToDatabase();
+			//SQL statement
+			Statement statement=connection.createStatement();
+			ResultSet resultSet=statement.executeQuery("SELECT * FROM Event WHERE DateTime=to_date('"+new java.sql.Date(dateTime.getTime())+"','yyyy-mm-dd') AND"
+							+ " Name='"+eventName+"'");
+			//get tuple
+			if(resultSet.next()){
+				//String owner = resultSet.getString("UserEmail");
+				String name=resultSet.getString("Name");
+				Date date =resultSet.getDate("DateTime");
+				String description =resultSet.getString("Description");
+				String location =resultSet.getString("Location");
+				// TODO no sure how this will be handled yet
+				Skill [] skills= {new Skill("not coded")};
+				int tp=resultSet.getInt("TotalPositions");
+				int tpr =resultSet.getInt("PositionsRemaining");
+				result=(new Event ( email , name, date,  description,  location ,  tp,  tpr, skills));
+			}else{
+				System.out.println("EventDao:getEventByNameDateTime() did not return a tuple.");
+			}
+			//clean up
+			resultSet.close();
+			statement.close();
+			disconnectFromDatabase();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		return result;
+	}
 	public void insertUserOwnsEvent(Object value1, Object value2) {
 		User user=(User) value1;
 		Event event=(Event) value2;
@@ -159,7 +217,7 @@ public class EventDao extends Dao{
 			statement.executeQuery("INSERT INTO UserOwnsEvent VALUES("+
 		    "'"+user.getEmail()+"', "+
 		    "'"+event.getName()+"', "+
-			"to_date('"+event.getDate()+"'))");
+			"to_date("+new java.sql.Date(event.getDate().getTime())+",'yyyy-mm-dd')");
 			statement.close();
 			disconnectFromDatabase();
 		}

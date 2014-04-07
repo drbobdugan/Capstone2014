@@ -7,6 +7,70 @@
 </head>
 <body>
       <wicket:extend>
+      
+      
+      
+ <h2>Search For Students</h2>
+ <form wicketLid="form">
+ <table border="1" style="width:450px">
+ 
+ <tr><h3>Search Criteria</h3></tr>
+ <tr><td>
+<table style="width:400px">
+<tr><td>First Name:</td><td><input wicket:id="FirstName"></td></tr>
+<tr><td>Major:</td><td> <input wicket:id="Major"></td></tr>
+<tr><td>Available On Date:</td><td> <input  wicket:id="DateAvailable"></td></tr>
+</table>
+ <br>
+</td>
+<td>
+<table style="width:500px">
+<tr>
+<td>LastName: </td><td><wicket:id="LastName"><td>
+</tr>
+<tr>
+<td>Minor:</td> <td><input wicket:id="Minor"></td>
+</tr>
+<tr><td></td></tr>
+<tr> <td>Available At: </td></tr>
+<tr>
+<td> Start Time:</td><td> <input wicket:id="StartTime" ></td></tr>
+<tr>
+<td>End Time:</td><td> <input wicket:id="EndTime" ></td>
+</tr>
+
+</table>
+</td>
+</tr>
+
+</table>
+<br>
+<input type="submit" value="Search" wicket:id="Search">
+
+<table border="1" style="width:500px">
+<tr><h3>Search Results</h3></tr>
+<tr>
+<th>Name</th>
+<th>Major</th>
+<th>Minor</th>
+</tr>
+
+<tr wicket:id="repeating">
+<td><a href="#profile.html"></a>
+<td><span wicket:id="Name">[Zac Brown]</span></td>
+<td><span wicket:id="Major">[N/A]</span></td>
+<td><span wicket:id="Minor">[N/A]</span></td>
+</tr>
+
+
+
+</table>
+
+  </form>
+  
+    <p id="text"></p>
+      
+      
       </wicket:extend>
 </body>
 </html>

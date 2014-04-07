@@ -2,11 +2,65 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<link rel="stylesheet" href="kh.css" type="text/css" media="screen" title="Stylesheet" charset="utf-8" />
+<link rel="stylesheet" href="kh.css" type="text/css" media="screen"
+	title="Stylesheet" charset="utf-8" />
 <title>Volunteer Track</title>
 </head>
 <body>
-      <wicket:extend>
-      </wicket:extend>
+	<wicket:extend>
+		<form wicket:id="form">
+			<table cellspacing="0">
+				<tr>
+					<th>
+						<p>
+							Partner: <span><select wicket:id="partners"></select></span>
+						</p>
+						<p>
+							Location: <span><select wicket:id="locations"></select></span>
+						</p>
+						<p>
+							Event:<span><select wicket:id="events"></select></span>
+						</p>
+					</th>
+					<th>
+						<p>
+							Start Date: <input type="text" name="startDate">
+						</p>
+						<p>
+							End Date: <input type="text" name="startDate">
+						</p>
+						<p>
+							Duration: <input type="text" name="startDate">
+						</p>
+					</th>
+				</tr>
+			</table>
+		</form>
+
+		<br>
+		<br>
+
+         <form wicket:id ="form2">
+         <p>Skills:</p>
+         
+         <span wicket:id="skills"></span>
+          
+          <br>
+          <input type="submit" wicket:id="submitButton" name="submit" value="Search" />
+          
+         </form>
+
+
+
+
+		<table cellspacing="0">
+			<tr>
+				<th></th>
+			</tr>
+		</table>
+
+
+
+	</wicket:extend>
 </body>
 </html>
