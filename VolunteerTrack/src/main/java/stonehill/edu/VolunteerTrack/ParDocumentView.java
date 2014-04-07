@@ -30,7 +30,7 @@ public class ParDocumentView  extends VoltrackPage {
     //message=new Label("message", "Happy Sunday Everyone!!");
     //add(message);
 		Date a=new Date();
-		document=new Document("Cori Form","Animal shelter",a,"link","knap@gmail.com",true);
+	//	document=new Document("Cori Form","Animal shelter",a,"link","knap@gmail.com",true);
 	
 	//	final DocumentModel document =item.getModelObject();
 		message1=new Label("Name",document.getName());

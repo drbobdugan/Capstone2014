@@ -37,9 +37,9 @@ public class VolDocumentView extends VoltrackPage
  	
 	public VolDocumentView()
 	{
-	  Document one = new Document("Document1","Cori Form", new Date(),"blank1","ssiff@students.stonehill.edu", false);
-	  Document two = new Document("Nemi","Cori Form", new Date(),"blank2","ssiff@students.stonehill.edu", false);
-	  Document three = new Document("Student Resume","Resume", new Date(),"blank3","ssiff@students.stonehill.edu", false);
+	 // Document one = new Document("Document1","Cori Form", new Date(),"blank1","ssiff@students.stonehill.edu", false);
+	 // Document two = new Document("Nemi","Cori Form", new Date(),"blank2","ssiff@students.stonehill.edu", false);
+	 // Document three = new Document("Student Resume","Resume", new Date(),"blank3","ssiff@students.stonehill.edu", false);
 	  theDocs = new ArrayList<Document>();
 	 // theDocs.add(one);
 	 // theDocs.add(two);
