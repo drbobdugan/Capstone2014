@@ -11,7 +11,7 @@
       
       
  <h2>Search For Students</h2>
- <form wicketLid="form">
+ <form wicket:id="form">
  <table border="1" style="width:450px">
  
  <tr><h3>Search Criteria</h3></tr>
@@ -38,7 +38,16 @@
 <tr>
 <td>End Time:</td><td> <input wicket:id="EndTime" ></td>
 </tr>
+<form wicket:id="form2">
+<tr>
 
+<td><p>Skills</p><span wicket:id="skills"></span>
+</td></tr>
+</form>
+
+</table>
+
+  </form>
 </table>
 </td>
 </tr>
@@ -63,10 +72,6 @@
 </tr>
 
 
-
-</table>
-
-  </form>
   
     <p id="text"></p>
       

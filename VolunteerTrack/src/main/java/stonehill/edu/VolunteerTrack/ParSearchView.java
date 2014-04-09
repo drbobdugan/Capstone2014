@@ -8,6 +8,7 @@ import java.io.*;
 import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Button;
+import org.apache.wicket.markup.html.form.CheckBoxMultipleChoice;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.list.AbstractItem;
@@ -18,18 +19,24 @@ import org.apache.wicket.model.PropertyModel;
 
 public class ParSearchView extends VoltrackPage {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	TextField firstName, LastName, dateAvailable,major, minor, startTime, endTime;
 	UserDao dao=new UserDao();
 	Form form;
+	Form form2;
 	ArrayList<Object> volunteers;
 	ArrayList<User> searchvol=new ArrayList<User>();
     ArrayList<String>temp;	
     ArrayList<Object>SearchCriteria;
     ArrayList<Object>searchResults;
+    
 	public ParSearchView()
 	{
 		User currentUser=dao.getUserByUsername("knapolione@students.stonehill.edu");
-
+	
 		//this may not be what we want
 		form=new Form("form");
 		form.setModel(new Model(currentUser));
@@ -59,6 +66,7 @@ public class ParSearchView extends VoltrackPage {
 		temp.add(endTime.toString());
 		final ResultSet results;
 	
+	    populateSkills();
 	Button search=new Button("Search") { /**
 		 * 
 		 */
@@ -88,6 +96,22 @@ public class ParSearchView extends VoltrackPage {
 		//this.setResponsePage(PartnerSearchView.class);		
 		}
 		};
+	}
+	
+	public void populateSkills() {
+		form2=new Form("form2");
+		SkillDao skilldao=new SkillDao();
+		ArrayList<Object>skillslist=skilldao.selectAll();
+		ArrayList<String> skillSelect=new ArrayList<String>();
+		
+		String [] skillarray=new String[skillslist.size()];
+		for(int i=0;i<skillslist.size(); i++) {
+			skillarray[i]=((Skill) skillslist.get(i)).getName();
+		}
+		List<String> fixedskills = Arrays.asList(skillarray);
+		final CheckBoxMultipleChoice<String> skillBoxes=new CheckBoxMultipleChoice<String>("skills", new Model(skillSelect), fixedskills);
+		form2.add(skillBoxes);
+		
 	}
 		
 		public void populateResultsTable() {
