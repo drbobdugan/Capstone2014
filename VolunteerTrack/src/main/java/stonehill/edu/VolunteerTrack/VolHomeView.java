@@ -50,7 +50,7 @@ public class VolHomeView extends VoltrackPage
 	
 	public VolHomeView()
 	{
-		User currentUser = new User("kholmander@stonehill.edu","gunslinger", "keith", "holmander", "", "", "", "", "", "", "", false, false, true, true);
+		User currentUser = new User("kholmander@stonehill.edu","gunslinger", "keith", "holmander", "", "", "", "", "", "", "", false, false, true, true, "", "");
 		
 		
 		

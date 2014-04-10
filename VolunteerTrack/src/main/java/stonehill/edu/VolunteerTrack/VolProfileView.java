@@ -144,13 +144,12 @@ public class VolProfileView extends VoltrackPage {
 		// create form for page
     	form3 = new Form("form3");
     	
-    	Photo photo = new Photo("Steve pro pic", "", 
-				true, true, false, false,"ssiff@students.stonehill.edu");
+    	//Photo photo = new Photo("Steve pro pic", "", true, true, false, false,"ssiff@students.stonehill.edu");
     	
     	//set model of form
-		form3.setModel(new Model(photo));
+		//form3.setModel(new Model(photo));
 		
-		form3.add(propic = new Image("propic", new ContextRelativeResource(photo.getLink())));
+		//form3.add(propic = new Image("propic", new ContextRelativeResource(photo.getLink())));
 		
 		
 		// upload new picture button
