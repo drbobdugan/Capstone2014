@@ -42,7 +42,9 @@ public class UserDao extends Dao{
 			"'"+(user.getIsPartner()?1:0)+"', "+
 			"'"+(user.getIsCoordinator()?1:0)+"', "+
 			"'"+(user.getIsVolunteer()?1:0)+"', "+
-			"'"+(user.getIsApproved()?1:0)+"')");
+			"'"+(user.getIsApproved()?1:0)+"', "+
+			"'"+user.getMajor()+"', "+
+			"'"+user.getMinor()+"')");
 			statement.close();
 			disconnectFromDatabase();
 		}

@@ -45,37 +45,16 @@ public class RegisterView extends WebPage {
 		register.add(new Button("create") {
 			@Override
 			public void onSubmit() {
-				UserDao userDao = new UserDao();
-				//Add secondary password field to ensure proper password entered, atm cannot evoke .equals on user.getPassword.equals(checker)
-				//if user does not exist
-				if(userDao.getUserByUsername(user.getEmail()) == null)
-				{
-					//Check passwords entered match
-					if(user.getPassword().equals(check))
-					{
-						System.out.println(" ## user does not exist & passwords match ##");
-						//find out what type of users they wish to be
-						if(select.equals("Volunteer")) {
-							user.setIsVolunteer(true);
-						}else if(select.equals("Partner")) {
-							user.setIsPartner(true);
-						} else { //Coordinator
-							user.setIsCoordinator(true);
-						}
-						user.setIsApproved(false);
-						userDao.insert(user);
-						setResponsePage(LoginView.class);
-					}
-					else //passwords do not match
-					{
-						user = new User();
-						invalid.setDefaultModel(new Model("Passwords did not match"));
-					}
-				}else{
-					System.out.println(" ## user exists ##");
-					user = new User();
-					invalid.setDefaultModel(new Model("User already exists"));
-				}
+				RegisterController control = new RegisterController();	
+				int pass = 0;
+				for(int i =0; i < TYPES.size(); i++)
+					if(TYPES.get(i).equals(select))
+						pass=i;
+				if(control.RegisterUser(user.getEmail(), user.getPassword(), check, pass) == true)
+					control.RedirectLogin();
+				else
+					invalid.setDefaultModel(new Model("There was an issue, please try again"));
+					
 			}
 		});
 		

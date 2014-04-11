@@ -21,9 +21,9 @@ public class ParEventView extends VoltrackPage
 		futureEvents = new ArrayList<Event>(0);
 		pastEvents = new ArrayList<Event>(0);
 		// TODO get current user -> 
-		User user = new User("zbrown2@studesnt.stonehill.edu", "csrocks55", "Zac", "Brown", "320 Washington St.", "Easton", "Ma", "02357", "8025952931", "We help", "I help", true, false, false, false);
+		User user = new User("zbrown2@studesnt.stonehill.edu", "csrocks55", "Zac", "Brown", "320 Washington St.", "Easton", "Ma", "02357", "8025952931", "We help", "I help", true, false, false, false, "", "");
 		EventDao dao = new EventDao();
-	    ArrayList<Object> events = dao.selectAllByPartner(user);
+	    ArrayList<Object> events = dao.getAllEventsByOwner(user);
 	    for(Object o: events){
 	    	if(((Event)o).getDate().after(new Date())){
 	    		futureEvents.add((Event)o);

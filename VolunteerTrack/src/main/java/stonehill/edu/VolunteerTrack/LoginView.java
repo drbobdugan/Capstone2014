@@ -11,55 +11,55 @@ public class LoginView extends WebPage {
 	User user;
 	TextField email;
 	PasswordTextField password;
-	Form login;
-	Form register;
-	Label invalidLogin;
+	Form login, register, change;
+	Label invalid;
+	LoginController log;
 	
 	public LoginView()
 	{
 		user = new User();
+		log = new LoginController();
+		
 		login = new Form("login");
 		register = new Form("register");
-		login.add(invalidLogin = new Label("invalidLogin", ""));
+		change = new Form("change");
+		
+		login.add(invalid = new Label("invalid", ""));
 		login.add(email = new TextField("emailTextField", new PropertyModel(user, "email")));
 		login.add(password = new PasswordTextField("passwordTextField", new PropertyModel(user,"password")));
+		
 		login.add(new Button("loginButton") {
 			@Override
-			public void onSubmit() {   			    
-				UserDao userDao = new UserDao();
-				User test = userDao.getUserByUsername(user.getEmail());
-				if(test != null && user.getPassword().equals(test.getPassword()))
+			public void onSubmit() {
+				if(log.authenticate(user.getEmail(), user.getPassword()) == true)
 				{
-					CustomSession.get().setUser(test);
-					if(test.getIsApproved() == true)
-					{
-						if(test.getIsVolunteer() == true)
-							setResponsePage(VolHomeView.class);
-						if(test.getIsPartner() == true)
-							setResponsePage(ParHomeView.class);
-						//add coordinator when created
-					}
-					else //waiting on approval
-					{
-						user = new User();
-						invalidLogin.setDefaultModel(new Model("Waiting on approval"));
-					}
+					//setResponsePage(ParHomeView.class);
+					log.redirectHome();
 				}
 				else
-				{
-					user = new User();
-					invalidLogin.setDefaultModel(new Model("Invalid Login"));
-				}
+					invalid.setDefaultModel(new Model("There was an issue, try again."));	
 			}
 		});
 		add(login);
+		
 		register.add(new Button("registerButton") {
 			@Override
 			public void onSubmit() {
-				setResponsePage(RegisterView.class);
+				log.redirectRegister();
 			}
 		});
 		add(register);
+		
+		change.add(new Button("passwordButton") {
+			@Override
+			public void onSubmit() {
+				log.redirectPassword();
+			}
+		});
+		add(change);
+		
+		
+		
 	}
 	 
 }

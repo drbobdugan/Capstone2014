@@ -2,9 +2,12 @@ package stonehill.edu.VolunteerTrack;
 
 import java.io.Serializable;
 
+
+
 import org.apache.wicket.markup.html.WebPage;
+import org.apache.wicket.markup.html.form.Button;
+import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
-import org.apache.wicket.request.mapper.parameter.PageParameters;
 import org.eclipse.jetty.util.log.Logger;
 
 public class VoltrackPage extends WebPage implements Serializable {
@@ -21,10 +24,19 @@ public class VoltrackPage extends WebPage implements Serializable {
 	BookmarkablePageLink vreport;
 	BookmarkablePageLink psearch;
 	BookmarkablePageLink vsearch;
+	Form logout;
 	
 	public VoltrackPage()
 	{
-		
+		logout = new Form("logout");
+		logout.add(new Button("logoutButton"){
+			@Override
+			public void onSubmit() {
+				CustomSession.get().setUser(null);
+				setResponsePage(LoginView.class);
+			}
+		});
+		add(logout);
 		add(vhome = new BookmarkablePageLink("vhome", VolHomeView.class));
 		add(phome = new BookmarkablePageLink("phome", ParHomeView.class));
 		add(vhour = new BookmarkablePageLink("vhour", VolHourView.class));
@@ -37,9 +49,6 @@ public class VoltrackPage extends WebPage implements Serializable {
 		add(preport = new BookmarkablePageLink( "preport", ParReportView.class));
 		add(vsearch = new BookmarkablePageLink( "vsearch", VolSearchView.class));
 		add(psearch = new BookmarkablePageLink( "psearch", ParSearchView.class));
-		
-		System.out.println("############# "+CustomSession.get().getUser().getIsVolunteer());
-		
 		
 		if(CustomSession.get().getUser().getIsVolunteer() == true)
 		{
