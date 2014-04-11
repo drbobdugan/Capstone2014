@@ -2,6 +2,7 @@ package stonehill.edu.VolunteerTrack;
 
 
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.*;
 
@@ -37,18 +38,18 @@ public class VolDocumentView extends VoltrackPage
  	
 	public VolDocumentView()
 	{
-	 // Document one = new Document("Document1","Cori Form", new Date(),"blank1","ssiff@students.stonehill.edu", false);
-	 // Document two = new Document("Nemi","Cori Form", new Date(),"blank2","ssiff@students.stonehill.edu", false);
-	 // Document three = new Document("Student Resume","Resume", new Date(),"blank3","ssiff@students.stonehill.edu", false);
+	  Document one = new Document("Document1","Cori Form", new Date(),new File(""),"ssiff@students.stonehill.edu", false);
+	  Document two = new Document("Nemi","Cori Form", new Date(),new File(""),"ssiff@students.stonehill.edu", false);
+	  Document three = new Document("Student Resume","Resume", new Date(),new File(""),"ssiff@students.stonehill.edu", false);
 	  theDocs = new ArrayList<Document>();
-	 // theDocs.add(one);
-	 // theDocs.add(two);
-	 // theDocs.add(three);
+	 theDocs.add(one);
+	 theDocs.add(two);
+	 theDocs.add(three);
 	 
         dao = new DocumentDao();
-        //dao.insert(one);
-        //dao.insert(two);
-        //dao.insert(three);
+        dao.insert(one);
+        dao.insert(two);
+        dao.insert(three);
 		
 		ArrayList<Object> temp = dao.selectAll();
 		for(int i = 0; i <temp.size();i++)
