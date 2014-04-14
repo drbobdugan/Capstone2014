@@ -37,7 +37,7 @@ import org.apache.wicket.model.IModel;
 
 
 
-public class CoordinatorReportsView extends VolunteerTrackBaseView {
+public class CoordinatorReportView extends VolunteerTrackBaseView {
 
 	
 
@@ -55,7 +55,7 @@ public class CoordinatorReportsView extends VolunteerTrackBaseView {
     EventDao eventDao= new EventDao();
 	ArrayList<Event> events;
 	
-	public CoordinatorReportsView() {
+	public CoordinatorReportView() {
 	
 		RadioChoice<String>  reportBy = new RadioChoice<String>(
 				"calendarRadio", new PropertyModel<String>(this,"selected"),TYPES);

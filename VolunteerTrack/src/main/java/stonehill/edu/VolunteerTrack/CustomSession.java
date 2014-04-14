@@ -12,7 +12,7 @@ public class CustomSession extends WebSession {
 	}
 
 	private static final long serialVersionUID = 1L;
-	private User user;	
+	private User user, switchBack;	
 	
 	//public CustomSession(Request request) {
 	//	super(request);
@@ -31,6 +31,13 @@ public class CustomSession extends WebSession {
 		this.user = user;
 	}
 	
+	public User getSwitchUser() {
+		return switchBack;
+	}
+	
+	public void setSwitchBack(User user) {
+		this.switchBack = user;
+	}
 	// User is set at login time...
 	public boolean isAuthenticated()
 	{

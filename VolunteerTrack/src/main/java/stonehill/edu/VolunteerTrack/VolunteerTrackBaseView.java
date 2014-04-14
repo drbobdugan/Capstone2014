@@ -51,6 +51,7 @@ public class VolunteerTrackBaseView extends WebPage implements Serializable {
 		add(pdocs = new BookmarkablePageLink( "pdocs", PartnerDocumentView.class));
 		add(vreport = new BookmarkablePageLink( "vreport", VolunteerReportView.class));
 		add(preport = new BookmarkablePageLink( "preport", PartnerReportView.class));
+		add(creport = new BookmarkablePageLink( "creport", CoordinatorReportView.class));
 		add(vsearch = new BookmarkablePageLink( "vsearch", VolunteerSearchView.class));
 		add(psearch = new BookmarkablePageLink( "psearch", PartnerSearchView.class));
 		
@@ -62,10 +63,32 @@ public class VolunteerTrackBaseView extends WebPage implements Serializable {
 			pdocs.setVisible(false);
 			preport.setVisible(false);
 			psearch.setVisible(false);
+			chome.setVisible(false);
+			creport.setVisible(false);
 		}
 		
 		if(CustomSession.get().getUser().getIsPartner() == true)
 		{
+			vhome.setVisible(false);
+			vhour.setVisible(false);
+			vprofile.setVisible(false);
+			vdocs.setVisible(false);
+			vreport.setVisible(false);
+			vsearch.setVisible(false);
+			chome.setVisible(false);
+			creport.setVisible(false);
+		}
+		if(CustomSession.get().getUser().getIsCoordinator() == true)
+		{
+			chome.setVisible(true);
+			creport.setVisible(true);
+			
+			phome.setVisible(false);
+			pevent.setVisible(false);
+			pprofile.setVisible(false);
+			pdocs.setVisible(false);
+			preport.setVisible(false);
+			psearch.setVisible(false);
 			vhome.setVisible(false);
 			vhour.setVisible(false);
 			vprofile.setVisible(false);
