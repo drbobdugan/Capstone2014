@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="kh.css" type="text/css" media="screen" title="Stylesheet" charset="utf-8" />
+<title>Volunteer Track</title>
+</head>
+<body>
+      <wicket:extend>
+      
+      <form wicket:id="form">
+        <p>
+          <label>Time Period</label>
+            <br />
+              <p>Select a Start Date </p> <input type="text" wicket:id="startDateTextField"/>
+              <br />
+              <p>Select an End Date </p> <input type="text"wicket:id="endDateTextField"/>
+              <br />
+              <span wicket:id="calendarRadio"></span>
+              <br />
+              <p>Events List will go here</p>
+              
+<!--               <table class="eventsview" cellspacing="0"> -->
+<!--                 <tbody> -->
+<!--                   <tr> -->
+<!--                     <th>Select</th> -->
+<!--                     <th>Event Name</th> -->
+<!--                   </tr> -->
+<!--                   <tr wicket:id="eventTable"> -->
+<!--                   <td> <a href='#'>select</a></td> -->
+<!--                   <td><span wicket:id="name">Event Name</span></td> -->
+<!--                   </tr> -->
+<!--                   <tr> -->
+<!-- 	                 <th>&nbsp;</th> -->
+<!-- 	                 <th>&nbsp;</th> -->
+<!-- 	                 <th>&nbsp;</th> -->
+<!-- 	                 <th>&nbsp;</th> -->
+<!-- 	               <td> -->
+<!-- 	                 <div wicket:id="navigator"></div>  -->
+<!-- 	               </td> -->
+<!-- 	               </tr> -->
+<!--                   </tbody> -->
+<!--                   </table> -->
+        <input type="submit" value="Run Report" />
+      
+      </form>
+      </wicket:extend>
+</body>
+</html>

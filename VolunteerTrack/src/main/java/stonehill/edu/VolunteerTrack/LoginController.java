@@ -24,11 +24,11 @@ public class LoginController extends WebPage {
 	{
 		//Which home page? partner, volunteer, 
 		if(user.getIsVolunteer() == true)
-			setResponsePage(VolHomeView.class);
+			setResponsePage(VolunteerHomeView.class);
 		if(user.getIsPartner() == true)
-			setResponsePage(ParHomeView.class);
+			setResponsePage(PartnerHomeView.class);
 		if(user.getIsCoordinator() == true)
-			setResponsePage(CorHomeView.class);
+			setResponsePage(CoordinatorHomeView.class);
 	}
 	
 	public void redirectRegister()

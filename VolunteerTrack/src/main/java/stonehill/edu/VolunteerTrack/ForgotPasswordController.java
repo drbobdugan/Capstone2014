@@ -24,4 +24,16 @@ public class ForgotPasswordController extends WebPage {
 		tosend.send();
 		
 	}
+	
+	public boolean Change(String old, String password, String check, User user)
+	{
+		UserDao dao = new UserDao();
+		if(old.equals(user.getPassword()) && password.equals(check)) //old password matches input & new passwords match
+		{
+			user.setPassword(password);
+			dao.update(user);
+			return true;
+		}
+		return false;
+	}
 }
