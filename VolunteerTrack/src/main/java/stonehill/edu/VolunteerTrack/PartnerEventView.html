@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+c<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
@@ -7,6 +7,7 @@
 </head>
 <body>
 <wicket:extend>
+<h3>Upcoming Events</h3>
      <table cellspalceing="0" class="dataView" table-border="1" style="position:relative; top:100px; left: 300px;">
 	     <tbody>
 	          <tr>
@@ -19,10 +20,10 @@
 	               <th>Positions</th>
 	               <th>Available</th>
 	          </tr>
-	          <tr wicket:id = "simple">
-	               <td><a href="#">delete</a></td>
-	               <td><a href="#">view</a></td>
-	               <td><a href="#">edit</a></td>
+	          <tr wicket:id = "simple"> 
+	               <td><a href="#" wicket:id="delete"><input type="button" value="delete"/></a></td>
+	              <td><a href="#" wicket:id="edit"><input type="button" value="edit"/></a></td>
+	              <td><a href="#" wicket:id="view"><input type="button" value="view"/></a></td>
 	               <td><span wicket:id = "name"> The Event Name </span></td>
 	               <td><span wicket:id = "location"> The Event location </span></td>
 	               <td><span wicket:id = "date"> The Event date </span></td>
@@ -30,7 +31,7 @@
 	               <td><span wicket:id = "available"> The positions left</span></td>
 	          </tr>
 	           <tr>
-	               <td><a href="#">New</a></td>
+	               <td><a href="#" wicket:id="new"><input type="button" value="new"/></a></td>
 	               <th>&nbsp;</th>
 	               <th>&nbsp;</th>
 	               <th>&nbsp;</th>
@@ -50,6 +51,7 @@
 	          </tr>
 	     </tbody>
 	 </table>
+	 <h3>Past Events</h3>
 	 <table cellspalceing="0" class="dataView" table-border="1" style="position:relative; top:100px; left: 300px;">
 	     <tbody>
 	          <tr>
@@ -63,9 +65,9 @@
 	               <th>Available</th>
 	          </tr>
 	          <tr wicket:id = "simple2">
-	               <td><a href="#">delete</a></td>
-	               <td><a href="#">view</a></td>
-	               <td><a href="#">edit</a></td>
+	                <td><a href="#" wicket:id="delete"><input type="button" value="delete"/></a></td>
+	              <td><a href="#" wicket:id="edit"><input type="button" value="edit"/></a></td>
+	              <td><a href="#" wicket:id="view"><input type="button" value="view"/></a></td>
 	               <td><span wicket:id = "name2"> The Event Name </span></td>
 	               <td><span wicket:id = "location2"> The Event location </span></td>
 	               <td><span wicket:id = "date2"> The Event date </span></td>
@@ -86,5 +88,3 @@
   </wicket:extend>
   </body>
 </html>
-
-	
