@@ -21,7 +21,7 @@ public class PartnerEventView extends VolunteerTrackBaseView
 	{
 		futureEvents = new ArrayList<Event>(0);
 		pastEvents = new ArrayList<Event>(0);
-		
+		 
 		EventDao dao = new EventDao();
 	    ArrayList<Object> events = dao.getAllEventsByOwner(	 CustomSession.get().getUser());
 	    for(Object o: events){

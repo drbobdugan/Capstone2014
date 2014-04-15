@@ -25,7 +25,7 @@ public class PartnerHomeView extends VolunteerTrackBaseView{
 	    for(Object o: allEvents)
 	    	if(((Event)o).getDate().after(new Date()))  // if the date of the event is in the future add it to the list
 	    		futureEvents.add((Event)o);
-	    	
+	    	  
 	    populateTables();
 	}  
 	
