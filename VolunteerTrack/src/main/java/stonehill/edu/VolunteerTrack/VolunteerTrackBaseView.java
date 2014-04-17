@@ -55,34 +55,8 @@ public class VolunteerTrackBaseView extends WebPage implements Serializable {
 		add(vsearch = new BookmarkablePageLink( "vsearch", VolunteerSearchView.class));
 		add(psearch = new BookmarkablePageLink( "psearch", PartnerSearchView.class));
 		
-		if(CustomSession.get().getUser().getIsVolunteer() == true)
-		{
-			phome.setVisible(false);
-			pevent.setVisible(false);
-			pprofile.setVisible(false);
-			pdocs.setVisible(false);
-			preport.setVisible(false);
-			psearch.setVisible(false);
-			chome.setVisible(false);
-			creport.setVisible(false);
-		}
-		
-		if(CustomSession.get().getUser().getIsPartner() == true)
-		{
-			vhome.setVisible(false);
-			vhour.setVisible(false);
-			vprofile.setVisible(false);
-			vdocs.setVisible(false);
-			vreport.setVisible(false);
-			vsearch.setVisible(false);
-			chome.setVisible(false);
-			creport.setVisible(false);
-		}
 		if(CustomSession.get().getUser().getIsCoordinator() == true)
 		{
-			chome.setVisible(true);
-			creport.setVisible(true);
-			
 			phome.setVisible(false);
 			pevent.setVisible(false);
 			pprofile.setVisible(false);
@@ -96,6 +70,33 @@ public class VolunteerTrackBaseView extends WebPage implements Serializable {
 			vreport.setVisible(false);
 			vsearch.setVisible(false);
 		}
+		else if(CustomSession.get().getUser().getIsPartner() == true)
+		{
+			chome.setVisible(false);
+			creport.setVisible(false);
+			vhome.setVisible(false);
+			vhour.setVisible(false);
+			vprofile.setVisible(false);
+			vdocs.setVisible(false);
+			vreport.setVisible(false);
+			vsearch.setVisible(false);
+			chome.setVisible(false);
+			creport.setVisible(false);
+		}
+		else if(CustomSession.get().getUser().getIsVolunteer() == true)
+		{
+			chome.setVisible(false);
+			creport.setVisible(false);
+			phome.setVisible(false);
+			pevent.setVisible(false);
+			pprofile.setVisible(false);
+			pdocs.setVisible(false);
+			preport.setVisible(false);
+			psearch.setVisible(false);
+			chome.setVisible(false);
+			creport.setVisible(false);
+		}
+
 		
 		//How to handle coordinator?
 	}

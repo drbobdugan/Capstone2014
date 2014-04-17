@@ -40,4 +40,17 @@ public class LoginController extends WebPage {
 	{
 		setResponsePage(ForgotPasswordView.class);
 	}
+	
+	public void create()
+	{
+		UserDao dao = new UserDao();
+		User user = new User("test1@gmail.com","csrocks55", "test","user", "", "", "", "", "", "", "", false, true, false, true, "", "");
+		dao.insert(user);
+		user = new User("test2@gmail.com","csrocks55", "test","user", "", "", "", "", "", "", "", true, false, false, true, "", "");
+		dao.insert(user);
+		user = new User("test3@gmail.com","csrocks55", "test","user", "", "", "", "", "", "", "", false, false, true, true, "", "");
+		dao.insert(user);
+	}
+	
+	
 }
