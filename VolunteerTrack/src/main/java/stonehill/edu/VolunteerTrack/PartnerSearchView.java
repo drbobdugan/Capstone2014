@@ -8,65 +8,103 @@ import java.io.*;
 import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Button;
+import org.apache.wicket.markup.html.form.Check;
 import org.apache.wicket.markup.html.form.CheckBoxMultipleChoice;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.list.AbstractItem;
+import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.repeater.RepeatingView;
 import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
-
+import org.apache.wicket.markup.html.form.CheckGroup;
+//import org.apache.wicket.markup.html.form.CheckGroupSelector;
+//import org.apache.wicket.markup.html.list.ListView;
 public class PartnerSearchView extends VolunteerTrackBaseView {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	TextField firstName, LastName, dateAvailable,major, minor, startTime, endTime;
+	TextField FirstName, LastName, dateAvailable,major, minor, startTime, endTime;
 	UserDao dao=new UserDao();
-	Form form;
-	Form form2;
 	ArrayList<Object> volunteers;
 	ArrayList<User> searchvol=new ArrayList<User>();
     ArrayList<String>temp;	
     ArrayList<Object>SearchCriteria;
     ArrayList<Object>searchResults;
-    
+    User currentUser;
+    Label Namemessage;
+    Label Majormessage;
+    Label Minormessage;
+    Label text;
+    User user1;
+    User user2;
+    ArrayList<User> tempUser;
 	public PartnerSearchView()
 	{
-		User currentUser=dao.getUserByUsername("knapolione@students.stonehill.edu");
 	
+		user1=new User();
+		user1.setFirstName("Kelsey");
+		user1.setLastName("Napolione");
+		user1.setMajor("Computer Science");
+		user1.setMinor("Religion");
+		
+		user2=new User();
+		user2.setFirstName("Kelsey");
+		user2.setLastName("Napolione");
+		user2.setMajor("Computer Science");
+		user2.setMinor("Religion");
+		dao.insert(user1);
+		dao.insert(user2);
+		ArrayList<Object> tempUser=new ArrayList<Object>();
+		tempUser.add(user1);
+		tempUser.add(user2);
+		
+		
+		
+			
+		currentUser=dao.getUserByUsername("partner@partner.com");
+	// final CheckGroup<Skill> group = new CheckGroup<Skill>("group", new ArrayList<Skill>());
 		//this may not be what we want
-		form=new Form("form");
+		Form<?> form = new Form<Void>("form")
+				{
+					@Override
+					protected void onSubmit()
+					{
+						//do some stuff
+					}
+				};
+				
 		form.setModel(new Model(currentUser));
-		form.add(firstName=new TextField<String>("FirstName", new PropertyModel(currentUser,"FirstName")));
+		form.add(FirstName=new TextField<String>("FirstName", new PropertyModel(currentUser,"FirstName")));
 		form.add(LastName=new TextField<String>("LastName", new PropertyModel(currentUser,"LastName")));
-		form.add(dateAvailable=new TextField<String>("DateAvailable", new PropertyModel(currentUser,"DateAvailable")));
+	//	form.add(dateAvailable=new TextField<String>("DateAvailable"));
 		form.add(major=new TextField<String>("Major", new PropertyModel(currentUser,"Major")));
-		form.add(minor=new TextField<String>("FirstName", new PropertyModel(currentUser,"Minor")));
-		form.add(startTime=new TextField<String>("StartTime", new PropertyModel(currentUser,"StartTime")));
-		form.add(endTime=new TextField<String>("EndTime", new PropertyModel(currentUser,"EndTime")));
+		form.add(minor=new TextField<String>("Minor", new PropertyModel(currentUser,"Minor")));
+	//	form.add(startTime=new TextField<String>("StartTime"));
+	//	form.add(endTime=new TextField<String>("EndTime"));
 		
 		//add all the items to a list
 		temp=new ArrayList<String>();
 		temp.add("firstName");
-		temp.add(firstName.toString());
+		temp.add(FirstName.toString());
 		temp.add("LastName");
 		temp.add(LastName.toString());
-		temp.add("dateAvaiable");
-		temp.add(dateAvailable.toString());
+		//temp.add("dateAvaiable");
+		//temp.add(dateAvailable.toString());
 		temp.add("major");
 		temp.add(major.toString());
 		temp.add("minor");
 		temp.add(minor.toString());
-		temp.add("startTime");
-		temp.add(startTime.toString());
-		temp.add("endTime");
-		temp.add(endTime.toString());
+		//temp.add("startTime");
+		//temp.add(startTime.toString());
+		//temp.add("endTime");
+		//temp.add(endTime.toString());
 		final ResultSet results;
-	
-	    populateSkills();
+			
+	  //  populateSkills();
 	Button search=new Button("Search") { /**
 		 * 
 		 */
@@ -90,32 +128,42 @@ public class PartnerSearchView extends VolunteerTrackBaseView {
 				
 			}
 	
-			
-		searchResults= dao.getSearchResults(SearchCriteria);
-		populateResultsTable();
-		//this.setResponsePage(PartnerSearchView.class);		
+			//searchResults= dao.getSearchResults(SearchCriteria);
+
+	//	this.setResponsePage(PartnerSearchView.class);	
+
 		}
-		};
-	}
 	
-	public void populateSkills() {
-		form2=new Form("form2");
+		};
+	
+		
+		form.add(search);
+	  //  form.add(text);
+	 //   populateResultsTable(tempUser);
+	
+	//add skills
+		
 		SkillDao skilldao=new SkillDao();
-		ArrayList<Object>skillslist=skilldao.selectAll();
-		ArrayList<String> skillSelect=new ArrayList<String>();
+		ArrayList<Object>skillslist=skilldao.selectAll(); //get all skills
+		//ArrayList<String> skillSelect=new ArrayList<String>();
 		
 		String [] skillarray=new String[skillslist.size()];
 		for(int i=0;i<skillslist.size(); i++) {
 			skillarray[i]=((Skill) skillslist.get(i)).getName();
 		}
 		List<String> fixedskills = Arrays.asList(skillarray);
-		final CheckBoxMultipleChoice<String> skillBoxes=new CheckBoxMultipleChoice<String>("skills", new Model(skillSelect), fixedskills);
-		form2.add(skillBoxes);
-		
-	}
-		
-		public void populateResultsTable() {
-			//when I tested with the dummy information
+			
+
+			final CheckBoxMultipleChoice<String> skillBoxes=
+					new CheckBoxMultipleChoice<String>("skills", fixedskills);
+			
+		form.add(skillBoxes);			
+	        
+	
+		 
+	
+		//when I tested with the dummy information
+
 			/*
 			User user1=new User();
 			user1.setFirstName("Kelsey");
@@ -131,23 +179,31 @@ public class PartnerSearchView extends VolunteerTrackBaseView {
 			ArrayList<User> tempUser=new ArrayList<User>();
 			tempUser.add(user1);
 			tempUser.add(user2);
-			*/
-			for(int i=0; i<searchResults.size(); i++) {
+			
+*/
 			RepeatingView repeating = new RepeatingView("repeating");
 	        add(repeating);
 	        
-
+	        int index=0;
+	
+		//  text=new Label("text",""+searchResults.size());	
+			for(int i=0; i<tempUser.size(); i++) {
+			
+			
 	        final int x=1;
             AbstractItem item = new AbstractItem(repeating.newChildId());
 
             repeating.add(item);
-   
-            User user= (User) searchResults.get(i);
-        
-          item.add(new Label("Name", user.getFirstName() + " "  +user.getLastName()));
-          item.add(new Label("Major",user.getMajor()));
-          item.add(new Label("Minor", user.getMinor()));
-			
+         //   form2.add(repeating);
+      User user=(User)tempUser.get(i);
+      //  User user= (User) searchResults.get(i);
+        Namemessage=new Label("Name",user.getFirstName() + " "  +user.getLastName());
+        Majormessage=new Label("Major",user.getMajor());
+        Minormessage=new Label("Minor",""+user.getMinor());
+         item.add(Namemessage);
+         item.add(Majormessage);
+         item.add(Minormessage);
+       //item.add(form2);
 			
 			
 			 final int idx = i;
@@ -160,13 +216,29 @@ public class PartnerSearchView extends VolunteerTrackBaseView {
 	                {
 	                    return (idx % 2 == 1) ? "even" : "odd";
 	                }
+	                
+	               
 	            }));
-			
+	            index++;
+	        //	form2.add(Namemessage);
+			//	form2.add(Majormessage);
+			//	form2.add(Minormessage);
+	      //  form2.add(item);
+	          
 			}
-		}
-		
-		
 			
-	
-	
+	//		text=new Label("results",""+index);
+			//form.add(text);
+			add(form);
+	  }
+
+
+		
 }
+	       //    add(form2);
+	            //add forms to the page 
+
+							
+		
+		
+

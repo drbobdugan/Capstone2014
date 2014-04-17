@@ -2,28 +2,50 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<link rel="stylesheet" href="kh.css"type="text/css" media ="screen" title="stylesheet" charset="utf-8" />
-<link href='http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:regular,bold' rel ='stylesheet' type ='text/css' />
+<link rel="stylesheet" href="kh.css" type="text/css" media="screen"
+	title="stylesheet" charset="utf-8" />
+<link
+	href='http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:regular,bold'
+	rel='stylesheet' type='text/css' />
 <title>Volunteer Track Login</title>
 </head>
 <body>
-<div id = "head">
-<div id = "head-left">
-<img src = "Stonehill.png" style = "float:left" height = "102px" width="500px" alt = "Stonehill Emblem" />
-</div>
-<div id = "head-right">
-<form wicket:id = "login">
-<span wicket:id = "emailLabel">Email</span>
-<input wicket:id = "emailTextField" type = "text"/>
-<span wicket:id = "passwordLabel">Password</span>
-<input wicket:id = "passwordTextField" type = "password"/>
-<input wicket:id = "loginButton" type = "submit" value = "Login" />
-<span wicket:id = "invalidLogin">BAD</span>
-</form>
-<form wicket:id = "register">
-<input wicket:id = "registerButton" type = "submit" value = "Register" style = "float:right"/>
-</form>
-</div>
-</div>
+	<div id="head">
+		<div id="head-left">
+			<img src="Stonehill.png" style="float: left" height="102px"
+				width="500px" alt="Stonehill Emblem" />
+		</div>
+		<div id="head-right">
+			<form wicket:id="login">
+				<table>
+					<tr>
+						<td><span>Email</span></td>
+						<td><input wicket:id="emailTextField" type="text" /></td>
+					</tr>
+					<tr>
+						<td><span>Password</span></td>
+						<td><input wicket:id="passwordTextField" type="password" /></td>
+					</tr>
+					<tr>
+						<td><input wicket:id="loginButton" type="submit"
+							value="Login" /></td>
+					</tr>
+				</table>
+				<span wicket:id="invalid">BAD</span>
+			</form>
+			<table>
+				<tr>
+					<td><form wicket:id="register">
+							<input wicket:id="registerButton" type="submit" value="Register" />
+						</form></td>
+					<td><form wicket:id="change">
+							<input wicket:id="passwordButton" type="submit"
+								value="Change Password" />
+						</form></td>
+				</tr>
+			</table>
+		</div>
+	</div>
+	<div id="menu-contain"></div>
 </body>
 </html>

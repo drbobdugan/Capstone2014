@@ -18,15 +18,31 @@
               <p>Select an End Date </p> <input type="text"wicket:id="endDateTextField"/>
               <br />
               <span wicket:id="calendarRadio"></span>
+              <span wicket:id="userType"></span>
+              <span wicket:id="sumOrDetail"</span>
               <br />
       
-      <table>This is where the Events will be</table><br>
     
       <input type="submit" wicket:id="Reports" value="Run Report">
       <br>
-      
+      <br>
       <table><tr><th>Report Results</th></tr></table>
-      
+      <br>
+           <tr><td>Volunteer Name</td></tr>
+<tr>
+<td>Major</td>
+<td>Hours Worked</td>
+<td>Date</td>
+</tr>
+<tr wicket:id="repeating">
+<td> <span wicket:id="name"></span></td>
+<td> <span wicket:id="major"></span></td>
+<td> <span wicket:id="hours"></span></td>
+<td> <span wicket:id="Date"></span></td>
+</tr>
+
+
+</table>
      
       </wicket:extend>
 </body>
