@@ -13,7 +13,7 @@ public class Event implements Serializable {
      public Event () {
     	 OwnerEmail = "";
     	 name = "";
-    	 dateTime = null;
+    	 dateTime = new Date();
     	 description = "";
     	 location = "";
     	 numPositions = 0;

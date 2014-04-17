@@ -1,0 +1,29 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="kh.css" type="text/css" media="screen" title="Stylesheet" charset="utf-8" />
+<title>Volunteer Track</title>
+</head>
+<body>
+<wicket:extend>
+     <h3>Create Events</h3>
+     <table cellspalceing="0" class="dataView" table-border="1" style="position:relative; top:100px; left: 300px;">
+	     <tbody>
+	     <form wicket:id="form">
+	         <label for="name" >Event Name: </label>
+	         <input type="text" id="name" wicket:id="eventName"/>
+	         <label for="loc" >Location:</label>
+	         <input type="text" id="loc" wicket:id="location"/>
+	         <label for="pos" >Positions:</label>
+	         <input type="text" id="pos" wicket:id="positions"/>
+	         <label for="desc" >Description:</label>
+             <textarea wicket:id="description" rows = "6" cols="40"></textarea> 
+             <a href="#" wicket:id="cancel"><input type="button" value="Cancel"/></a>
+             <input wicket:id="save" type="submit" value="Save"/>
+	    </form>
+	     </tbody>
+	 </table>
+  </wicket:extend>
+  </body>
+</html>
