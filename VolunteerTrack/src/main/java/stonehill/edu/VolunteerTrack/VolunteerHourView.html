@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
@@ -6,7 +6,37 @@
 <title>Volunteer Track</title>
 </head>
 <body>
-      <wicket:extend>
-      </wicket:extend>
+<wicket:extend>
+<table cellspacing="0" class="dataview">
+    <tr>
+        <th>Event</th>
+        <th>Partner</th>
+        <th>Date/Time</th>
+        <th>Hours</th>
+        <th>Options</th>
+    </tr>
+    <tr wicket:id="repeating">
+        
+        <td><span wicket:id="event">[contactid]</span> </td>
+        <td><span wicket:id="partner">[firstname]</span></td>
+        <td><span wicket:id="date">[contactid]</span> </td>
+        <td><span wicket:id="hours">[firstname]</span></td>
+        <td>
+        <form wicket:id="form">
+        <input type = "submit" wicket:id = "save" value = "Save"/>
+        <input type = "submit" wicket:id = "update" value = "Update"/>
+        <input type = "submit" wicket:id = "approve" value = "Approve"/>
+        <input type = "submit" wicket:id = "delete" value = "Delete"/>
+        </form>
+        </td>
+    </tr>
+</table>
+
+  
+  <form wicket:id = "form3">
+  <span><input type = "submit" wicket:id = "addevent" value = "Add Event"/></span>
+  </form>
+  
+</wicket:extend>
 </body>
 </html>
