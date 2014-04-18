@@ -1,6 +1,7 @@
 package stonehill.edu.VolunteerTrack;
 
 
+import java.awt.Image;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,40 +25,41 @@ import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 public class PartnerProfileView extends VolunteerTrackBaseView {
 	
+	private static final long serialVersionUID = 1L;
 	UserDao userDao= new UserDao();
 	SkillDao skillsDao = new SkillDao();
 	
+	Form uploadProfilePicture, profileInformation, passwordManagement, skillsManagement;
+	TextField email, phoneNumber, street, city, state, zip;
+	TextField current, new_password, confirm_password; 
 	User currentuser;
-	Label message;
+	Label feedback;
 	
-	public PartnerProfileView(final PageParameters parameters)
+	public PartnerProfileView()
 	{
-		//final Input input= new Input();
-		//setDefaultModel(new CompoundPropertyModel<Input>(input));
+		//will eventually get from session
+		//currentuser = userDao.getUserByUsername("zbrown2@students.stonehill.edu");
+		currentuser = CustomSession.get().getUser();
+		
+	    
+//Profile Picture Management========================================================
+	    uploadProfilePicture = new Form<Void>("uploadProfilePicture");
+		Button upload = new Button("upload_photo");
+		uploadProfilePicture.add(upload);
+		//add(new StaticImage ("profilePic", new Model("www.atlkingpits.com/Male_Blue_Pitbulls/malakinew1.jpg")));
+//Profile Information=============================================================
+	    
+		profileInformation = new Form<Void>("profileInformation");
+	    profileInformation.setModel(new Model(currentuser));
+		
 		
 
-		//will eventually get from session
-		currentuser = userDao.getUserByUsername("ssiff@students.stonehill.edu");
-		
-		Form<?> form = new Form<Void>("form")
-		{
-			@Override
-			protected void onSubmit()
-			{
-				//do some stuff
-			}
-		};
-		
-		form.setModel(new Model(currentuser));
-		
-		Button upload = new Button("upload_photo")
-		{
-			@Override
-			public void onSubmit()
-			{
-				info("upload_photo.onSubmit executed");
-			}
-		};
+		profileInformation.add(email = new TextField<String>("email", new PropertyModel(currentuser, "email")));
+		profileInformation.add(phoneNumber = new TextField<String>("phoneNumber", new PropertyModel(currentuser, "phoneNumber")));
+		profileInformation.add(street = new TextField<String>("street", new PropertyModel(currentuser, "street")));
+		profileInformation.add(city = new TextField<String>("city", new PropertyModel(currentuser, "city")));
+		profileInformation.add(state = new TextField<String>("state", new PropertyModel(currentuser, "state")));
+		profileInformation.add(zip = new TextField<String>("zip", new PropertyModel(currentuser, "zip")));
 		
 		Button save = new Button("saveProfile")
 		{
@@ -66,8 +68,8 @@ public class PartnerProfileView extends VolunteerTrackBaseView {
 			{
 				//overwrite current partner info using dao and values in input fields
 				//userDao = new UserDao();
-				//userDao.update(currentuser);
-				//this.setResponsePage(PartnerProfileView.class);
+				userDao.update(currentuser);
+				setResponsePage(PartnerProfileView.class);
 			}
 		};
 		
@@ -76,41 +78,42 @@ public class PartnerProfileView extends VolunteerTrackBaseView {
 			@Override
 			public void onSubmit()
 			{
-				//this.setResponsePage(PartnerProfileView.class);
+				setResponsePage(PartnerProfileView.class);
 			}
 		};
 		
-		form.add(upload);
-		form.add(save);
-		form.add(cancel);
+		profileInformation.add(save);
+		profileInformation.add(cancel);
+//Password Management============================================================
+		passwordManagement = new Form<Void>("passwordManagement");
+		passwordManagement.setModel(new Model(currentuser));
 		
-		form.add(new TextField<String>("organization"));
-		form.add(new TextField<String>("email",new PropertyModel(currentuser, "email")));
-		form.add(new TextField<String>("phoneNumber",new PropertyModel(currentuser, "phoneNumber")));
-		form.add(new TextField<String>("street",new PropertyModel(currentuser, "street")));
-		form.add(new TextField<String>("city",new PropertyModel(currentuser, "city")));
-		form.add(new TextField<String>("state",new PropertyModel(currentuser, "state")));
-		form.add(new TextField<String>("zip",new PropertyModel(currentuser, "zip")));
-		form.add(new TextField<String>("links"));
-		form.add(new TextField<String>("current"));
-		form.add(new TextField<String>("new_password"));
-		form.add(new TextField<String>("confirm_password"));
-		form.add(new TextArea<String>("mission"));
-		
-		//Form 2-------------------------------
-		Form<?> form2 = new Form<Void>("form2")
+		passwordManagement.add(current = new TextField<String>("current", new PropertyModel(currentuser, "password")));
+		passwordManagement.add(new_password = new TextField<String>("new_password", new PropertyModel(currentuser, "password")));
+		passwordManagement.add(confirm_password = new TextField<String>("confirm_password", new PropertyModel(currentuser, "password")));
+		passwordManagement.add(feedback= new Label ("feedback"));
+		Button confirm= new Button("updatePassword")
 		{
 			@Override
-			protected void onSubmit()
+			public void onSubmit()
 			{
-				//do some stuff
+				
+				String c = current.getDefaultModelObjectAsString();
+				String np= new_password.getDefaultModelObjectAsString();
+				String conp= confirm_password.getDefaultModelObjectAsString();
+				
+				if(c.equals(currentuser.getPassword())  && np.equals(conp)){
+					currentuser.setPassword(np);
+					userDao.update(currentuser);
+					feedback.setDefaultModel(new Model("Password Change Success"));
+				}
+				setResponsePage(PartnerProfileView.class);
 			}
 		};
-		//checklist stuff
 		
-		//User user= userDao.getUserByUsername("ssiff@students.stonehill.edu");
-		
-		
+		passwordManagement.add(confirm);
+//SkillsManagement===============================================================
+	    skillsManagement= new Form<Void>("skillsManagement");
 		ArrayList<Object> skillslist = skillsDao.selectAll();
 		ArrayList<Object> userskills = skillsDao.getAllSkillsByUser(currentuser);
 		ArrayList<String> skillsSelect = new ArrayList<String>();
@@ -133,15 +136,13 @@ public class PartnerProfileView extends VolunteerTrackBaseView {
 		
 		final CheckBoxMultipleChoice<String> skillsBoxes = new CheckBoxMultipleChoice<String>("skills",new Model(skillsSelect),fixedskills);
 		
-		form2.add(skillsBoxes);
-
-		add(form);
-		add(form2);
 		
-
-
+		skillsManagement.add(skillsBoxes);
 		
-
-	}
+        add(uploadProfilePicture);
+        add(profileInformation);
+		add(passwordManagement);
+		add(skillsManagement);
+			}
 	
 }
