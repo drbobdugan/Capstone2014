@@ -2,6 +2,7 @@ package stonehill.edu.VolunteerTrack;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 
 import org.apache.wicket.markup.html.basic.Label;
@@ -10,6 +11,8 @@ import org.apache.wicket.markup.html.form.CheckBoxMultipleChoice;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.RadioChoice;
+import org.apache.wicket.markup.html.list.AbstractItem;
+import org.apache.wicket.markup.repeater.RepeatingView;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
@@ -18,21 +21,46 @@ import java.util.Date;
 
 import org.apache.wicket.extensions.markup.html.form.DateTextField;
 import org.apache.wicket.extensions.yui.calendar.DatePicker;
-
+import org.apache.wicket.extensions.yui.calendar.TimeField;
 
 
 public class VolunteerSearchView extends VolunteerTrackBaseView 
 {
   private final Date startDate = new Date();
   private final Date endDate = new Date();
+  
+  private final Date time1 = new Date();
+  private final Date time2 = new Date();
+  
+  public ArrayList DaoEvents;
+  public RepeatingView repeating;
+  private String partnerSelected;
+  private String eventSelected;
+  private String locationSelected; 
 	 
   public VolunteerSearchView()
   {
+	  EventDao theEvents = new EventDao();
+	  DaoEvents =  theEvents.selectAll();
 	  
-	  List<String> partners =  Arrays.asList(new String[] {"--------- Select A Partner ----------","Pet Shop", "Homeless Shelter", "Nemi" });
-	  List<String> locations = Arrays.asList(new String[] {"--------- Select A Location---------","Stonehill Campus", "Easton, Ma", "Brockton", "Taunton" });
-	  List<String> events =    Arrays.asList(new String[] {"---------- Select An Event ----------","Puppy Petting", "Rake Leaves at Church", "Walk People across the Street" });
- 
+	  List<String> partners = new ArrayList<String>();
+	  partners.add("--------- Select A Partner ----------");
+	  
+	  List<String> locations = new ArrayList<String>();
+	  locations.add("--------- Select A Location---------");
+	  
+	  List<String> events = new ArrayList<String>();
+	  events.add("---------- Select An Event ----------");
+	  
+	
+	  for (int i = 0; i< DaoEvents.size(); i++)
+	  {
+		  partners.add(((Event) DaoEvents.get(i)).getOwnerEmail());
+		  locations.add(((Event) DaoEvents.get(i)).getLocation());
+		  events.add(((Event) DaoEvents.get(i)).getName());
+	  }
+	  
+	  
 	  Form form = new Form("form"){
       	protected void onSubmit(){
       		info("Form.onSubmit()");
@@ -40,17 +68,17 @@ public class VolunteerSearchView extends VolunteerTrackBaseView
       };
       
       
-      String partnerSelected = "Select A Partner";
+      partnerSelected = "--------- Select A Partner ----------";
 	  Model dropdownPartner = new Model<String>(partnerSelected); 
       DropDownChoice<String> partnerList = new DropDownChoice<String>("partners", dropdownPartner, partners);
         
         
-      String locationSelected = "Select A Location";
+      locationSelected = "--------- Select A Location---------";
 	  Model dropdownLocation = new Model<String>(locationSelected); 
       DropDownChoice<String> locationList = new DropDownChoice<String>("locations", dropdownLocation, locations); 
       
       
-      String eventSelected = "Select A Location";
+      eventSelected = "---------- Select An Event ----------";
 	  Model dropdownEvent = new Model<String>(eventSelected); 
       DropDownChoice<String> eventList = new DropDownChoice<String>("events", dropdownEvent, events); 
       
@@ -75,11 +103,11 @@ public class VolunteerSearchView extends VolunteerTrackBaseView
     	  }
       }; 
       
-      
       startDatePicker.setShowOnFieldClick(true);
       endDatePicker.setShowOnFieldClick(true);
       startDateTextField.add(startDatePicker);
       endDateTextField.add(endDatePicker); 
+      
       
       Form form2 = new Form("form2");
 		
@@ -89,9 +117,9 @@ public class VolunteerSearchView extends VolunteerTrackBaseView
   	// get all skills
   	// get user specific skills
 		SkillDao skillsDao = new SkillDao(); 
-		  ArrayList<Object> skillslist = skillsDao.selectAll();
+		ArrayList<Object> skillslist = skillsDao.selectAll();
 		  
-		  ArrayList<String> skillsSelect = new ArrayList<String>();
+		ArrayList<String> skillsSelect = new ArrayList<String>();
 		  
 		 String[] skillarray = new String[skillslist.size()];
 		 
@@ -115,19 +143,35 @@ public class VolunteerSearchView extends VolunteerTrackBaseView
 		form2.add(new Button("submitButton") {
 			@Override
 			public void onSubmit() {
-		    
-			this.setResponsePage(VolunteerSearchView.class);
+				
+		        makeTable(partnerSelected,eventSelected,locationSelected);
+			
 			}
 		});
 		// add form2 to page
 		add(form2);
 		
       
+		Form form3 = new Form("form3"){
+	      	protected void onSubmit(){
+	      		info("Form.onSubmit()");
+	      	}
+	      };
+		
+	    TimeField startTime = new TimeField("timeField1", new PropertyModel<Date>(this, "time1"));
+	    TimeField endTime = new TimeField("timeField2", new PropertyModel<Date>(this, "time2"));
+	      
+	     
+	     form3.add(startTime);
+	     form3.add(endTime);
+	     add(form3);
+	      
       
       
+	  repeating = new RepeatingView("repeating");
+	  add(repeating);
       
-      
-      
+     
       form.add(startDateTextField);
 	  form.add(endDateTextField);
       form.add(partnerList);
@@ -137,5 +181,70 @@ public class VolunteerSearchView extends VolunteerTrackBaseView
       add(form);
       
   
+  }
+  
+  public void makeTable(String partnerSelected,String eventSelected,String locationSelected)
+  {
+	  ArrayList filteredEvents = new ArrayList();
+	  
+	  
+	  for(int i = 0; i < DaoEvents.size(); i++)
+	  {
+		  /*
+		  if(partnerSelected.equals("--------- Select A Partner ----------"))
+		  {
+			 partnerSelected = ((Event) DaoEvents.get(i)).getOwnerEmail();
+		  }
+		  if(eventSelected.equals("---------- Select An Event ----------"))
+		  {
+			 eventSelected = ((Event) DaoEvents.get(i)).getName();
+		  }
+		  if(locationSelected.equals("--------- Select A Location---------"))
+		  {
+			 locationSelected = ((Event) DaoEvents.get(i)).getLocation();
+		  }
+		  */
+		  
+		  if((partnerSelected.equals(((Event) DaoEvents.get(i)).getOwnerEmail())) && (eventSelected.equals(((Event) DaoEvents.get(i)).getName())) && (locationSelected.equals(((Event) DaoEvents.get(i)).getLocation())))
+		  {
+			  filteredEvents.add(DaoEvents.get(i));
+		  }
+		  filteredEvents.add(DaoEvents.get(i));
+		  
+	  }
+	  
+
+     
+		for(int i = 0; i < filteredEvents.size(); i++)
+		{
+			AbstractItem item = new AbstractItem(repeating.newChildId());
+            repeating.add(item); 
+
+          //item.add(new ActionPanel("actions", new DetachableContactModel(contact)));
+            item.add(new Label("eventName", ((Event) filteredEvents.get(i)).getName()));
+            item.add(new Label("eventLocation", ((Event) filteredEvents.get(i)).getLocation()));
+            item.add(new Label("eventPartner", ((Event) filteredEvents.get(i)).getOwnerEmail()));
+            item.add(new Label("eventDate", ((Event) filteredEvents.get(i)).getDate().toString()));
+            item.add(new Label("eventTime", ((Event) filteredEvents.get(i)).getDate().getTime()));
+            
+            
+            Form form4 = new Form("form4"){
+            	protected void onSubmit(){
+            		info("Form.onSubmit()");
+            	}
+            };
+            
+            Button apply = new Button("applyButton"){
+            	@Override
+            	public void onSubmit(){
+            		info("Send to: ");
+            	}
+            };
+            form4.add(apply);
+            
+            item.add(form4);
+            
+            
+		}
   }
 }

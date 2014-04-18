@@ -7,62 +7,84 @@
 <title>Volunteer Track</title>
 </head>
 <body>
-<br>
-<br>
-<br>
+	<br>
+	<br>
+	<br>
 	<wicket:extend>
 		<form wicket:id="form">
 			<table cellspacing="0">
 				<tr>
-					<th>
-						
-							Partner: <span><select wicket:id="partners"></select></span>
+					<th>Partner: <span><select wicket:id="partners"></select></span>
 					</th>
-					<th>	
-							Location: <span><select wicket:id="locations"></select></span>
-				    </th>
-				    <th>
-							Event:<span><select wicket:id="events"></select></span>
+					<th>Location: <span><select wicket:id="locations"></select></span>
 					</th>
-					
+					<th>Event:<span><select wicket:id="events"></select></span>
+					</th>
+
 				</tr>
-				
-				<tr>	
-				
-				<th>	
-				            <br>
-							Start Date: <input type="text" wicket:id="startDateTextField"/>
-						    <br>
-							End Date: <input type="text" wicket:id="endDateTextField"/>
-						    <br>
-							
-						   
-			   </th>
+
+				<tr>
+
+					<th><br> Start Date: <input type="text"
+						wicket:id="startDateTextField" /> <br> End Date: <input
+						type="text" wicket:id="endDateTextField" /> <br> <br></th>
 				</tr>
 			</table>
 		</form>
 
+		<form wicket:id="form3">
+			<table cellspacing="0">
+				<tr>
+					<th>Start Time: <span wicket:id="timeField1"></span> <br>
+						End Time: <span wicket:id="timeField2"></span> <br>
+					</th>
+				</tr>
+			</table>
+		</form>
+
+
+
 		<br>
 		<br>
 
-         <form wicket:id ="form2">
-         <p>Skills:</p>
-         
-         <span wicket:id="skills"></span>
-          
-          <br>
-          <input type="submit" wicket:id="submitButton" name="submit" value="Search" />
-          
-         </form>
+		<form wicket:id="form2">
+			<p>Skills:</p>
+
+			<span wicket:id="skills"></span> <br> <input type="submit"
+				wicket:id="submitButton" name="submit" value="Search" />
+
+		</form>
 
 
 
-
-		<table cellspacing="0">
+      
+		<table cellspacing="6" class="dataview">
 			<tr>
+				<th>Event</th>
+				<th>Location</th>
+				<th>Partner</th>
+				<th>Date</th>
+				<th>Time</th>
 				<th></th>
 			</tr>
+			<tr wicket:id="repeating">
+
+				<td><span wicket:id="eventName">[en]</span></td>
+				<td><span wicket:id="eventLocation">[el]</span></td>
+				<td><span wicket:id="eventPartner">[ep]</span></td>
+				<td><span wicket:id="eventDate">[ed]</span></td>
+				<td><span wicket:id="eventTime">[et]</span></td>
+				<td>
+				<form wicket:id="form4">
+				<span><input type="submit" wicket:id="applyButton" value="apply" /></span>
+				</form>
+				</td>
+
+			</tr>
 		</table>
+		<br>
+	    <br>
+		<br>
 
 
 
