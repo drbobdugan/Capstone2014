@@ -1,5 +1,7 @@
 package stonehill.edu.VolunteerTrack;
 import java.util.*;
+import java.io.*;
+import java.awt.image.*;
 public class daoTest {
 
 	public static void test() {	
@@ -18,7 +20,7 @@ public class daoTest {
 		UserDao dao2=new UserDao();
 		ArrayList<Object> list2=new ArrayList<Object>();
 		User u;
-		dao2.insert(u=new User("jscherr@gmail.com","g","","","","","","","","","",true,false,false,true));
+		dao2.insert(u=new User("jscherr@gmail.com","g","","","","","","","","","",true,false,false,true,"",""));
 		list2=dao2.selectAll();
 		for(Iterator i=list2.iterator();i.hasNext();){
 			System.out.println(((User)i.next()).getEmail());
@@ -29,7 +31,7 @@ public class daoTest {
 		DocumentDao dao3=new DocumentDao();
 		ArrayList<Object> list3=new ArrayList<Object>();
 		Document d;
-		dao3.insert(d=new Document("doc","",new Date(8),".com","j.com",true));
+		dao3.insert(d=new Document("doc","",new Date(8),new File("/home/ubuntu/Desktop/test.txt"),"j.com",true));
 		list3=dao3.selectAll();
 		for(Iterator i=list3.iterator();i.hasNext();){
 			System.out.println(((Document)i.next()).getName());
@@ -48,16 +50,16 @@ public class daoTest {
 		dao4.update(s);
 		dao4.delete(s);
 		
-		PhotoDao dao5=new PhotoDao();
+		/*PhotoDao dao5=new PhotoDao();
 		ArrayList<Object> list5=new ArrayList<Object>();
 		Photo p;
-		dao5.insert(p=new Photo("photo",".com",true,true,true,true,"j.com"));
+		dao5.insert(p=new Photo("photo",".com",new Date(),new BufferedImage(),true,true,true,true));
 		list5=dao5.selectAll();
 		for(Iterator i=list5.iterator();i.hasNext();){
 			System.out.println(((Photo)i.next()).getName());
 		}
 		dao5.update(p);
-		dao5.delete(p);
+		dao5.delete(p);*/
 	}
 
 }

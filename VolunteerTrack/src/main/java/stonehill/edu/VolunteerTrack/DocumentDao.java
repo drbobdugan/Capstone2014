@@ -17,7 +17,7 @@ public class DocumentDao extends Dao{
 			Statement statement=connection.createStatement();
 			statement.executeQuery("DELETE FROM Document WHERE "+
 			"Name='"+document.getName()+"' AND "+
-		    "dateUploaded=to_date('"+new java.sql.Date(document.getDateUploaded().getTime())+"', 'yyyy-mm-dd'), AND "+
+		    "dateUploaded=to_date('"+new java.sql.Date(document.getDateUploaded().getTime())+"', 'yyyy-mm-dd') AND "+
 		    "UserEmail='"+document.getUserEmail()+"'");
 			statement.close();
 			disconnectFromDatabase();
@@ -68,7 +68,8 @@ public class DocumentDao extends Dao{
 				String userEmail=resultSet.getString("UserEmail");
 				boolean isSharedDocument=resultSet.getBoolean("IsSharedDocument");
 				//blob to file
-				File file=new File("");
+				File file=new File("temp.txt");
+				file.createNewFile();
 				BufferedInputStream in= new BufferedInputStream(blob.getBinaryStream());
 				FileOutputStream out=new FileOutputStream(file);
 				byte[] buffer=new byte[1024];
@@ -102,12 +103,12 @@ public class DocumentDao extends Dao{
 			connectToDatabase();
 			//SQL statement
 			PreparedStatement statement=connection.prepareStatement("UPDATE Document SET "+
-		    "Type='"+document.getType()+"', "+
-		    "DateUploaded=to_date('"+new java.sql.Date(document.getDateUploaded().getTime())+"', 'yyyy-mm-dd'), "+
-		    "IsSharedDocument='"+(document.getIsSharedDocument()?1:0)+"', "+
-		    "UserEmail='"+document.getUserEmail()+"' WHERE "+
-		    "Name='"+document.getName()+"' AND "+
-		    "Blob= ? ");
+				    "Type='"+document.getType()+"', "+
+					"Blob= ? ,"+
+				    "IsSharedDocument='"+(document.getIsSharedDocument()?1:0)+"' WHERE "+
+				    "Name='"+document.getName()+"' AND "+
+				    "DateUploaded=to_date('"+new java.sql.Date(document.getDateUploaded().getTime())+"', 'yyyy-mm-dd') AND "+ 
+				    "UserEmail='"+document.getUserEmail()+"'");
 			statement.setBinaryStream(1, in, (int)file.length());
 			statement.executeUpdate();
 			disconnectFromDatabase();
