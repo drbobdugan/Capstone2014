@@ -425,4 +425,43 @@ while(resultSet.next()){
 			e.printStackTrace();
 		}
 	}
+	public void insertUserSignsUpForEvent(Object user1, Object event2) {
+		User user=(User) user1;
+		Event event=(Event) event2;
+		try{
+			//connect
+			connectToDatabase();
+			//SQL statement
+			Statement statement=connection.createStatement();
+			statement.executeQuery("INSERT INTO UserSignsUpForEvent VALUES("+
+		    "'"+user.getEmail()+"', "+
+		    "'"+event.getName()+"', "+
+			"to_date("+new java.sql.Date(event.getDate().getTime())+",'yyyy-mm-dd')");
+			statement.close();
+			disconnectFromDatabase();
+		}
+	    catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	
+	public void deleteUserSignsUpForEvent(Object user1, Object event2) {
+		User user=(User) user1;
+		Event event=(Event) event2;
+		try{
+			//connect
+			connectToDatabase();
+			//SQL statement
+			Statement statement=connection.createStatement();
+			statement.executeQuery("DELETE FROM UserSignsUpForEvent WHERE "+
+		    "UserEmail='"+user.getEmail()+"', AND "+
+		    "EventName='"+event.getName()+"', AND "+
+			"EventDateTime=to_date("+new java.sql.Date(event.getDate().getTime())+",'yyyy-mm-dd')");
+			statement.close();
+			disconnectFromDatabase();
+		}
+	    catch(Exception e){
+			e.printStackTrace();
+		}
+	}
 }

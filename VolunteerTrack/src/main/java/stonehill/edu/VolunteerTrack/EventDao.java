@@ -206,9 +206,9 @@ public class EventDao extends Dao{
 		}
 		return result;
 	}
-	public void insertUserOwnsEvent(Object value1, Object value2) {
-		User user=(User) value1;
-		Event event=(Event) value2;
+	public void insertUserOwnsEvent(Object user1, Object event2) {
+		User user=(User) user1;
+		Event event=(Event) event2;
 		try{
 			//connect
 			connectToDatabase();
@@ -226,9 +226,9 @@ public class EventDao extends Dao{
 		}
 	}
 	
-	public void deleteUserOwnsEvent(Object value1, Object value2) {
-		User user=(User) value1;
-		Event event=(Event) value2;
+	public void deleteUserOwnsEvent(Object user1, Object event2) {
+		User user=(User) user1;
+		Event event=(Event)event2;
 		try{
 			//connect
 			connectToDatabase();
@@ -244,5 +244,107 @@ public class EventDao extends Dao{
 	    catch(Exception e){
 			e.printStackTrace();
 		}
+	}
+	public ArrayList<Object> getAllEventsSignedUpFor(User user){
+		ArrayList<Object> result=new ArrayList<Object>();
+		try{
+			//connect
+			connectToDatabase();
+			//SQL statement
+			Statement statement=connection.createStatement();
+			ResultSet resultSet=statement.executeQuery("SELECT * FROM Event, UserSignsUpForEvent WHERE UserSignsUpForEvent.EventName = Event.Name AND UserSignsUpForEvent.EventDateTime = Event.DateTime AND UserSignsUpForEvent.UserEmail = '" + user.getEmail()+"'");
+			//get tuples
+			while(resultSet.next()){
+				String owner = resultSet.getString("UserEmail");
+				String name=resultSet.getString("Name");
+				Date date =resultSet.getDate("DateTime");
+				String description =resultSet.getString("Description");
+				String location =resultSet.getString("Location");
+				// TODO no sure how this will be handled yet
+				Skill [] skills= {new Skill("not coded")};
+				int tp=resultSet.getInt("TotalPositions");
+				int tpr =resultSet.getInt("PositionsRemaining");
+				result.add( new Event ( owner, name, date,  description,  location ,  tp,  tpr, skills));
+			}
+			//clean up
+			resultSet.close();
+			statement.close();
+			disconnectFromDatabase();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		return result;
+	}
+	public void insertUserSignsUpForEvent(Object user1, Object event2) {
+		User user=(User) user1;
+		Event event=(Event) event2;
+		try{
+			//connect
+			connectToDatabase();
+			//SQL statement
+			Statement statement=connection.createStatement();
+			statement.executeQuery("INSERT INTO UserSignsUpForEvent VALUES("+
+		    "'"+user.getEmail()+"', "+
+		    "'"+event.getName()+"', "+
+			"to_date("+new java.sql.Date(event.getDate().getTime())+",'yyyy-mm-dd')");
+			statement.close();
+			disconnectFromDatabase();
+		}
+	    catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	
+	public void deleteUserSignsUpForEvent(Object user1, Object event2) {
+		User user=(User) user1;
+		Event event=(Event) event2;
+		try{
+			//connect
+			connectToDatabase();
+			//SQL statement
+			Statement statement=connection.createStatement();
+			statement.executeQuery("DELETE FROM UserSignsUpForEvent WHERE "+
+		    "UserEmail='"+user.getEmail()+"', AND "+
+		    "EventName='"+event.getName()+"', AND "+
+			"EventDateTime=to_date("+new java.sql.Date(event.getDate().getTime())+",'yyyy-mm-dd')");
+			statement.close();
+			disconnectFromDatabase();
+		}
+	    catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	public ArrayList<Object> getAllEventsByUserTimeSheetEntries(User user) {
+		ArrayList<Object> result=new ArrayList<Object>();
+		try{
+			//connect
+			connectToDatabase();
+			//SQL statement
+			Statement statement=connection.createStatement();
+			ResultSet resultSet=statement.executeQuery("SELECT * FROM Event, TimeSheetEntry WHERE TimeSheetEntry.EventName = Event.Name AND TimeSheetEntry.DateTime = Event.DateTime AND TimeSheetEntry.UserEmail = '" + user.getEmail()+"'");
+			//get tuples
+			while(resultSet.next()){
+				System.out.println("asdfasdfasfasdfdassfsadfasfsadF");
+				String owner = resultSet.getString("UserEmail");
+				String name=resultSet.getString("Name");
+				Date date =resultSet.getDate("DateTime");
+				String description =resultSet.getString("Description");
+				String location =resultSet.getString("Location");
+				// TODO no sure how this will be handled yet
+				Skill [] skills= {new Skill("not coded")};
+				int tp=resultSet.getInt("TotalPositions");
+				int tpr =resultSet.getInt("PositionsRemaining");
+				result.add( new Event ( owner, name, date,  description,  location ,  tp,  tpr, skills));
+			}
+			//clean up
+			resultSet.close();
+			statement.close();
+			disconnectFromDatabase();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		return result;
 	}
 }
