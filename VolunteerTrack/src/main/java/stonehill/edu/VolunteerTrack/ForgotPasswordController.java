@@ -24,7 +24,7 @@ public class ForgotPasswordController extends WebPage {
 //		tosend.send();
 		
 		//normally would be email with url for this response page, still having trouble with email.
-		setResponsePage(PasswordChangeView.class);
+		//setResponsePage(PasswordChangeView.class);
 		
 	}
 	

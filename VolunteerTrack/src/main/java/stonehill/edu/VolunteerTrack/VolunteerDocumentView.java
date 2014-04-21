@@ -16,7 +16,7 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.markup.html.form.upload.FileUploadField;
 import org.apache.wicket.markup.html.form.upload.FileUpload;
-import org.apache.wicket.markup.html.form.upload.FileUploadField;
+
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -26,6 +26,7 @@ import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.markup.html.list.AbstractItem;
 import org.apache.wicket.markup.repeater.RepeatingView;
 import org.apache.wicket.model.AbstractReadOnlyModel;
+import org.apache.wicket.util.lang.Bytes;
 
 
 public class VolunteerDocumentView extends VolunteerTrackBaseView
@@ -35,6 +36,13 @@ public class VolunteerDocumentView extends VolunteerTrackBaseView
  	public String selected;
  	public ArrayList<Document> theDocs;
  	DocumentDao dao;
+ 	  
+    TextField<String> NewDocumentName;
+    TextField<String> NewDocumentType;
+     
+	FileUploadField fileUpload;
+	File newFile;
+ 	
  	
 	public VolunteerDocumentView()
 	{
@@ -42,14 +50,14 @@ public class VolunteerDocumentView extends VolunteerTrackBaseView
 	  Document two = new Document("Nemi","Cori Form", new Date(),new File(""),"ssiff@students.stonehill.edu", false);
 	  Document three = new Document("Student Resume","Resume", new Date(),new File(""),"ssiff@students.stonehill.edu", false);
 	  theDocs = new ArrayList<Document>();
-	 theDocs.add(one);
-	 theDocs.add(two);
-	 theDocs.add(three);
+	  theDocs.add(one);
+	  theDocs.add(two);
+	  theDocs.add(three);
 	 
         dao = new DocumentDao();
-        dao.insert(one);
-        dao.insert(two);
-        dao.insert(three);
+        //dao.insert(one);
+        //dao.insert(two);
+        //dao.insert(three);
 		
 		ArrayList<Object> temp = dao.selectAll();
 		for(int i = 0; i <temp.size();i++)
@@ -63,7 +71,17 @@ public class VolunteerDocumentView extends VolunteerTrackBaseView
 	}
 	public void makePage(List<Document> theDocs){
 		
-		List<String> choices= Arrays.asList(new String[] {"Select A Partner","Pet Shop", "Homeless Shelter", "Nemi" });
+		List<String> partners = new ArrayList<String>();
+		partners.add("Select A Partner");
+		
+		UserDao theUsers = new UserDao();
+		ArrayList partnerUsers = theUsers.getAllPartners();
+		
+		for(int i = 0; i < partnerUsers.size();i++)
+		{
+			partners.add(((User) partnerUsers.get(i)).getEmail());
+
+		}
 	   
 		RepeatingView repeating = new RepeatingView("repeating");
         add(repeating);
@@ -133,7 +151,7 @@ public class VolunteerDocumentView extends VolunteerTrackBaseView
             selected = "Select A Partner";
     	    IModel dropdown = new Model<String>(selected);
     	    
-            DropDownChoice<String> listSites3 = new DropDownChoice<String>("sites3", dropdown, choices);
+            DropDownChoice<String> listSites3 = new DropDownChoice<String>("sites3", dropdown, partners);
             form2.add(listSites3);
             
 
@@ -172,23 +190,45 @@ public class VolunteerDocumentView extends VolunteerTrackBaseView
 
          
          
-        final TextField<String> NewDocumentName = new TextField<String>("addDocumentName",Model.of("")); 
-        final TextField<String> NewDocumentType = new TextField<String>("addDocumentType",Model.of(""));
+        NewDocumentName = new TextField<String>("addDocumentName",Model.of("")); 
+        NewDocumentType = new TextField<String>("addDocumentType",Model.of(""));
          
-		FileUploadField fileUpload = new FileUploadField("fileUpload");
+		
 		
 		Button addDB = new Button("addDB"){
         	@Override
         	public void onSubmit(){
         		info("Add Doucment was clicked : ");
-        		create();
+        		final FileUpload uploadedFile = fileUpload.getFileUpload();
+        		
+        		
+        		if(uploadedFile !=null)
+        		{
+        			File newFile = new File("/home/ubuntu/Desktop/test.txt");
+        			
+        			try{
+        				newFile.createNewFile();
+        				uploadedFile.writeTo(newFile);
+        				//Document one = new Document("Document1","Cori Form", new Date(),newFile,"ssiff@students.stonehill.edu", false);
+        				//dao.insert(one);
+        				this.setResponsePage(VolunteerDocumentView.class);
+        			}
+        			catch(Exception E)
+        			{
+        				throw new IllegalStateException("Error trying to do the .create or .writeto");
+        			}
+        		}
+        		
+        		
+        		// create(NewDocumentName, NewDocumentType,fileUpload);
         	}
         };
-		
+        
+		form3.setMultiPart(true);
         
 		form3.add(NewDocumentName);
 		form3.add(NewDocumentType);
-		form3.add(fileUpload);
+		form3.add(fileUpload= new FileUploadField("fileUpload"));
 		form3.add(addDB);
 
 		add(form3);
