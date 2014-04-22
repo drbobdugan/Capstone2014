@@ -73,19 +73,25 @@ public class VolunteerHomeView extends VolunteerTrackBaseView
 		TimesheetEntryDao teDao = new TimesheetEntryDao();
 		
 	    ArrayList<Object> userTimesheetEntry = teDao.getAllTimesheetEntriesByUser(currentUser);
-	    ArrayList<Object> userEvents = new ArrayList<Object>();
 	    
-	    for (int i = 0; i < userTimesheetEntry.size(); i++)
+	    ArrayList<Object> userEvents2 = eventDao.getAllEventsByUserTimeSheetEntries(currentUser);
+	    
+	    ArrayList<Object> userEvents = eventDao.getAllEventsByUserTimeSheetEntries(currentUser);
+	    
+	    
+	    //ArrayList<Object> userEvents = new ArrayList<Object>();
+	    
+	    /*for (int i = 0; i < userTimesheetEntry.size(); i++)
 	    {
 	    	Event tempEvent = eventDao.getEventByNameDateTime(((TimesheetEntry)userTimesheetEntry.get(i)).getEventName(), 
 	    			((TimesheetEntry)userTimesheetEntry.get(i)).getDateTime());
 	    	userEvents.add(tempEvent);
-	    }
+	    }*/
 	    
+	   
 	    
-	    
-	    //message = new Label("message", "testing " + userTimesheetEntry.size() + " : " + userEvents.size());
-	    
+	    message = new Label("message", "testing " + ((Event)userEvents2.get(0)).getOwnerEmail() + " : " + ((Event)userEvents2.get(1)).getOwnerEmail());
+	    add(message);
 	    
 	    for(Object o: userEvents){
 	    	if(((Event)o).getDate().after(new Date())){
@@ -102,7 +108,7 @@ public class VolunteerHomeView extends VolunteerTrackBaseView
 	    
 	    for (int i = 0; i < pastEvents.size(); i++)
 	    {
-	    	String eventPartner = ((Event)pastEvents.get(i)).getPartner().getEmail();
+	    	String eventPartner = ((Event)pastEvents.get(i)).getOwnerEmail();
 	    	int check = 0;
 	    	for (int n = 0; n < userHours.size(); n++) // go thru all already made hoursworked objects to add to existing
 	    	{
@@ -114,7 +120,7 @@ public class VolunteerHomeView extends VolunteerTrackBaseView
 	    	}
 	    	if (check == 0)
 	    	{
-	    		HoursWorked hw = new HoursWorked(((Event)pastEvents.get(i)).getPartner().getEmail(), 
+	    		HoursWorked hw = new HoursWorked(((Event)pastEvents.get(i)).getOwnerEmail(), 
 	    				((TimesheetEntry)userTimesheetEntry.get(i)).getHoursLogged());
 	    		userHours.add(hw);
 	    	}
@@ -148,7 +154,7 @@ public class VolunteerHomeView extends VolunteerTrackBaseView
 				item.add(new Label("name", event.getName()));
 				item.add(new Label("location", event.getLocation()));
 				item.add(new Label("date", event.getDate().toString()));
-				item.add(new Label("partner", ((User)event.getPartner()).getEmail()));
+				item.add(new Label("partner", event.getOwnerEmail()));
 			}
 		};
 		final DataView dataView2 = new DataView("simple2", new ListDataProvider(userHours)) {
