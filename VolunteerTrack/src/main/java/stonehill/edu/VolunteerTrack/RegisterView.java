@@ -5,15 +5,16 @@ import java.util.List;
 
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.EmailTextField;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.PasswordTextField;
-import org.apache.wicket.markup.html.form.RadioChoice;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
+
+import com.googlecode.wicket.jquery.ui.form.RadioChoice;
+import com.googlecode.wicket.jquery.ui.form.button.Button;
 
 public class RegisterView extends WebPage {
 	private static final List<String> TYPES = Arrays.asList(new String[] { "Partner", "Volunteer", "Coordinator" });
@@ -33,7 +34,7 @@ public class RegisterView extends WebPage {
 		user = new User();
 		add(home = new BookmarkablePageLink("home", LoginView.class));
 		register = new Form("register");
-		register.add(invalid = new Label("invalid", ""));
+		add(invalid = new Label("invalid", ""));
 		RadioChoice<String> userType = new RadioChoice<String>("userType", new PropertyModel<String>(this, "select"), TYPES);
 		register.add(userType);
 		register.add(email = new EmailTextField("email", new PropertyModel(user, "Email")));

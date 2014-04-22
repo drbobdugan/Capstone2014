@@ -2,12 +2,14 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link href="css/custom-theme/jquery-ui-1.10.4.custom.css"
+	rel="stylesheet">
+<script src="js/jquery-1.10.2.js"></script>
+<script src="js/jquery-ui-1.10.4.custom.js"></script>
 <link rel="stylesheet" href="kh.css" type="text/css" media="screen"
 	title="stylesheet" charset="utf-8" />
-<link
-	href='http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:regular,bold'
-	rel='stylesheet' type='text/css' />
 <title>Volunteer Track Login</title>
+
 </head>
 <body>
 	<div id="head">
@@ -43,9 +45,10 @@
 						</form></td>
 				</tr>
 			</table>
-			<span wicket:id="invalid">BAD</span>
 		</div>
 	</div>
-	<div id="menu-contain"></div>
+	<div id="menu-contain">
+		<span class="s-right" wicket:id="invalid">BAD</span>
+	</div>
 </body>
 </html>

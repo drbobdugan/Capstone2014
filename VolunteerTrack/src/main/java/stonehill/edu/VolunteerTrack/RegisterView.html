@@ -2,13 +2,14 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link href="css/custom-theme/jquery-ui-1.10.4.custom.css"
+	rel="stylesheet">
+<script src="js/jquery-1.10.2.js"></script>
+<script src="js/jquery-ui-1.10.4.custom.js"></script>
 <link rel="stylesheet" href="kh.css" type="text/css" media="screen"
 	title="stylesheet" charset="utf-8" />
-<link
-	href='http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:regular,bold'
-	rel='stylesheet' type='text/css' />
 <title>Volunteer Track Login</title>
-</head> 
+</head>
 <body>
 	<div id="head">
 		<div id="head-left">
@@ -24,33 +25,37 @@
 		</div>
 	</div>
 	<div id="main">
-		<form wicket:id="register">
-			<span wicket:id="userType" class="radioChoice"></span>
-			<table>
-				<tr>
-					<td><span>Email Address</span></td>
-					<td><input wicket:id="email" type="email" /></td>
-				</tr>
-				<tr>
-					<td><span>Password</span></td>
-					<td><input wicket:id="password" type="password" /></td>
-				</tr>
-				<tr>
-					<td><span>Re-enter Password</span></td>
-					<td><input wicket:id="checker" type="password" /></td>
-				</tr>
-				<tr>
-					<td><span>Phone Number</span></td>
-					<td><input wicket:id="phone" type="text" /></td>
-				</tr>
-				<tr>
-					<td><span>Address</span></td>
-					<td><input wicket:id="address" type="text" /></td>
-				</tr>
-			</table>
-			<input wicket:id="create" type="submit" value="Register" /> <span
-				wicket:id="invalid">bad</span>
-		</form>
+		<div id="register">
+			<form wicket:id="register">
+				<span wicket:id="userType" class="radioChoice"></span>
+				<table>
+					<tr>
+						<td><span>Email Address</span></td>
+						<td><input wicket:id="email" type="email" /></td>
+					</tr>
+					<tr>
+						<td><span>Password</span></td>
+						<td><input wicket:id="password" type="password" /></td>
+					</tr>
+					<tr>
+						<td><span>Re-enter Password</span></td>
+						<td><input wicket:id="checker" type="password" /></td>
+					</tr>
+					<tr>
+						<td><span>Phone Number</span></td>
+						<td><input wicket:id="phone" type="text" /></td>
+					</tr>
+					<tr>
+						<td><span>Address</span></td>
+						<td><input wicket:id="address" type="text" /></td>
+					</tr>
+					<tr>
+						<td><input wicket:id="create" type="submit" value="Register" /></td>
+					</tr>
+				</table>
+			</form>
+			<span class="s-left" wicket:id="invalid">bad</span>
+		</div>
 	</div>
 </body>
 </html>
