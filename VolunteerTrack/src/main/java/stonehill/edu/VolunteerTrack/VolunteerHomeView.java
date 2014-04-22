@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.navigation.paging.PagingNavigator;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.DataView;
@@ -47,24 +48,18 @@ public class VolunteerHomeView extends VolunteerTrackBaseView
 	
 	private ArrayList futureEvents,pastEvents, userHours;  // list of events specific to the partner
 	Label message;
+	private int idFuture;
 	
 	public VolunteerHomeView()
 	{
 		User currentUser = new User("kholmander@stonehill.edu","gunslinger", "keith", "holmander", "", "", "", "", "", "", "", false, false, true, true, "", "");
 		
-		
+		idFuture = 0;
 		
 		
 		futureEvents = new ArrayList<Event>(0);
 		pastEvents = new ArrayList<Event>(0);
 		
-		/*User user = new User("zbrown2@studesnt.stonehill.edu", "csrocks55", "Zac", "Brown", "320 Washington St.", "Easton", "Ma", "02357", "8025952931", "We help", "I help", true, false, false, false);
-		User user2 = new User("Tom@animalshelter.com", "csrocks55", "Tom", "Brown", "10 Main St.", "Easton", "Ma", "02357", "5556661234", "We help", "I help", true, false, false, false);
-		Date d1 = new Date(114,3,27);
-		Date d2 = new Date(114,3,28);
-		Skill[] skills = new Skill[0];
-		Event e1 = new Event("Tom@animalshelter.com", "Petting Animals", d1, "pet some animals", "Animal Shelter", 1, 1, skills);
-		Event e2 = new Event("Tom@animalshelter.com", "Feeding Animals", d1, "feed some animals", "Animal Shelter", 1, 1, skills);*/
 		
 		UserDao userDao = new UserDao();
 		
@@ -78,15 +73,6 @@ public class VolunteerHomeView extends VolunteerTrackBaseView
 	    
 	    ArrayList<Object> userEvents = eventDao.getAllEventsByUserTimeSheetEntries(currentUser);
 	    
-	    
-	    //ArrayList<Object> userEvents = new ArrayList<Object>();
-	    
-	    /*for (int i = 0; i < userTimesheetEntry.size(); i++)
-	    {
-	    	Event tempEvent = eventDao.getEventByNameDateTime(((TimesheetEntry)userTimesheetEntry.get(i)).getEventName(), 
-	    			((TimesheetEntry)userTimesheetEntry.get(i)).getDateTime());
-	    	userEvents.add(tempEvent);
-	    }*/
 	    
 	   
 	    
@@ -151,6 +137,7 @@ public class VolunteerHomeView extends VolunteerTrackBaseView
 		final DataView dataView = new DataView("simple", new ListDataProvider(futureEvents)) {
 			protected void populateItem(Item item) {
 				final Event event = (Event)item.getModelObject();
+				item.add(new Link<Void>("view"){ public void onClick(){ viewEventFuture(idFuture++);}});
 				item.add(new Label("name", event.getName()));
 				item.add(new Label("location", event.getLocation()));
 				item.add(new Label("date", event.getDate().toString()));
@@ -174,9 +161,13 @@ public class VolunteerHomeView extends VolunteerTrackBaseView
 	}
 
 	// view an event
-    public void viewEvent(Event event){
-   	 // TODO redireect 
-    }
+	    public void viewEvent(Event e){
+	    	setResponsePage(new PartnerEventDetailsView(e, "volunteerHomeView"));
+	    }
     
+    public void viewEventFuture(int i ){
+		if(i < futureEvents.size())
+		     viewEvent((Event)futureEvents.get(i));
+	}
     
 }

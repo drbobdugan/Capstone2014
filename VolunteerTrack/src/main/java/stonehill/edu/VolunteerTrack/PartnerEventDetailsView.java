@@ -48,6 +48,9 @@ public class PartnerEventDetailsView extends VolunteerTrackBaseView
 					  setResponsePage(PartnerHomeView.class);
 				  else if(returnTo.equals("partnerEventView"))
 				    setResponsePage(PartnerEventView.class);
+				  else if(returnTo.equals("volunteerHomeView")){
+					    setResponsePage(VolunteerHomeView.class);
+				  }
 				}
 			});
 
