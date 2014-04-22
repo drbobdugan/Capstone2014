@@ -11,6 +11,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.navigation.paging.PagingNavigator;
@@ -118,8 +119,7 @@ public class PartnerEventView extends VolunteerTrackBaseView
 	    
 	// view an event
     public void viewEvent(Event e){
-   	 // TODO redireect 
-    	//setResponsePage(PartnerEventDetailsView.class);
+    	setResponsePage(new PartnerEventDetailsView(e, "partnerEventView"));
     }
     
     // edit an event
