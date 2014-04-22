@@ -1,6 +1,7 @@
 package stonehill.edu.VolunteerTrack;
 import java.util.*;
-public class TimesheetEntry {
+import java.io.Serializable;
+public class TimesheetEntry implements Serializable{
 	private String UserEmail;
 	private Date DateTime;
 	private String EventName;

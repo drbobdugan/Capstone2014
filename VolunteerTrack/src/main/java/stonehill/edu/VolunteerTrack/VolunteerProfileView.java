@@ -29,12 +29,16 @@ public class VolunteerProfileView extends VolunteerTrackBaseView {
 	Form form1, form2, form3;
 	UserDao userDao = new UserDao();
 	Label message;
+	ArrayList<String> skillsSelect;
 	
     public VolunteerProfileView()
 	{
     	// hardcode current user, eventually will get user from session
-    	currentuser = userDao.getUserByUsername("ssiff@students.stonehill.edu");
-    	
+    	//currentuser = userDao.getUserByUsername("ssiff@students.stonehill.edu");
+    	currentuser = CustomSession.get().getUser();
+    	/*Skill sk = new Skill("Animals");
+    	userDao.deleteAllUserSkills(currentuser);
+    	userDao.deleteUserHasSkill(currentuser, sk);*/
     	
     	// create form for page
     	form1 = new Form("form1");
@@ -87,7 +91,7 @@ public class VolunteerProfileView extends VolunteerTrackBaseView {
 		SkillDao skillsDao = new SkillDao(); 
 		  ArrayList<Object> skillslist = skillsDao.selectAll();
 		  ArrayList<Object> userskills = skillsDao.getAllSkillsByUser(currentuser);
-		  ArrayList<String> skillsSelect = new ArrayList<String>();
+		  skillsSelect = new ArrayList<String>();
 		  
 		 String[] skillarray = new String[skillslist.size()];
 		 
@@ -105,7 +109,7 @@ public class VolunteerProfileView extends VolunteerTrackBaseView {
 		
 		
 		// simulate user has animal skill while there is no way to add a skill to a user in db
-		skillsSelect.add("Animals");
+		//skillsSelect.add("Animals");
 		
 		// create checkboxes for each skill, with users skills pre-checked
 		final CheckBoxMultipleChoice<String> skillsBoxes = new CheckBoxMultipleChoice<String>(
@@ -122,9 +126,13 @@ public class VolunteerProfileView extends VolunteerTrackBaseView {
 		form2.add(new Button("saveskills") {
 			@Override
 			public void onSubmit() {
-				
-				
-				
+				//UserDao userDao = new UserDao();
+				userDao.deleteAllUserSkills(currentuser);
+				for(int i = 0; i < skillsSelect.size(); i++)
+				{
+					Skill temp = new Skill(skillsSelect.get(i));
+					userDao.insertUserHasSkill(currentuser, temp);
+				}
 			this.setResponsePage(VolunteerProfileView.class);
 			}
 		});

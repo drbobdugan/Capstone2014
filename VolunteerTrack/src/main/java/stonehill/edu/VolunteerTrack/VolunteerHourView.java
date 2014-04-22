@@ -99,7 +99,6 @@ public class VolunteerHourView extends VolunteerTrackBaseView
             Button update1 = new Button("update"){
             	@Override
             	public void onSubmit(){
-            		//info("Update : " + x);
             		update(x);
             	}
             };
@@ -115,15 +114,7 @@ public class VolunteerHourView extends VolunteerTrackBaseView
             };
             form.add(approve1);
             
-         // save buttons made and added to the form
-            Button save1 = new Button("save"){
-            	@Override
-            	public void onSubmit(){
-            		//info("View : " + x );
-            		save(x);
-            	}
-            };
-            form.add(save1);
+         
             
        // add first form
             item.add(form);
@@ -184,15 +175,14 @@ public class VolunteerHourView extends VolunteerTrackBaseView
 		
     }
 	public void update(int x){
-		
-		this.setResponsePage(VolunteerHourView.class);
+		TimesheetEntry t = ((TimesheetEntry)userTimesheetEntry.get(x));
+		setResponsePage(new VolunteerEditHoursView(t, false));
    	 
     }
 	public void addEvent(){
 		Date date = new Date(114, 6, 12);
-		TimesheetEntry te = new TimesheetEntry(currentUser.getEmail(), date, "TestAddEvent", false, false, 0);
-		teDao.insert(te);
-		this.setResponsePage(VolunteerHourView.class);
+		TimesheetEntry te = new TimesheetEntry(currentUser.getEmail(), date, "", false, false, 0);
+		setResponsePage(new VolunteerEditHoursView(te, true));
    	 
     }
 }

@@ -352,7 +352,7 @@ while(resultSet.next()){
 			Statement statement=connection.createStatement();
 			statement.executeQuery("DELETE FROM UserHasSkill WHERE "+
 		    "UserEmail='"+user.getEmail()+"', AND "+
-			"SkillName='"+skill.getName()+"')");
+			"SkillName='"+skill.getName()+"'");
 			statement.close();
 			disconnectFromDatabase();
 		}
@@ -360,6 +360,24 @@ while(resultSet.next()){
 			e.printStackTrace();
 		}
 	}
+	
+	public void deleteAllUserSkills(Object value1) {
+		User user=(User) value1;
+		try{
+			//connect
+			connectToDatabase();
+			//SQL statement
+			Statement statement=connection.createStatement();
+			statement.executeQuery("DELETE FROM UserHasSkill WHERE "+
+		    "UserEmail='"+user.getEmail()+"'");
+			statement.close();
+			disconnectFromDatabase();
+		}
+	    catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	
 	
 	public ArrayList<Object> getAllSkillsByUser(Object value) {
 		User user=(User) value;
