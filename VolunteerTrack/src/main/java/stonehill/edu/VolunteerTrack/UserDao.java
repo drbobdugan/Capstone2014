@@ -42,9 +42,12 @@ public class UserDao extends Dao{
 			"'"+(user.getIsPartner()?1:0)+"', "+
 			"'"+(user.getIsCoordinator()?1:0)+"', "+
 			"'"+(user.getIsVolunteer()?1:0)+"', "+
-			"'"+(user.getIsApproved()?1:0)+"', "+
 			"'"+user.getMajor()+"', "+
-			"'"+user.getMinor()+"')");
+			"'"+user.getMinor()+"', "+
+			"'"+(user.getIsApprovedPartner()?1:0)+"', "+
+			"'"+(user.getIsApprovedCoordinator()?1:0)+"', "+
+			"'"+(user.getIsApprovedVolunteer()?1:0)+"', "+
+			"'"+user.getOrganizationName()+"')");
 			statement.close();
 			disconnectFromDatabase();
 		}
@@ -76,10 +79,13 @@ public class UserDao extends Dao{
 				boolean ip=resultSet.getBoolean("IsPartner");
 				boolean ic=resultSet.getBoolean("IsCoordinator");
 				boolean iv=resultSet.getBoolean("IsVolunteer");
-				boolean ia=resultSet.getBoolean("IsApproved");
 				String mj=resultSet.getString("major");
 				String mi=resultSet.getString("minor");
-				result.add(new User(e,p,fn,ln,s,c,st,z,pn,pd,vd,ip,ic,iv,ia, mj,mi));
+				boolean iap=resultSet.getBoolean("IsApprovedPartner");
+				boolean iac=resultSet.getBoolean("IsApprovedCoordinator");
+				boolean iav=resultSet.getBoolean("IsApprovedVolunteer");
+				String on=resultSet.getString("organizationName");
+				result.add(new User(e,p,fn,ln,s,c,st,z,pn,pd,vd,ip,ic,iv,mj,mi,iap,iac,iav,on));
 			}
 			//clean up
 			resultSet.close();
@@ -109,10 +115,15 @@ public class UserDao extends Dao{
 		    "PhoneNumber='"+user.getPhoneNumber()+"', "+
 		    "PartnerDescription='"+user.getPartnerDescription()+"', "+
 		    "VolunteerDescription='"+user.getVolunteerDescription()+"', "+
-			"IsApproved='"+(user.getIsApproved()?1:0)+"', "+
 			"IsPartner='"+(user.getIsPartner()?1:0)+"', "+
 			"IsCoordinator='"+(user.getIsCoordinator()?1:0)+"', "+
-			"IsVolunteer='"+(user.getIsVolunteer()?1:0)+"' WHERE "+
+			"IsVolunteer='"+(user.getIsVolunteer()?1:0)+"', "+
+		    "Major='"+user.getMajor()+"', "+
+		    "Minor='"+user.getMinor()+"', "+
+			"IsApprovedPartner='"+(user.getIsApprovedPartner()?1:0)+"', "+
+			"IsApprovedCoordinator='"+(user.getIsApprovedCoordinator()?1:0)+"', "+
+			"IsApprovedVolunteer='"+(user.getIsApprovedVolunteer()?1:0)+"', "+
+			"OrganizationName='"+user.getOrganizationName()+"' WHERE "+
 			"Email='"+user.getEmail()+"'");
 			statement.close();
 			disconnectFromDatabase();
@@ -145,10 +156,13 @@ public class UserDao extends Dao{
 				boolean ip=resultSet.getBoolean("IsPartner");
 				boolean ic=resultSet.getBoolean("IsCoordinator");
 				boolean iv=resultSet.getBoolean("IsVolunteer");
-				boolean ia=resultSet.getBoolean("IsApproved");
 				String mj=resultSet.getString("major");
 				String mi=resultSet.getString("minor");
-				result=(new User(e,p,fn,ln,s,c,st,z,pn,pd,vd,ip,ic,iv,ia, mj,mi));
+				boolean iap=resultSet.getBoolean("IsApprovedPartner");
+				boolean iac=resultSet.getBoolean("IsApprovedCoordinator");
+				boolean iav=resultSet.getBoolean("IsApprovedVolunteer");
+				String on=resultSet.getString("organizationName");
+				result = (new User(e,p,fn,ln,s,c,st,z,pn,pd,vd,ip,ic,iv,mj,mi,iap,iac,iav,on));
 			}
 			//clean up
 			resultSet.close();
@@ -184,10 +198,13 @@ public class UserDao extends Dao{
 				boolean ip=resultSet.getBoolean("IsPartner");
 				boolean ic=resultSet.getBoolean("IsCoordinator");
 				boolean iv=resultSet.getBoolean("IsVolunteer");
-				boolean ia=resultSet.getBoolean("IsApproved");
 				String mj=resultSet.getString("major");
 				String mi=resultSet.getString("minor");
-				result.add(new User(e,p,fn,ln,s,c,st,z,pn,pd,vd,ip,ic,iv,ia,mj,mi));
+				boolean iap=resultSet.getBoolean("IsApprovedPartner");
+				boolean iac=resultSet.getBoolean("IsApprovedCoordinator");
+				boolean iav=resultSet.getBoolean("IsApprovedVolunteer");
+				String on=resultSet.getString("organizationName");
+				result.add(new User(e,p,fn,ln,s,c,st,z,pn,pd,vd,ip,ic,iv,mj,mi,iap,iac,iav,on));
 			}
 			//clean up
 			resultSet.close();
@@ -223,10 +240,13 @@ public class UserDao extends Dao{
 				boolean ip=resultSet.getBoolean("IsPartner");
 				boolean ic=resultSet.getBoolean("IsCoordinator");
 				boolean iv=resultSet.getBoolean("IsVolunteer");
-				boolean ia=resultSet.getBoolean("IsApproved");
 				String mj=resultSet.getString("major");
 				String mi=resultSet.getString("minor");
-				result.add(new User(e,p,fn,ln,s,c,st,z,pn,pd,vd,ip,ic,iv,ia,mj,mi));
+				boolean iap=resultSet.getBoolean("IsApprovedPartner");
+				boolean iac=resultSet.getBoolean("IsApprovedCoordinator");
+				boolean iav=resultSet.getBoolean("IsApprovedVolunteer");
+				String on=resultSet.getString("organizationName");
+				result.add(new User(e,p,fn,ln,s,c,st,z,pn,pd,vd,ip,ic,iv,mj,mi,iap,iac,iav,on));
 			}
 			//clean up
 			resultSet.close();
@@ -263,11 +283,13 @@ public class UserDao extends Dao{
 				boolean ip=resultSet.getBoolean("IsPartner");
 				boolean ic=resultSet.getBoolean("IsCoordinator");
 				boolean iv=resultSet.getBoolean("IsVolunteer");
-				boolean ia=resultSet.getBoolean("IsApproved");
 				String mj=resultSet.getString("major");
 				String mi=resultSet.getString("minor");
-				
-				result.add(new User(e,p,fn,ln,s,c,st,z,pn,pd,vd,ip,ic,iv,ia, mj, mi));
+				boolean iap=resultSet.getBoolean("IsApprovedPartner");
+				boolean iac=resultSet.getBoolean("IsApprovedCoordinator");
+				boolean iav=resultSet.getBoolean("IsApprovedVolunteer");
+				String on=resultSet.getString("organizationName");
+				result.add(new User(e,p,fn,ln,s,c,st,z,pn,pd,vd,ip,ic,iv,mj,mi,iap,iac,iav,on));
 			}
 			//clean up
 			resultSet.close();
@@ -310,11 +332,13 @@ while(resultSet.next()){
 				boolean ip=resultSet.getBoolean("IsPartner");
 				boolean ic=resultSet.getBoolean("IsCoordinator");
 				boolean iv=resultSet.getBoolean("IsVolunteer");
-				boolean ia=resultSet.getBoolean("IsApproved");
 				String mj=resultSet.getString("major");
 				String mi=resultSet.getString("minor");
-				
-				searchResult.add(new User(e,p,fn,ln,s,c,st,z,pn,pd,vd,ip,ic,iv,ia, mj, mi));
+				boolean iap=resultSet.getBoolean("IsApprovedPartner");
+				boolean iac=resultSet.getBoolean("IsApprovedCoordinator");
+				boolean iav=resultSet.getBoolean("IsApprovedVolunteer");
+				String on=resultSet.getString("organizationName");
+				searchResult.add(new User(e,p,fn,ln,s,c,st,z,pn,pd,vd,ip,ic,iv,mj,mi,iap,iac,iav,on));
 			}
 		}
 		catch(Exception e) {
@@ -405,81 +429,21 @@ while(resultSet.next()){
 	}
 	
 	public void insertUserOwnsEvent(Object value1, Object value2) {
-		User user=(User) value1;
-		Event event=(Event) value2;
-		try{
-			//connect
-			connectToDatabase();
-			//SQL statement
-			Statement statement=connection.createStatement();
-			statement.executeQuery("INSERT INTO UserOwnsEvent VALUES("+
-		    "'"+user.getEmail()+"', "+
-		    "'"+event.getName()+"', "+
-			"to_date("+new java.sql.Date(event.getDate().getTime())+",'yyyy-mm-dd')");
-			statement.close();
-			disconnectFromDatabase();
-		}
-	    catch(Exception e){
-			e.printStackTrace();
-		}
+		EventDao eventDao = new EventDao();
+		eventDao.insertUserOwnsEvent(value1, value2);
 	}
 	
 	public void deleteUserOwnsEvent(Object value1, Object value2) {
-		User user=(User) value1;
-		Event event=(Event) value2;
-		try{
-			//connect
-			connectToDatabase();
-			//SQL statement
-			Statement statement=connection.createStatement();
-			statement.executeQuery("DELETE FROM UserOwnsEvent WHERE "+
-		    "UserEmail='"+user.getEmail()+"', AND "+
-		    "EventName='"+event.getName()+"', AND "+
-			"EventDateTime=to_date("+new java.sql.Date(event.getDate().getTime())+",'yyyy-mm-dd')");
-			statement.close();
-			disconnectFromDatabase();
-		}
-	    catch(Exception e){
-			e.printStackTrace();
-		}
+		EventDao eventDao = new EventDao();
+		eventDao.deleteUserOwnsEvent(value1, value2);
 	}
 	public void insertUserSignsUpForEvent(Object user1, Object event2) {
-		User user=(User) user1;
-		Event event=(Event) event2;
-		try{
-			//connect
-			connectToDatabase();
-			//SQL statement
-			Statement statement=connection.createStatement();
-			statement.executeQuery("INSERT INTO UserSignsUpForEvent VALUES("+
-		    "'"+user.getEmail()+"', "+
-		    "'"+event.getName()+"', "+
-			"to_date("+new java.sql.Date(event.getDate().getTime())+",'yyyy-mm-dd')");
-			statement.close();
-			disconnectFromDatabase();
-		}
-	    catch(Exception e){
-			e.printStackTrace();
-		}
+		EventDao eventDao = new EventDao();
+		eventDao.insertUserSignsUpForEvent(user1, event2);
 	}
 	
 	public void deleteUserSignsUpForEvent(Object user1, Object event2) {
-		User user=(User) user1;
-		Event event=(Event) event2;
-		try{
-			//connect
-			connectToDatabase();
-			//SQL statement
-			Statement statement=connection.createStatement();
-			statement.executeQuery("DELETE FROM UserSignsUpForEvent WHERE "+
-		    "UserEmail='"+user.getEmail()+"', AND "+
-		    "EventName='"+event.getName()+"', AND "+
-			"EventDateTime=to_date("+new java.sql.Date(event.getDate().getTime())+",'yyyy-mm-dd')");
-			statement.close();
-			disconnectFromDatabase();
-		}
-	    catch(Exception e){
-			e.printStackTrace();
-		}
+		EventDao eventDao = new EventDao();
+		eventDao.deleteUserSignsUpForEvent(user1, event2);
 	}
 }

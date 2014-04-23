@@ -7,23 +7,27 @@ import java.util.Date;
 public class Event implements Serializable {
      private String OwnerEmail, name, description, location;
      private int numPositions, numPositionsRemaining;
-     private Date dateTime;
+     private Date createdDateTime, startDateTime, endDateTime;
      private Skill [] skills;
      
      public Event () {
     	 OwnerEmail = "";
     	 name = "";
-    	 dateTime = new Date();
+    	 createdDateTime = new Date();
+    	 startDateTime = new Date();
+    	 endDateTime = new Date();
     	 description = "";
     	 location = "";
     	 numPositions = 0;
     	 numPositionsRemaining = 0;
     	 skills = new Skill[0];
      }
-     public Event (String partnerEmail, String name, Date dateTime, String description, String location , int numPositions, int numPositionsRemaining,Skill[] skills) {
+     public Event (String partnerEmail, String name, Date createdDateTime, Date startDateTime, Date endDateTime, String description, String location , int numPositions, int numPositionsRemaining,Skill[] skills) {
      	 this.OwnerEmail = partnerEmail;
     	 this.name = name;
-    	 this.dateTime = dateTime;
+    	 this.createdDateTime = createdDateTime;
+    	 this.startDateTime = startDateTime;
+    	 this.endDateTime = endDateTime;
     	 this.description = description;
     	 this.location = location;
     	 this.numPositions = numPositions;
@@ -42,14 +46,6 @@ public class Event implements Serializable {
      
      public void setName(String value){
     	 name = value;
-     }
-     
-     public Date getDate(){
-    	 return dateTime;
-     }
-     
-     public void setDate(Date value){
-    	 dateTime = value;
      }
      
      public String getDescription(){
@@ -103,17 +99,29 @@ public class Event implements Serializable {
 	public void setOwnerEmail(String ownerEmail) {
 		OwnerEmail = ownerEmail;
 	}
+	public Date getCreatedDateTime() {
+		return createdDateTime;
+	}
+	public void setCreatedDateTime(Date createdDateTime) {
+		this.createdDateTime = createdDateTime;
+	}
 	/**
 	 * @return the dateTime
 	 */
-	public Date getDateTime() {
-		return dateTime;
+	public Date getStartDateTime() {
+		return startDateTime;
 	}
 	/**
-	 * @param dateTime the dateTime to set
+	 * @param startDateTime the dateTime to set
 	 */
-	public void setDateTime(Date dateTime) {
-		this.dateTime = dateTime;
+	public void setStartDateTime(Date startDateTime) {
+		this.startDateTime = startDateTime;
+	}
+	public Date getEndDateTime() {
+		return endDateTime;
+	}
+	public void setEndDateTime(Date endDateTime) {
+		this.endDateTime = endDateTime;
 	}
 	/**
 	 * @param skills the skills to set

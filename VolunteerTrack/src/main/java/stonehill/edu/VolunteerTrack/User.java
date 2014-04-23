@@ -17,9 +17,13 @@ public class User implements Serializable {
 	private boolean isPartner;
 	private boolean isCoordinator;
 	private boolean isVolunteer;
-	private boolean isApproved;
 	private String major;
 	private String minor;
+	private boolean isApprovedPartner;
+	private boolean isApprovedCoordinator;
+	private boolean isApprovedVolunteer;
+	private String organizationName;
+	
 	
 	// For serialization
 	static final long serialVersionUID = 9L;
@@ -40,12 +44,15 @@ public class User implements Serializable {
 		isPartner = false;
 		isCoordinator = false;
 		isVolunteer = false;
-		isApproved = false;
 		major="";
 		minor="";
+		isApprovedPartner = false;
+		isApprovedCoordinator = false;
+		isApprovedVolunteer = false;
+		organizationName = "";
 	}
 
-	public User(String ema, String pass, String fir, String las, String str, String cit, String sta, String zi, String pho, String par, String vol, boolean isp, boolean isc, boolean isv, boolean isa,String maj, String min)
+	public User(String ema, String pass, String fir, String las, String str, String cit, String sta, String zi, String pho, String par, String vol, boolean isp, boolean isc, boolean isv, String maj, String min, boolean isApprovedPartner, boolean isApprovedCoordinator, boolean isApprovedVolunteer, String organizationName)
 	{
 		email = ema;
 		password = pass;
@@ -61,10 +68,12 @@ public class User implements Serializable {
 		isPartner = isp;
 		isCoordinator = isc;
 		isVolunteer = isv;
-		isApproved = isa;
 		major=maj;
 		minor=min;
-				
+		this.isApprovedPartner = isApprovedPartner;
+		this.isApprovedCoordinator = isApprovedCoordinator;
+		this.isApprovedVolunteer = isApprovedVolunteer;
+		this.organizationName = organizationName;
 	}
 	
 	//added constructor to create a user from a user for login purpose
@@ -84,9 +93,12 @@ public class User implements Serializable {
 		isPartner = user.getIsPartner();
 		isCoordinator = user.getIsCoordinator();
 		isVolunteer = user.getIsVolunteer();
-		isApproved = user.getIsApproved();
 		major=user.getMajor();
 		minor=user.getMinor();
+		isApprovedPartner = user.getIsApprovedPartner();
+		isApprovedCoordinator = user.getIsApprovedCoordinator();
+		isApprovedVolunteer = user.getIsApprovedVolunteer();
+		organizationName = user.getOrganizationName();
 	}
 	
 	public String getMinor() {
@@ -300,21 +312,39 @@ public class User implements Serializable {
 	public void setIsVolunteer(boolean isVolunteer) {
 		this.isVolunteer = isVolunteer;
 	}
-
-	/**
-	 * @return the isApproved
-	 */
-	public boolean getIsApproved() {
-		return isApproved;
-	}
-
-	/**
-	 * @param isApproved the isApproved to set
-	 */
-	public void setIsApproved(boolean isApproved) {
-		this.isApproved = isApproved;
-	}
 	
+	public boolean getIsApprovedPartner() {
+		return isApprovedPartner;
+	}
+
+	public void setApprovedPartner(boolean isApprovedPartner) {
+		this.isApprovedPartner = isApprovedPartner;
+	}
+
+	public boolean getIsApprovedCoordinator() {
+		return isApprovedCoordinator;
+	}
+
+	public void setApprovedCoordinator(boolean isApprovedCoordinator) {
+		this.isApprovedCoordinator = isApprovedCoordinator;
+	}
+
+	public boolean getIsApprovedVolunteer() {
+		return isApprovedVolunteer;
+	}
+
+	public void setApprovedVolunteer(boolean isApprovedVolunteer) {
+		this.isApprovedVolunteer = isApprovedVolunteer;
+	}
+
+	public String getOrganizationName() {
+		return organizationName;
+	}
+
+	public void setOrganizationName(String organizationName) {
+		this.organizationName = organizationName;
+	}
+
 	@Override
 	public String toString()
 	{

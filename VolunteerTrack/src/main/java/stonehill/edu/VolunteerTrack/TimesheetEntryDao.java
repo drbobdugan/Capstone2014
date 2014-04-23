@@ -18,7 +18,7 @@ public class TimesheetEntryDao extends Dao{
 			statement.executeQuery("DELETE FROM TimeSheetEntry WHERE "+
 		    "UserEmail='"+timesheetEntry.getUserEmail()+"' AND "+
 		    "EventName='"+timesheetEntry.getEventName()+"' AND "+
-			"DateTime=to_date('"+new java.sql.Date(timesheetEntry.getDateTime().getTime())+"','yyyy-mm-dd')");
+			"DateTime=to_date('"+new java.sql.Timestamp(timesheetEntry.getDateTime().getTime()).toString()+"','yyyy-mm-dd hh:mm:ss.fffffffff')");
 			statement.close();
 			disconnectFromDatabase();
 		}
@@ -36,12 +36,13 @@ public class TimesheetEntryDao extends Dao{
 			Statement statement=connection.createStatement();
 			statement.executeQuery("INSERT INTO TimeSheetEntry VALUES("+
 		    "'"+timesheetEntry.getUserEmail()+"', "+
-		    "to_date('"+new java.sql.Date(timesheetEntry.getDateTime().getTime())+"','yyyy-mm-dd'), "+
+		    "to_date('"+new java.sql.Timestamp(timesheetEntry.getDateTime().getTime()).toString()+"','yyyy-mm-dd hh:mm:ss.fffffffff'), "+
 		   //"to_date('2000-10-10','yyyy-mm-dd'), "+
 		    "'"+timesheetEntry.getEventName()+"', "+
 			"'"+(timesheetEntry.getIsSubmitted()?1:0)+"', "+
 			"'"+(timesheetEntry.getIsApproved()?1:0)+"', "+
-			"'"+timesheetEntry.getHoursLogged()+"')");
+			"'"+timesheetEntry.getHoursLogged()+"', "+
+			"'"+timesheetEntry.getOrganizationName()+"')");
 			statement.close();
 			disconnectFromDatabase();
 		}
@@ -66,7 +67,8 @@ public class TimesheetEntryDao extends Dao{
 				boolean isApproved=resultSet.getBoolean("IsApproved");
 				boolean isSubmitted=resultSet.getBoolean("IsSubmitted");
 				int hoursLogged=resultSet.getInt("HoursLogged");
-				result.add(new TimesheetEntry(userEmail,date,eventName,isSubmitted,isApproved,hoursLogged));
+				String organizationName=resultSet.getString("OrganizationName");
+				result.add(new TimesheetEntry(userEmail,date,eventName,isSubmitted,isApproved,hoursLogged,organizationName));
 			}
 			//clean up
 			resultSet.close();
@@ -87,12 +89,13 @@ public class TimesheetEntryDao extends Dao{
 			//SQL statement
 			Statement statement=connection.createStatement();
 			statement.executeQuery("UPDATE TimeSheetEntry SET "+
+			"OrganizationName='"+timesheetEntry.getOrganizationName()+"', "+
 			"HoursLogged='"+timesheetEntry.getHoursLogged()+"', "+
 			"IsApproved='"+(timesheetEntry.getIsApproved()?1:0)+"', "+
 			"IsSubmitted='"+(timesheetEntry.getIsSubmitted()?1:0)+"' WHERE "+
 			"UserEmail='"+timesheetEntry.getUserEmail()+"' AND "+
 			"EventName='"+timesheetEntry.getEventName()+"' AND "+
-			"DateTime=to_date('"+new java.sql.Date(timesheetEntry.getDateTime().getTime())+"','yyyy-mm-dd') ");
+			"DateTime=to_date('"+new java.sql.Timestamp(timesheetEntry.getDateTime().getTime()).toString()+"','yyyy-mm-dd hh:mm:ss.fffffffff') ");
 			statement.close();
 			disconnectFromDatabase();
 		}
@@ -108,7 +111,7 @@ public class TimesheetEntryDao extends Dao{
 			connectToDatabase();
 			//SQL statement
 			Statement statement=connection.createStatement();
-			ResultSet resultSet=statement.executeQuery("SELECT * FROM TimeSheetEntry WHERE DateTime=to_date('"+new java.sql.Date(date.getTime())+"','yyyy-mm-dd') AND EventName='"+eventName+"' AND UserEmail='"+userEmail+"'");
+			ResultSet resultSet=statement.executeQuery("SELECT * FROM TimeSheetEntry WHERE DateTime=to_date('"+new java.sql.Timestamp(date.getTime()).toString()+"','yyyy-mm-dd hh:mm:ss.fffffffff') AND EventName='"+eventName+"' AND UserEmail='"+userEmail+"'");
 			//get tuples
 			if(resultSet.next()){
 				String ue=resultSet.getString("UserEmail");
@@ -117,7 +120,8 @@ public class TimesheetEntryDao extends Dao{
 				boolean isApproved=resultSet.getBoolean("IsApproved");
 				boolean isSubmitted=resultSet.getBoolean("IsSubmitted");
 				int hoursLogged=resultSet.getInt("HoursLogged");
-				result=(new TimesheetEntry(ue,d,en,isSubmitted,isApproved,hoursLogged));
+				String organizationName=resultSet.getString("OrganizationName");
+				result=(new TimesheetEntry(ue,d,en,isSubmitted,isApproved,hoursLogged,organizationName));
 			}else{
 				System.out.println("TimesheetEntryDao:getTimesheetEntry() did not return a tuple.");
 			}
@@ -149,7 +153,8 @@ public class TimesheetEntryDao extends Dao{
 				boolean isApproved=resultSet.getBoolean("IsApproved");
 				boolean isSubmitted=resultSet.getBoolean("IsSubmitted");
 				int hoursLogged=resultSet.getInt("HoursLogged");
-				result.add(new TimesheetEntry(userEmail,date,eventName,isSubmitted,isApproved,hoursLogged));
+				String organizationName=resultSet.getString("OrganizationName");
+				result.add(new TimesheetEntry(userEmail,date,eventName,isSubmitted,isApproved,hoursLogged,organizationName));
 			}
 			//clean up
 			resultSet.close();
