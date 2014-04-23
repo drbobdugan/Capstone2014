@@ -76,8 +76,8 @@ public class VolunteerHomeView extends VolunteerTrackBaseView
 	    
 	   
 	    
-	    message = new Label("message", "testing " + ((Event)userEvents2.get(0)).getOwnerEmail() + " : " + ((Event)userEvents2.get(1)).getOwnerEmail());
-	    add(message);
+	    message = new Label("message", "testing ");
+	   add(message);
 	    
 	    for(Object o: userEvents){
 	    	if(((Event)o).getCreatedDateTime().after(new Date())){
