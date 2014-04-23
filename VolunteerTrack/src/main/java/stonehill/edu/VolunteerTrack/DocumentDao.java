@@ -68,8 +68,7 @@ public class DocumentDao extends Dao{
 				String userEmail=resultSet.getString("UserEmail");
 				boolean isSharedDocument=resultSet.getBoolean("IsSharedDocument");
 				//blob to file
-				File file=new File("temp.txt");
-				file.createNewFile();
+				File file= File.createTempFile(newFileName.getFileName(),"");
 				BufferedInputStream in= new BufferedInputStream(blob.getBinaryStream());
 				FileOutputStream out=new FileOutputStream(file);
 				byte[] buffer=new byte[1024];
@@ -134,7 +133,7 @@ public class DocumentDao extends Dao{
 				String userEmail=resultSet.getString("UserEmail");
 				boolean isSharedDocument=resultSet.getBoolean("IsSharedDocument");
 				//blob to file
-				File file=new File("");
+				File file= File.createTempFile(newFileName.getFileName(),"");
 				BufferedInputStream in= new BufferedInputStream(blob.getBinaryStream());
 				FileOutputStream out=new FileOutputStream(file);
 				byte[] buffer=new byte[1024];
@@ -175,7 +174,7 @@ public class DocumentDao extends Dao{
 				String userEmail=resultSet.getString("UserEmail");
 				boolean isSharedDocument=resultSet.getBoolean("IsSharedDocument");
 				//blob to file
-				File file=new File("");
+				File file= File.createTempFile(newFileName.getFileName(),"");
 				BufferedInputStream in= new BufferedInputStream(blob.getBinaryStream());
 				FileOutputStream out=new FileOutputStream(file);
 				byte[] buffer=new byte[1024];
@@ -216,7 +215,7 @@ public class DocumentDao extends Dao{
 				String userEmail=resultSet.getString("UserEmail");
 				boolean isSharedDocument=resultSet.getBoolean("IsSharedDocument");
 				//blob to file
-				File file=new File("");
+				File file= File.createTempFile(newFileName.getFileName(),"");
 				BufferedInputStream in= new BufferedInputStream(blob.getBinaryStream());
 				FileOutputStream out=new FileOutputStream(file);
 				byte[] buffer=new byte[1024];

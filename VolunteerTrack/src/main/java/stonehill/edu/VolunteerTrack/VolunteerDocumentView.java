@@ -32,6 +32,10 @@ import org.apache.wicket.util.lang.Bytes;
 public class VolunteerDocumentView extends VolunteerTrackBaseView
 {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public Label message;
  	public String selected;
  	public ArrayList<Document> theDocs;
@@ -41,7 +45,6 @@ public class VolunteerDocumentView extends VolunteerTrackBaseView
     TextField<String> NewDocumentType;
      
 	FileUploadField fileUpload;
-	File newFile;
  	
  	
 	public VolunteerDocumentView()
@@ -60,9 +63,11 @@ public class VolunteerDocumentView extends VolunteerTrackBaseView
         //dao.insert(three);
 		
 		ArrayList<Object> temp = dao.selectAll();
+		
 		for(int i = 0; i <temp.size();i++)
 		{
 		 theDocs.add((Document)temp.get(i));
+		 System.out.println(((Document)temp.get(i)).getName());
 		}
 		
 	  
@@ -200,17 +205,17 @@ public class VolunteerDocumentView extends VolunteerTrackBaseView
         	public void onSubmit(){
         		info("Add Doucment was clicked : ");
         		final FileUpload uploadedFile = fileUpload.getFileUpload();
-        		
+        		//System.out.println(uploadedFile);
         		
         		if(uploadedFile !=null)
         		{
         			File newFile = new File("/home/ubuntu/Desktop/test.txt");
         			
+        			
         			try{
-        				newFile.createNewFile();
-        				uploadedFile.writeTo(newFile);
-        				//Document one = new Document("Document1","Cori Form", new Date(),newFile,"ssiff@students.stonehill.edu", false);
-        				//dao.insert(one);
+        				newFile = uploadedFile.writeToTempFile();
+        				Document one = new Document("Document1","Cori Form", new Date(),newFile,"volunteer@volunteer.com", false);
+        				dao.insert(one);
         				this.setResponsePage(VolunteerDocumentView.class);
         			}
         			catch(Exception E)
