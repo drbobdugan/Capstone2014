@@ -61,7 +61,7 @@ public class TimesheetEntryDao extends Dao{
 			//get tuples
 			while(resultSet.next()){
 				String userEmail=resultSet.getString("UserEmail");
-				Date date=resultSet.getDate("DateTime");
+				Date date=resultSet.getTimestamp("DateTime");
 				String eventName=resultSet.getString("EventName");
 				boolean isApproved=resultSet.getBoolean("IsApproved");
 				boolean isSubmitted=resultSet.getBoolean("IsSubmitted");
@@ -114,7 +114,7 @@ public class TimesheetEntryDao extends Dao{
 			//get tuples
 			if(resultSet.next()){
 				String ue=resultSet.getString("UserEmail");
-				Date d=resultSet.getDate("DateTime");
+				Date d=resultSet.getTimestamp("DateTime");
 				String en=resultSet.getString("EventName");
 				boolean isApproved=resultSet.getBoolean("IsApproved");
 				boolean isSubmitted=resultSet.getBoolean("IsSubmitted");
@@ -147,7 +147,7 @@ public class TimesheetEntryDao extends Dao{
 			//get tuples
 			while(resultSet.next()){
 				String userEmail=resultSet.getString("UserEmail");
-				Date date=resultSet.getDate("DateTime");
+				Date date=resultSet.getTimestamp("DateTime");
 				String eventName=resultSet.getString("EventName");
 				boolean isApproved=resultSet.getBoolean("IsApproved");
 				boolean isSubmitted=resultSet.getBoolean("IsSubmitted");
