@@ -14,8 +14,8 @@ public class EventDao extends Dao{
 			//SQL statement
 			Statement statement=connection.createStatement();
 			statement.executeQuery("DELETE FROM Event WHERE name = '"+  event.getName()  + "' AND " +
-			"location = '" + event.getLocation() + "' "); /* +"' AND " +
-			"CreatedDateTime=to_timestamp('"+new java.sql.Timestamp(event.getCreatedDateTime().getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF')"); */
+			"location = '" + event.getLocation()  + "' AND " +
+			"CreatedDateTime=to_timestamp('"+new java.sql.Timestamp(event.getCreatedDateTime().getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF')");
 			
 			statement.close();
 			disconnectFromDatabase();
@@ -75,9 +75,9 @@ public class EventDao extends Dao{
 			while(resultSet.next()){
 				String oe=resultSet.getString("UserEmail");
 				String name=resultSet.getString("Name");
-				Date createdDate =resultSet.getDate("CreatedDateTime");
-				Date startDate =resultSet.getDate("StartDateTime");
-				Date endDate =resultSet.getDate("EndDateTime");
+				Date createdDate =resultSet.getTimestamp("CreatedDateTime");
+				Date startDate =resultSet.getTimestamp("StartDateTime");
+				Date endDate =resultSet.getTimestamp("EndDateTime");
 				String description =resultSet.getString("Description");
 				String location =resultSet.getString("Location");
 				// TODO no sure how this will be handled yet
@@ -110,9 +110,9 @@ public class EventDao extends Dao{
 				System.out.println("asdfasdfasfasdfdassfsadfasfsadF");
 				String owner = resultSet.getString("UserEmail");
 				String name=resultSet.getString("Name");
-				Date createdDate =resultSet.getDate("CreatedDateTime");
-				Date startDate =resultSet.getDate("StartDateTime");
-				Date endDate =resultSet.getDate("EndDateTime");
+				Date createdDate =resultSet.getTimestamp("CreatedDateTime");
+				Date startDate =resultSet.getTimestamp("StartDateTime");
+				Date endDate =resultSet.getTimestamp("EndDateTime");
 				String description =resultSet.getString("Description");
 				String location =resultSet.getString("Location");
 				// TODO no sure how this will be handled yet
@@ -193,9 +193,9 @@ public class EventDao extends Dao{
 			if(resultSet.next()){
 				//String owner = resultSet.getString("UserEmail");
 				String name=resultSet.getString("Name");
-				Date createdDate =resultSet.getDate("CreatedDateTime");
-				Date startDate =resultSet.getDate("StartDateTime");
-				Date endDate =resultSet.getDate("EndDateTime");
+				Date createdDate =resultSet.getTimestamp("CreatedDateTime");
+				Date startDate =resultSet.getTimestamp("StartDateTime");
+				Date endDate =resultSet.getTimestamp("EndDateTime");
 				String description =resultSet.getString("Description");
 				String location =resultSet.getString("Location");
 				// TODO no sure how this will be handled yet
@@ -267,9 +267,9 @@ public class EventDao extends Dao{
 			while(resultSet.next()){
 				String owner = resultSet.getString("UserEmail");
 				String name=resultSet.getString("Name");
-				Date createdDate =resultSet.getDate("CreatedDateTime");
-				Date startDate =resultSet.getDate("StartDateTime");
-				Date endDate =resultSet.getDate("EndDateTime");
+				Date createdDate =resultSet.getTimestamp("CreatedDateTime");
+				Date startDate =resultSet.getTimestamp("StartDateTime");
+				Date endDate =resultSet.getTimestamp("EndDateTime");
 				String description =resultSet.getString("Description");
 				String location =resultSet.getString("Location");
 				// TODO no sure how this will be handled yet
@@ -340,9 +340,9 @@ public class EventDao extends Dao{
 				System.out.println("asdfasdfasfasdfdassfsadfasfsadF");
 				String owner = resultSet.getString("UserEmail");
 				String name=resultSet.getString("Name");
-				Date createdDate =resultSet.getDate("CreatedDateTime");
-				Date startDate =resultSet.getDate("StartDateTime");
-				Date endDate =resultSet.getDate("EndDateTime");
+				Date createdDate =resultSet.getTimestamp("CreatedDateTime");
+				Date startDate =resultSet.getTimestamp("StartDateTime");
+				Date endDate =resultSet.getTimestamp("EndDateTime");
 				String description =resultSet.getString("Description");
 				String location =resultSet.getString("Location");
 				// TODO no sure how this will be handled yet

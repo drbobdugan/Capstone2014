@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class Event implements Serializable {
-     private String OwnerEmail, name, description, location;
+     private String OwnerEmail, name, description, location, organizationName;
      private int numPositions, numPositionsRemaining;
      private Date createdDateTime, startDateTime, endDateTime;
      private Skill [] skills;
@@ -122,6 +122,15 @@ public class Event implements Serializable {
 	}
 	public void setEndDateTime(Date endDateTime) {
 		this.endDateTime = endDateTime;
+	}
+	public String getOrganizationName() {
+		if(organizationName == null)
+			organizationName = getPartner().getOrganizationName();
+		
+		return organizationName;
+	}
+	public void setOrganizationName(String organizationName) {
+		this.organizationName = organizationName;
 	}
 	/**
 	 * @param skills the skills to set

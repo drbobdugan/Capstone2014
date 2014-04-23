@@ -51,9 +51,11 @@ public class PartnerEventView extends VolunteerTrackBaseView
 		final DataView dataView = new DataView("simple", new ListDataProvider(futureEvents)) {
 			protected void populateItem(Item item) {
 				final Event event = (Event)item.getModelObject();
-				item.add(new Link<Void>("delete"){ public void onClick(){ deleteEventFuture(idFuture);}});
-				item.add(new Link<Void>("edit"){ public void onClick(){ editEventFuture(idFuture);}});
-				item.add(new Link<Void>("view"){ public void onClick(){ viewEventFuture(idFuture++);}});
+				final int id =idFuture;
+				item.add(new Link<Void>("delete"){ public void onClick(){ deleteEventFuture(id);}});
+				item.add(new Link<Void>("edit"){ public void onClick(){ editEventFuture(id);}});
+				item.add(new Link<Void>("view"){ public void onClick(){ viewEventFuture(id);}});
+				idFuture++;
 				item.add(new Label("name", event.getName()));
 				item.add(new Label("location", event.getLocation()));
 				item.add(new Label("date", event.getCreatedDateTime().toString()));
@@ -64,9 +66,11 @@ public class PartnerEventView extends VolunteerTrackBaseView
 		final DataView dataView2 = new DataView("simple2", new ListDataProvider(pastEvents)) {
 			protected void populateItem(Item item) {
 				final Event event = (Event)item.getModelObject();
-				item.add(new Link<Void>("delete"){ public void onClick(){ deleteEventPast(idPast);}});
-				item.add(new Link<Void>("edit"){ public void onClick(){ editEventPast(idPast);}});
-				item.add(new Link<Void>("view"){ public void onClick(){ viewEventPast(idPast++);}});
+				final int id = idPast;
+				item.add(new Link<Void>("delete"){ public void onClick(){ deleteEventPast(id);}});
+				item.add(new Link<Void>("edit"){ public void onClick(){ editEventPast(id);}});
+				item.add(new Link<Void>("view"){ public void onClick(){ viewEventPast(id);}});
+				idPast++;
 				item.add(new Label("name2", event.getName()));
 				item.add(new Label("location2", event.getLocation()));
 				item.add(new Label("date2", event.getCreatedDateTime().toString()));
@@ -93,10 +97,12 @@ public class PartnerEventView extends VolunteerTrackBaseView
 	}
 	
 	public void viewEventFuture(int i ){
+		System.out.println("viewEventFuture " + i +"\n\n\n\n");
 		if(i < futureEvents.size())
 		     viewEvent((Event)futureEvents.get(i));
 	}
 	public void viewEventPast(int i ){
+		System.out.println("viewEventPast " + i +"\n\n\n\n");
 		if(i < pastEvents.size())
 		     viewEvent((Event)pastEvents.get(i));
 	}
@@ -130,6 +136,7 @@ public class PartnerEventView extends VolunteerTrackBaseView
     
     // delete an event
     public void deleteEvent(Event e){
+		System.out.println("deleteEvent " + new java.sql.Timestamp(e.getCreatedDateTime().getTime()).toString() +"\n\n\n\n");
     	EventDao eventDao = new EventDao();
     	eventDao.delete(e);
     	setResponsePage(PartnerEventView.class);
