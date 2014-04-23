@@ -39,7 +39,7 @@ public class PartnerEventView extends VolunteerTrackBaseView
 		// Get all events and split up the events by future and past events
 	    ArrayList<Object> events = dao.getAllEventsByOwner(	 CustomSession.get().getUser());
 	    for(Object o: events)
-	    	if(((Event)o).getDate().after(new Date()))
+	    	if(((Event)o).getCreatedDateTime().after(new Date()))
 	    		futureEvents.add((Event)o);
 	    	else 
 	    		pastEvents.add((Event)o);
@@ -56,7 +56,7 @@ public class PartnerEventView extends VolunteerTrackBaseView
 				item.add(new Link<Void>("view"){ public void onClick(){ viewEventFuture(idFuture++);}});
 				item.add(new Label("name", event.getName()));
 				item.add(new Label("location", event.getLocation()));
-				item.add(new Label("date", event.getDate().toString()));
+				item.add(new Label("date", event.getCreatedDateTime().toString()));
 				item.add(new Label("positions", event.getNumPositions()));
 				item.add(new Label("available", event.getNumPositionsRemaining()));
 			}
@@ -69,7 +69,7 @@ public class PartnerEventView extends VolunteerTrackBaseView
 				item.add(new Link<Void>("view"){ public void onClick(){ viewEventPast(idPast++);}});
 				item.add(new Label("name2", event.getName()));
 				item.add(new Label("location2", event.getLocation()));
-				item.add(new Label("date2", event.getDate().toString()));
+				item.add(new Label("date2", event.getCreatedDateTime().toString()));
 				item.add(new Label("positions2", event.getNumPositions()));
 				item.add(new Label("available2", event.getNumPositionsRemaining()));
 			}

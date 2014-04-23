@@ -38,8 +38,8 @@ public class VolunteerHourView extends VolunteerTrackBaseView
  	
 	public VolunteerHourView()
 	{
-		 currentUser = new User("kholmander@stonehill.edu","gunslinger", "keith", "holmander", "", "", "", "", "", "", "", false, false, true, true, "", "");
-		
+		 currentUser = CustomSession.get().getUser();
+		 
 		teDao = new TimesheetEntryDao();
 		
 	    userTimesheetEntry = teDao.getAllTimesheetEntriesByUser(currentUser);
@@ -180,8 +180,9 @@ public class VolunteerHourView extends VolunteerTrackBaseView
    	 
     }
 	public void addEvent(){
+		@SuppressWarnings("deprecation")
 		Date date = new Date(114, 6, 12);
-		TimesheetEntry te = new TimesheetEntry(currentUser.getEmail(), date, "", false, false, 0);
+		TimesheetEntry te = new TimesheetEntry(currentUser.getEmail(), date, "", false, false, 0, "organization name");
 		setResponsePage(new VolunteerEditHoursView(te, true));
    	 
     }

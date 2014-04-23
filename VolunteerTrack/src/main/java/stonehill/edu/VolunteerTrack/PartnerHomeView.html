@@ -37,6 +37,36 @@
 	          </tr>
 	     </tbody>
 	 </table>
+	 <h3>Pending Aplicants</h3>
+     <table cellspalceing="0" class="dataView" table-border="1" style="position:relative; top:100px; left: 300px;">
+	     <tbody>
+	          <tr>
+	               <th>&nbsp;</th>
+	               <th>&nbsp;</th>
+	               <th>Volunteer's Name</th>
+	               <th>Event Name</th>
+	               <th>Date</th>
+	               <th>Positions</th>
+	          </tr>
+	          <tr wicket:id = "simple2"> 
+	              <td><a href="#" wicket:id="aprove"><input type="button" value="Aprove"/></a></td>
+	              <td><a href="#" wicket:id="deny"><input type="button" value="Deny"/></a></td>
+	               <td><span wicket:id = "name2"> The Persons Name </span></td>
+	               <td><span wicket:id = "eventName"> The Event Name </span></td>
+	               <td><span wicket:id = "date2"> The Event date </span></td>
+	               <td><span wicket:id = "available2"> The positions left</span></td>
+	          </tr>
+	          <tr>
+	          <th>&nbsp;</th>
+	               <th>&nbsp;</th>  
+	               <th>&nbsp;</th>
+	               <th>&nbsp;</th>
+	             <td>
+	          <div wicket:id="navigator2"></div> 
+	          </td>
+	          </tr>
+	     </tbody>
+	 </table>
       </wicket:extend>
 </body>
 </html>

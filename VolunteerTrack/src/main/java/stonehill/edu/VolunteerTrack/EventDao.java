@@ -14,8 +14,8 @@ public class EventDao extends Dao{
 			//SQL statement
 			Statement statement=connection.createStatement();
 			statement.executeQuery("DELETE FROM Event WHERE name = '"+  event.getName()  + "' AND " +
-			"location = '" + event.getLocation() +"' AND " +
-			"CreatedDateTime=to_date('"+new java.sql.Timestamp(event.getCreatedDateTime().getTime()).toString()+"','yyyy-mm-dd hh:mm:ss.fffffffff')");
+			"location = '" + event.getLocation() + "' "); /* +"' AND " +
+			"CreatedDateTime=to_timestamp('"+new java.sql.Timestamp(event.getCreatedDateTime().getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF')"); */
 			
 			statement.close();
 			disconnectFromDatabase();
@@ -34,11 +34,11 @@ public class EventDao extends Dao{
 			Statement statement=connection.createStatement();
 			statement.executeQuery("INSERT INTO Event VALUES('"+
 		    event.getName()+"', "+
-			"to_date('"+new java.sql.Timestamp(event.getCreatedDateTime().getTime()).toString()+"','yyyy-mm-dd hh:mm:ss.fffffffff'), "+
-			"to_date('"+new java.sql.Timestamp(event.getStartDateTime().getTime()).toString()+"','yyyy-mm-dd hh:mm:ss.fffffffff'), "+
-			"to_date('"+new java.sql.Timestamp(event.getEndDateTime().getTime()).toString()+"','yyyy-mm-dd hh:mm:ss.fffffffff'), "+
-		    "'"+event.getDescription()+"', "+
-		    "'"+event.getLocation()+"', "+ 
+			"to_timestamp('"+new java.sql.Timestamp(event.getCreatedDateTime().getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF'), "+
+			"to_timestamp('"+new java.sql.Timestamp(event.getStartDateTime().getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF'), "+
+			"to_timestamp('"+new java.sql.Timestamp(event.getEndDateTime().getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF'), "+
+			"'"+event.getDescription()+"', "+ 
+			"'"+event.getLocation()+"', "+ 
 		    "'"+event.getNumPositions()+"', "+
 		    "'"+event.getNumPositionsRemaining()+"')");
 			statement.close();
@@ -55,7 +55,7 @@ public class EventDao extends Dao{
 			statement.executeQuery("INSERT INTO UserOwnsEvent VALUES('"+ 
 			event.getOwnerEmail() + "', '"+
 			event.getName()+"', "+
-			"to_date('"+new java.sql.Timestamp(event.getCreatedDateTime().getTime()).toString()+"','yyyy-mm-dd hh:mm:ss.fffffffff')");
+			"to_timestamp('"+new java.sql.Timestamp(event.getCreatedDateTime().getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF'))");
 			statement.close();
 			disconnectFromDatabase();
 		}
@@ -140,14 +140,14 @@ public class EventDao extends Dao{
 			Statement statement=connection.createStatement();
 
 			statement.executeQuery("UPDATE Event SET "+
-			"StartDateTime=to_date('"+new java.sql.Timestamp(event.getStartDateTime().getTime()).toString()+"','yyyy-mm-dd hh:mm:ss.fffffffff'), "+
-			"EndDateTime=to_date('"+new java.sql.Timestamp(event.getEndDateTime().getTime()).toString()+"','yyyy-mm-dd hh:mm:ss.fffffffff'), "+
+			"StartDateTime=to_timestamp('"+new java.sql.Timestamp(event.getStartDateTime().getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF'), "+
+			"EndDateTime=to_timestamp('"+new java.sql.Timestamp(event.getEndDateTime().getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF'), "+
 		    "Description='"+event.getDescription()+"', "+
 		    "Location='"+event.getLocation()+"', "+
 		    "TotalPositions='"+event.getNumPositions()+"', "+
 		    "PositionsRemaining='"+event.getNumPositionsRemaining()+"'WHERE "+   
 		    "Name='"+event.getName()+"' AND "+
-		    "CreatedDateTime=to_date('"+new java.sql.Timestamp(event.getCreatedDateTime().getTime()).toString()+"','yyyy-mm-dd hh:mm:ss.fffffffff') ");
+		    "CreatedDateTime=to_timestamp('"+new java.sql.Timestamp(event.getCreatedDateTime().getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF') ");
 		
 			statement.close();
 			disconnectFromDatabase();
@@ -165,7 +165,7 @@ public class EventDao extends Dao{
 			connectToDatabase();
 			//SQL statement
 			Statement statement=connection.createStatement();
-			ResultSet resultSet=statement.executeQuery("SELECT * FROM UserOwnsEvent WHERE EventDateTime=to_date('"+new java.sql.Timestamp(dateTime.getTime()).toString()+"','yyyy-mm-dd hh:mm:ss.fffffffff') AND"
+			ResultSet resultSet=statement.executeQuery("SELECT * FROM UserOwnsEvent WHERE EventDateTime=to_timestamp('"+new java.sql.Timestamp(dateTime.getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF') AND"
 							+ " EventName='"+eventName+"'");
 			//get tuple
 			if(resultSet.next()){
@@ -187,7 +187,7 @@ public class EventDao extends Dao{
 			connectToDatabase();
 			//SQL statement
 			Statement statement=connection.createStatement();
-			ResultSet resultSet=statement.executeQuery("SELECT * FROM Event WHERE CreatedDateTime=to_date('"+new java.sql.Timestamp(dateTime.getTime()).toString()+"','yyyy-mm-dd hh:mm:ss.fffffffff') AND"
+			ResultSet resultSet=statement.executeQuery("SELECT * FROM Event WHERE CreatedDateTime=to_timestamp('"+new java.sql.Timestamp(dateTime.getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF') AND"
 							+ " Name='"+eventName+"'");
 			//get tuple
 			if(resultSet.next()){
@@ -227,7 +227,7 @@ public class EventDao extends Dao{
 			statement.executeQuery("INSERT INTO UserOwnsEvent VALUES("+
 		    "'"+user.getEmail()+"', "+
 		    "'"+event.getName()+"', "+
-			"to_date('"+new java.sql.Timestamp(event.getCreatedDateTime().getTime()).toString()+"','yyyy-mm-dd hh:mm:ss.fffffffff')");
+			"to_timestamp('"+new java.sql.Timestamp(event.getCreatedDateTime().getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF')");
 			statement.close();
 			disconnectFromDatabase();
 		}
@@ -247,7 +247,7 @@ public class EventDao extends Dao{
 			statement.executeQuery("DELETE FROM UserOwnsEvent WHERE "+
 		    "UserEmail='"+user.getEmail()+"', AND "+
 		    "EventName='"+event.getName()+"', AND "+
-			"EventDateTime=to_date('"+new java.sql.Timestamp(event.getCreatedDateTime().getTime()).toString()+"','yyyy-mm-dd hh:mm:ss.fffffffff')");
+			"EventDateTime=to_timestamp('"+new java.sql.Timestamp(event.getCreatedDateTime().getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF')");
 			statement.close();
 			disconnectFromDatabase();
 		}
@@ -299,7 +299,7 @@ public class EventDao extends Dao{
 			statement.executeQuery("INSERT INTO UserSignsUpForEvent VALUES("+
 		    "'"+user.getEmail()+"', "+
 		    "'"+event.getName()+"', "+
-			"to_date('"+new java.sql.Timestamp(event.getCreatedDateTime().getTime()).toString()+"','yyyy-mm-dd hh:mm:ss.fffffffff')");
+			"to_timestamp('"+new java.sql.Timestamp(event.getCreatedDateTime().getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF')");
 			statement.close();
 			disconnectFromDatabase();
 		}
@@ -319,7 +319,7 @@ public class EventDao extends Dao{
 			statement.executeQuery("DELETE FROM UserSignsUpForEvent WHERE "+
 		    "UserEmail='"+user.getEmail()+"', AND "+
 		    "EventName='"+event.getName()+"', AND "+
-			"EventDateTime=to_date('"+new java.sql.Timestamp(event.getCreatedDateTime().getTime()).toString()+"','yyyy-mm-dd hh:mm:ss.fffffffff')");
+			"EventDateTime=to_timestamp('"+new java.sql.Timestamp(event.getCreatedDateTime().getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF')");
 			statement.close();
 			disconnectFromDatabase();
 		}

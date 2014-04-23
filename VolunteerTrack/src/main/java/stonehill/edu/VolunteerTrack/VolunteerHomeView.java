@@ -52,7 +52,7 @@ public class VolunteerHomeView extends VolunteerTrackBaseView
 	
 	public VolunteerHomeView()
 	{
-		User currentUser = new User("kholmander@stonehill.edu","gunslinger", "keith", "holmander", "", "", "", "", "", "", "", false, false, true, true, "", "");
+		User currentUser = CustomSession.get().getUser();;
 		
 		idFuture = 0;
 		
@@ -80,7 +80,7 @@ public class VolunteerHomeView extends VolunteerTrackBaseView
 	    add(message);
 	    
 	    for(Object o: userEvents){
-	    	if(((Event)o).getDate().after(new Date())){
+	    	if(((Event)o).getCreatedDateTime().after(new Date())){
 	    		futureEvents.add((Event)o);
 	    	} 
 	    	else {
@@ -140,7 +140,7 @@ public class VolunteerHomeView extends VolunteerTrackBaseView
 				item.add(new Link<Void>("view"){ public void onClick(){ viewEventFuture(idFuture++);}});
 				item.add(new Label("name", event.getName()));
 				item.add(new Label("location", event.getLocation()));
-				item.add(new Label("date", event.getDate().toString()));
+				item.add(new Label("date", event.getCreatedDateTime().toString()));
 				item.add(new Label("partner", event.getOwnerEmail()));
 			}
 		};
