@@ -249,8 +249,8 @@ public class VolunteerSearchView extends VolunteerTrackBaseView
 			item.add(new Label("eventName", ((Event) filteredEvents.get(i)).getName()));
 			item.add(new Label("eventLocation", ((Event) filteredEvents.get(i)).getLocation()));
 			item.add(new Label("eventPartner", ((Event) filteredEvents.get(i)).getOwnerEmail()));
-			item.add(new Label("eventDate", ((Event) filteredEvents.get(i)).getDate().toString()));
-			item.add(new Label("eventTime", ((Event) filteredEvents.get(i)).getDate().getTime()));
+			item.add(new Label("eventDate", ((Event) filteredEvents.get(i)).getStartDateTime().toString()));
+			item.add(new Label("eventTime", ((Event) filteredEvents.get(i)).getStartDateTime().getTime()));
 
 
 			Form form4 = new Form("form4"){

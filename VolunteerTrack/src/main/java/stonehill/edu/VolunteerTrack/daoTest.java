@@ -11,7 +11,7 @@ public class daoTest {
 		TimesheetEntryDao dao=new TimesheetEntryDao();
 		ArrayList<Object> list=new ArrayList<Object>();
 		TimesheetEntry t;
-		dao.insert(t=new TimesheetEntry("jscherr@gmail.com",new Date(7),"puppy petting",true,true,4));
+		dao.insert(t=new TimesheetEntry("jscherr@gmail.com",new Date(7),"puppy petting",true,true,4,""));
 		list=dao.selectAll();
 		for(Iterator i=list.iterator();i.hasNext();){
 			System.out.println(((TimesheetEntry)i.next()).getUserEmail());
@@ -23,7 +23,7 @@ public class daoTest {
 		UserDao dao2=new UserDao();
 		ArrayList<Object> list2=new ArrayList<Object>();
 		User u;
-		dao2.insert(u=new User("jscherr@gmail.com","g","","","","","","","","","",true,false,false,true,"",""));
+		dao2.insert(u=new User("jscherr@gmail.com","g","","","","","","","","","",true,false,false,"","",true,false,false,""));
 		list2=dao2.selectAll();
 		for(Iterator i=list2.iterator();i.hasNext();){
 			System.out.println(((User)i.next()).getEmail());

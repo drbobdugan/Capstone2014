@@ -49,16 +49,13 @@ public class CoordinatorHomeView extends VolunteerTrackBaseView
 		for(int i = 0; i <temp.size();i++)
 		{
 			theUsers.add((User)temp.get(i));
-			if(!((User)temp.get(i)).getIsApproved()) // if user is not approved
+			if (!((User)temp.get(i)).getIsApprovedPartner() && ((User)temp.get(i)).getIsPartner()) // user not approved and wants to be partner
 			{
-				if (((User)temp.get(i)).getIsPartner()) // user not approved and wants to be partner
-				{
-					thePartners.add((User)temp.get(i));
-				}
-				if (((User)temp.get(i)).getIsCoordinator()) // user not approved and wants to be partner
-				{
-					theCoordinators.add((User)temp.get(i));
-				}
+				thePartners.add((User)temp.get(i));
+			}
+			if (!((User)temp.get(i)).getIsApprovedCoordinator() && ((User)temp.get(i)).getIsCoordinator()) // user not approved and wants to be partner
+			{
+				theCoordinators.add((User)temp.get(i));
 			}
 		}
 		
@@ -83,7 +80,7 @@ public class CoordinatorHomeView extends VolunteerTrackBaseView
             item.add(new Label("name", thePartners.get(i).getFirstName() + " " + 
             thePartners.get(i).getLastName() + 
             " " + thePartners.get(i).getEmail() + 
-            " approved: " + thePartners.get(i).getIsApproved() + 
+            " approved: " + thePartners.get(i).getIsApprovedPartner() + 
             " partner: " + thePartners.get(i).getIsPartner() +
             " coordinator: " + thePartners.get(i).getIsCoordinator()
             ));
@@ -152,7 +149,7 @@ public class CoordinatorHomeView extends VolunteerTrackBaseView
             item2.add(new Label("name2", theCoordinators.get(i).getFirstName() + " " + 
             		theCoordinators.get(i).getLastName() + 
             		" " + theCoordinators.get(i).getEmail() + 
-            		" approved: " + theCoordinators.get(i).getIsApproved() + 
+            		" approved: " + theCoordinators.get(i).getIsApprovedCoordinator() + 
             " partner: " + theCoordinators.get(i).getIsPartner() +
             " coordinator: " + theCoordinators.get(i).getIsCoordinator()
             ));
@@ -225,7 +222,7 @@ public class CoordinatorHomeView extends VolunteerTrackBaseView
 	
 	public void approvePartner(int x){
 		User tempUser = thePartners.get(x);
-		tempUser.setIsApproved(true);
+		tempUser.setApprovedPartner(true);
 		dao.update(tempUser);
 		this.setResponsePage(CoordinatorHomeView.class);
    	
@@ -243,7 +240,7 @@ public class CoordinatorHomeView extends VolunteerTrackBaseView
 	public void approveCoordinator(int x){
 		
 		User tempUser = theCoordinators.get(x);
-		tempUser.setIsApproved(true);
+		tempUser.setApprovedCoordinator(true);
 		dao.update(tempUser);
 		this.setResponsePage(CoordinatorHomeView.class);
    	
