@@ -19,31 +19,21 @@
               <span wicket:id="calendarRadio"></span>
               <br />
               <p>Events List will go here</p>
+              <br>
               
-<!--               <table class="eventsview" cellspacing="0"> -->
-<!--                 <tbody> -->
-<!--                   <tr> -->
-<!--                     <th>Select</th> -->
-<!--                     <th>Event Name</th> -->
-<!--                   </tr> -->
-<!--                   <tr wicket:id="eventTable"> -->
-<!--                   <td> <a href='#'>select</a></td> -->
-<!--                   <td><span wicket:id="name">Event Name</span></td> -->
-<!--                   </tr> -->
-<!--                   <tr> -->
-<!-- 	                 <th>&nbsp;</th> -->
-<!-- 	                 <th>&nbsp;</th> -->
-<!-- 	                 <th>&nbsp;</th> -->
-<!-- 	                 <th>&nbsp;</th> -->
-<!-- 	               <td> -->
-<!-- 	                 <div wicket:id="navigator"></div>  -->
-<!-- 	               </td> -->
-<!-- 	               </tr> -->
-<!--                   </tbody> -->
-<!--                   </table> -->
+              <span wicket:id="group">
+              <tr wicket:id="events">
+              <td><input type="checkbox" wicket:id="checkbox"/></td>
+              <td><span wicket:id="eventName">[Event Name]</span></td>
+              <br/>
+              </tr>
+              </span>
+              
+
         <input type="submit" value="Run Report" />
       
       </form>
+      <span wicket:id="feedback">feedback goes here</span>
       </wicket:extend>
 </body>
 </html>
