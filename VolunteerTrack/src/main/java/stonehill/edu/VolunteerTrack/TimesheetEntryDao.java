@@ -18,7 +18,7 @@ public class TimesheetEntryDao extends Dao{
 			statement.executeQuery("DELETE FROM TimeSheetEntry WHERE "+
 		    "UserEmail='"+timesheetEntry.getUserEmail()+"' AND "+
 		    "EventName='"+timesheetEntry.getEventName()+"' AND "+
-			"DateTime=to_date('"+new java.sql.Timestamp(timesheetEntry.getDateTime().getTime()).toString()+"','yyyy-mm-dd hh:mm:ss.fffffffff')");
+			"DateTime=to_timestamp('"+new java.sql.Timestamp(timesheetEntry.getDateTime().getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF')");
 			statement.close();
 			disconnectFromDatabase();
 		}
@@ -36,8 +36,7 @@ public class TimesheetEntryDao extends Dao{
 			Statement statement=connection.createStatement();
 			statement.executeQuery("INSERT INTO TimeSheetEntry VALUES("+
 		    "'"+timesheetEntry.getUserEmail()+"', "+
-		    "to_date('"+new java.sql.Timestamp(timesheetEntry.getDateTime().getTime()).toString()+"','yyyy-mm-dd hh:mm:ss.fffffffff'), "+
-		   //"to_date('2000-10-10','yyyy-mm-dd'), "+
+		    "to_timestamp('"+new java.sql.Timestamp(timesheetEntry.getDateTime().getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF'), "+
 		    "'"+timesheetEntry.getEventName()+"', "+
 			"'"+(timesheetEntry.getIsSubmitted()?1:0)+"', "+
 			"'"+(timesheetEntry.getIsApproved()?1:0)+"', "+
@@ -95,7 +94,7 @@ public class TimesheetEntryDao extends Dao{
 			"IsSubmitted='"+(timesheetEntry.getIsSubmitted()?1:0)+"' WHERE "+
 			"UserEmail='"+timesheetEntry.getUserEmail()+"' AND "+
 			"EventName='"+timesheetEntry.getEventName()+"' AND "+
-			"DateTime=to_date('"+new java.sql.Timestamp(timesheetEntry.getDateTime().getTime()).toString()+"','yyyy-mm-dd hh:mm:ss.fffffffff') ");
+			"DateTime=to_timestamp('"+new java.sql.Timestamp(timesheetEntry.getDateTime().getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF') ");
 			statement.close();
 			disconnectFromDatabase();
 		}
@@ -111,7 +110,7 @@ public class TimesheetEntryDao extends Dao{
 			connectToDatabase();
 			//SQL statement
 			Statement statement=connection.createStatement();
-			ResultSet resultSet=statement.executeQuery("SELECT * FROM TimeSheetEntry WHERE DateTime=to_date('"+new java.sql.Timestamp(date.getTime()).toString()+"','yyyy-mm-dd hh:mm:ss.fffffffff') AND EventName='"+eventName+"' AND UserEmail='"+userEmail+"'");
+			ResultSet resultSet=statement.executeQuery("SELECT * FROM TimeSheetEntry WHERE DateTime=to_timestamp('"+new java.sql.Timestamp(date.getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF') AND EventName='"+eventName+"' AND UserEmail='"+userEmail+"'");
 			//get tuples
 			if(resultSet.next()){
 				String ue=resultSet.getString("UserEmail");
