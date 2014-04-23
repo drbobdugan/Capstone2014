@@ -5,6 +5,8 @@ import java.util.*;
 import org.apache.wicket.markup.html.basic.Label;
 //html and date picker 
 import org.apache.wicket.markup.html.form.*;
+import org.apache.wicket.markup.html.list.ListItem;
+import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.navigation.paging.PagingNavigator;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.markup.html.WebPage;
@@ -15,6 +17,7 @@ import org.apache.wicket.Component;
 import org.apache.wicket.extensions.*;
 import org.apache.wicket.extensions.yui.calendar.DatePicker;
 import org.apache.wicket.extensions.markup.html.form.DateTextField;
+import org.apache.wicket.markup.html.form.CheckBoxMultipleChoice;
 import org.apache.wicket.markup.html.form.Form;
 //table imports
 
@@ -34,10 +37,12 @@ import org.apache.wicket.model.IModel;
 
 public class PartnerReportView extends VolunteerTrackBaseView {
 	
+	//check group
+	private static CheckGroup<Event> group; 
 	//radio button choices
 	private static final List<String> TYPES = Arrays
 			.asList(new String [] { "By Day", "By Week","By Month", "By Year", "By End Date"});
-	//default selected option
+	//default selected 
 	private String selected ="By Week";
 	private static final long serialVersionUID = 1L;
 	
@@ -51,7 +56,7 @@ public class PartnerReportView extends VolunteerTrackBaseView {
 	public PartnerReportView()
 	{
 		//add(new FeedbackPanel("feedback"));
-		
+				
 		RadioChoice<String>  reportBy = new RadioChoice<String>(
 				"calendarRadio", new PropertyModel<String>(this,"selected"),TYPES);
 		
@@ -79,44 +84,69 @@ public class PartnerReportView extends VolunteerTrackBaseView {
         endDateTextField.add(endDatePicker); 
         
         //create table of events
-   /*     ArrayList<Object> temp = eventDao.selectAll();
-        System.out.println("           Temp Size is :" +      temp.size());
-        for(Object o: temp){
-        	events.add((Event)o);
-        } */
-           
-       // makeEventsTable();
+        Event selectedEvent=new Event();
+        ArrayList<Object> temp = eventDao.selectAll();
+        ArrayList<Event> e = new ArrayList<Event>();
+        
+        for(int i =0; i<temp.size(); i++)
+        {
+        	e.add(((Event)temp.get(i)));
+        }
+        
+         group = new CheckGroup<Event>("group", new ArrayList<Event>());
+       
+        ListView events = new ListView("events", e){
+        	protected void populateItem(ListItem item){
+        		item.add(new Check("checkbox", item.getModel()));
+        		item.add(new Label("eventName", new PropertyModel(item.getModel(),"name")));
+        	}
+        };
         
 		Form<?> form = new Form<Void>("form"){
 			@Override
 			protected void onSubmit(){
 				//info("Report By :" + selected);
+				ArrayList<Event> selectedEvents = (ArrayList<Event>) group.getDefaultModelObject();
+				String test="";
+				for(int i =0; i<selectedEvents.size(); i++){
+					test = test + selectedEvents.get(i).getName() + " ";
+				}
+				
+				setResponsePage(new PartnerReportResultsView(selectedEvents));
+				//info("selected event(s): " + test);
 			}
 		};
-		
+        
+        events.setReuseItems(true);
+        group.add(events);
+        add(new FeedbackPanel("feedback"));
+        
+        
+       /* String [] eventNames = new String [temp.size()];
+        
+        for(int i =0; i<temp.size(); i++)
+        {
+        	events.add(((Event)temp.get(i)).getName());
+        }
+        
+        for(int i= 0; i<events.size();i++)
+        {
+        	eventNames[i]=events.get(i);
+        }
+        
+        List<String> fixednames = Arrays.asList(eventNames);
+        
+        final CheckBoxMultipleChoice<String> eventNamesBoxes = new CheckBoxMultipleChoice<String>("events",new Model(events),fixednames);*/
+           
+        
+
+        form.add(group);
 		form.add(startDateTextField);
 		form.add(endDateTextField);
 		form.add(reportBy);
+		//form.add(eventNamesBoxes);
 		add(form);
 		
 	}
-	
-	/*public void makeEventsTable()
-	{
-		final DataView dataView = new DataView("eventTable", new ListDataProvider(events)) {
-			protected void populateItem(Item item) {
-				final Event event = (Event)item.getModelObject();
-				item.add(new Label("name", event.getName()));
-				item.add(new Label("location", event.getLocation()));
-				item.add(new Label("date", event.getDate().toString()));
-				item.add(new Label("positions", event.getNumPositions()));
-				item.add(new Label("available", event.getNumPositionsRemaining()));
-			}
-		};
-		
-		dataView.setItemsPerPage(5);
-		add(dataView);
-		add(new PagingNavigator("navigator", dataView));
-	} */
 
 }

@@ -116,7 +116,19 @@ public class PartnerProfileView extends VolunteerTrackBaseView {
 	    skillsManagement= new Form<Void>("skillsManagement");
 		ArrayList<Object> skillslist = skillsDao.selectAll();
 		ArrayList<Object> userskills = skillsDao.getAllSkillsByUser(currentuser);
-		ArrayList<String> skillsSelect = new ArrayList<String>();
+		final ArrayList<String> skillsSelect = new ArrayList<String>();
+		
+		Button saveskills= new Button("saveSkills"){
+			@Override
+			public void onSubmit(){
+				//userDao.deleteAllUserSkills(currentuser);
+				for(int i=0; i<skillsSelect.size();i++){
+					Skill temp = new Skill(skillsSelect.get(i));
+					userDao.insertUserHasSkill(currentuser, temp);
+				}
+				this.setResponsePage(PartnerProfileView.class);
+			}
+		};
 		
 		String[] skillarray = new String[skillslist.size()];
 		
@@ -136,7 +148,7 @@ public class PartnerProfileView extends VolunteerTrackBaseView {
 		
 		final CheckBoxMultipleChoice<String> skillsBoxes = new CheckBoxMultipleChoice<String>("skills",new Model(skillsSelect),fixedskills);
 		
-		
+		skillsManagement.add(saveskills);
 		skillsManagement.add(skillsBoxes);
 		
         add(uploadProfilePicture);
