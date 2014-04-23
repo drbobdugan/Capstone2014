@@ -27,10 +27,8 @@ public class PartnerHomeView extends VolunteerTrackBaseView{
 	    for(Object o: allEvents)
 	    	if(((Event)o).getCreatedDateTime().after(new Date()))  // if the date of the event is in the future add it to the list
 	    		futureEvents.add((Event)o);
-
 	    
-	    eventAplicaions = new ArrayList(0);
-	    
+	    eventAplicaions = dao.getAllPendingAplicantsByPartner(currentUser, futureEvents);
 	    
 	    populateTables();
 	}  
@@ -54,13 +52,13 @@ public class PartnerHomeView extends VolunteerTrackBaseView{
 		
 		final DataView dataView2 = new DataView("simple2", new ListDataProvider(eventAplicaions)) {
 			protected void populateItem(Item item) {
-				final Event event = (Event)item.getModelObject();
+				final AppEntry aE = (AppEntry)item.getModelObject();
 				item.add(new Link<Void>("aprove"){ public void onClick(){ aprove(aplicantid);}});
-				item.add(new Link<Void>("aprove"){ public void onClick(){ deny(aplicantid++);}});
-				item.add(new Label("name2", event.getName()));
-				item.add(new Label("eventName", event.getLocation()));
-				item.add(new Label("date2", event.getCreatedDateTime().toString()));
-				item.add(new Label("available2", event.getNumPositionsRemaining()));
+				item.add(new Link<Void>("deny"){ public void onClick(){ deny(aplicantid++);}});
+				item.add(new Label("name2", aE.getvName()));
+				item.add(new Label("eventName", aE.geteName()));
+				item.add(new Label("date2", aE.geteDate()));
+				item.add(new Label("available2", aE.getPos()));
 			}
 		};
 			

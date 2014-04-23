@@ -6,6 +6,45 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class EventDao extends Dao{
+	public ArrayList<Object> getAllPendingAplicantsByPartner(User user, ArrayList futureEvents) {
+		ArrayList apps = new ArrayList(0);
+		for(Object o: futureEvents){
+			Event e = (Event)o;
+			ArrayList wtf = getUsersThatAreSignedUpForEvent(user, e);
+			for(Object omg: wtf){
+				ArrayList lol = (ArrayList)omg;
+				apps.add(new AppEntry(user.getFirstName() + " " + user.getLastName(), (String)lol.get(0), (Integer)lol.get(2), (Date)lol.get(1)));
+		    }
+		}
+		return apps;
+	}
+	
+	private ArrayList getUsersThatAreSignedUpForEvent(User user, Event e) {
+		ArrayList row = new ArrayList(0);
+		try{
+			//connect
+			connectToDatabase();
+			//SQL statement
+			Statement statement=connection.createStatement();
+			ResultSet resultSet=statement.executeQuery("SELECT * FROM UserEntity, UserSignsUpForEvent "+
+					"WHERE User.Email=UserSignsUpForEvent.UserEmail AND "+
+					"UserSignsUpForEvent.EventName= '"+e.getName()+"' AND "+
+					"UserSignsUpForEvent.EventDateTime=to_timestamp('"+new java.sql.Timestamp(e.getCreatedDateTime().getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF')");
+			//get tuples
+			while(resultSet.next()){
+				row.add(new Object[]{resultSet.getString("EventName"), resultSet.getTimestamp("CreatedDateTime"), resultSet.getInt("PositionsRemaining")});
+		    }
+			//clean up
+			resultSet.close();
+			statement.close();
+			disconnectFromDatabase();
+		}
+		catch(Exception ex){
+			ex.printStackTrace();
+		}
+		return row;
+		
+	}
 	public void delete(Object value) {
 		Event event=(Event) value;
 		try{
