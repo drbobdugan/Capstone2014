@@ -17,6 +17,7 @@ public class WicketApplication extends WebApplication
 	public Session newSession(Request request, Response response) {
 		System.out.println("newSession()");
 		//daoTest.test();
+		newFileName.start();
 		return new CustomSession(request);
 	}
 	
