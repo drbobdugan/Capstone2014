@@ -48,7 +48,7 @@ public class VolunteerEditHoursView extends VolunteerTrackBaseView {
 		
 		// add text boxes to form
 		form1.add(event = new TextField<String>("EventName",new PropertyModel(currentEntry, "EventName")));
-		form1.add(partner = new TextField<String>("Partner",new PropertyModel(currentEntry, "EventName")));
+		form1.add(partner = new TextField<String>("Partner",new PropertyModel(currentEntry, "OrganizationName")));
 		form1.add(date = new TextField<String>("DateTime",new PropertyModel(currentEntry, "DateTime")));
 		form1.add(hours = new TextField<String>("HoursLogged",new PropertyModel(currentEntry,"HoursLogged" )));
 		

@@ -76,8 +76,6 @@ public class VolunteerHomeView extends VolunteerTrackBaseView
 	    
 	   
 	    
-	    message = new Label("message", "testing ");
-	   add(message);
 	    
 	    for(Object o: userEvents){
 	    	if(((Event)o).getCreatedDateTime().after(new Date())){
@@ -94,7 +92,7 @@ public class VolunteerHomeView extends VolunteerTrackBaseView
 	    
 	    for (int i = 0; i < pastEvents.size(); i++)
 	    {
-	    	String eventPartner = ((Event)pastEvents.get(i)).getOwnerEmail();
+	    	String eventPartner = ((Event)pastEvents.get(i)).getOrganizationName();
 	    	int check = 0;
 	    	for (int n = 0; n < userHours.size(); n++) // go thru all already made hoursworked objects to add to existing
 	    	{
@@ -106,7 +104,7 @@ public class VolunteerHomeView extends VolunteerTrackBaseView
 	    	}
 	    	if (check == 0)
 	    	{
-	    		HoursWorked hw = new HoursWorked(((Event)pastEvents.get(i)).getOwnerEmail(), 
+	    		HoursWorked hw = new HoursWorked(((Event)pastEvents.get(i)).getOrganizationName(), 
 	    				((TimesheetEntry)userTimesheetEntry.get(i)).getHoursLogged());
 	    		userHours.add(hw);
 	    	}
@@ -141,7 +139,7 @@ public class VolunteerHomeView extends VolunteerTrackBaseView
 				item.add(new Label("name", event.getName()));
 				item.add(new Label("location", event.getLocation()));
 				item.add(new Label("date", event.getCreatedDateTime().toString()));
-				item.add(new Label("partner", event.getOwnerEmail()));
+				item.add(new Label("partner", event.getOrganizationName()));
 			}
 		};
 		final DataView dataView2 = new DataView("simple2", new ListDataProvider(userHours)) {

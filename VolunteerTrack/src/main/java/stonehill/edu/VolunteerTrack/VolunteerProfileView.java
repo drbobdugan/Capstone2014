@@ -118,9 +118,6 @@ public class VolunteerProfileView extends VolunteerTrackBaseView {
 		// add checkboxes to form2
 		form2.add(skillsBoxes);
 		
-		// messages to check checkboxes working correctly
-		form2.add(message = new Label("message3", "empty"));
-		form2.add(message = new Label("message4", "empty"));
 		
 		// save skills button
 		form2.add(new Button("saveskills") {

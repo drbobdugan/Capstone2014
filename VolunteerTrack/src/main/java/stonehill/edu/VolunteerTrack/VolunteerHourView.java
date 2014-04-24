@@ -73,7 +73,7 @@ public class VolunteerHourView extends VolunteerTrackBaseView
             repeating.add(item); 
 
             item.add(new Label("event", ((TimesheetEntry)userEvents.get(i)).getEventName()));
-            item.add(new Label("partner", ((TimesheetEntry)userEvents.get(i)).getEventName()));
+            item.add(new Label("partner", ((TimesheetEntry)userEvents.get(i)).getOrganizationName()));
             item.add(new Label("date", ((TimesheetEntry)userEvents.get(i)).getDateTime()));
             item.add(new Label("hours", ((TimesheetEntry)userEvents.get(i)).getHoursLogged()));
             
@@ -181,8 +181,9 @@ public class VolunteerHourView extends VolunteerTrackBaseView
     }
 	public void addEvent(){
 		@SuppressWarnings("deprecation")
-		Date date = new Date(114, 6, 12);
-		TimesheetEntry te = new TimesheetEntry(currentUser.getEmail(), date, "", false, false, 0, "organization name");
+		//Date date = new Date(114, 6, 12);
+		Date date = new Date();
+		TimesheetEntry te = new TimesheetEntry(currentUser.getEmail(), date, "", false, false, 0, "");
 		setResponsePage(new VolunteerEditHoursView(te, true));
    	 
     }
