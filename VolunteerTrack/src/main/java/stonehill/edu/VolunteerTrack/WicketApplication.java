@@ -17,7 +17,6 @@ public class WicketApplication extends WebApplication
 	public Session newSession(Request request, Response response) {
 		System.out.println("newSession()");
 		//daoTest.test();
-		newFileName.start();
 		return new CustomSession(request);
 	}
 	
@@ -26,6 +25,7 @@ public class WicketApplication extends WebApplication
 	 */
 	public Class<LoginView> getHomePage()
 	{
+		this.getMarkupSettings().setStripWicketTags(true); //IMPORTANT!
 		return LoginView.class;
 	}
 

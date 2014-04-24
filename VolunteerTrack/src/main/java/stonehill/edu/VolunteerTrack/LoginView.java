@@ -21,9 +21,7 @@ public class LoginView extends WebPage {
 	public LoginView()
 	{
 		user = new User();
-		log = new LoginController();
-		//log.create();
-		
+		log = new LoginController();		
 		login = new Form("login");
 		register = new Form("register");
 		change = new Form("change");
@@ -32,12 +30,12 @@ public class LoginView extends WebPage {
 		login.add(email = new TextField("emailTextField", new PropertyModel(user, "email")));
 		login.add(password = new PasswordTextField("passwordTextField", new PropertyModel(user,"password")));
 		
-		login.add(new Button("loginButton") {
+		login.add(new Button("log") {
 			@Override
 			public void onSubmit() {
 				if(log.authenticate(user.getEmail(), user.getPassword()) == true)
 				{
-					//setResponsePage(ParHomeView.class);
+					System.out.println("##### Passed Authentication #####");
 					log.redirectHome();
 				}
 				else
@@ -46,7 +44,7 @@ public class LoginView extends WebPage {
 		});
 		add(login);
 		
-		register.add(new Button("registerButton") {
+		register.add(new Button("reg") {
 			@Override
 			public void onSubmit() {
 				log.redirectRegister();
@@ -54,7 +52,7 @@ public class LoginView extends WebPage {
 		});
 		add(register);
 		
-		change.add(new Button("passwordButton") {
+		change.add(new Button("pass") {
 			@Override
 			public void onSubmit() {
 				log.redirectPassword();

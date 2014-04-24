@@ -12,7 +12,8 @@ public class CustomSession extends WebSession {
 	}
 
 	private static final long serialVersionUID = 1L;
-	private User user, switchBack;	
+	private User user, switchBack;
+	private String state;
 	
 	//public CustomSession(Request request) {
 	//	super(request);
@@ -42,5 +43,13 @@ public class CustomSession extends WebSession {
 	public boolean isAuthenticated()
 	{
 		return (user!=null);
+	}
+	
+	public String getState() {
+		return state;
+	}
+	
+	public void setState(String s) {
+		this.state = s;
 	}
 }
