@@ -14,6 +14,7 @@ public class CustomSession extends WebSession {
 	private static final long serialVersionUID = 1L;
 	private User user, switchBack;
 	private String state;
+	private boolean switchON;
 	
 	//public CustomSession(Request request) {
 	//	super(request);
@@ -30,6 +31,13 @@ public class CustomSession extends WebSession {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+	public boolean getSwitchOn() {
+		return switchON;
+	}
+
+	public void setSwitchOn(boolean x) {
+		this.switchON = x;
 	}
 	
 	public User getSwitchUser() {
