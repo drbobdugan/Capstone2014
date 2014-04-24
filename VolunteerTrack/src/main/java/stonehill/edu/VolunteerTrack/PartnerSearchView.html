@@ -12,71 +12,34 @@
   <wicket:extend>  
  
  <h2>Search For Students</h2>
-
-
+ <form wicket:id="form">
  <table border="1" style="width:450px">
   
  <tr><td><h3>Search Criteria</h3></td></tr>
- <tr><td>
- <form wicket:id="form">
-<table style="width:400px">
-
-
-
-
-<tr><td>First Name:</td><td><input wicket:id="FirstName"></td></tr>
-
-
+<tr><td>First Name:</td><td><input type="text" wicket:id="FirstName"></td></tr>
 <tr>
-<td>LastName: </td><td> <input wicket:id="LastName"></td>
+<td>LastName: </td><td> <input type="text" wicket:id="LastName"></td>
 </tr>
-<tr><td>Major:</td><td> <input wicket:id="Major"></td></tr>
+<tr><td>Major:</td><td> <input type="text" wicket:id="Major"></td></tr>
 <tr>
-<td>Minor:</td> <td><input wicket:id="Minor"></td>
+<td>Minor:</td> <td><input type="text" wicket:id="Minor"></td>
 </tr>
 <tr><td></td></tr>
-<tr> <td>Available At: </td></tr>
 
 <tr><td>Skills</td></tr>
 
 <tr>
 <td><span wicket:id="skills"></span></td>
 </tr>
-<tr>
-<td>
-<input type="submit" value="Search" wicket:id="Search"></td></tr>
+<tr><td>
 
+<input type="submit" value="Search" wicket:id="Search">
 
-</table>
-</form>
+</td></tr>
 
-
-<table border="1" style="width:500px">
-<tr><th>Search Results</th></tr>
-<tr>
-<th>Name</th>
-<th>Major</th>
-<th>Minor</th>
-
-</tr>
-
-
-<tr wicket:id="repeating">
-<td><span wicket:id="Name">[Zac Brown]</span></td>
-<td><span wicket:id="Major">[N/A]</span></td>
-<td><span wicket:id="Minor">[N/A]</span></td>
-</tr>
-
-
-
-</table>
-</td>
-</tr>
-
- </table>
-
-  
+ </table> 
+ </form> 
    
-   </wicket:extend>
+ </wicket:extend>
 </body>
 </html>

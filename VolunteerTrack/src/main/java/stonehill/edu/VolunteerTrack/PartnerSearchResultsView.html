@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="kh.css" type="text/css" media="screen" title="Stylesheet" charset="utf-8" />
+<title>Volunteer Track</title>
+</head>
+<body>
+ <wicket:extend>     
+<form wicket:id="form">
+<h2>Search Results</h2>
+<table  class="dataview" border="1" style="width:500px">
+
+<tr>
+<th>Name</th>
+<th>Major</th>
+<th>Minor</th>
+</tr>
+
+<tr wicket:id="repeating">
+<td><span wicket:id="Name">[Zac Brown]</span></td>
+<td><span wicket:id="Major">[N/A]</span></td>
+<td><span wicket:id="Minor">[N/A]</span></td>
+</tr>
+</table>
+<br> 
+<p wicket:id="message"></p>
+<br>
+<input type="submit" wicket:id="back" value="Back to Search">
+</form>
+
+</wicket:extend>
+     
+</body>
+ </html>

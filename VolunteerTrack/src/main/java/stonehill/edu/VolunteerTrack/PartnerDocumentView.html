@@ -6,42 +6,68 @@
 <title>Volunteer Track</title>
 </head>
 <body>
-<wicket:extend>   
-<table border="1" style="width:400px">
-<tr><td>Your Documents</td></tr>
+<wicket:extend> 
+ <p></p>
+ <br> 
+<table border="1" style="width:600px">
+<tr><th>Your Documents</th></tr>
 <tr>
 <td>    </td>
 <td>Document Name</td>
 <td>Date</td>
 <td>Description</td>
 </tr>
-<p wicket:id="YourDocumentsTable"><tr>
-<td><p wicket:id="AddDoc"><input type="submit" value="Add" id="submit"></p></td>
-<td>   </td>
-<td>   </td>
+
+<tr wicket:id="repeating">
+<td><form wicket:id="buttonform">
+       <input type = "submit" wicket:id = "deleteButton" value = "Delete"/>
+       <input type = "submit" wicket:id = "updateButton" value = "Update"/>
+       <input type = "submit" wicket:id = "viewButton" value = "View"/>
+ </form>  
+  </td>
+<td><span wicket:id="document">[Document Name]</span></td>
+<td><span wicket:id="dateUploaded">[Date]</span></td>
+<td><span wicket:id="Description">[Description]</span></td>
 </tr>
-</p>
+
+
+
 </table>
 <br>
+<form wicket:id="uploadform">
+<p>Document Name:
+<input type="text" wicket:id="DocumentName"></p>
+<p> Document Type: 
+<input type="text" wicket:id="DocumentType"></p>
+<p><input type="file" wicket:id="uploadDoc" value="Upload Document"><p>
+</p>
+</form>
+<br>
 
-<table border="1" style="width:400px">
-<tr><td>Volunteer Documents</td></tr>
+<table border="1" style="width:600px">
+<tr><th>Volunteer Documents</th></tr>
 <tr>
-<td>    </td>
-<td>Voluneteer's Name</td>
-<td>Document Name</td>
-<td>Date</td>
+<td></td>
+<td> Volunteer's Name </td>
+<td> Document Name   </td>
+<td>  Date  </td>
+<td> Type</td>
 </tr>
-
-<p wicket:id="VolunteerDocumentTable"><tr><td></td></tr></p>
-<tr>
+<tr wicket:id="repeating2">
 <td>
+<form wicket:id="Volunteerform"> 
+<input type="submit" wicket:id="viewVolDoc" value="View"/>
+</form>
 </td>
-<td>    </td>
-<td>    </td>
-<td>    </td>
+<td><span wicket:id="Name">[Name]</span></td>
+<td><span wicket:id="DocName">[Doc]</span></td>
+<td><span wicket:id="Date">[Date]</span></td>
+<td><span wicket:id="Type">[Type]</span></td>
 </tr>
+
 </table>
+
+
 </wicket:extend>
 </body>
 </html>

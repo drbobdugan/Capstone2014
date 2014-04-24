@@ -27,12 +27,13 @@ public class PartnerSearchView extends VolunteerTrackBaseView {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	TextField FirstName, LastName, dateAvailable,major, minor, startTime, endTime;
+	TextField<String> FirstName, LastName, DateAvailable, major, minor, startTime, endTime;
 	UserDao dao=new UserDao();
 	ArrayList<Object> volunteers;
+	
 	ArrayList<User> searchvol=new ArrayList<User>();
     ArrayList<String>temp;	
-    ArrayList<Object>SearchCriteria;
+    ArrayList<String>SearchCriteria;
     ArrayList<Object>searchResults;
     User currentUser;
     Label Namemessage;
@@ -44,107 +45,41 @@ public class PartnerSearchView extends VolunteerTrackBaseView {
     ArrayList<User> tempUser;
 	public PartnerSearchView()
 	{
-	
-		user1=new User();
-		user1.setFirstName("Kelsey");
-		user1.setLastName("Napolione");
-		user1.setMajor("Computer Science");
-		user1.setMinor("Religion");
 		
-		user2=new User();
-		user2.setFirstName("Kelsey");
-		user2.setLastName("Napolione");
-		user2.setMajor("Computer Science");
-		user2.setMinor("Religion");
+		user1=new User("","","Kelsey","Napolione","","","","","","","",false,false,true,"ComputerScience","Religion",false,false,true,"");	
+		user2=new User("","","Kelsey","Napolione","","","","","","","",false,false,true,"ComputerScience","Religion",false,false,true,"");
+		
 		dao.insert(user1);
 		dao.insert(user2);
 		ArrayList<Object> tempUser=new ArrayList<Object>();
 		tempUser.add(user1);
 		tempUser.add(user2);
 		
+		//insert into dao to test that it grabs from it correctly
+		//dao.insert(user1);
+		//dao.insert(user2);;
 		
-		
-			
-		currentUser=dao.getUserByUsername("partner@partner.com");
-	// final CheckGroup<Skill> group = new CheckGroup<Skill>("group", new ArrayList<Skill>());
-		//this may not be what we want
-		Form<?> form = new Form<Void>("form")
-				{
-					@Override
-					protected void onSubmit()
-					{
-						//do some stuff
-					}
-				};
+	currentUser=dao.getUserByUsername("partner@partner.com");
+	User u=new User();
+	Form form = new Form("form");
 				
 		form.setModel(new Model(currentUser));
-		form.add(FirstName=new TextField<String>("FirstName", new PropertyModel(currentUser,"FirstName")));
-		form.add(LastName=new TextField<String>("LastName", new PropertyModel(currentUser,"LastName")));
-	//	form.add(dateAvailable=new TextField<String>("DateAvailable"));
-		form.add(major=new TextField<String>("Major", new PropertyModel(currentUser,"Major")));
-		form.add(minor=new TextField<String>("Minor", new PropertyModel(currentUser,"Minor")));
+		form.add(FirstName=new TextField<String>("FirstName",new PropertyModel(currentUser,"firstName")));
+		form.add(LastName=new TextField<String>("LastName",new PropertyModel(currentUser,"lastName")));
+	 	//form.add(DateAvailable=new TextField<String>("date"));
+		form.add(major=new TextField<String>("Major",new PropertyModel(currentUser,"major")));
+		form.add(minor=new TextField<String>("Minor",new PropertyModel(currentUser,"minor")));
 	//	form.add(startTime=new TextField<String>("StartTime"));
-	//	form.add(endTime=new TextField<String>("EndTime"));
+	 // form.add(endTime=new TextField<String>("EndTime"));
 		
 		//add all the items to a list
-		temp=new ArrayList<String>();
-		temp.add("firstName");
-		temp.add(FirstName.toString());
-		temp.add("LastName");
-		temp.add(LastName.toString());
-		//temp.add("dateAvaiable");
-		//temp.add(dateAvailable.toString());
-		temp.add("major");
-		temp.add(major.toString());
-		temp.add("minor");
-		temp.add(minor.toString());
-		//temp.add("startTime");
-		//temp.add(startTime.toString());
-		//temp.add("endTime");
-		//temp.add(endTime.toString());
-		final ResultSet results;
+		
 			
 	  //  populateSkills();
-	Button search=new Button("Search") { /**
-		 * 
-		 */
-		private static final long serialVersionUID = 1L;
-		@Override
-	
-    public void onSubmit() {
-			
 		
-				//makes array of non null items in search criteria
-			SearchCriteria=new ArrayList<Object>();
-			
-			for(int i=0; i<temp.size(); i+=2) {
-								
-				if(temp.get(i+1)!=null)  {
-					
-					SearchCriteria.add(temp.get(i));
-					SearchCriteria.add(temp.get(i+1));
-					
-				}
-				
-			}
-	
-			//searchResults= dao.getSearchResults(SearchCriteria);
 
-	//	this.setResponsePage(PartnerSearchView.class);	
-
-		}
-	
-		};
-	
-		
-		form.add(search);
-	  //  form.add(text);
-	 //   populateResultsTable(tempUser);
-	
-	//add skills
-		
 		SkillDao skilldao=new SkillDao();
-		ArrayList<Object>skillslist=skilldao.selectAll(); //get all skills
+		final ArrayList<Object>skillslist=skilldao.selectAll(); //get all skills
 		//ArrayList<String> skillSelect=new ArrayList<String>();
 		
 		String [] skillarray=new String[skillslist.size()];
@@ -152,15 +87,86 @@ public class PartnerSearchView extends VolunteerTrackBaseView {
 			skillarray[i]=((Skill) skillslist.get(i)).getName();
 		}
 		List<String> fixedskills = Arrays.asList(skillarray);
-			
 
 			final CheckBoxMultipleChoice<String> skillBoxes=
-					new CheckBoxMultipleChoice<String>("skills", fixedskills);
-			
-		form.add(skillBoxes);			
-	        
+					new CheckBoxMultipleChoice<String>("skills",new Model(skillslist), fixedskills);
+			form.add(skillBoxes);	
+	Button search=new Button("Search") { /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+		@Override
 	
-		 
+		
+		//add skills
+		
+					
+    public void onSubmit() {
+			//add all the items to a list
+			
+			String first=FirstName.getDefaultModelObjectAsString();
+			String last=LastName.getDefaultModelObjectAsString();
+			String ma=major.getDefaultModelObjectAsString();
+			String mi=minor.getDefaultModelObjectAsString();
+			temp=new ArrayList<String>();
+			temp.add("firstName");
+			temp.add(first);
+			temp.add("lastName");
+			temp.add(last);
+			//temp.add("dateAvaiable");
+		//	temp.add(""+DateAvailable.toString());
+			temp.add("major");
+			temp.add(ma);
+			temp.add("minor");
+			temp.add(mi);
+			//temp.add("startTime");
+			//temp.add(startTime.toString());
+			//temp.add("endTime");
+			//temp.add(endTime.toString());
+			final ResultSet results;
+		
+				//makes array of non null items in search criteria
+			SearchCriteria=new ArrayList<String>();
+			for(int i=0; i<temp.size(); i+=2) {
+								
+				if(!temp.get(i+1).equals(""))  {	
+					SearchCriteria.add(temp.get(i));
+					SearchCriteria.add(temp.get(i+1));	
+				}	
+			}
+			
+	ArrayList<Object>resultset=new ArrayList<Object>();
+	
+	//call dao to query the database
+			searchResults= dao.getSearchResults(SearchCriteria);
+			searchResults=dao.getAllVolunteers();
+			
+		int g=0;
+			
+				
+				for(int h=0;h<searchResults.size(); h++){
+				User user=(User) searchResults.get(h);
+				if(temp.get(g+1).equals(user.getFirstName()) || temp.get(g+3).equals(user.getLastName())
+						|| temp.get(g+5).equals(user.getMajor())) {
+					resultset.add(searchResults.get(h));
+					
+				}
+			
+				}
+			
+	
+			///for(int k=0;k<searchResults.size();k++) {
+			//	resultset.add((User)searchResults.get(k));
+	//		}
+         	this.setResponsePage(new PartnerSearchResultsView(resultset));	
+      }
+		};
+	form.add(search);
+	
+	 //   populateResultsTable(tempUser);
+	
+			
+	        
 	
 		//when I tested with the dummy information
 
@@ -181,12 +187,12 @@ public class PartnerSearchView extends VolunteerTrackBaseView {
 			tempUser.add(user2);
 			
 */
+		/*
 			RepeatingView repeating = new RepeatingView("repeating");
 	        add(repeating);
 	        
 	        int index=0;
 	
-		//  text=new Label("text",""+searchResults.size());	
 			for(int i=0; i<tempUser.size(); i++) {
 			
 			
@@ -215,29 +221,18 @@ public class PartnerSearchView extends VolunteerTrackBaseView {
 	                public String getObject()
 	                {
 	                    return (idx % 2 == 1) ? "even" : "odd";
-	                }
-	                
-	               
+	                }                           
 	            }));
-	            index++;
-	        //	form2.add(Namemessage);
-			//	form2.add(Majormessage);
-			//	form2.add(Minormessage);
-	      //  form2.add(item);
-	          
+	            index++;	                 
 			}
-			
-	//		text=new Label("results",""+index);
-			//form.add(text);
-			add(form);
+			*/
+		add(form);
+		
 	  }
 
 
 		
 }
-	       //    add(form2);
-	            //add forms to the page 
-
 							
 		
 		
