@@ -446,4 +446,88 @@ while(resultSet.next()){
 		EventDao eventDao = new EventDao();
 		eventDao.deleteUserSignsUpForEvent(user1, event2);
 	}
+	public ArrayList SearchUsersByOrganizationName(String organization){
+		ArrayList<Object> result=new ArrayList<Object>();
+		try{
+			//connect
+			connectToDatabase();
+			//SQL statement
+			Statement statement=connection.createStatement();
+			ResultSet resultSet=statement.executeQuery("SELECT * FROM UserEntity WHERE OrganizationName LIKE '%"+organization+"%'");
+			//get tuples
+			while(resultSet.next()){
+				String e=resultSet.getString("Email");
+				String p=resultSet.getString("Password");
+				String fn=resultSet.getString("FirstName");
+				String ln=resultSet.getString("LastName");
+				String s=resultSet.getString("Street");
+				String c=resultSet.getString("City");
+				String st=resultSet.getString("State");
+				String z=resultSet.getString("Zip");
+				String pn=resultSet.getString("PhoneNumber");
+				String pd=resultSet.getString("PartnerDescription");
+				String vd=resultSet.getString("VolunteerDescription");
+				boolean ip=resultSet.getBoolean("IsPartner");
+				boolean ic=resultSet.getBoolean("IsCoordinator");
+				boolean iv=resultSet.getBoolean("IsVolunteer");
+				String mj=resultSet.getString("major");
+				String mi=resultSet.getString("minor");
+				boolean iap=resultSet.getBoolean("IsApprovedPartner");
+				boolean iac=resultSet.getBoolean("IsApprovedCoordinator");
+				boolean iav=resultSet.getBoolean("IsApprovedVolunteer");
+				String on=resultSet.getString("organizationName");
+				result.add(new User(e,p,fn,ln,s,c,st,z,pn,pd,vd,ip,ic,iv,mj,mi,iap,iac,iav,on));
+			}
+			//clean up
+			resultSet.close();
+			statement.close();
+			disconnectFromDatabase();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		return result;
+	}
+public ArrayList SearchUsersByNameMajorMinor(String firstName,String lastName,String  major, String minor){
+	ArrayList<Object> result=new ArrayList<Object>();
+	try{
+		//connect
+		connectToDatabase();
+		//SQL statement
+		Statement statement=connection.createStatement();
+		ResultSet resultSet=statement.executeQuery("SELECT * FROM UserEntity WHERE FirstName LIKE '%"+firstName+"%' AND LastName LIKE '%"+lastName+"%' AND Major LIKE '%"+major+"%' AND Minor LIKE '%"+minor+"%'");
+		//get tuples
+		while(resultSet.next()){
+			String e=resultSet.getString("Email");
+			String p=resultSet.getString("Password");
+			String fn=resultSet.getString("FirstName");
+			String ln=resultSet.getString("LastName");
+			String s=resultSet.getString("Street");
+			String c=resultSet.getString("City");
+			String st=resultSet.getString("State");
+			String z=resultSet.getString("Zip");
+			String pn=resultSet.getString("PhoneNumber");
+			String pd=resultSet.getString("PartnerDescription");
+			String vd=resultSet.getString("VolunteerDescription");
+			boolean ip=resultSet.getBoolean("IsPartner");
+			boolean ic=resultSet.getBoolean("IsCoordinator");
+			boolean iv=resultSet.getBoolean("IsVolunteer");
+			String mj=resultSet.getString("major");
+			String mi=resultSet.getString("minor");
+			boolean iap=resultSet.getBoolean("IsApprovedPartner");
+			boolean iac=resultSet.getBoolean("IsApprovedCoordinator");
+			boolean iav=resultSet.getBoolean("IsApprovedVolunteer");
+			String on=resultSet.getString("organizationName");
+			result.add(new User(e,p,fn,ln,s,c,st,z,pn,pd,vd,ip,ic,iv,mj,mi,iap,iac,iav,on));
+		}
+		//clean up
+		resultSet.close();
+		statement.close();
+		disconnectFromDatabase();
+	}
+	catch(Exception e){
+		e.printStackTrace();
+	}
+	return result;
+	}
 }
