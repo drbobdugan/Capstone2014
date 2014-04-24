@@ -22,15 +22,17 @@
               <br>
               
               <span wicket:id="group">
+              <div style="position: absolute; height: 100px; width: 400px; overflow: auto;">
               <tr wicket:id="events">
               <td><input type="checkbox" wicket:id="checkbox"/></td>
               <td><span wicket:id="eventName">[Event Name]</span></td>
               <br/>
               </tr>
+              <tr><input type="submit" value="Run Report" /></tr>
+              </div>
               </span>
-              
+              <br/>
 
-        <input type="submit" value="Run Report" />
       
       </form>
       <span wicket:id="feedback">feedback goes here</span>

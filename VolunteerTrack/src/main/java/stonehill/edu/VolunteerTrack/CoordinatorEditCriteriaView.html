@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="kh.css" type="text/css" media="screen"
+	title="Stylesheet" charset="utf-8" />
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<title>Volunteer Track</title>
+</head>
+<body>
+	<wicket:extend>
+	      <h1>Skills</h1>
+			<form wicket:id="editCriteria" action="">
+			  <span wicket:id="group">
+              <tr wicket:id="skills">
+              <td><input type="checkbox" wicket:id="checkbox"/></td>
+              <td><span wicket:id="skillName">[Skill Name]</span></td>
+              <br/>
+              </tr>
+              </span>
+			<br/>
+		    <table>
+		    <tr>
+		    <td><input type="text" wicket:id="name" placeholder="skill name"/></td>
+		    <td><input wicket:id="addSkills" type="submit" value="Add New Skill"></td>
+		    </tr>
+		    <tr></tr>
+		    <tr>
+		    <td><input wicket:id="deleteSkills" type="submit" value="Delete Selected Skills"></td>
+		    </tr>
+		    </table>
+		</form>
+    </wicket:extend>
+</body>
+</html>

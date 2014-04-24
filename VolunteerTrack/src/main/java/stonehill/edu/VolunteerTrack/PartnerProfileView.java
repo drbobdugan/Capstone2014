@@ -30,7 +30,7 @@ public class PartnerProfileView extends VolunteerTrackBaseView {
 	SkillDao skillsDao = new SkillDao();
 	
 	Form uploadProfilePicture, profileInformation, passwordManagement, skillsManagement;
-	TextField email, phoneNumber, street, city, state, zip;
+	TextField organization, email, phoneNumber, street, city, state, zip;
 	TextField current, new_password, confirm_password; 
 	User currentuser;
 	Label feedback;
@@ -38,7 +38,7 @@ public class PartnerProfileView extends VolunteerTrackBaseView {
 	public PartnerProfileView()
 	{
 		//will eventually get from session
-		//currentuser = userDao.getUserByUsername("zbrown2@students.stonehill.edu");
+		//currentuser = userDao.getUserByUsername("partner@partner.com");
 		currentuser = CustomSession.get().getUser();
 		
 	    
@@ -53,7 +53,7 @@ public class PartnerProfileView extends VolunteerTrackBaseView {
 	    profileInformation.setModel(new Model(currentuser));
 		
 		
-
+        profileInformation.add(organization = new TextField<String>("organization", new PropertyModel(currentuser,"organizationName")));
 		profileInformation.add(email = new TextField<String>("email", new PropertyModel(currentuser, "email")));
 		profileInformation.add(phoneNumber = new TextField<String>("phoneNumber", new PropertyModel(currentuser, "phoneNumber")));
 		profileInformation.add(street = new TextField<String>("street", new PropertyModel(currentuser, "street")));
@@ -121,7 +121,7 @@ public class PartnerProfileView extends VolunteerTrackBaseView {
 		Button saveskills= new Button("saveSkills"){
 			@Override
 			public void onSubmit(){
-				//userDao.deleteAllUserSkills(currentuser);
+				userDao.deleteAllUserSkills(currentuser);
 				for(int i=0; i<skillsSelect.size();i++){
 					Skill temp = new Skill(skillsSelect.get(i));
 					userDao.insertUserHasSkill(currentuser, temp);

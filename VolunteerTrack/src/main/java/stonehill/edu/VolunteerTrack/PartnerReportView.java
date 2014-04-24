@@ -120,31 +120,11 @@ public class PartnerReportView extends VolunteerTrackBaseView {
         events.setReuseItems(true);
         group.add(events);
         add(new FeedbackPanel("feedback"));
-        
-        
-       /* String [] eventNames = new String [temp.size()];
-        
-        for(int i =0; i<temp.size(); i++)
-        {
-        	events.add(((Event)temp.get(i)).getName());
-        }
-        
-        for(int i= 0; i<events.size();i++)
-        {
-        	eventNames[i]=events.get(i);
-        }
-        
-        List<String> fixednames = Arrays.asList(eventNames);
-        
-        final CheckBoxMultipleChoice<String> eventNamesBoxes = new CheckBoxMultipleChoice<String>("events",new Model(events),fixednames);*/
-           
-        
 
         form.add(group);
 		form.add(startDateTextField);
 		form.add(endDateTextField);
 		form.add(reportBy);
-		//form.add(eventNamesBoxes);
 		add(form);
 		
 	}

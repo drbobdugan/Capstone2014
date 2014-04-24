@@ -52,8 +52,8 @@ public class PartnerReportResultsView extends VolunteerTrackBaseView {
 		ListView results = new ListView("results", e){
         	protected void populateItem(ListItem item){
         		item.add(new Label("eventname", new PropertyModel(item.getModel(),"name")));
-        		item.add(new Label("date", new PropertyModel(item.getModel(),"date")));
-        		item.add(new Label("location", new PropertyModel(item.getModel(),"Location")));
+        		item.add(new Label("date", new PropertyModel(item.getModel(),"startDateTime")));
+        		item.add(new Label("location", new PropertyModel(item.getModel(),"location")));
         	}
         };
         results.setReuseItems(true);
