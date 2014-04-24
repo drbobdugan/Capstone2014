@@ -1,7 +1,6 @@
 package stonehill.edu.VolunteerTrack;
 
 
-
 import java.io.File;
 import java.io.Serializable;
 import java.util.*;
@@ -17,8 +16,8 @@ import org.apache.wicket.model.Model;
 import org.apache.wicket.markup.html.form.upload.FileUploadField;
 import org.apache.wicket.markup.html.form.upload.FileUpload;
 
-
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -49,13 +48,9 @@ public class VolunteerDocumentView extends VolunteerTrackBaseView
  	
 	public VolunteerDocumentView()
 	{
-	  Document one = new Document("Document1","Cori Form", new Date(),new File(""),"ssiff@students.stonehill.edu", false);
-	  Document two = new Document("Nemi","Cori Form", new Date(),new File(""),"ssiff@students.stonehill.edu", false);
-	  Document three = new Document("Student Resume","Resume", new Date(),new File(""),"ssiff@students.stonehill.edu", false);
+
 	  theDocs = new ArrayList<Document>();
-	  theDocs.add(one);
-	  theDocs.add(two);
-	  theDocs.add(three);
+
 	 
         dao = new DocumentDao();
         //dao.insert(one);
@@ -214,7 +209,7 @@ public class VolunteerDocumentView extends VolunteerTrackBaseView
         			
         			try{
         				newFile = uploadedFile.writeToTempFile();
-        				Document one = new Document("Document1","Cori Form", new Date(),newFile,"volunteer@volunteer.com", false);
+        				Document one = new Document(NewDocumentName.getModelObject(),NewDocumentType.getModelObject(), new Date(),newFile,"volunteer@volunteer.com", false);
         				dao.insert(one);
         				this.setResponsePage(VolunteerDocumentView.class);
         			}

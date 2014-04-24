@@ -7,40 +7,38 @@
 <title>Volunteer Track</title>
 </head>
 <body>
-
+    <br>
+    <br>
 	<wicket:extend>
 		<form wicket:id="form">
-			<table cellspacing="0">
-				<tr>
-				
-				<td>
-				
-					Partner: <span><select wicket:id="partners"></select></span>
-				    <br>
-					Location: <span><select wicket:id="locations"></select></span>
-					<br>
-					Event:<span><select wicket:id="events"></select></span>
-					<br>
-					<br> 
-					Start Date: <input type="text" wicket:id="startDateTextField" /> 
-					<br> 
-					End Date: <input type="text" wicket:id="endDateTextField" /> 
-				    <br>
-				    
-				</td>
-				
-				
-				<td>
-				
-				
-				
-				</td>
-
-
-				</tr>
-
-
-			</table>
+		
+		  <label>Partner Name: </label>
+          <input wicket:id = "partnerName" type = "text" size ="19"/>
+          <br>
+          
+          
+          <span><input type="submit" wicket:id="searchPartnerButton" value="Search" /></span>
+          
+          <br>
+          <br>
+          <br>
+          
+          <label>Student Name:</label>
+          <input wicket:id = "studentName" type = "text" size ="20"/>
+		  <br>
+		
+		  <label>Major:</label>
+          <input wicket:id = "major" type = "text" size ="20"/>
+          <br>
+			
+			
+		  <label>Minor:</label>
+          <input wicket:id = "minor" type = "text" size ="20"/>
+          <br>
+          
+          <span><input type="submit" wicket:id="searchVolunteerButton" value="Search" /></span>
+          <br>
+			
 		</form>
 		</wicket:extend>
 </body>

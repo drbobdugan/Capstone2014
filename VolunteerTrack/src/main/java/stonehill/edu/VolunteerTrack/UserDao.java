@@ -488,14 +488,22 @@ while(resultSet.next()){
 		}
 		return result;
 	}
-public ArrayList SearchUsersByNameMajorMinor(String firstName,String lastName,String  major, String minor){
+public ArrayList SearchUsersByNameMajorMinor(String name,String  major, String minor){
 	ArrayList<Object> result=new ArrayList<Object>();
+	//split up name
+	String[] splitName=name.split(" ");
 	try{
 		//connect
 		connectToDatabase();
 		//SQL statement
 		Statement statement=connection.createStatement();
-		ResultSet resultSet=statement.executeQuery("SELECT * FROM UserEntity WHERE FirstName LIKE '%"+firstName+"%' AND LastName LIKE '%"+lastName+"%' AND Major LIKE '%"+major+"%' AND Minor LIKE '%"+minor+"%'");
+		ResultSet resultSet=null;
+		if(splitName.length>1){
+			resultSet=statement.executeQuery("SELECT * FROM UserEntity WHERE FirstName LIKE '%"+splitName[0]+"%' AND LastName LIKE '%"+splitName[1]+"%' AND Major LIKE '%"+major+"%' AND Minor LIKE '%"+minor+"%'");
+		}
+		else{
+			resultSet=statement.executeQuery("SELECT * FROM UserEntity WHERE (FirstName LIKE '%"+splitName[0]+"%' OR LastName LIKE '%"+splitName[0]+"%') AND Major LIKE '%"+major+"%' AND Minor LIKE '%"+minor+"%'");
+		}
 		//get tuples
 		while(resultSet.next()){
 			String e=resultSet.getString("Email");
