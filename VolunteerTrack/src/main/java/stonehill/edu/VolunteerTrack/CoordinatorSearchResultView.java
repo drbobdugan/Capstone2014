@@ -69,6 +69,24 @@ public class CoordinatorSearchResultView extends VolunteerTrackBaseView {
 		}
     	
     	
+    	Form form2 = new Form("form2"){
+			protected void onSubmit(){
+				info("Form.onSubmit()");
+			}
+		};
+		
+    	Button back=new Button("back") {
+    		   @Override
+    		   public void onSubmit() {
+    			 this.setResponsePage(CoordinatorSearchPage.class);  
+    		   }
+    	   }; 
+    	   form2.add(back);
+    	   add(form2);
+    	
+    	  
+    	
+    	
     	
 		
 	}
