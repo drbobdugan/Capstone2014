@@ -44,7 +44,7 @@ public class CustomSession extends WebSession {
 		return switchBack;
 	}
 	
-	public void setSwitchBack(User user) {
+	public void setSwitchUser(User user) {
 		this.switchBack = user;
 	}
 	// User is set at login time...

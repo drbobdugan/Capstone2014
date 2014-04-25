@@ -59,13 +59,8 @@ public class CoordinatorSearchResultView extends VolunteerTrackBaseView {
 				@Override
 				public void onSubmit(){
 					info("Send to: ");
-					
-					User wantedUser = (User)users.get(tempi);
-					User CurrentUser = CustomSession.get().getUser();
-					
-					CustomSession.get().setUser(wantedUser);
-					CustomSession.get().setSwitchBack(CurrentUser);
-					this.setResponsePage(PartnerHomeView.class);
+					LoginController log = new LoginController();
+					log.switchUser((User)users.get(tempi));
 				}
 			};
 			form4.add(apply);

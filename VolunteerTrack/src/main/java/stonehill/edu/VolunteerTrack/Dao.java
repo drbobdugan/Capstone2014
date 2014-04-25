@@ -1,10 +1,11 @@
 package stonehill.edu.VolunteerTrack;
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.Driver;
 import java.sql.DriverManager;
 import java.util.ArrayList;
 
-public abstract class Dao { 
+public abstract class Dao implements Serializable { 
 	private String driverName="oracle.jdbc.driver.OracleDriver";
 	private String connectionURL="jdbc:oracle:thin:@//204.144.14.137:1521/orcl";
 	private Driver driver;

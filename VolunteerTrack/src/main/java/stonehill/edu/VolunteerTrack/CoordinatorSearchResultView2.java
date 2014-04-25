@@ -64,7 +64,7 @@ public class CoordinatorSearchResultView2 extends VolunteerTrackBaseView {
 					User CurrentUser = CustomSession.get().getUser();
 					
 					CustomSession.get().setUser(wantedUser);
-					CustomSession.get().setSwitchBack(CurrentUser);
+					CustomSession.get().setSwitchUser(CurrentUser);
 					this.setResponsePage(VolunteerHomeView.class);
 				}
 			};

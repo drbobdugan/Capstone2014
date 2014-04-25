@@ -30,9 +30,12 @@ public class VolunteerTrackBaseView extends WebPage implements Serializable {
 	BookmarkablePageLink creport;
 	BookmarkablePageLink psearch;
 	BookmarkablePageLink vsearch;
+	BookmarkablePageLink csearch;
+	BookmarkablePageLink ccriteria;
 	
 	Form logout;
 	String select = CustomSession.get().getState();
+	Button switchSingle, switchDaul;
 	
 	public VolunteerTrackBaseView()
 	{
@@ -56,7 +59,7 @@ public class VolunteerTrackBaseView extends WebPage implements Serializable {
 		
 		RadioChoice<String> userType = new RadioChoice<String>("userType", new PropertyModel<String>(this, "select"), TYPES);
 		logout.add(userType);
-		logout.add(new Button("switchButton") {
+		switchSingle = new Button("switchButton") {
 			@Override
 			public void onSubmit() {
 				System.out.println("###### State switched to "+select+" ######");
@@ -64,7 +67,17 @@ public class VolunteerTrackBaseView extends WebPage implements Serializable {
 				LoginController log = new LoginController();
 				log.redirectHome();
 			}
-		});
+		};
+		logout.add(switchSingle);
+		switchDaul = new Button("duality") {
+			@Override
+			public void onSubmit() {
+				System.out.println("###### Switching back to Coordinator #####");
+				LoginController log = new LoginController();
+				log.switchBack();
+			}
+		};
+		logout.add(switchDaul);
 		add(logout);
 		
 		//Add all the links to the bar for menu, set visibility depending on which persona is in use
@@ -82,6 +95,8 @@ public class VolunteerTrackBaseView extends WebPage implements Serializable {
 		add(creport = new BookmarkablePageLink( "creport", CoordinatorReportView.class));
 		add(vsearch = new BookmarkablePageLink( "vsearch", VolunteerSearchView.class));
 		add(psearch = new BookmarkablePageLink( "psearch", PartnerSearchView.class));
+		add(csearch = new BookmarkablePageLink( "csearch", CoordinatorSearchPage.class));
+		add(ccriteria = new BookmarkablePageLink( "ccriteria", CoordinatorEditCriteriaView.class));
 		
 		if(CustomSession.get().getState().equals("Coordinator")) {
 			phome.setVisible(false);
@@ -99,26 +114,30 @@ public class VolunteerTrackBaseView extends WebPage implements Serializable {
 		} else if(CustomSession.get().getState().equals("Partner")) {
 			chome.setVisible(false);
 			creport.setVisible(false);
+			csearch.setVisible(false);
+			ccriteria.setVisible(false);
 			vhome.setVisible(false);
 			vhour.setVisible(false);
 			vprofile.setVisible(false);
 			vdocs.setVisible(false);
 			vreport.setVisible(false);
 			vsearch.setVisible(false);
-			chome.setVisible(false);
-			creport.setVisible(false);
 		} else if(CustomSession.get().getState().equals("Volunteer")) {
 			chome.setVisible(false);
 			creport.setVisible(false);
+			csearch.setVisible(false);
+			ccriteria.setVisible(false);
 			phome.setVisible(false);
 			pevent.setVisible(false);
 			pprofile.setVisible(false);
 			pdocs.setVisible(false);
 			preport.setVisible(false);
 			psearch.setVisible(false);
-			chome.setVisible(false);
-			creport.setVisible(false);
-		}		
+		}
+		
+		if(CustomSession.get().getSwitchOn() == false) {
+			switchDaul.setVisible(false);			
+		}
 		//How to handle coordinator?
 	}
 }

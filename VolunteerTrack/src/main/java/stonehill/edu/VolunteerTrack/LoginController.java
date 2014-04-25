@@ -1,7 +1,5 @@
 package stonehill.edu.VolunteerTrack;
 
-import java.util.ArrayList;
-
 import org.apache.wicket.markup.html.WebPage;
 
 public class LoginController extends WebPage {
@@ -29,15 +27,37 @@ public class LoginController extends WebPage {
 			}
 		return false;
 	}
+	
+	public void switchUser(User swap)
+	{
+		CustomSession.get().setSwitchUser(CustomSession.get().getUser());
+		CustomSession.get().setUser(swap);
+		CustomSession.get().setSwitchOn(true);
+		if(swap.getIsApprovedPartner()) {
+			CustomSession.get().setState("Partner");
+			setResponsePage(PartnerHomeView.class);
+		}
+		else if(swap.getIsApprovedVolunteer()) {
+			CustomSession.get().setState("Volunteer");
+			setResponsePage(VolunteerHomeView.class);
+		}
+	}
+	public void switchBack()
+	{
+		CustomSession.get().setUser(CustomSession.get().getSwitchUser());
+		CustomSession.get().setSwitchOn(false);
+		CustomSession.get().setSwitchUser(null);
+		CustomSession.get().setState("Coordinator");
+	}
 
 	public void redirectHome()
 	{
 		user = CustomSession.get().getUser();
-		if( (user.getIsCoordinator() == true && user.getIsApprovedCoordinator() == true) && CustomSession.get().getState().equals("Coordinator"))
+		if( user.getIsApprovedCoordinator() == true && CustomSession.get().getState().equals("Coordinator"))
 		{	setResponsePage(CoordinatorHomeView.class);}
-		else if( (user.getIsPartner() == true && user.getIsApprovedPartner() == true) && CustomSession.get().getState().equals("Partner"))
+		else if( user.getIsApprovedPartner() == true && CustomSession.get().getState().equals("Partner"))
 		{	setResponsePage(PartnerHomeView.class);}
-		else if( (user.getIsVolunteer() == true && user.getIsApprovedVolunteer() == true) && CustomSession.get().getState().equals("Volunteer"))
+		else if( user.getIsApprovedVolunteer() == true && CustomSession.get().getState().equals("Volunteer"))
 		{	setResponsePage(VolunteerHomeView.class);}
 	}
 
