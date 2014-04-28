@@ -4,106 +4,109 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <link rel="stylesheet" href="kh.css" type="text/css" media="screen"
 	title="Stylesheet" charset="utf-8" />
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script
+	src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 <title>Volunteer Track</title>
 </head>
 <body>
 	<wicket:extend>
+		<div id="main">
+			<div id="main-left">
+			<br><span>Profile Picture</span>
+				<form wicket:id="uploadProfilePicture" action="">
+						<label></label> <input wicket:id="upload_photo"
+							type="file" /> <input type="submit" value="Upload">
+				</form>
+				<img src="no-available-image.png" style="float: left" height="280"
+					width="280" alt="Stonehill Emblem" />
+			</div>
+			<div id="main-center">
+			<span>Password Management</span>
+				<form wicket:id="passwordManagement" action="">
+					<span wicket:id="feedback">feedback</span>
+					<table>
+						<tr>
+							<td>Current Password:</td>
+							<td><input type="text" wicket:id="current" /></td>
+						</tr>
+						<tr>
+							<td>New Password:</td>
+							<td><input type="text" wicket:id="new_password" /></td>
+						</tr>
+						<tr>
+							<td>Confirm New Password:</td>
+							<td><input type="text" wicket:id="confirm_password" /></td>
+						</tr>
+						<tr>
+							<td><input wicket:id="updatePassword" type="submit"
+								value="Confirm" /></td>
+						</tr>
+					</table>
+				</form>
+				<br><span>Profile Information</span>
+				<form wicket:id="profileInformation" action="">
+					<table>
+						<tr>
+							<td>Organization:</td>
+							<td><input type="text" wicket:id="organization" /></td>
+						</tr>
+						<tr>
+							<td>Email:</td>
+							<td><input type="text" wicket:id="email" /></td>
+						</tr>
+						<tr>
+							<td>Phone Number:</td>
+							<td><input type="text" wicket:id="phoneNumber" /></td>
+						</tr>
+						<tr>
+							<td>Street Address:</td>
+							<td><input type="text" wicket:id="street" /></td>
+						</tr>
+						<tr>
+							<td>City:</td>
+							<td><input type="text" wicket:id="city" /></td>
+						</tr>
+						<tr>
+							<td>State:</td>
+							<td><input type="text" wicket:id="state" /></td>
+						</tr>
+						<tr>
+							<td>Zip:</td>
+							<td><input type="text" wicket:id="zip" /></td>
+						</tr>
+						<!-- 	<tr> -->
+						<!-- 	<td>Links:</td> -->
+						<!-- 	<td><input type="text" wicket:id="links"/></td> -->
+						<!-- 	</tr> -->
+					</table>
 
 
-        
-		<form wicket:id="uploadProfilePicture" action="">
-		
-			<p>
-				<label>Select File :</label> <input wicket:id="upload_photo"
-					type="file" /> <input type="submit" value="Upload">
-			</p>
-		</form>
-		<br/>
+					<!-- 	<p>Mission Statement</p> -->
+					<!-- 	<textarea wicket:id="mission" rows ="6" cols="25">Mission Statement goes here</textarea> -->
 
-		<form wicket:id="profileInformation" action="">
+					<table>
+						<tr>
+							<td><input wicket:id="saveProfile" type="submit"
+								value="Save" /> <input wicket:id="cancel" type="submit"
+								value="Cancel" /></td>
+						</tr>
+					</table>
+				</form>
+			</div>
 
-			<table>
-					<tr>
-					<td>Organization:</td>
-					<td><input type="text" wicket:id="organization"/></td>
-					</tr>
-				<tr>
-					<td>Email:</td>
-					<td><input type="text" wicket:id="email" /></td>
-				</tr>
-				<tr>
-					<td>Phone Number:</td>
-					<td><input type="text" wicket:id="phoneNumber" /></td>
-				</tr>
-				<tr>
-					<td>Street Address:</td>
-					<td><input type="text" wicket:id="street" /></td>
-				</tr>
-				<tr>
-					<td>City:</td>
-					<td><input type="text" wicket:id="city" /></td>
-				</tr>
-				<tr>
-					<td>State:</td>
-					<td><input type="text" wicket:id="state" /></td>
-				</tr>
-				<tr>
-					<td>Zip:</td>
-					<td><input type="text" wicket:id="zip" /></td>
-				</tr>
-				<!-- 	<tr> -->
-				<!-- 	<td>Links:</td> -->
-				<!-- 	<td><input type="text" wicket:id="links"/></td> -->
-				<!-- 	</tr> -->
-			</table>
-
-
-			<!-- 	<p>Mission Statement</p> -->
-			<!-- 	<textarea wicket:id="mission" rows ="6" cols="25">Mission Statement goes here</textarea> -->
-
-			<table>
-				<tr>
-					<td><input wicket:id="saveProfile" type="submit" value="Save" />
-						<input wicket:id="cancel" type="submit" value="Cancel" /></td>
-				</tr>
-			</table>
-		</form>
-
-		<form wicket:id="passwordManagement" action="">
-		<span wicket:id="feedback">feedback</span>
-			<table>
-				<tr>
-					<td>Password Management</td>
-				</tr>
-				<tr>
-					<td>Current Password:</td>
-					<td><input type="text" wicket:id="current" /></td>
-				</tr>
-				<tr>
-					<td>New Password:</td>
-					<td><input type="text" wicket:id="new_password" /></td>
-				</tr>
-				<tr>
-					<td>Confirm New Password:</td>
-					<td><input type="text" wicket:id="confirm_password" /></td>
-				</tr>
-				<tr>
-					<td><input wicket:id="updatePassword" type="submit"
-						value="Confirm" /></td>
-				</tr>
-			</table>
-		</form>
-
-		<form wicket:id="skillsManagement" action="">
-			<span wicket:id="skills"></span>
-			<br/>
-		    <table>
-		    <tr>
-		    <td><input wicket:id="saveSkills" type="submit" value="Save Skills"></td>
-		    </tr>
-		    </table>
-		</form>
+			<div id="main-right">
+			<br><span>Skills Management</span>
+				<form wicket:id="skillsManagement" action="">
+					<span wicket:id="skills"></span>
+					<table>
+						<tr>
+							<td><input wicket:id="saveSkills" type="submit"
+								value="Save Skills"></td>
+						</tr>
+					</table>
+				</form>
+			</div>
+		</div>
 	</wicket:extend>
 </body>
 </html>

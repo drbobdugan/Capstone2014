@@ -61,7 +61,7 @@ public class CoordinatorSearchPage  extends VolunteerTrackBaseView
 				
 				UserDao dao = new UserDao();
 				ArrayList<User> returnList = dao.SearchUsersByOrganizationName(partnerNameEntered);
-				
+				setResponsePage(new CoordinatorSearchResultView(returnList));
 			}
 		};
 		
@@ -69,10 +69,13 @@ public class CoordinatorSearchPage  extends VolunteerTrackBaseView
 			@Override
 			public void onSubmit(){
 				info("Send to: ");
-				String studentNameEntered = partnerName.getModelObject();
+				String studentNameEntered = studentName.getModelObject();
 				String majorEntered = major.getModelObject();
 				String minorEntered = minor.getModelObject();
 				
+				UserDao dao = new UserDao();
+				ArrayList<User> returnList = dao.SearchUsersByNameMajorMinor(studentNameEntered, majorEntered, minorEntered);
+				setResponsePage(new CoordinatorSearchResultView2(returnList));
 				
 			}
 		};

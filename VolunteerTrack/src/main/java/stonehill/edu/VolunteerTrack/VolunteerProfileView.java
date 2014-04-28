@@ -7,7 +7,6 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.CheckBoxMultipleChoice;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextArea;
@@ -16,6 +15,8 @@ import org.apache.wicket.markup.html.image.Image;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.request.resource.ContextRelativeResource;
+
+import com.googlecode.wicket.jquery.ui.form.button.Button;
 
 public class VolunteerProfileView extends VolunteerTrackBaseView {
 	/**
@@ -26,7 +27,7 @@ public class VolunteerProfileView extends VolunteerTrackBaseView {
 	TextField email, firstName, lastName, street, city, state, zip, phoneNumber;
 	TextArea description;
 	Image propic;
-	Form form1, form2, form3;
+	Form form1, form2, form3, uploadProfilePicture;
 	UserDao userDao = new UserDao();
 	Label message;
 	ArrayList<String> skillsSelect;
@@ -40,13 +41,18 @@ public class VolunteerProfileView extends VolunteerTrackBaseView {
     	userDao.deleteAllUserSkills(currentuser);
     	userDao.deleteUserHasSkill(currentuser, sk);*/
     	
+    	//Profile Picture Management========================================================
+	    uploadProfilePicture = new Form<Void>("uploadProfilePicture");
+		Button upload = new Button("upload_photo");
+		uploadProfilePicture.add(upload);
+        add(uploadProfilePicture);
     	// create form for page
     	form1 = new Form("form1");
     	
     	
     	//set model of form
 		form1.setModel(new Model(currentuser));
-    
+		
 		
 		// add text boxes to form
 		form1.add(email = new TextField<String>("email", new PropertyModel(currentuser, "email")));

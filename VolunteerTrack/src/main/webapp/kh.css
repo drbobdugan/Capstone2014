@@ -36,8 +36,8 @@
 
 #head-persona {
 	font-size: 12px;
-	height: 70px;
-	width: 200px;
+	height: 100px;
+	width: 220px;
 	float: right;
 	vertical-align: middle;
 	background-color: #FFFFFF;
@@ -65,8 +65,10 @@
 }
 
 #main {
-	width: 1000px;
+	width: 850px;
 	margin: 0 auto;
+	padding: 10px;
+	font-size: 12px;
 }
 
 #register {
@@ -95,6 +97,24 @@
 	border-radius: 8px;
 	-moz-border-radius: 8px;
 	-webkit-border-radius: 8px;	
+}
+
+#main-center {
+	margin-top: 20px;
+	float: left;
+	width: 300px;
+	padding: 5px;
+}
+
+#main-left {
+	float:left;
+	width: 320px;	
+}
+
+#main-right {
+	float: left;
+	width: 200px;
+	padding: 5px;
 }
 
 span.s-left {

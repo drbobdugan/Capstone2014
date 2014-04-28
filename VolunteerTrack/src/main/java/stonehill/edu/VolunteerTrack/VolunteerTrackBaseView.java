@@ -75,6 +75,7 @@ public class VolunteerTrackBaseView extends WebPage implements Serializable {
 				System.out.println("###### Switching back to Coordinator #####");
 				LoginController log = new LoginController();
 				log.switchBack();
+				log.redirectHome();
 			}
 		};
 		logout.add(switchDaul);

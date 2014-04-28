@@ -33,7 +33,7 @@ public class PartnerSearchView extends VolunteerTrackBaseView {
 	
 	ArrayList<User> searchvol=new ArrayList<User>();
     ArrayList<String>temp;	
-    ArrayList<String>SearchCriteria;
+    ArrayList<Object>SearchCriteria;
     ArrayList<Object>searchResults;
     User currentUser;
     Label Namemessage;
@@ -126,7 +126,7 @@ public class PartnerSearchView extends VolunteerTrackBaseView {
 			final ResultSet results;
 		
 				//makes array of non null items in search criteria
-			SearchCriteria=new ArrayList<String>();
+			SearchCriteria=new ArrayList<Object>();
 			for(int i=0; i<temp.size(); i+=2) {
 								
 				if(!temp.get(i+1).equals(""))  {	

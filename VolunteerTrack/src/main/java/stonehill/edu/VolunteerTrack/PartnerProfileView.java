@@ -17,11 +17,12 @@ import org.apache.wicket.markup.html.form.TextArea;
 import org.apache.wicket.markup.html.form.Check;
 import org.apache.wicket.markup.html.form.CheckGroup;
 import org.apache.wicket.markup.html.form.CheckGroupSelector;
-import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
+
+import com.googlecode.wicket.jquery.ui.form.button.Button;
 
 public class PartnerProfileView extends VolunteerTrackBaseView {
 	

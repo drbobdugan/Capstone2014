@@ -1,6 +1,8 @@
 package stonehill.edu.VolunteerTrack;
 
-public class Skill {
+import java.io.Serializable;
+
+public class Skill implements Serializable {
 	private String name;
 	public Skill(String n){
 		name=n;
