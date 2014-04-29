@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="kh.css" type="text/css" media="screen"
+	title="Stylesheet" charset="utf-8" />
+<title>Volunteer Track</title>
+</head>
+<body>
+	<wicket:extend>
+		<div id="main-left">
+			<table cellspacing="6" class="dataview">
+				<tr>
+					<th>Partner</th>
+					<th>Location</th>
+					<th></th>
+				</tr>
+				<tr wicket:id="repeating">
+
+					<td><span wicket:id="partnerName">[en]</span></td>
+					<td><span wicket:id="partnerLocation">[el]</span></td>
+
+					<td>
+						<form wicket:id="form">
+							<span><input type="submit" wicket:id="userButton"
+								value="Become User" /></span>
+						</form>
+					</td>
+
+				</tr>
+			</table>
+			<br> <br>
+			<form wicket:id="form2">
+				<input type="submit" wicket:id="back" value="Back to Search">
+			</form>
+		</div>
+		<div id="main-center">
+			<form wicket:id="form">
+				<table>
+					<tr>
+						<td>Partner Name</td>
+						<td><input wicket:id="partnerName" type="text" size="19" /></td>
+					</tr>
+					<tr>
+						<td><input type="submit" wicket:id="searchPartnerButton"
+							value="Search" /></td>
+					</tr>
+				</table>
+				<br>
+				<table>
+					<tr>
+						<td>Student Name</td>
+						<td><input wicket:id="studentName" type="text" size="20" /></td>
+					</tr>
+					<tr>
+						<td>Major</td>
+						<td><input wicket:id="major" type="text" size="20" /></td>
+					</tr>
+					<tr>
+						<td>Minor</td>
+						<td><input wicket:id="minor" type="text" size="20" /></td>
+					</tr>
+					<tr>
+						<td><input type="submit" wicket:id="searchVolunteerButton"
+							value="Search" /></td>
+					</tr>
+				</table>
+			</form>
+		</div>
+	</wicket:extend>
+</body>
+</html>

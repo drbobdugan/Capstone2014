@@ -1,5 +1,7 @@
 package stonehill.edu.VolunteerTrack;
 
+import java.util.ArrayList;
+
 import org.apache.wicket.markup.html.WebPage;
 
 public class LoginController extends WebPage {
@@ -27,26 +29,32 @@ public class LoginController extends WebPage {
 			}
 		return false;
 	}
-	
+
 	public void switchUser(User swap)
 	{
 		CustomSession.get().setSwitchUser(CustomSession.get().getUser());
 		CustomSession.get().setUser(swap);
 		CustomSession.get().setSwitchOn(true);
+		System.out.println("## LoginController : Switching to user > "+swap.toString()+" ##");
+		System.out.println("## IsApproved - Partner: "+swap.getIsApprovedPartner()+", Volunteer: "+swap.getIsApprovedVolunteer()+", Coordinator: "+swap.getIsApprovedCoordinator()+" ##");
 		if(swap.getIsApprovedPartner()) {
+			System.out.println("## Swap user is a partner ##");
 			CustomSession.get().setState("Partner");
 			setResponsePage(PartnerHomeView.class);
 		}
 		else if(swap.getIsApprovedVolunteer()) {
+			System.out.println("## Swap user is a volunteer ##");
 			CustomSession.get().setState("Volunteer");
 			setResponsePage(VolunteerHomeView.class);
 		}
 	}
 	public void switchBack()
 	{
+		System.out.println("## LoginController : Switching back users > "+CustomSession.get().getSwitchUser().toString()+" ##");
 		CustomSession.get().setUser(CustomSession.get().getSwitchUser());
 		CustomSession.get().setSwitchOn(false);
 		CustomSession.get().setSwitchUser(null);
+		System.out.println("## Swapping back to coordinator ##");
 		CustomSession.get().setState("Coordinator");
 	}
 
@@ -71,45 +79,42 @@ public class LoginController extends WebPage {
 		setResponsePage(ForgotPasswordView.class);
 	}
 
-/*	public void create()
+
+	public void create()
 	{
+		/* tring ema, String pass, String fir, String las, String str, String cit, String sta,
+		 * String zi, String pho, String par, String vol, boolean isp, boolean isc, boolean isv,
+		 * String maj, String min, boolean isApprovedPartner, boolean isApprovedCoordinator, boolean isApprovedVolunteer, 
+		 * String organizationName */
 		UserDao dao = new UserDao();
-		User user = new User("test1@gmail.com","csrocks55", "test","user", "", "", "", "", "", "", "", false, true, false, "", "", false, true, false, "");
+		User user = new User("test1@gmail.com","csrocks55", "Micheal","Singleton", "320 Washington Street", "Easton", "MA", "02356", "Blank Photo", "This student has no partner description", "This is a volunteer description string", true, true, false, "Computer Science", "Database Programming", true, false, false, "This student has no partner name");
 		dao.insert(user);
-		user = new User("test2@gmail.com","csrocks55", "test","user", "", "", "", "", "", "", "", true, false, false, "", "", true, false, false, "");
+		user = new User("test2@gmail.com","csrocks55", "Joey","Scherr", "320 Washington Street", "Easton", "MA", "02356", "Blank Photo", "This student has no partner description", "This is a volunteer description string", true, false, false, "Cmputer Science", "Database Programming", true, false, false, "This student has no partner name");
 		dao.insert(user);
-		user = new User("test3@gmail.com","csrocks55", "test","user", "", "", "", "", "", "", "", false, false, true, "", "", false, false, true, "");
+		user = new User("test3@gmail.com","csrocks55", "Zachery","Brown", "320 Washington Street", "Easton", "MA", "02356", "Blank Photo", "This is a partner description string", "This partner has no volunteer description string", false, false, true, "None", "None", false, false, true, "Zachs Animal Hopistal");
 		dao.insert(user);
-		user = new User("test4@gmail.com","csrocks55", "test","user", "", "", "", "", "", "", "", true, true, true, "", "", true, true, true, "");
+		user = new User("test4@gmail.com","csrocks55", "Keith","Holmander", "320 Washington Street", "Easton", "MA", "02356", "Blank Photo", "This is a partner description string", "This is a volunteer description string", true, true, true, "Computer Science", "Wicket Programming", true, true, true, "Veterns Hopistal");
 		dao.insert(user);	
 	}
 
 	public void check()
 	{
 		UserDao dao = new UserDao();
-		delete();
-		User user = dao.getUserByUsername("test1@gmail.com");
-		if(user == null) {
-			System.out.println("##### LoginController.Create() due to null test1@gmail.com #####");
-			create();
-		} else {
-			ArrayList<Object> test = dao.getAllCoordinators();
-			for(int i = 0; i < test.size(); i++) {
-				System.out.println("#### "+i+" ("+((User)test.get(i)).toString()+" #####");
-			}
-			test = dao.getAllPartners();
-			for(int i = 0; i < test.size(); i++) {
-				System.out.println("#### "+i+" ("+((User)test.get(i)).toString()+" #####");
-			}
-			test = dao.getAllVolunteers();
-			for(int i = 0; i < test.size(); i++) {
-				System.out.println("#### "+i+" ("+((User)test.get(i)).toString()+" #####");
-			}
-			System.out.println("##### LoginController.Check() found user test1@gmail.com #####");
-
+		ArrayList<Object> test = dao.getAllCoordinators();
+		for(int i = 0; i < test.size(); i++) {
+			System.out.println("#### "+i+" ("+((User)test.get(i)).toString()+" #####");
 		}
+		test = dao.getAllPartners();
+		for(int i = 0; i < test.size(); i++) {
+			System.out.println("#### "+i+" ("+((User)test.get(i)).toString()+" #####");
+		}
+		test = dao.getAllVolunteers();
+		for(int i = 0; i < test.size(); i++) {
+			System.out.println("#### "+i+" ("+((User)test.get(i)).toString()+" #####");
+		}
+		System.out.println("##### LoginController.Check() found user test1@gmail.com #####");
 	}
-	
+
 	public void delete()
 	{
 		UserDao dao = new UserDao();
@@ -121,7 +126,7 @@ public class LoginController extends WebPage {
 		dao.delete(test);
 		test = dao.getUserByUsername("test4@gmail.com");
 		dao.delete(test);
-	}*/
+	}
 
 
 }

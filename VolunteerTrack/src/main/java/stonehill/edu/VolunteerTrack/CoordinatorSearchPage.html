@@ -7,40 +7,45 @@
 <title>Volunteer Track</title>
 </head>
 <body>
-    <br>
-    <br>
+	<br>
+	<br>
 	<wicket:extend>
-		<form wicket:id="form">
-		
-		  <label>Partner Name: </label>
-          <input wicket:id = "partnerName" type = "text" size ="19"/>
-          <br>
-          
-          
-          <span><input type="submit" wicket:id="searchPartnerButton" value="Search" /></span>
-          
-          <br>
-          <br>
-          <br>
-          
-          <label>Student Name:</label>
-          <input wicket:id = "studentName" type = "text" size ="20"/>
-		  <br>
-		
-		  <label>Major:</label>
-          <input wicket:id = "major" type = "text" size ="20"/>
-          <br>
-			
-			
-		  <label>Minor:</label>
-          <input wicket:id = "minor" type = "text" size ="20"/>
-          <br>
-          
-          <span><input type="submit" wicket:id="searchVolunteerButton" value="Search" /></span>
-          <br>
-			
-		</form>
-		</wicket:extend>
+		<div id="main">
+			<div id="main-center">
+				<form wicket:id="form">
+					<table>
+						<tr>
+							<td>Partner Name</td>
+							<td><input wicket:id="partnerName" type="text" size="19" /></td>
+						</tr>
+						<tr>
+							<td><input type="submit" wicket:id="searchPartnerButton"
+								value="Search" /></td>
+						</tr>
+					</table>
+					<br>
+					<table>
+						<tr>
+							<td>Student Name</td>
+							<td><input wicket:id="studentName" type="text" size="20" /></td>
+						</tr>
+						<tr>
+							<td>Major</td>
+							<td><input wicket:id="major" type="text" size="20" /></td>
+						</tr>
+						<tr>
+							<td>Minor</td>
+							<td><input wicket:id="minor" type="text" size="20" /></td>
+						</tr>
+						<tr>
+							<td><input type="submit" wicket:id="searchVolunteerButton"
+								value="Search" /></td>
+						</tr>
+					</table>
+				</form>
+			</div>
+		</div>
+	</wicket:extend>
 </body>
 </html>
 

@@ -25,7 +25,7 @@ public class LoginView extends WebPage {
 		login = new Form("login");
 		register = new Form("register");
 		change = new Form("change");
-		
+
 		add(invalid = new Label("invalid", ""));
 		login.add(email = new TextField("emailTextField", new PropertyModel(user, "email")));
 		login.add(password = new PasswordTextField("passwordTextField", new PropertyModel(user,"password")));
