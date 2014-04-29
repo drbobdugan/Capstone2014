@@ -36,9 +36,14 @@ public class VolunteerTrackBaseView extends WebPage implements Serializable {
 	Form logout;
 	String select = CustomSession.get().getState();
 	Button switchSingle, switchDaul;
+	LoginController log = new LoginController();
 	
 	public VolunteerTrackBaseView()
 	{
+		//Check someone is logged in, if not redirect to login page
+		if(log.authenticate() == false)
+			setResponsePage(LoginView.class);;
+			
 		logout = new Form("logout");
 		logout.add(new Button("logoutButton"){
 			@Override

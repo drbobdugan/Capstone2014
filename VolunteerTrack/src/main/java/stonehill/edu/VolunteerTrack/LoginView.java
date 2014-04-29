@@ -21,7 +21,7 @@ public class LoginView extends WebPage {
 	public LoginView()
 	{
 		user = new User();
-		log = new LoginController();		
+		log = new LoginController();
 		login = new Form("login");
 		register = new Form("register");
 		change = new Form("change");
@@ -33,11 +33,8 @@ public class LoginView extends WebPage {
 		login.add(new Button("log") {
 			@Override
 			public void onSubmit() {
-				if(log.authenticate(user.getEmail(), user.getPassword()) == true)
-				{
-					System.out.println("##### Passed Authentication #####");
+				if(log.authenticateLogin(user.getEmail(), user.getPassword()) == true)
 					log.redirectHome();
-				}
 				else
 					invalid.setDefaultModel(new Model("There was an issue, try again."));	
 			}
@@ -58,10 +55,7 @@ public class LoginView extends WebPage {
 				log.redirectPassword();
 			}
 		});
-		add(change);
-		
-		
-		
+		add(change);		
 	}
 	 
 }

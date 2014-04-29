@@ -1,25 +1,17 @@
 
 package stonehill.edu.VolunteerTrack;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
 
-import org.apache.wicket.extensions.yui.calendar.DatePicker;
+import org.apache.log4j.Logger;
 import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.form.Button;
-import org.apache.wicket.markup.html.form.CheckBoxMultipleChoice;
 import org.apache.wicket.markup.html.form.Form;
-import org.apache.wicket.markup.html.form.TextArea;
 import org.apache.wicket.markup.html.form.TextField;
-import org.apache.wicket.markup.html.image.Image;
 import org.apache.wicket.markup.html.list.AbstractItem;
 import org.apache.wicket.markup.repeater.RepeatingView;
 import org.apache.wicket.model.Model;
-import org.apache.wicket.model.PropertyModel;
-import org.apache.wicket.request.resource.ContextRelativeResource;
+
+import com.googlecode.wicket.jquery.ui.form.button.Button;
 
 public class CoordinatorVolunteerSearchResultView extends VolunteerTrackBaseView {
 	/**
@@ -32,7 +24,8 @@ public class CoordinatorVolunteerSearchResultView extends VolunteerTrackBaseView
 	TextField<String> major;
 	TextField<String> minor;
 	ArrayList users;
-
+	static Logger logger = Logger.getLogger(CoordinatorVolunteerSearchResultView.class);
+	
 	public CoordinatorVolunteerSearchResultView(ArrayList<User> theUsers)
 	{
 
@@ -94,6 +87,7 @@ public class CoordinatorVolunteerSearchResultView extends VolunteerTrackBaseView
 
 		for(int i = 0; i < theUsers.size(); i++)
 		{
+			logger.debug("## Coordinator Vol. Search Results : "+i+" : "+users.get(i).toString()+" ##");
 			AbstractItem item = new AbstractItem(repeating.newChildId());
 			repeating.add(item); 
 

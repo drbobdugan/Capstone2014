@@ -1,15 +1,26 @@
 package stonehill.edu.VolunteerTrack;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
+import org.apache.log4j.Logger;
 import org.apache.wicket.markup.html.WebPage;
 
-public class LoginController extends WebPage {
+public class LoginController extends WebPage implements Serializable {
+	
+	static Logger logger = Logger.getLogger(LoginController.class);
+	
 	String username, password;
 	User user;
 
+	public boolean authenticate()
+	{
+		if(CustomSession.get().getUser() == null)
+			return false;
+		return true;
+	}
 	//what is the point? you return void. Changed to boolean from void
-	public boolean authenticate(String username, String password)
+	public boolean authenticateLogin(String username, String password)
 	{
 		//output();
 		UserDao dao = new UserDao();
@@ -17,14 +28,14 @@ public class LoginController extends WebPage {
 		if(user != null) 
 			if(user.getPassword().equals(password)) {
 				CustomSession.get().setUser(user);
-				System.out.println("###### SetUser, passwords matched #####");
+				logger.debug("###### SetUser, passwords matched #####");
 				if(user.getIsCoordinator() == true)
 					CustomSession.get().setState("Coordinator");
 				else if(user.getIsPartner() == true)
 					CustomSession.get().setState("Partner");
 				else if(user.getIsVolunteer() == true)
 					CustomSession.get().setState("Volunteer");
-				System.out.println("####### State = "+CustomSession.get().getState()+" ######");
+				logger.debug("####### State = "+CustomSession.get().getState()+" ######");
 				return true;
 			}
 		return false;
@@ -35,26 +46,26 @@ public class LoginController extends WebPage {
 		CustomSession.get().setSwitchUser(CustomSession.get().getUser());
 		CustomSession.get().setUser(swap);
 		CustomSession.get().setSwitchOn(true);
-		System.out.println("## LoginController : Switching to user > "+swap.toString()+" ##");
-		System.out.println("## IsApproved - Partner: "+swap.getIsApprovedPartner()+", Volunteer: "+swap.getIsApprovedVolunteer()+", Coordinator: "+swap.getIsApprovedCoordinator()+" ##");
+		logger.debug("## LoginController : Switching to user > "+swap.toString()+" ##");
+		logger.debug("## IsApproved - Partner: "+swap.getIsApprovedPartner()+", Volunteer: "+swap.getIsApprovedVolunteer()+", Coordinator: "+swap.getIsApprovedCoordinator()+" ##");
 		if(swap.getIsApprovedPartner()) {
-			System.out.println("## Swap user is a partner ##");
+			logger.debug("## Swap user is a partner ##");
 			CustomSession.get().setState("Partner");
 			setResponsePage(PartnerHomeView.class);
 		}
 		else if(swap.getIsApprovedVolunteer()) {
-			System.out.println("## Swap user is a volunteer ##");
+			logger.debug("## Swap user is a volunteer ##");
 			CustomSession.get().setState("Volunteer");
 			setResponsePage(VolunteerHomeView.class);
 		}
 	}
 	public void switchBack()
 	{
-		System.out.println("## LoginController : Switching back users > "+CustomSession.get().getSwitchUser().toString()+" ##");
+		logger.debug("## LoginController : Switching back users > "+CustomSession.get().getSwitchUser().toString()+" ##");
 		CustomSession.get().setUser(CustomSession.get().getSwitchUser());
 		CustomSession.get().setSwitchOn(false);
 		CustomSession.get().setSwitchUser(null);
-		System.out.println("## Swapping back to coordinator ##");
+		logger.debug("## Swapping back to coordinator ##");
 		CustomSession.get().setState("Coordinator");
 	}
 
@@ -86,12 +97,12 @@ public class LoginController extends WebPage {
 		 * String zi, String pho, String par, String vol, boolean isp, boolean isc, boolean isv,
 		 * String maj, String min, boolean isApprovedPartner, boolean isApprovedCoordinator, boolean isApprovedVolunteer, 
 		 * String organizationName */
-		UserDao dao = new UserDao();
-		User user = new User("test1@gmail.com","csrocks55", "Micheal","Singleton", "320 Washington Street", "Easton", "MA", "02356", "Blank Photo", "This student has no partner description", "This is a volunteer description string", true, true, false, "Computer Science", "Database Programming", true, false, false, "This student has no partner name");
+		UserDao dao = new UserDao();                                                                                                                                                                                               //boolean isp, boolean isc, boolean isv,           boolean isAPartner, boolean isACoordinator, boolean isAVolunteer  
+		User user = new User("test1@gmail.com","csrocks55", "Micheal","Singleton", "320 Washington Street", "Easton", "MA", "02356", "Blank Photo", "This student has no partner description", "This is a volunteer description string", false, true, true, "Computer Science", "Database Programming", false, true, true, "This student has no partner name");
 		dao.insert(user);
-		user = new User("test2@gmail.com","csrocks55", "Joey","Scherr", "320 Washington Street", "Easton", "MA", "02356", "Blank Photo", "This student has no partner description", "This is a volunteer description string", true, false, false, "Cmputer Science", "Database Programming", true, false, false, "This student has no partner name");
+		user = new User("test2@gmail.com","csrocks55", "Joey","Scherr", "320 Washington Street", "Easton", "MA", "02356", "Blank Photo", "This is a partner description string", "This partner has no volunteer description string", true, false, false, "None", "None", true, false, false, "Joeys Wildlife Rescue");
 		dao.insert(user);
-		user = new User("test3@gmail.com","csrocks55", "Zachery","Brown", "320 Washington Street", "Easton", "MA", "02356", "Blank Photo", "This is a partner description string", "This partner has no volunteer description string", false, false, true, "None", "None", false, false, true, "Zachs Animal Hopistal");
+		user = new User("test3@gmail.com","csrocks55", "Zachery","Brown", "320 Washington Street", "Easton", "MA", "02356", "Blank Photo", "This is a student has no partner description string", "This partner has no volunteer description string", false, false, true, "Computer Science", "Project Management", false, false, true, "This student has no partner name");
 		dao.insert(user);
 		user = new User("test4@gmail.com","csrocks55", "Keith","Holmander", "320 Washington Street", "Easton", "MA", "02356", "Blank Photo", "This is a partner description string", "This is a volunteer description string", true, true, true, "Computer Science", "Wicket Programming", true, true, true, "Veterns Hopistal");
 		dao.insert(user);	
@@ -102,17 +113,17 @@ public class LoginController extends WebPage {
 		UserDao dao = new UserDao();
 		ArrayList<Object> test = dao.getAllCoordinators();
 		for(int i = 0; i < test.size(); i++) {
-			System.out.println("#### "+i+" ("+((User)test.get(i)).toString()+" #####");
+			logger.debug("#### "+i+" ("+((User)test.get(i)).toString()+" #####");
 		}
 		test = dao.getAllPartners();
 		for(int i = 0; i < test.size(); i++) {
-			System.out.println("#### "+i+" ("+((User)test.get(i)).toString()+" #####");
+			logger.debug("#### "+i+" ("+((User)test.get(i)).toString()+" #####");
 		}
 		test = dao.getAllVolunteers();
 		for(int i = 0; i < test.size(); i++) {
-			System.out.println("#### "+i+" ("+((User)test.get(i)).toString()+" #####");
+			logger.debug("#### "+i+" ("+((User)test.get(i)).toString()+" #####");
 		}
-		System.out.println("##### LoginController.Check() found user test1@gmail.com #####");
+		logger.debug("##### LoginController.Check() found user test1@gmail.com #####");
 	}
 
 	public void delete()
