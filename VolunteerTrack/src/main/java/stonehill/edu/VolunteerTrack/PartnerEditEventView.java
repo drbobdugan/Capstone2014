@@ -21,33 +21,32 @@ import org.apache.wicket.markup.repeater.data.ListDataProvider;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 
-public class PartnerCreateEventView extends VolunteerTrackBaseView
+public class PartnerEditEventView extends VolunteerTrackBaseView
 {
-	private Event newEvent;  // list of events specific to the partner
+	private Event theEvent;  // list of events specific to the partner
 	private TextField name, location, position;
 	private TextArea description;
 	private Form form;
 	private DateTextField date;
 	private  DatePicker datePicker;
-	public PartnerCreateEventView()
+	public PartnerEditEventView(Event e)
 	{
+		theEvent = e;
 	    populateItems();
 	}  
 	
 	 private void populateItems() {
 		  // create the event to insert
-		 newEvent = new Event();  
-		 newEvent.setOwnerEmail(CustomSession.get().getUser().getEmail());
 		  //  create the form 
 		  form = new Form("form");
 		  // create elements and add them to the form
-		  form.add(name = new TextField("eventName", new PropertyModel(newEvent, "name")));
-		  form.add(location = new TextField("location", new PropertyModel(newEvent, "location")));
+		  form.add(name = new TextField("eventName", new PropertyModel(theEvent, "name")));
+		  form.add(location = new TextField("location", new PropertyModel(theEvent, "location")));
 		  
-		  //form.add(location = new TextField("start", new PropertyModel(newEvent, "location")));
-		  //form.add(location = new TextField("end", new PropertyModel(newEvent, "location")));
+		  //form.add(location = new TextField("start", new PropertyModel(theEvent, "location")));
+		  //form.add(location = new TextField("end", new PropertyModel(theEvent, "location")));
 		  
-		  date = new DateTextField("date", new PropertyModel<Date>(newEvent, "createdDateTime"));
+		  date = new DateTextField("date", new PropertyModel<Date>(theEvent, "createdDateTime"));
 	      datePicker = new DatePicker(){
 	        	protected String getAdditionalJavascript()
 	        	{
@@ -59,15 +58,15 @@ public class PartnerCreateEventView extends VolunteerTrackBaseView
 	        date.add(datePicker);
 	        form.add(date);
 	        
-		  form.add(description = new TextArea("description", new PropertyModel(newEvent, "description")));
-		  form.add(position = new TextField<Integer>("positions", new PropertyModel(newEvent, "numPositions")));
+		  form.add(description = new TextArea("description", new PropertyModel(theEvent, "description")));
+		  form.add(position = new TextField<Integer>("positions", new PropertyModel(theEvent, "numPositions")));
 		  form.add(new Button("save"){  
 			  @Override
 				public void onSubmit() {
 				  boolean success = true;
 				  //try{
 					  EventDao eD = new EventDao();
-					  eD.insert(newEvent); 
+					  eD.update(theEvent); 
 				//  } catch(Exception e){
 				//	  success = false;
 				//  }
@@ -84,10 +83,10 @@ public class PartnerCreateEventView extends VolunteerTrackBaseView
 			   
 	}
 /*	 private void saveEvent(){		     
-		 Event newEvent = new Event( , name.toString(), new Date(), description.toString(), 
+		 Event theEvent = new Event( , name.toString(), new Date(), description.toString(), 
 				 location.toString(), 2, 2, new Skill[0]);
 	     EventDao eventDao = new EventDao();
-	     eventDao.insert(newEvent);
+	     eventDao.insert(theEvent);
 	     setResponsePage(PartnerEventView.class); 
 	 }*/
 }

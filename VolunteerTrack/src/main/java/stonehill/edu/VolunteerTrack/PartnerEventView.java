@@ -130,8 +130,7 @@ public class PartnerEventView extends VolunteerTrackBaseView
     
     // edit an event
     public void editEvent(Event e){
-   	 //TODO redirect
-    	//setResponsePage(PartnerEventEditView.class);
+   	    setResponsePage(new PartnerEditEventView(e));
     }
     
     // delete an event
