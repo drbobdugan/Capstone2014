@@ -138,4 +138,16 @@ public class Event implements Serializable {
 	public void setSkills(Skill[] skills) {
 		this.skills = skills;
 	}
+	public Date getTime1(){
+		return this.getStartDateTime();
+	}
+	public void setTime1(Date value){
+		this.setStartDateTime(value);
+	}
+	public Date getTime2(){
+		return this.getEndDateTime();
+	}
+	public void setTime2(Date value){
+		this.setEndDateTime(value);
+	}
 }

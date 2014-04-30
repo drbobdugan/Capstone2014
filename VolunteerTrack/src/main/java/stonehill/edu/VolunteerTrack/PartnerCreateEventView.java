@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.apache.wicket.extensions.markup.html.form.DateTextField;
 import org.apache.wicket.extensions.yui.calendar.DatePicker;
+import org.apache.wicket.extensions.yui.calendar.TimeField;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Button;
@@ -29,6 +30,9 @@ public class PartnerCreateEventView extends VolunteerTrackBaseView
 	private Form form;
 	private DateTextField date;
 	private  DatePicker datePicker;
+	private final Date time1 = new Date();
+	private final Date time2 = new Date();
+	
 	public PartnerCreateEventView()
 	{
 	    populateItems();
@@ -59,6 +63,12 @@ public class PartnerCreateEventView extends VolunteerTrackBaseView
 	        date.add(datePicker);
 	        form.add(date);
 	        
+	        TimeField startTime = new TimeField("timeField1", new PropertyModel<Date>(this, "time1"));
+			TimeField endTime = new TimeField("timeField2", new PropertyModel<Date>(this, "time2"));
+			
+			form.add(startTime);
+			form.add(endTime);
+	        
 		  form.add(description = new TextArea("description", new PropertyModel(newEvent, "description")));
 		  form.add(position = new TextField<Integer>("positions", new PropertyModel(newEvent, "numPositions")));
 		  form.add(new Button("save"){  
@@ -67,6 +77,9 @@ public class PartnerCreateEventView extends VolunteerTrackBaseView
 				  boolean success = true;
 				  //try{
 					  EventDao eD = new EventDao();
+					  newEvent.setStartDateTime(getStart());
+					  newEvent.setEndDateTime(getEnd());
+					  newEvent.setNumPositionsRemaining(newEvent.getNumPositions());
 					  eD.insert(newEvent); 
 				//  } catch(Exception e){
 				//	  success = false;
@@ -83,6 +96,12 @@ public class PartnerCreateEventView extends VolunteerTrackBaseView
 		  add(form);
 			   
 	}
+	 private Date getStart() {
+			return time1;
+		}
+	 private Date getEnd() {
+			return time2;
+		}
 /*	 private void saveEvent(){		     
 		 Event newEvent = new Event( , name.toString(), new Date(), description.toString(), 
 				 location.toString(), 2, 2, new Skill[0]);

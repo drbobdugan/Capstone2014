@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.apache.wicket.extensions.markup.html.form.DateTextField;
 import org.apache.wicket.extensions.yui.calendar.DatePicker;
+import org.apache.wicket.extensions.yui.calendar.TimeField;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Button;
@@ -29,6 +30,7 @@ public class PartnerEditEventView extends VolunteerTrackBaseView
 	private Form form;
 	private DateTextField date;
 	private  DatePicker datePicker;
+	private TimeField time1, time2;
 	public PartnerEditEventView(Event e)
 	{
 		theEvent = e;
@@ -43,8 +45,8 @@ public class PartnerEditEventView extends VolunteerTrackBaseView
 		  form.add(name = new TextField("eventName", new PropertyModel(theEvent, "name")));
 		  form.add(location = new TextField("location", new PropertyModel(theEvent, "location")));
 		  
-		  //form.add(location = new TextField("start", new PropertyModel(theEvent, "location")));
-		  //form.add(location = new TextField("end", new PropertyModel(theEvent, "location")));
+		  form.add(time1 = new TimeField("timeField1", new PropertyModel(theEvent, "time1")));
+		  form.add(time2 = new TimeField("timeField2", new PropertyModel(theEvent, "time2")));
 		  
 		  date = new DateTextField("date", new PropertyModel<Date>(theEvent, "createdDateTime"));
 	      datePicker = new DatePicker(){

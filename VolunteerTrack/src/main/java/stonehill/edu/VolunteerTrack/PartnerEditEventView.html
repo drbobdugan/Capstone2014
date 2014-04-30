@@ -8,7 +8,7 @@
 <body>
 <wicket:extend>
      <h3>Edit Event</h3>
-     <table cellspalceing="0" class="dataView" table-border="1" style="position:relative; top:100px; left: 300px;">
+     <table cellspalceing="0" class="dataView">
 	     <tbody>
 	     <form wicket:id="form">
 	         <label for="name" >Event Name: </label>
@@ -19,12 +19,12 @@
 	         <label for="date" >Date: </label>
 	         <input type="text" wicket:id="date"/>
 	          <br/>
-	     <!--       <label for="date" >Start Time: </label>
-	         <input type="text" wicket:id="start"/>
-	         <br/>
-	         <label for="date" >End Time: </label>
-	         <input type="text" wicket:id="end"/>
-	          <br />    -->
+	          <label for="start" >Start Time: </label>
+	          <span id="start" wicket:id="timeField1"></span>
+	         <br> 
+	         <label for="end" >End Time: </label>
+	          <span id="end" wicket:id="timeField2"></span>
+	          <br/>
 	         <label for="pos" >Positions:</label>
 	         <input type="text" id="pos" wicket:id="positions"/>
 	         <br/>
