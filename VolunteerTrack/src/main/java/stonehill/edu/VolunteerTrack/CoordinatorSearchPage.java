@@ -57,6 +57,20 @@ public class CoordinatorSearchPage  extends VolunteerTrackBaseView
 				String studentNameEntered = studentName.getModelObject();
 				String majorEntered = major.getModelObject();
 				String minorEntered = minor.getModelObject();
+				
+				
+				if(studentNameEntered == null)
+				{
+					studentNameEntered = "";
+				}
+				if(majorEntered == null)
+				{
+					majorEntered = "";
+				}
+				if(minorEntered == null)
+				{
+					minorEntered = "";
+				}
 
 				UserDao dao = new UserDao();
 				ArrayList<User> returnList = dao.SearchUsersByNameMajorMinor(studentNameEntered, majorEntered, minorEntered);

@@ -2,60 +2,53 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<link rel="stylesheet" href="kh.css" type="text/css" media="screen" title="Stylesheet" charset="utf-8" />
+<link rel="stylesheet" href="kh.css" type="text/css" media="screen"
+	title="Stylesheet" charset="utf-8" />
 <title>Volunteer Track</title>
 </head>
 <body>
-<wicket:extend>
-<table cellspacing="0" class="dataview">
-    <tr>
-        <th>Document Name</th>
-        <th>Document Type</th>
-        <th>Option</th>
-        <th>Last Update</th>
-        <th>Partner</th>
-        <th> </th>
-    </tr>
-    <tr wicket:id="repeating">
-        
-        <td><span wicket:id="name">[contactid]</span> </td>
-        <td><span wicket:id="type">[firstname]</span></td>
-        <td>
-        <form wicket:id="form">
-        <input type = "submit" wicket:id = "deleteButton" value = "Delete"/>
-        <input type = "submit" wicket:id = "updateButton" value = "Update"/>
-        <input type = "submit" wicket:id = "viewButton" value = "View"/>
-        </form>
-        </td>
-        <td><span wicket:id="LastUpdate">[homephone]</span></td>
-        <form wicket:id="form2">
-        <td>
-        <span><select wicket:id="sites3"></select></span>
-        </td>
-        <td>
-        <span><input type = "submit" wicket:id = "sendButton" value = "Send"/></span>
-        </td>
-        </form>
-    </tr>
-</table>
+	<wicket:extend>
+		<table cellspacing="0" class="dataview">
+			<tr>
+				<th>Document Name</th>
+				<th>Document Type</th>
+				<th>Option</th>
+				<th>Last Update</th>
+				<th>Partner</th>
+				<th></th>
+			</tr>
+			<tr wicket:id="repeating">
 
-  
-  <br>
-  <br>
-  
-  <form wicket:id = "form3">
-  <label>Document Name:</label>
-  <input wicket:id = "addDocumentName" type = "text" size ="19"/>
-  <br>
-  <label>Document Type:</label>
-  <input wicket:id = "addDocumentType" type = "text" size ="20"/>
-  
-  <br>
-  <input wicket:id ="fileUpload" type ="file"/>
-  <br>
-  <span><input type = "submit" wicket:id = "addDB" value = "Add Document"/></span>
-  </form>
-  
-</wicket:extend>
+				<td><span wicket:id="name">[contactid]</span></td>
+				<td><span wicket:id="type">[firstname]</span></td>
+				<td>
+					<form wicket:id="form">
+						<input type="submit" wicket:id="deleteButton" value="Delete" /> <input
+							type="submit" wicket:id="updateButton" value="Update" /> <input
+							type="button" wicket:id="viewButton" value="View" />
+					</form>
+				</td>
+				<td><span wicket:id="LastUpdate">[homephone]</span></td>
+				<form wicket:id="form2">
+					<td><span><select wicket:id="sites3"></select></span></td>
+					<td><span><input type="submit" wicket:id="sendButton"
+							value="Send" /></span></td>
+				</form>
+			</tr>
+		</table>
+
+
+		<br>
+		<br>
+
+		<form wicket:id="form3">
+			<label>Document Name:</label> <input wicket:id="addDocumentName"
+				type="text" size="19" /> <br> <label>Document Type:</label> <input
+				wicket:id="addDocumentType" type="text" size="20" /> <br> <input
+				wicket:id="fileUpload" type="file" /> <br> <span><input
+				type="submit" wicket:id="addDB" value="Add Document" /></span>
+		</form>
+
+	</wicket:extend>
 </body>
 </html>

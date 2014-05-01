@@ -9,6 +9,11 @@
 <body>
 	<wicket:extend>
 		<div id="main-left">
+		<form wicket:id="form2">
+				<input type="submit" wicket:id="back" value="Back to Search">
+			</form>
+			<br>
+			<br>
 			<table cellspacing="6" class="dataview">
 				<tr>
 					<th>Partner</th>
@@ -30,43 +35,9 @@
 				</tr>
 			</table>
 			<br> <br>
-			<form wicket:id="form2">
-				<input type="submit" wicket:id="back" value="Back to Search">
-			</form>
+			
 		</div>
-		<div id="main-center">
-			<form wicket:id="form">
-				<table>
-					<tr>
-						<td>Partner Name</td>
-						<td><input wicket:id="partnerName" type="text" size="19" /></td>
-					</tr>
-					<tr>
-						<td><input type="submit" wicket:id="searchPartnerButton"
-							value="Search" /></td>
-					</tr>
-				</table>
-				<br>
-				<table>
-					<tr>
-						<td>Student Name</td>
-						<td><input wicket:id="studentName" type="text" size="20" /></td>
-					</tr>
-					<tr>
-						<td>Major</td>
-						<td><input wicket:id="major" type="text" size="20" /></td>
-					</tr>
-					<tr>
-						<td>Minor</td>
-						<td><input wicket:id="minor" type="text" size="20" /></td>
-					</tr>
-					<tr>
-						<td><input type="submit" wicket:id="searchVolunteerButton"
-							value="Search" /></td>
-					</tr>
-				</table>
-			</form>
-		</div>
+		
 	</wicket:extend>
 </body>
 </html>

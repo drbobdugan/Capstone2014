@@ -19,10 +19,7 @@ public class CoordinatorPartnerSearchResultView extends VolunteerTrackBaseView {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	TextField<String> partnerName;
-	TextField<String> studentName;
-	TextField<String> major;
-	TextField<String> minor;
+
 	ArrayList users;
 	
 	static Logger logger = Logger.getLogger(CoordinatorPartnerSearchResultView.class);
@@ -30,58 +27,7 @@ public class CoordinatorPartnerSearchResultView extends VolunteerTrackBaseView {
 	public CoordinatorPartnerSearchResultView(ArrayList<User> theUsers)
 	{
 		
-		Form form = new Form("form"){
-			protected void onSubmit()
-			{
-				info("Form.onSubmit()");
-			}
-		};
-
-		//Added Search Functionality - KBH
-		partnerName = new TextField<String>("partnerName",Model.of("")); 
-		studentName = new TextField<String>("studentName",Model.of("")); 
-		major = new TextField<String>("major",Model.of("")); 
-		minor = new TextField<String>("minor",Model.of("")); 
-
-		Button searchPartnerButton = new Button("searchPartnerButton"){
-			@Override
-			public void onSubmit(){
-				info("Send to: ");
-				String partnerNameEntered = partnerName.getModelObject();
-
-				if(partnerNameEntered == null)
-				{
-					partnerNameEntered = "";
-				}
-
-				UserDao dao = new UserDao();
-				ArrayList<User> returnList = dao.SearchUsersByOrganizationName(partnerNameEntered);
-				setResponsePage(new CoordinatorPartnerSearchResultView(returnList));
-			}
-		};
-
-		Button searchVolunteerButton = new Button("searchVolunteerButton"){
-			@Override
-			public void onSubmit(){
-				info("Send to: ");
-				String studentNameEntered = studentName.getModelObject();
-				String majorEntered = major.getModelObject();
-				String minorEntered = minor.getModelObject();
-
-				UserDao dao = new UserDao();
-				ArrayList<User> returnList = dao.SearchUsersByNameMajorMinor(studentNameEntered, majorEntered, minorEntered);
-				setResponsePage(new CoordinatorVolunteerSearchResultView(returnList));
-			}
-		};
-
-		form.add(partnerName);
-		form.add(studentName);
-		form.add(major);
-		form.add(minor);
-		form.add(searchPartnerButton);
-		form.add(searchVolunteerButton);
-
-		add(form);
+		
 		RepeatingView repeating = new RepeatingView("repeating");
 		add(repeating);
 
