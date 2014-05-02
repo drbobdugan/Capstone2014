@@ -6,17 +6,60 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class EventDao extends Dao{
-	public ArrayList<Object> getAllPendingAplicantsByPartner(User user, ArrayList futureEvents) {
-		ArrayList apps = new ArrayList(0);
-		for(Object o: futureEvents){
-			Event e = (Event)o;
-			ArrayList wtf = getUsersThatAreSignedUpForEvent(user, e);
-			for(Object omg: wtf){
-				ArrayList lol = (ArrayList)omg;
-				apps.add(new AppEntry(user.getFirstName() + " " + user.getLastName(), (String)lol.get(0), (Integer)lol.get(2), (Date)lol.get(1)));
-		    }
+	public ArrayList<Object> getAllPendingAplicantsByPartner(User partner) {
+		ArrayList<Object> result=new ArrayList<Object>();
+		try{
+			//connect
+			connectToDatabase();
+			//SQL statement
+			Statement statement=connection.createStatement();
+			//@@@ ZAC @@@ this query is confusing and might need some work, but it should return an arrayList with even entries being events owned by a partner and odd entries being users who signed up for them
+			ResultSet resultSet=statement.executeQuery("SELECT * FROM Event, UserOwnsEvent,UserSignsUpForEvent, UserEntity WHERE UserOwnsEvent.EventName = Event.Name AND UserOwnsEvent.EventDateTime = Event.CreatedDateTime AND UserSignsUpForEvent.EventName = Event.Name AND UserSignsUpForEvent.EventDateTime = Event.CreatedDateTime AND UserEntity.Email=UserSignsUpForEvent.userEmail AND UserOwnsEvent.UserEmail = '" + partner.getEmail()+"'");
+			//get tuples
+			while(resultSet.next()){
+				String owner = resultSet.getString("UserEmail");
+				String name=resultSet.getString("Name");
+				Date createdDate =resultSet.getTimestamp("CreatedDateTime");
+				Date startDate =resultSet.getTimestamp("StartDateTime");
+				Date endDate =resultSet.getTimestamp("EndDateTime");
+				String description =resultSet.getString("Description");
+				String location =resultSet.getString("Location");
+				// TODO no sure how this will be handled yet
+				Skill [] skills= new Skill[0];
+				int tp=resultSet.getInt("TotalPositions");
+				int tpr =resultSet.getInt("PositionsRemaining");
+				result.add( new Event ( owner, name, createdDate, startDate, endDate, description,  location ,  tp,  tpr, skills));
+				String e=resultSet.getString("Email");
+				String p=resultSet.getString("Password");
+				String fn=resultSet.getString("FirstName");
+				String ln=resultSet.getString("LastName");
+				String s=resultSet.getString("Street");
+				String c=resultSet.getString("City");
+				String st=resultSet.getString("State");
+				String z=resultSet.getString("Zip");
+				String pn=resultSet.getString("PhoneNumber");
+				String pd=resultSet.getString("PartnerDescription");
+				String vd=resultSet.getString("VolunteerDescription");
+				boolean ip=resultSet.getBoolean("IsPartner");
+				boolean ic=resultSet.getBoolean("IsCoordinator");
+				boolean iv=resultSet.getBoolean("IsVolunteer");
+				String mj=resultSet.getString("major");
+				String mi=resultSet.getString("minor");
+				boolean iap=resultSet.getBoolean("IsApprovedPartner");
+				boolean iac=resultSet.getBoolean("IsApprovedCoordinator");
+				boolean iav=resultSet.getBoolean("IsApprovedVolunteer");
+				String on=resultSet.getString("organizationName");
+				result.add(new User(e,p,fn,ln,s,c,st,z,pn,pd,vd,ip,ic,iv,mj,mi,iap,iac,iav,on));
+			}
+			//clean up
+			resultSet.close();
+			statement.close();
+			disconnectFromDatabase();
 		}
-		return apps;
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		return result;
 	}
 	
 	private ArrayList getUsersThatAreSignedUpForEvent(User user, Event e) {
@@ -389,6 +432,68 @@ public class EventDao extends Dao{
 				int tp=resultSet.getInt("TotalPositions");
 				int tpr =resultSet.getInt("PositionsRemaining");
 				result.add( new Event ( owner, name, createdDate, startDate, endDate,  description,  location ,  tp,  tpr, skills));
+			}
+			//clean up
+			resultSet.close();
+			statement.close();
+			disconnectFromDatabase();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		return result;
+	}
+	public void insertEventRequiresSkill(Object skill1, Object event2) {
+		Skill skill=(Skill) skill1;
+		Event event=(Event) event2;
+		try{
+			//connect
+			connectToDatabase();
+			//SQL statement
+			Statement statement=connection.createStatement();
+			statement.executeQuery("INSERT INTO EventRequiresSkill VALUES("+
+		    "'"+event.getName()+"', "+
+			"to_timestamp('"+new java.sql.Timestamp(event.getCreatedDateTime().getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF')"+
+			 "'"+skill.getName()+"', ");
+			statement.close();
+			disconnectFromDatabase();
+		}
+	    catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	
+	public void deleteEventRequiresSkill(Object skill1, Object event2) {
+		Skill skill=(Skill) skill1;
+		Event event=(Event) event2;
+		try{
+			//connect
+			connectToDatabase();
+			//SQL statement
+			Statement statement=connection.createStatement();
+			statement.executeQuery("DELETE FROM EventRequiresSkill WHERE "+
+		    "SkillName'"+skill.getName()+"', AND "+
+		    "EventName='"+event.getName()+"', AND "+
+			"EventDateTime=to_timestamp('"+new java.sql.Timestamp(event.getCreatedDateTime().getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF')");
+			statement.close();
+			disconnectFromDatabase();
+		}
+	    catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	public ArrayList<Object> getSkillsRequired(Event event) {
+		ArrayList<Object> result=new ArrayList<Object>();
+		try{
+			//connect
+			connectToDatabase();
+			//SQL statement
+			Statement statement=connection.createStatement();
+			ResultSet resultSet=statement.executeQuery("SELECT * FROM Event, EventRequiresSkill WHERE EventRequiresSkill.EventName = Event.Name AND EventRequiresSkill.EventDateTime = Event.CreatedDateTime AND Event.name = '" + event.getName()+"' AND Event.CreatedDateTime= to_timestamp('"+new java.sql.Timestamp(event.getCreatedDateTime().getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF')");
+			//get tuples
+			while(resultSet.next()){
+				String name=resultSet.getString("SkillName");
+				result.add( new Skill (name));
 			}
 			//clean up
 			resultSet.close();

@@ -307,7 +307,7 @@ public class UserDao extends Dao{
 		StringBuilder sb=new StringBuilder();
 		for( int i=0; i<criteria.size()-1;i ++)
 		{
-			sb.append(" AND " + criteria.get(i) + " = " +criteria.get(i+1));
+			sb.append(" AND UPPER(" + criteria.get(i) + ") = UPPER(" +criteria.get(i+1)+")");
 		}
 		ArrayList<Object> searchResult=new ArrayList<Object>();
 		try{
@@ -453,7 +453,7 @@ while(resultSet.next()){
 			connectToDatabase();
 			//SQL statement
 			Statement statement=connection.createStatement();
-			ResultSet resultSet=statement.executeQuery("SELECT * FROM UserEntity WHERE OrganizationName LIKE '%"+organization+"%'");
+			ResultSet resultSet=statement.executeQuery("SELECT * FROM UserEntity WHERE UPPER(OrganizationName) LIKE UPPER('%"+organization+"%')");
 			//get tuples
 			while(resultSet.next()){
 				String e=resultSet.getString("Email");
@@ -499,10 +499,10 @@ public ArrayList SearchUsersByNameMajorMinor(String name,String  major, String m
 		Statement statement=connection.createStatement();
 		ResultSet resultSet=null;
 		if(splitName.length>1){
-			resultSet=statement.executeQuery("SELECT * FROM UserEntity WHERE FirstName LIKE '%"+splitName[0]+"%' AND LastName LIKE '%"+splitName[1]+"%' AND Major LIKE '%"+major+"%' AND Minor LIKE '%"+minor+"%'");
+			resultSet=statement.executeQuery("SELECT * FROM UserEntity WHERE UPPER(FirstName) LIKE UPPER('%"+splitName[0]+"%') AND UPPER(LastName) LIKE UPPER('%"+splitName[1]+"%') AND UPPER(Major) LIKE UPPER('%"+major+"%') AND UPPER(Minor) LIKE UPPER('%"+minor+"%')");
 		}
 		else{
-			resultSet=statement.executeQuery("SELECT * FROM UserEntity WHERE (FirstName LIKE '%"+splitName[0]+"%' OR LastName LIKE '%"+splitName[0]+"%') AND Major LIKE '%"+major+"%' AND Minor LIKE '%"+minor+"%'");
+			resultSet=statement.executeQuery("SELECT * FROM UserEntity WHERE (UPPER(FirstName) LIKE UPPER('%"+splitName[0]+"%') OR UPPER(LastName) LIKE UPPER('%"+splitName[0]+"%')) AND UPPER(Major) LIKE UPPER('%"+major+"%') AND UPPER(Minor) LIKE UPPER('%"+minor+"%')");
 		}
 		//get tuples
 		while(resultSet.next()){

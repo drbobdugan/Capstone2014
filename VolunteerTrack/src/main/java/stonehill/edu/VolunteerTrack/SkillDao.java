@@ -14,6 +14,10 @@ public class SkillDao extends Dao{
 			Statement statement=connection.createStatement();
 			statement.executeQuery("DELETE FROM Skill WHERE "+
 			"Name='"+skill.getName()+"'");
+			statement.executeQuery("DELETE FROM UserHasSkill WHERE "+
+					"SkillName='"+skill.getName()+"'");
+			statement.executeQuery("DELETE FROM EventRequiresSkill WHERE "+
+					"SkillName='"+skill.getName()+"'");
 			statement.close();
 			disconnectFromDatabase();
 		}

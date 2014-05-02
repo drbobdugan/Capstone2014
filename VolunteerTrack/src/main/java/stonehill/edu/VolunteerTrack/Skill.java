@@ -13,4 +13,7 @@ public class Skill implements Serializable {
 	public String getName(){
 		return name;
 	}
+	public boolean equals(Object o){
+		return ((Skill)o).getName().equals(name);
+	}
 }

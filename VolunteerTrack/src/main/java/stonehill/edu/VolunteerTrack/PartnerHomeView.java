@@ -28,7 +28,7 @@ public class PartnerHomeView extends VolunteerTrackBaseView{
 	    	if(((Event)o).getCreatedDateTime().after(new Date()))  // if the date of the event is in the future add it to the list
 	    		futureEvents.add((Event)o);
 	    
-	    eventAplicaions = dao.getAllPendingAplicantsByPartner(currentUser, futureEvents);
+	    eventAplicaions = dao.getAllPendingAplicantsByPartner(currentUser);
 	    
 	    populateTables();
 	}  
