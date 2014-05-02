@@ -14,7 +14,8 @@
 				<th>Document Type</th>
 				<th>Option</th>
 				<th>Last Update</th>
-				<th>Partner</th>
+				<th>Partners Shared With</th>
+				<th>Partner Send To</th>
 				<th></th>
 			</tr>
 			<tr wicket:id="repeating">
@@ -30,7 +31,9 @@
 				</td>
 				<td><span wicket:id="LastUpdate">[homephone]</span></td>
 				<form wicket:id="form2">
-					<td><span><select wicket:id="sites3"></select></span></td>
+				    <td><span><select wicket:id="sharedWith"></select></span></td>
+					<td><span><select wicket:id="sendTo"></select></span></td>
+					
 					<td><span><input type="submit" wicket:id="sendButton"
 							value="Send" /></span></td>
 				</form>

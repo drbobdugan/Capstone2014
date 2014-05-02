@@ -13,12 +13,12 @@ import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.markup.html.form.upload.FileUploadField;
 import org.apache.wicket.markup.html.form.upload.FileUpload;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.wicket.AttributeModifier;
@@ -26,11 +26,7 @@ import org.apache.wicket.markup.html.link.DownloadLink;
 import org.apache.wicket.markup.html.list.AbstractItem;
 import org.apache.wicket.markup.repeater.RepeatingView;
 import org.apache.wicket.model.AbstractReadOnlyModel;
-import org.apache.wicket.request.IRequestHandler;
-import org.apache.wicket.request.handler.resource.ResourceStreamRequestHandler;
-import org.apache.wicket.util.lang.Bytes;
-import org.apache.wicket.util.resource.FileResourceStream;
-import org.apache.wicket.util.resource.IResourceStream;
+
 
 
 public class VolunteerDocumentView extends VolunteerTrackBaseView
@@ -43,6 +39,7 @@ public class VolunteerDocumentView extends VolunteerTrackBaseView
 	public Label message;
 	public String selected;
 	public ArrayList<Document> theDocs;
+	DropDownChoice<String> listSites3;
 	DocumentDao dao;
 
 	TextField<String> NewDocumentName;
@@ -79,7 +76,7 @@ public class VolunteerDocumentView extends VolunteerTrackBaseView
 
 		for(int i = 0; i < partnerUsers.size();i++)
 		{
-			partners.add(((User) partnerUsers.get(i)).getEmail());
+			partners.add(((User) partnerUsers.get(i)).getOrganizationName());
 
 		}
 
@@ -92,7 +89,6 @@ public class VolunteerDocumentView extends VolunteerTrackBaseView
 			AbstractItem item = new AbstractItem(repeating.newChildId());
 			repeating.add(item); 
 
-			//item.add(new ActionPanel("actions", new DetachableContactModel(contact)));
 			
 			String nameSplit = theDocs.get(i).getName();
             String[] splitted = nameSplit.split("\\.");
@@ -156,11 +152,34 @@ public class VolunteerDocumentView extends VolunteerTrackBaseView
 					info("Form.onSubmit()");
 				}
 			};
+			
+			String sharedWith = " ";
+			IModel dropdown1 = new Model<String>(sharedWith);
+			
+			List<String> partnersSharedWIth = new ArrayList<String>();
+			partnersSharedWIth.add(" ");
 
+			ArrayList sharedAlready = dao.getAllPartnersSharedWithDocument(theDocs.get(i));
+			
+			for(int q = 0; q < sharedAlready.size();q++)
+			{
+				partnersSharedWIth.add( ((User) sharedAlready.get(q)).getOrganizationName());
+			}
+			
+
+			DropDownChoice<String> docsSharers = new DropDownChoice<String>("sharedWith", dropdown1, partnersSharedWIth);
+			form2.add(docsSharers);
+
+			
+			
+			
+			
+			
+			//the drop down for partners that you want to send to. so all partners
 			selected = "Select A Partner";
-			IModel dropdown = new Model<String>(selected);
+			
 
-			DropDownChoice<String> listSites3 = new DropDownChoice<String>("sites3", dropdown, partners);
+			listSites3 = new DropDownChoice<String>("sendTo", new PropertyModel<String>(this,"selected"), partners);
 			form2.add(listSites3);
 
 
@@ -169,7 +188,10 @@ public class VolunteerDocumentView extends VolunteerTrackBaseView
 				@Override
 				public void onSubmit(){
 					info("Send to: ");
-					sendDoc(getChoice(), x);
+
+					
+					System.out.println("*************"+ listSites3.getModelObject()+"||||||||||||||||||||||||||||"+selected);
+					sendDoc(selected, x);
 				}
 			};
 			form2.add(send1);
@@ -197,8 +219,6 @@ public class VolunteerDocumentView extends VolunteerTrackBaseView
 			}
 		};
 
-
-
 		NewDocumentName = new TextField<String>("addDocumentName",Model.of("")); 
 		NewDocumentType = new TextField<String>("addDocumentType",Model.of(""));
 
@@ -223,6 +243,7 @@ public class VolunteerDocumentView extends VolunteerTrackBaseView
 
 					try{
 						newFile = uploadedFile.writeToTempFile();
+						// set it to session user
 						Document one = new Document(NewDocumentName.getModelObject()+"."+fileType,NewDocumentType.getModelObject(), new Date(),newFile,"volunteer@volunteer.com", false);
 						dao.insert(one);
 						this.setResponsePage(VolunteerDocumentView.class);
@@ -259,30 +280,26 @@ public class VolunteerDocumentView extends VolunteerTrackBaseView
 		this.setResponsePage(VolunteerDocumentView.class);
 
 	}
-	public void view(int x){
-		
-		
-	//	File downloadFile = theDocs.get(x).getFile();
-	//	IResourceStream resourceStream = new FileResourceStream(downloadFile);
-	//	IRequestHandler target = new ResourceStreamRequestHandler(resourceStream);
-	//	getRequestCycle().scheduleRequestHandlerAfterCurrent(target);
+
+	public void update(int x){
 
 		//this.setResponsePage(VolunteerDocumentView.class);
 
 	}
-	public void update(int x){
 
-		this.setResponsePage(VolunteerDocumentView.class);
+	public void sendDoc(String receiver, int x)
+	{
 
-	}
-	public void create(){
+		UserDao theUsers = new UserDao();
+		ArrayList partnerUsers = theUsers.getAllPartners();
 
-		this.setResponsePage(VolunteerDocumentView.class);
-
-	}
-	public void sendDoc(String receiver, int x){
-
-		this.setResponsePage(VolunteerDocumentView.class);
-
+		for(int i = 0; i < partnerUsers.size();i++)
+		{
+			if(((User) partnerUsers.get(i)).getOrganizationName().equals(receiver))
+			{
+				dao.insertDocumentSharedWithPartner(theDocs.get(x),(User)partnerUsers.get(i));
+				this.setResponsePage(VolunteerDocumentView.class);
+			}
+		}
 	}
 }
