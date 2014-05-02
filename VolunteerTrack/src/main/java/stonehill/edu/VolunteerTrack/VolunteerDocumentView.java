@@ -44,6 +44,8 @@ public class VolunteerDocumentView extends VolunteerTrackBaseView
 
 	TextField<String> NewDocumentName;
 	TextField<String> NewDocumentType;
+	
+	User CurrentUser = CustomSession.get().getUser();
 
 	FileUploadField fileUpload;
 
@@ -54,7 +56,7 @@ public class VolunteerDocumentView extends VolunteerTrackBaseView
 
 		dao = new DocumentDao();
 
-		ArrayList<Object> temp = dao.selectAll();
+		ArrayList<Object> temp = dao.getAllDocumentsByUser(CurrentUser);
 
 		for(int i = 0; i <temp.size();i++)
 		{
@@ -174,7 +176,6 @@ public class VolunteerDocumentView extends VolunteerTrackBaseView
 			
 			
 			
-			
 			//the drop down for partners that you want to send to. so all partners
 			selected = "Select A Partner";
 			
@@ -244,7 +245,7 @@ public class VolunteerDocumentView extends VolunteerTrackBaseView
 					try{
 						newFile = uploadedFile.writeToTempFile();
 						// set it to session user
-						Document one = new Document(NewDocumentName.getModelObject()+"."+fileType,NewDocumentType.getModelObject(), new Date(),newFile,"volunteer@volunteer.com", false);
+						Document one = new Document(NewDocumentName.getModelObject()+"."+fileType,NewDocumentType.getModelObject(), new Date(),newFile,CurrentUser.getEmail(), false);
 						dao.insert(one);
 						this.setResponsePage(VolunteerDocumentView.class);
 					}
@@ -283,6 +284,13 @@ public class VolunteerDocumentView extends VolunteerTrackBaseView
 
 	public void update(int x){
 
+		
+		
+		//VolunteerDocumentUpdateView
+		
+		setResponsePage(new VolunteerDocumentUpdateView(theDocs.get(x)));
+		
+		
 		//this.setResponsePage(VolunteerDocumentView.class);
 
 	}
