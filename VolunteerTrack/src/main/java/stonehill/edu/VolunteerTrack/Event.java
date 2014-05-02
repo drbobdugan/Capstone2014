@@ -2,7 +2,6 @@ package stonehill.edu.VolunteerTrack;
 
 import java.awt.Point;
 import java.io.Serializable;
-import java.util.Date;
 import java.util.*;
 
 public class Event implements Serializable {
@@ -11,7 +10,23 @@ public class Event implements Serializable {
      private Date createdDateTime, startDateTime, endDateTime;
      private Skill [] skills;
      
-     public Event () {
+     public Event(String ownerEmail, String name, String description,
+			String location, String organizationName, int numPositions,
+			int numPositionsRemaining, Date createdDateTime,
+			Date startDateTime, Date endDateTime, Skill[] skills) {
+		OwnerEmail = ownerEmail;
+		this.name = name;
+		this.description = description;
+		this.location = location;
+		this.organizationName = organizationName;
+		this.numPositions = numPositions;
+		this.numPositionsRemaining = numPositionsRemaining;
+		this.createdDateTime = createdDateTime;
+		this.startDateTime = startDateTime;
+		this.endDateTime = endDateTime;
+		this.skills = skills;
+	}
+	public Event () {
     	 OwnerEmail = "";
     	 name = "";
     	 createdDateTime = new Date();
@@ -142,7 +157,7 @@ public class Event implements Serializable {
 		ArrayList skills2 =dao.getSkillsRequired(this);
 		for(int i=0;i<skills.size();i++){
 			if(!skills2.contains(skills.get(i)))
-				dao.insertEventRequiresSkill(skills.get(i), this);
+				dao.insertEventRequiresSkill((Skill)skills.get(i), this);
 		}
 	}
 	public Date getTime1(){

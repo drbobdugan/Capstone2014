@@ -19,6 +19,14 @@ public class DocumentDao extends Dao{
 			"Name='"+document.getName()+"' AND "+
 		    "dateUploaded=to_date('"+new java.sql.Date(document.getDateUploaded().getTime())+"', 'yyyy-mm-dd') AND "+
 		    "UserEmail='"+document.getUserEmail()+"'");
+			statement.executeQuery("DELETE FROM EventRequiresDocument WHERE "+
+					"DocumentName='"+document.getName()+"' AND "+
+				    "DocumentDateUploaded=to_date('"+new java.sql.Date(document.getDateUploaded().getTime())+"', 'yyyy-mm-dd') AND "+
+				    "DocumentUserEmail='"+document.getUserEmail()+"'");
+			statement.executeQuery("DELETE FROM DocumentSharedWithPartnerUser WHERE "+
+					"DocumentName='"+document.getName()+"' AND "+
+				    "DocumentDateUploaded=to_date('"+new java.sql.Date(document.getDateUploaded().getTime())+"', 'yyyy-mm-dd') AND "+
+				    "DocumentUserEmail='"+document.getUserEmail()+"'");
 			statement.close();
 			disconnectFromDatabase();
 		}

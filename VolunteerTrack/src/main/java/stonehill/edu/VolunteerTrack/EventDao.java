@@ -199,7 +199,7 @@ while(resultSet.next()){
 			connectToDatabase();
 			//SQL statement
 			Statement statement=connection.createStatement();
-			ResultSet resultSet=statement.executeQuery("SELECT * FROM Event,UserOwnsEvent WHERE Event.Name=UserOwnsEvent.EventName AND Event.CreatedDateTime=UserOwnsEvent.EventDateTime");
+			ResultSet resultSet=statement.executeQuery("SELECT * FROM Event");
 			//get tuples
 			while(resultSet.next()){
 				String oe=resultSet.getString("UserEmail");
@@ -209,12 +209,13 @@ while(resultSet.next()){
 				Date endDate =resultSet.getTimestamp("EndDateTime");
 				String description =resultSet.getString("Description");
 				String location =resultSet.getString("Location");
+				String org=resultSet.getString("organizationName");
 				// TODO no sure how this will be handled yet
 				Skill [] skills= {new Skill("not coded")};
 				int tp=resultSet.getInt("TotalPositions");
 				int tpr =resultSet.getInt("PositionsRemaining");
 				// TODO owners email
-				result.add( new Event ( oe , name, createdDate, startDate, endDate,  description,  location ,  tp,  tpr, skills));
+				result.add( new Event ( oe , name,  description,  location ,org,  tp,  tpr,createdDate, startDate, endDate, skills));
 			}
 			//clean up
 			resultSet.close();
@@ -236,19 +237,19 @@ while(resultSet.next()){
 			ResultSet resultSet=statement.executeQuery("SELECT * FROM Event, UserOwnsEvent WHERE UserOwnsEvent.EventName = Event.Name AND UserOwnsEvent.EventDateTime = Event.CreatedDateTime AND UserOwnsEvent.UserEmail = '" + user.getEmail()+"'");
 			//get tuples
 			while(resultSet.next()){
-				System.out.println("asdfasdfasfasdfdassfsadfasfsadF");
-				String owner = resultSet.getString("UserEmail");
+				String oe=resultSet.getString("UserEmail");
 				String name=resultSet.getString("Name");
 				Date createdDate =resultSet.getTimestamp("CreatedDateTime");
 				Date startDate =resultSet.getTimestamp("StartDateTime");
 				Date endDate =resultSet.getTimestamp("EndDateTime");
 				String description =resultSet.getString("Description");
 				String location =resultSet.getString("Location");
+				String org=resultSet.getString("organizationName");
 				// TODO no sure how this will be handled yet
 				Skill [] skills= {new Skill("not coded")};
 				int tp=resultSet.getInt("TotalPositions");
 				int tpr =resultSet.getInt("PositionsRemaining");
-				result.add( new Event ( owner, name, createdDate, startDate, endDate, description,  location ,  tp,  tpr, skills));
+				result.add( new Event ( oe , name,  description,  location ,org,  tp,  tpr,createdDate, startDate, endDate, skills));
 			}
 			//clean up
 			resultSet.close();
@@ -320,18 +321,19 @@ while(resultSet.next()){
 							+ " Name='"+eventName+"'");
 			//get tuple
 			if(resultSet.next()){
-				//String owner = resultSet.getString("UserEmail");
+				String oe=resultSet.getString("UserEmail");
 				String name=resultSet.getString("Name");
 				Date createdDate =resultSet.getTimestamp("CreatedDateTime");
 				Date startDate =resultSet.getTimestamp("StartDateTime");
 				Date endDate =resultSet.getTimestamp("EndDateTime");
 				String description =resultSet.getString("Description");
 				String location =resultSet.getString("Location");
+				String org=resultSet.getString("organizationName");
 				// TODO no sure how this will be handled yet
 				Skill [] skills= {new Skill("not coded")};
 				int tp=resultSet.getInt("TotalPositions");
 				int tpr =resultSet.getInt("PositionsRemaining");
-				result=(new Event ( email , name, createdDate, startDate, endDate,  description,  location ,  tp,  tpr, skills));
+				result =( new Event ( oe , name,  description,  location ,org,  tp,  tpr,createdDate, startDate, endDate, skills));
 			}else{
 				System.out.println("EventDao:getEventByNameDateTime() did not return a tuple.");
 			}
@@ -394,18 +396,19 @@ while(resultSet.next()){
 			ResultSet resultSet=statement.executeQuery("SELECT * FROM Event, UserSignsUpForEvent WHERE UserSignsUpForEvent.EventName = Event.Name AND UserSignsUpForEvent.EventDateTime = Event.CreatedDateTime AND UserSignsUpForEvent.UserEmail = '" + user.getEmail()+"'");
 			//get tuples
 			while(resultSet.next()){
-				String owner = resultSet.getString("UserEmail");
+				String oe=resultSet.getString("UserEmail");
 				String name=resultSet.getString("Name");
 				Date createdDate =resultSet.getTimestamp("CreatedDateTime");
 				Date startDate =resultSet.getTimestamp("StartDateTime");
 				Date endDate =resultSet.getTimestamp("EndDateTime");
 				String description =resultSet.getString("Description");
 				String location =resultSet.getString("Location");
+				String org=resultSet.getString("organizationName");
 				// TODO no sure how this will be handled yet
 				Skill [] skills= {new Skill("not coded")};
 				int tp=resultSet.getInt("TotalPositions");
 				int tpr =resultSet.getInt("PositionsRemaining");
-				result.add( new Event ( owner, name, createdDate, startDate, endDate,  description,  location ,  tp,  tpr, skills));
+				result.add( new Event ( oe , name,  description,  location ,org,  tp,  tpr,createdDate, startDate, endDate, skills));
 			}
 			//clean up
 			resultSet.close();
@@ -466,19 +469,19 @@ while(resultSet.next()){
 			ResultSet resultSet=statement.executeQuery("SELECT * FROM Event, TimeSheetEntry WHERE TimeSheetEntry.EventName = Event.Name AND TimeSheetEntry.DateTime = Event.CreatedDateTime AND TimeSheetEntry.UserEmail = '" + user.getEmail()+"'");
 			//get tuples
 			while(resultSet.next()){
-				System.out.println("asdfasdfasfasdfdassfsadfasfsadF");
-				String owner = resultSet.getString("UserEmail");
+				String oe=resultSet.getString("UserEmail");
 				String name=resultSet.getString("Name");
 				Date createdDate =resultSet.getTimestamp("CreatedDateTime");
 				Date startDate =resultSet.getTimestamp("StartDateTime");
 				Date endDate =resultSet.getTimestamp("EndDateTime");
 				String description =resultSet.getString("Description");
 				String location =resultSet.getString("Location");
+				String org=resultSet.getString("organizationName");
 				// TODO no sure how this will be handled yet
 				Skill [] skills= {new Skill("not coded")};
 				int tp=resultSet.getInt("TotalPositions");
 				int tpr =resultSet.getInt("PositionsRemaining");
-				result.add( new Event ( owner, name, createdDate, startDate, endDate,  description,  location ,  tp,  tpr, skills));
+				result.add( new Event ( oe , name,  description,  location ,org,  tp,  tpr,createdDate, startDate, endDate, skills));
 			}
 			//clean up
 			resultSet.close();
