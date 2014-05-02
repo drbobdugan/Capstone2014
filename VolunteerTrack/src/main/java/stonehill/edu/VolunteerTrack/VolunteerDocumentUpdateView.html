@@ -7,20 +7,30 @@
 <title>Volunteer Track</title>
 </head>
 <body>
-  <wicket:extend>
+	<wicket:extend>
 
-       <form wicket:id="form1">
+		<form wicket:id="form">
+			<input type="submit" wicket:id="back" value="Back to Documents">
+		</form>
+
+		<br>
+		
+
+		<form wicket:id="form1">
 			<label>Document Name:</label> <input wicket:id="addDocumentName"
 				type="text" size="19" /> <br> <label>Document Type:</label> <input
 				wicket:id="addDocumentType" type="text" size="20" /> <br> <input
 				wicket:id="fileUpload" type="file" /> <br> <span><input
-				type="submit" wicket:id="addDB" value="Update Document" /></span>
+				type="button" wicket:id="viewButton" value="View Current Document" />
+
+				<input type="submit" wicket:id="addDB"
+				value="Update Current Document" /> </span>
 		</form>
-	
-		
-		
-		
-  </wicket:extend>
-	
+
+
+
+
+	</wicket:extend>
+
 </body>
 </html>

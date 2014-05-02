@@ -41,6 +41,24 @@ public class VolunteerDocumentUpdateView extends VolunteerTrackBaseView
 
 	public VolunteerDocumentUpdateView(Document passedInDoc)
 	{
+		
+		
+		Form form = new Form("form"){
+			protected void onSubmit(){
+				info("Form.onSubmit()");
+			}
+		};
+		
+		Button back=new Button("back") {
+			@Override
+			public void onSubmit() {
+				this.setResponsePage(VolunteerDocumentView.class);  
+			}
+		}; 
+		form.add(back);
+		add(form);
+		
+		
 		theDoc=passedInDoc;
 		Form form1 = new Form("form1"){
 			protected void onSubmit(){
@@ -62,6 +80,8 @@ public class VolunteerDocumentUpdateView extends VolunteerTrackBaseView
         
 		NewDocumentName = new TextField<String>("addDocumentName",Model.of(nameDisplay)); 
 		NewDocumentType = new TextField<String>("addDocumentType",new PropertyModel(theDoc,"type"));
+		
+		form1.add(new DownloadLink("viewButton",theDoc.getFile(),theDoc.getName()));
 
 
 
@@ -75,7 +95,6 @@ public class VolunteerDocumentUpdateView extends VolunteerTrackBaseView
 				String newName = NewDocumentName.getModelObject();
 				String newType= NewDocumentType.getModelObject();
                 File newFile = new File("/home/ubuntu/Desktop/test.txt");
-                
                 
 				
 				if(uploadedFile != null)
