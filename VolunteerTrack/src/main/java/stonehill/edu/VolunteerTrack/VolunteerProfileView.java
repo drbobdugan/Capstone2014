@@ -24,7 +24,7 @@ public class VolunteerProfileView extends VolunteerTrackBaseView {
 	 */
 	private static final long serialVersionUID = 1L;
 	User currentuser; 
-	TextField email, firstName, lastName, street, city, state, zip, phoneNumber;
+	TextField email, firstName, lastName, street, city, state, zip, phoneNumber, major, minor;
 	TextArea description;
 	Image propic;
 	Form form1, form2, form3, uploadProfilePicture;
@@ -63,6 +63,8 @@ public class VolunteerProfileView extends VolunteerTrackBaseView {
 		form1.add(state = new TextField<String>("state",new PropertyModel(currentuser, "state")));
 		form1.add(zip = new TextField<String>("zip", new PropertyModel(currentuser, "zip")));
 		form1.add(phoneNumber = new TextField<String>("phoneNumber",new PropertyModel(currentuser,"phoneNumber")));
+		form1.add(major = new TextField<String>("major",new PropertyModel(currentuser,"major")));
+		form1.add(minor = new TextField<String>("minor",new PropertyModel(currentuser,"minor")));
 		form1.add(description = new TextArea<String>("description",new PropertyModel(currentuser, "volunteerDescription")));
 		
 		email.setEnabled(false);
