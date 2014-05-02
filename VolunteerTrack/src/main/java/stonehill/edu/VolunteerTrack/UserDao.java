@@ -307,7 +307,7 @@ public class UserDao extends Dao{
 		StringBuilder sb=new StringBuilder();
 		for( int i=0; i<criteria.size()-1;i ++)
 		{
-			sb.append(" AND UPPER(" + criteria.get(i) + ") = UPPER(" +criteria.get(i+1)+")");
+			sb.append(" AND UPPER(" + criteria.get(i) + ") LIKE UPPER('%" +criteria.get(i+1)+"%')");
 		}
 		ArrayList<Object> searchResult=new ArrayList<Object>();
 		try{

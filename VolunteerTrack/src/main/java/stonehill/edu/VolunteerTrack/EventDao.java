@@ -1,11 +1,58 @@
 package stonehill.edu.VolunteerTrack;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.sql.Blob;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
 
 public class EventDao extends Dao{
+	public ArrayList<Object> getSearchResults(ArrayList<Object> criteria) {
+		StringBuilder sb=new StringBuilder();
+		for( int i=0; i<criteria.size()-1;i ++)
+		{
+			sb.append(" AND UPPER(" + criteria.get(i) + ") LIKE UPPER('%" +criteria.get(i+1)+"%')");
+		}
+		ArrayList<Object> searchResult=new ArrayList<Object>();
+		try{
+			//connect
+			connectToDatabase();
+			//SQL statement
+			Statement statement=connection.createStatement();
+			ResultSet resultSet =statement.executeQuery("SELECT * FROM Event WHERE StartDateTime>to_timestamp('"+new java.sql.Timestamp((new Date()).getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF')" + sb);
+while(resultSet.next()){
+				
+				String e=resultSet.getString("Email");
+				String p=resultSet.getString("Password");
+				String fn=resultSet.getString("FirstName");
+				String ln=resultSet.getString("LastName");
+				String s=resultSet.getString("Street");
+				String c=resultSet.getString("City");
+				String st=resultSet.getString("State");
+				String z=resultSet.getString("Zip");
+				String pn=resultSet.getString("PhoneNumber");
+				String pd=resultSet.getString("PartnerDescription");
+				String vd=resultSet.getString("VolunteerDescription");
+				boolean ip=resultSet.getBoolean("IsPartner");
+				boolean ic=resultSet.getBoolean("IsCoordinator");
+				boolean iv=resultSet.getBoolean("IsVolunteer");
+				String mj=resultSet.getString("major");
+				String mi=resultSet.getString("minor");
+				boolean iap=resultSet.getBoolean("IsApprovedPartner");
+				boolean iac=resultSet.getBoolean("IsApprovedCoordinator");
+				boolean iav=resultSet.getBoolean("IsApprovedVolunteer");
+				String on=resultSet.getString("organizationName");
+				searchResult.add(new User(e,p,fn,ln,s,c,st,z,pn,pd,vd,ip,ic,iv,mj,mi,iap,iac,iav,on));
+			}
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return searchResult;
+	}
 	public ArrayList<Object> getAllPendingAplicantsByPartner(User partner) {
 		ArrayList<Object> result=new ArrayList<Object>();
 		try{
@@ -14,7 +61,7 @@ public class EventDao extends Dao{
 			//SQL statement
 			Statement statement=connection.createStatement();
 			//@@@ ZAC @@@ this query is confusing and might need some work, but it should return an arrayList with even entries being events owned by a partner and odd entries being users who signed up for them
-			ResultSet resultSet=statement.executeQuery("SELECT * FROM Event, UserOwnsEvent,UserSignsUpForEvent, UserEntity WHERE UserOwnsEvent.EventName = Event.Name AND UserOwnsEvent.EventDateTime = Event.CreatedDateTime AND UserSignsUpForEvent.EventName = Event.Name AND UserSignsUpForEvent.EventDateTime = Event.CreatedDateTime AND UserEntity.Email=UserSignsUpForEvent.userEmail AND UserOwnsEvent.UserEmail = '" + partner.getEmail()+"'");
+			ResultSet resultSet=statement.executeQuery("SELECT * FROM Event, UserOwnsEvent,UserSignsUpForEvent, UserEntity WHERE UserOwnsEvent.EventName = Event.Name AND UserOwnsEvent.EventDateTime = Event.CreatedDateTime AND UserSignsUpForEvent.EventName = Event.Name AND UserSignsUpForEvent.EventDateTime = Event.CreatedDateTime AND UserEntity.Email=UserSignsUpForEvent.userEmail AND UserOwnsEvent.UserEmail = '" + partner.getEmail()+"' AND Event.StartDateTime<to_timestamp('"+new java.sql.Timestamp((new Date()).getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF')");
 			//get tuples
 			while(resultSet.next()){
 				String owner = resultSet.getString("UserEmail");
@@ -443,9 +490,7 @@ public class EventDao extends Dao{
 		}
 		return result;
 	}
-	public void insertEventRequiresSkill(Object skill1, Object event2) {
-		Skill skill=(Skill) skill1;
-		Event event=(Event) event2;
+	public void insertEventRequiresSkill(Skill skill, Event event) {
 		try{
 			//connect
 			connectToDatabase();
@@ -453,8 +498,8 @@ public class EventDao extends Dao{
 			Statement statement=connection.createStatement();
 			statement.executeQuery("INSERT INTO EventRequiresSkill VALUES("+
 		    "'"+event.getName()+"', "+
-			"to_timestamp('"+new java.sql.Timestamp(event.getCreatedDateTime().getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF')"+
-			 "'"+skill.getName()+"', ");
+			"to_timestamp('"+new java.sql.Timestamp(event.getCreatedDateTime().getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF'), "+
+			 "'"+skill.getName()+"'");
 			statement.close();
 			disconnectFromDatabase();
 		}
@@ -463,17 +508,15 @@ public class EventDao extends Dao{
 		}
 	}
 	
-	public void deleteEventRequiresSkill(Object skill1, Object event2) {
-		Skill skill=(Skill) skill1;
-		Event event=(Event) event2;
+	public void deleteEventRequiresSkill(Skill skill, Event event) {
 		try{
 			//connect
 			connectToDatabase();
 			//SQL statement
 			Statement statement=connection.createStatement();
 			statement.executeQuery("DELETE FROM EventRequiresSkill WHERE "+
-		    "SkillName'"+skill.getName()+"', AND "+
-		    "EventName='"+event.getName()+"', AND "+
+		    "SkillName='"+skill.getName()+"' AND "+
+		    "EventName='"+event.getName()+"' AND "+
 			"EventDateTime=to_timestamp('"+new java.sql.Timestamp(event.getCreatedDateTime().getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF')");
 			statement.close();
 			disconnectFromDatabase();
@@ -494,6 +537,86 @@ public class EventDao extends Dao{
 			while(resultSet.next()){
 				String name=resultSet.getString("SkillName");
 				result.add( new Skill (name));
+			}
+			//clean up
+			resultSet.close();
+			statement.close();
+			disconnectFromDatabase();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		return result;
+	}
+	public void insertEventRequiresDocument(Document document, Event event) {
+		try{
+			//connect
+			connectToDatabase();
+			//SQL statement
+			Statement statement=connection.createStatement();
+			statement.executeQuery("INSERT INTO EventRequiresDocument VALUES("+
+		    "'"+event.getName()+"', "+
+			"to_timestamp('"+new java.sql.Timestamp(event.getCreatedDateTime().getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF'), "+
+			"'"+document.getName()+"', "+
+			"to_timestamp('"+new java.sql.Timestamp(document.getDateUploaded().getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF'), "+
+			"'"+document.getUserEmail()+"'");
+			statement.close();
+			disconnectFromDatabase();
+		}
+	    catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	
+	public void deleteEventRequiresDocument(Document document, Event event) {
+		try{
+			//connect
+			connectToDatabase();
+			//SQL statement
+			Statement statement=connection.createStatement();
+			statement.executeQuery("DELETE FROM EventRequiresSkill WHERE "+
+		    "DocumentName='"+document.getName()+"' AND "+
+		    "DocumentDataUploaded=to_timestamp('"+new java.sql.Timestamp(document.getDateUploaded().getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF') AND "+
+		    "DocumentUserEmail='"+document.getUserEmail()+"' AND "+
+		    "EventName='"+event.getName()+"' AND "+
+			"EventDateTime=to_timestamp('"+new java.sql.Timestamp(event.getCreatedDateTime().getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF')");
+			statement.close();
+			disconnectFromDatabase();
+		}
+	    catch(Exception e){
+			e.printStackTrace();
+		}
+	}
+	public ArrayList<Object> getDocumentsRequired(Event event) {
+		ArrayList<Object> result=new ArrayList<Object>();
+		try{
+			//connect
+			connectToDatabase();
+			//SQL statement
+			Statement statement=connection.createStatement();
+			ResultSet resultSet=statement.executeQuery("SELECT * FROM Document, EventRequiresDocument WHERE Document.UserEmail=EventRequiresDocument.DocumentUserEmail AND Document.DateUploaded=EventRequiresDocument.DocumentDateUploaded AND Document.Name=EventRequiresDocument.DocumentName and EventRequiresDocument.EventName='"+event.getName()+"EventRequiresDocument.EventDateTime=to_timestamp('"+new java.sql.Timestamp(event.getCreatedDateTime().getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF')");
+			//get tuples
+			while(resultSet.next()){
+				String name=resultSet.getString("Name");
+				String type=resultSet.getString("Type");
+				Date date=resultSet.getDate("DateUploaded");
+				Blob blob=resultSet.getBlob("Blob");
+				String userEmail=resultSet.getString("UserEmail");
+				boolean isSharedDocument=resultSet.getBoolean("IsSharedDocument");
+				//blob to file
+				File file= File.createTempFile(newFileName.getFileName(),"");
+				BufferedInputStream in= new BufferedInputStream(blob.getBinaryStream());
+				FileOutputStream out=new FileOutputStream(file);
+				byte[] buffer=new byte[1024];
+				int r=0;
+				while((r=in.read(buffer))!=-1){
+					out.write(buffer,0,r);
+				}
+				out.flush();
+				out.close();
+				in.close();
+				blob.free();
+				result.add(new Document(name,type,date,file,userEmail,isSharedDocument));
 			}
 			//clean up
 			resultSet.close();
