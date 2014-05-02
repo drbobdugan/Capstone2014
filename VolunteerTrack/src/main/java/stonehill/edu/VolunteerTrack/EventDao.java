@@ -12,7 +12,7 @@ import java.util.Date;
 public class EventDao extends Dao{
 	public ArrayList<Object> getSearchResults(ArrayList<Object> criteria) {
 		StringBuilder sb=new StringBuilder();
-		for( int i=0; i<criteria.size()-1;i ++)
+		for( int i=0; i<criteria.size()-1;i=i+2)
 		{
 			sb.append(" AND UPPER(" + criteria.get(i) + ") LIKE UPPER('%" +criteria.get(i+1)+"%')");
 		}
