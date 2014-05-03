@@ -27,9 +27,10 @@ public class PartnerHomeView extends VolunteerTrackBaseView{
 	    for(Object o: allEvents)
 	    	if(((Event)o).getCreatedDateTime().after(new Date()))  // if the date of the event is in the future add it to the list
 	    		futureEvents.add((Event)o);
-	    
-	    eventAplicaions = dao.getAllPendingAplicantsByPartner(currentUser);
-	    
+	    eventAplicaions = new ArrayList();
+	    ArrayList temp = dao.getAllPendingAplicantsByPartner(currentUser);
+	    for(int i = 0; i < temp.size(); i+=2)
+	    	eventAplicaions.add(new AppEntry((Event)temp.get(i),(User)temp.get(i+1)));
 	    populateTables();
 	}  
 	
@@ -53,12 +54,13 @@ public class PartnerHomeView extends VolunteerTrackBaseView{
 		final DataView dataView2 = new DataView("simple2", new ListDataProvider(eventAplicaions)) {
 			protected void populateItem(Item item) {
 				final AppEntry aE = (AppEntry)item.getModelObject();
-				item.add(new Link<Void>("aprove"){ public void onClick(){ aprove(aplicantid);}});
-				item.add(new Link<Void>("deny"){ public void onClick(){ deny(aplicantid++);}});
-				item.add(new Label("name2", aE.getvName()));
-				item.add(new Label("eventName", aE.geteName()));
-				item.add(new Label("date2", aE.geteDate()));
-				item.add(new Label("available2", aE.getPos()));
+				//item.add(new Link<Void>("aprove"){ public void onClick(){ aprove(aplicantid);}});
+				//item.add(new Link<Void>("deny"){ public void onClick(){ deny(aplicantid++);}});
+				item.add(new Link<Void>("linkTo"){ public void onClick(){ linkTo(aplicantid++);}});
+				item.add(new Label("name2", aE.getUser().getFirstName()+ " " + aE.getUser().getLastName()));
+				item.add(new Label("eventName", aE.getEvent().getName()));
+				item.add(new Label("date2",  aE.getEvent().getCreatedDateTime()));
+				item.add(new Label("available2", aE.getEvent().getNumPositionsRemaining()));
 			}
 		};
 			
@@ -66,6 +68,10 @@ public class PartnerHomeView extends VolunteerTrackBaseView{
 		add(dataView2);
 		add(new PagingNavigator("navigator2", dataView2));	
 	}
+	 private void linkTo(int i ){
+		 User toLinkTo = ((AppEntry)eventAplicaions.get(i)).getUser();
+		 // setResponsePage(new ______________(toLinkTO, "partnerHomeView"));
+	 }
 	    public void deny(int i){
 	    	Event eventToView = (Event) futureEvents.get(i);
 	    	setResponsePage(new PartnerEventDetailsView(eventToView, "partnerHomeView"));

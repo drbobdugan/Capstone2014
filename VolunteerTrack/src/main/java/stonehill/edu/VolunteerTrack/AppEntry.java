@@ -1,45 +1,32 @@
 package stonehill.edu.VolunteerTrack;
+import java.io.Serializable;
 import java.util.Date;
 
-public class AppEntry{
-	String vName, eName;
-	int pos;
-	Date eDate;
+public class AppEntry implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private Event event;
+	private User user;
 	public AppEntry(){
-		vName = "";
-		eName = "";
-		pos = 0;
-		eDate = new Date();
+		event = null;
+		user = null;
 	}
-	public AppEntry(String vName, String eName, Integer pos, Date eDate){
-		this.vName = vName;
-		this.eName = eName;
-		this.pos = pos;
-		this.eDate = eDate;
+	public AppEntry(Event event, User user){
+		this.event = event;
+		this.user = user;
 	}
-	public String getvName() {
-		return vName;
+	public User getUser(){
+		return user;
 	}
-	public void setvName(String vName) {
-		this.vName = vName;
+	public void setUser(User value){
+		user = value;
 	}
-	public String geteName() {
-		return eName;
+	public Event getEvent(){
+		return event;
 	}
-	public void seteName(String eName) {
-		this.eName = eName;
+	public void setEvent(Event value){
+		event = value;
 	}
-	public int getPos() {
-		return pos;
-	}
-	public void setPos(int pos) {
-		this.pos = pos;
-	}
-	public Date geteDate() {
-		return eDate;
-	}
-	public void seteDate(Date eDate) {
-		this.eDate = eDate;
-	}
-	
 }
