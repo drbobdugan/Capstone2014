@@ -37,7 +37,12 @@ public class VolunteerSearchView extends VolunteerTrackBaseView
 	private final Date startDate = new Date();
 	private final Date endDate = new Date();
 	
-	String selected;
+	String selected0;
+	String selected1;
+	String selected2;
+	String selected3;
+	String selected4;
+	String selected5;
 	
 	DropDownChoice<String> startHR;
 	DropDownChoice<String> startMIN;
@@ -54,7 +59,7 @@ public class VolunteerSearchView extends VolunteerTrackBaseView
 	public VolunteerSearchView()
 	{
 		// Create the form for the textfield entries
-		Form form = new Form("testFields"){
+		Form form = new Form("PageForm"){
 			protected void onSubmit()
 			{
 				info("Form.onSubmit()");
@@ -71,16 +76,11 @@ public class VolunteerSearchView extends VolunteerTrackBaseView
 		form.add(location);
 		form.add(eventName);
 
-		add(form);
+		
 
 
 		// Creates the form for the two date fields
-		Form form2 = new Form("dateForm"){
-			protected void onSubmit()
-			{
-				info("Form.onSubmit()");
-			}
-		};
+
 
 		// creates two textfields that handle date entries
 		DateTextField startDateTextField = new DateTextField("startDateTextField", new PropertyModel<Date>(this, "startDate"));
@@ -111,85 +111,117 @@ public class VolunteerSearchView extends VolunteerTrackBaseView
 		endDateTextField.add(endDatePicker); 
 
 		// adds the date fields to the form and the form to the page
-		form2.add(startDateTextField);
-		form2.add(endDateTextField);
+		form.add(startDateTextField);
+		form.add(endDateTextField);
 
-		add(form2);
 		
 		
 		
 		// this is the form that handles the time selection option
-		Form form3 = new Form("timeForm"){
-			protected void onSubmit()
-			{
-				info("Form.onSubmit()");
-			}
-		};
-		
+
 	
 		// this is a default string for all drop downs to default to the empty string
-		selected = "";
+		selected0 = "";
+		selected1 = "";
+		selected2 = "";
+		selected3 = "";
+		selected4 = "";
+		selected5 = "";
+		
 		
 		// the start time drop downs
-		startHR = new DropDownChoice<String>("startHR", new PropertyModel<String>(this,"selected"), hours);
-		form3.add(startHR);
+		startHR = new DropDownChoice<String>("startHR", new PropertyModel<String>(this,"selected0"), hours);
+		form.add(startHR);
 		
-		startMIN = new DropDownChoice<String>("startMIN", new PropertyModel<String>(this,"selected"), mins);
-		form3.add(startMIN);
+		startMIN = new DropDownChoice<String>("startMIN", new PropertyModel<String>(this,"selected1"), mins);
+		form.add(startMIN);
 		
-		startAMPM = new DropDownChoice<String>("startAMPM", new PropertyModel<String>(this,"selected"), ampm);
-		form3.add(startAMPM);
+		startAMPM = new DropDownChoice<String>("startAMPM", new PropertyModel<String>(this,"selected2"), ampm);
+		form.add(startAMPM);
 		
 		
 		// the end time drop downs
-		endHR = new DropDownChoice<String>("endHR", new PropertyModel<String>(this,"selected"), hours);
-		form3.add(endHR);
+		endHR = new DropDownChoice<String>("endHR", new PropertyModel<String>(this,"selected3"), hours);
+		form.add(endHR);
 		
-		endMIN = new DropDownChoice<String>("endMIN", new PropertyModel<String>(this,"selected"), mins);
-		form3.add(endMIN);
+		endMIN = new DropDownChoice<String>("endMIN", new PropertyModel<String>(this,"selected4"), mins);
+		form.add(endMIN);
 		
-		endAMPM = new DropDownChoice<String>("endAMPM", new PropertyModel<String>(this,"selected"), ampm);
-		form3.add(endAMPM);
-		
-		
-		// add the from for the time selection to the page
-		add(form3);
+		endAMPM = new DropDownChoice<String>("endAMPM", new PropertyModel<String>(this,"selected5"), ampm);
+		form.add(endAMPM);
 		
 		
-		// this is the form for the search buttons
-		Form form4 = new Form("buttonForm"){
-			protected void onSubmit()
-			{
-				info("Form.onSubmit()");
-			}
-		};
+
 		
-		// use to get value [dropdown choice].getModelObject()
+		
+		
+		// form for skills *******
+		
+		
+
 		
 		// this is the button for searching
 		Button searchButton = new Button("searchButton"){
 			@Override
 			public void onSubmit(){
 				info("Send to: ");
+				String enteredPartnerName = partnerName.getModelObject();
+				String enteredlocation= location.getModelObject();
+				String enteredEventName = eventName.getModelObject();
 				
+				String enteredStartHR = startHR.getModelObject();
+				String enteredStartMIN = startMIN.getModelObject();
+				String enteredStartAMPM = startAMPM.getModelObject();
+				
+				String enteredEndHR = endHR.getModelObject();
+				String enteredEndMIN = endMIN.getModelObject();
+				String enteredEndAMPM = endAMPM.getModelObject();
+				
+				
+				
+				// use to get value [dropdown choice].getModelObject()
 				//get all the search parameters and filter through nulls and blanks. call query to get array of events and send to next page
+				
+				
 				
 				EventDao theEvents = new EventDao();
 				ArrayList DaoEvents =  theEvents.selectAll();
 				
-				//setResponsePage(new VolunteerSearchResultView(DaoEvents));
+				
+				setResponsePage(new VolunteerSearchResultPage(DaoEvents));
 
 
 			}
 		};
 		
-		form4.add(searchButton);
-		add(form4);
+		form.add(searchButton);
+		add(form);
 
 
 	}
-	public String getSelected()
+	public String getSelected0()
 	{
-		return selected;
+		return selected0;
 	}
+	public String getSelected1()
+	{
+		return selected1;
+	}
+	public String getSelected2()
+	{
+		return selected2;
+	}
+	public String getSelected3()
+	{
+		return selected3;
+	}
+	public String getSelected4()
+	{
+		return selected4;
+	}
+	public String getSelected5()
+	{
+		return selected5;
+	}
+	
 }

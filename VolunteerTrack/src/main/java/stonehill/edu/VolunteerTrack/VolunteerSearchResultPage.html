@@ -1,0 +1,41 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="kh.css" type="text/css" media="screen"
+	title="Stylesheet" charset="utf-8" />
+<title>Volunteer Track</title>
+</head>
+<body>
+	<wicket:extend>
+	
+	<table cellspacing="6" class="dataview">
+			<tr>
+				<th>Event</th>
+				<th>Location</th>
+				<th>Partner</th>
+				<th>Date</th>
+				<th>Time</th>
+				<th></th>
+			</tr>
+			<tr wicket:id="repeating">
+
+				<td><span wicket:id="eventName">[en]</span></td>
+				<td><span wicket:id="eventLocation">[el]</span></td>
+				<td><span wicket:id="eventPartner">[ep]</span></td>
+				<td><span wicket:id="eventDate">[ed]</span></td>
+				<td><span wicket:id="eventTime">[et]</span></td>
+				<td>
+				<form wicket:id="form4">
+				<span><input type="submit" wicket:id="applyButton" value="View Event" /></span>
+				</form>
+				</td>
+
+			</tr>
+		</table>
+
+	</wicket:extend>
+</body>
+</html>
+

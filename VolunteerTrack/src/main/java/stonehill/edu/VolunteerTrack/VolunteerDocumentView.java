@@ -190,8 +190,6 @@ public class VolunteerDocumentView extends VolunteerTrackBaseView
 				public void onSubmit(){
 					info("Send to: ");
 
-					
-					System.out.println("*************"+ listSites3.getModelObject()+"||||||||||||||||||||||||||||"+selected);
 					sendDoc(selected, x);
 				}
 			};
