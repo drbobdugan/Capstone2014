@@ -21,6 +21,7 @@ public class CoordinatorSearchPage  extends VolunteerTrackBaseView
 
 	public CoordinatorSearchPage()
 	{
+		//this is the form for all the textfields and buttons
 		Form form = new Form("form"){
 			protected void onSubmit()
 			{
@@ -28,7 +29,10 @@ public class CoordinatorSearchPage  extends VolunteerTrackBaseView
 			}
 		};
 
+		//the textfield for the partner search parameters
 		partnerName = new TextField<String>("partnerName",Model.of("")); 
+		
+		//the textfields for criteria to filter students by
 		studentName = new TextField<String>("studentName",Model.of("")); 
 		major = new TextField<String>("major",Model.of("")); 
 		minor = new TextField<String>("minor",Model.of("")); 
@@ -39,11 +43,13 @@ public class CoordinatorSearchPage  extends VolunteerTrackBaseView
 				info("Send to: ");
 				String partnerNameEntered = partnerName.getModelObject();
 
+				// if the user doesn't enter anything it passes in a blank string that will bring back all partners
 				if(partnerNameEntered == null)
 				{
 					partnerNameEntered = "";
 				}
 
+				//makes dao for search and gets results. sends results to the next page for display
 				UserDao dao = new UserDao();
 				ArrayList<User> returnList = dao.SearchUsersByOrganizationName(partnerNameEntered);
 				setResponsePage(new CoordinatorPartnerSearchResultView(returnList));
@@ -58,7 +64,7 @@ public class CoordinatorSearchPage  extends VolunteerTrackBaseView
 				String majorEntered = major.getModelObject();
 				String minorEntered = minor.getModelObject();
 				
-				
+				//whatever isnt entered turns into an empty string so it prevents filtration by that. 
 				if(studentNameEntered == null)
 				{
 					studentNameEntered = "";
@@ -72,12 +78,15 @@ public class CoordinatorSearchPage  extends VolunteerTrackBaseView
 					minorEntered = "";
 				}
 
+				//makes dao for search and gets results. sends results to the next page for display
 				UserDao dao = new UserDao();
 				ArrayList<User> returnList = dao.SearchUsersByNameMajorMinor(studentNameEntered, majorEntered, minorEntered);
 				setResponsePage(new CoordinatorVolunteerSearchResultView(returnList));
 			}
 		};
-
+		
+		
+        //adds everything to the forum and the forum to the page
 		form.add(partnerName);
 		form.add(studentName);
 		form.add(major);

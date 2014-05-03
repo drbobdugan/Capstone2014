@@ -55,10 +55,12 @@ public class VolunteerSearchView extends VolunteerTrackBaseView
 	List<String> hours = new ArrayList<String>(Arrays.asList("","00","01","02","03","04","05","06","07","09","10","12"));
 	List<String> mins = new ArrayList<String>(Arrays.asList("","00","05","10","15","20","25","30","35","40","45","50","55"));
 	List<String> ampm = new ArrayList<String>(Arrays.asList("","AM","PM"));
+	
+	ArrayList<String> selectedSkills = new ArrayList<String>();
 
 	public VolunteerSearchView()
 	{
-		// Create the form for the textfield entries
+		// Create the form for the whole page entries
 		Form form = new Form("PageForm"){
 			protected void onSubmit()
 			{
@@ -78,11 +80,7 @@ public class VolunteerSearchView extends VolunteerTrackBaseView
 
 		
 
-
-		// Creates the form for the two date fields
-
-
-		// creates two textfields that handle date entries
+		// creates two Date textfields that handle date entries. the default is set to todays date
 		DateTextField startDateTextField = new DateTextField("startDateTextField", new PropertyModel<Date>(this, "startDate"));
 		DateTextField endDateTextField = new DateTextField("endDateTextField", new PropertyModel<Date>(this, "endDate"));
 
@@ -117,7 +115,7 @@ public class VolunteerSearchView extends VolunteerTrackBaseView
 		
 		
 		
-		// this is the form that handles the time selection option
+		// this is the code that handles the time selection option
 
 	
 		// this is a default string for all drop downs to default to the empty string
@@ -155,9 +153,19 @@ public class VolunteerSearchView extends VolunteerTrackBaseView
 		
 		
 		
-		// form for skills *******
+		// handles skills stuff*******
 		
+		SkillDao skillDao = new SkillDao();
+		ArrayList<Object> theSkillObjects = skillDao.selectAll();
+		ArrayList theSkills = new ArrayList();
 		
+		for(int i =0; i<theSkillObjects.size();i++)
+		{
+			theSkills.add(((Skill) theSkillObjects.get(i)).getName());
+		}
+		
+		final CheckBoxMultipleChoice<String> skillBoxes = new CheckBoxMultipleChoice<String>("skillsPage",new Model(selectedSkills), theSkills);
+		form.add(skillBoxes);
 
 		
 		// this is the button for searching
@@ -166,7 +174,7 @@ public class VolunteerSearchView extends VolunteerTrackBaseView
 			public void onSubmit(){
 				info("Send to: ");
 				String enteredPartnerName = partnerName.getModelObject();
-				String enteredlocation= location.getModelObject();
+				String enteredLocation= location.getModelObject();
 				String enteredEventName = eventName.getModelObject();
 				
 				String enteredStartHR = startHR.getModelObject();
@@ -177,12 +185,39 @@ public class VolunteerSearchView extends VolunteerTrackBaseView
 				String enteredEndMIN = endMIN.getModelObject();
 				String enteredEndAMPM = endAMPM.getModelObject();
 				
+				// selectedSkills is the array with all checked off skills. 
+				// startDate and endDate hold the two dates. .toString() will give yout the data as a String
+				
+				ArrayList<Object> theCriteria = new ArrayList<Object>();
 				
 				
-				// use to get value [dropdown choice].getModelObject()
-				//get all the search parameters and filter through nulls and blanks. call query to get array of events and send to next page
+				if(enteredPartnerName != null)
+				{
+					//add to array
+				}
+				if(enteredLocation != null)
+				{
+					//add to array
+				}
+				if(enteredEventName != null)
+				{
+					//add to array
+				}
 				
+				// ** add both dates to array
 				
+				if(!enteredStartHR.equals("") && !enteredStartMIN.equals("")  && !enteredStartAMPM.equals(""))
+				{
+					//they entered something for all fields and its a valid time so enter it to array as an object joey decides
+				}
+				
+				if(!enteredEndHR.equals("") && !enteredEndMIN.equals("")  && !enteredEndAMPM.equals(""))
+				{
+					//they entered something for all fields and its a valid time so enter it to array as an object joey decides
+				}
+				
+				// add the selectedSkills array to the array
+
 				
 				EventDao theEvents = new EventDao();
 				ArrayList DaoEvents =  theEvents.selectAll();

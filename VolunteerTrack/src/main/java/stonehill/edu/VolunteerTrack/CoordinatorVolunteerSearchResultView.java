@@ -37,7 +37,8 @@ public class CoordinatorVolunteerSearchResultView extends VolunteerTrackBaseView
 			repeating.add(item); 
 
 			String usersName = ((User) theUsers.get(i)).getFirstName() + " " + ((User) theUsers.get(i)).getLastName();
-			//item.add(new ActionPanel("actions", new DetachableContactModel(contact)));
+			
+			//adds all the variables to each row
 			item.add(new Label("volunteerName", usersName));
 			item.add(new Label("major", ((User) theUsers.get(i)).getMajor()));
 			item.add(new Label("minor", ((User) theUsers.get(i)).getMinor()));
@@ -49,6 +50,8 @@ public class CoordinatorVolunteerSearchResultView extends VolunteerTrackBaseView
 				}
 			};
 
+			
+			// this handles the switch persona button that switches the users persona to the user of the row they clicked
 			final int tempi = i;
 			Button apply = new Button("userButton"){
 				@Override

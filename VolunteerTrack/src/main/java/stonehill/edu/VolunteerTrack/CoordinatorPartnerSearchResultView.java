@@ -27,7 +27,7 @@ public class CoordinatorPartnerSearchResultView extends VolunteerTrackBaseView {
 	public CoordinatorPartnerSearchResultView(ArrayList<User> theUsers)
 	{
 		
-		
+		// this is the repeating view for the table being built
 		RepeatingView repeating = new RepeatingView("repeating");
 		add(repeating);
 
@@ -37,10 +37,13 @@ public class CoordinatorPartnerSearchResultView extends VolunteerTrackBaseView {
 		{
 			AbstractItem item = new AbstractItem(repeating.newChildId());
 			repeating.add(item); 
-			//item.add(new ActionPanel("actions", new DetachableContactModel(contact)));
+			
+
+			// adds each name and location to each row for each partner in the search results array
 			item.add(new Label("partnerName", ((User) theUsers.get(i)).getOrganizationName()));
 			item.add(new Label("partnerLocation", ((User) theUsers.get(i)).getCity()));
 
+			// each row has a sperate form for the button
 			Form form4 = new Form("form"){
 				protected void onSubmit(){
 					info("Form.onSubmit()");
@@ -52,6 +55,8 @@ public class CoordinatorPartnerSearchResultView extends VolunteerTrackBaseView {
 				@Override
 				public void onSubmit(){
 					info("Send to: ");
+					
+					//handles switch persona and redirect but makes the calls here.
 					LoginController log = new LoginController();
 					log.switchUser((User)users.get(tempi));
 				}
@@ -61,7 +66,8 @@ public class CoordinatorPartnerSearchResultView extends VolunteerTrackBaseView {
 			item.add(form4);
 		}
 
-
+		
+        // back button to go back to the search page
 		Form form2 = new Form("form2"){
 			protected void onSubmit(){
 				info("Form.onSubmit()");

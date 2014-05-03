@@ -56,6 +56,7 @@ public class VolunteerDocumentView extends VolunteerTrackBaseView
 
 		dao = new DocumentDao();
 
+		// runs through and adds all documents for current user to the array
 		ArrayList<Object> temp = dao.getAllDocumentsByUser(CurrentUser);
 
 		for(int i = 0; i <temp.size();i++)
@@ -64,12 +65,13 @@ public class VolunteerDocumentView extends VolunteerTrackBaseView
 			System.out.println(((Document)temp.get(i)).getName());
 		}
 
-
+        //calls method to make the page with the array of user docs
 		makePage(theDocs);
 
 	}
 	public void makePage(List<Document> theDocs){
 
+		//makes an array of all partners in the system to display in the drop down
 		List<String> partners = new ArrayList<String>();
 		partners.add("Select A Partner");
 
@@ -82,19 +84,23 @@ public class VolunteerDocumentView extends VolunteerTrackBaseView
 
 		}
 
+		// repeater view handles the dynamic table
 		RepeatingView repeating = new RepeatingView("repeating");
 		add(repeating);
 
+		// runs through all user documents putting each document on a row
 		for(int i = 0; i < theDocs.size(); i++)
 		{
 			final int x = i;
 			AbstractItem item = new AbstractItem(repeating.newChildId());
 			repeating.add(item); 
 
-			
+			// the name field actual holds both the name and file format so this seperates them and displays just name
+			// splits on the period and the last string is the document type i.e .docx or.txt
 			String nameSplit = theDocs.get(i).getName();
             String[] splitted = nameSplit.split("\\.");
             String nameDisplay = splitted[0];
+            
             
             for(int q =1; q<splitted.length;q++)
             {
@@ -105,6 +111,7 @@ public class VolunteerDocumentView extends VolunteerTrackBaseView
             }
             
             
+            // displays name and type the user selected
 			item.add(new Label("name", nameDisplay));
 			item.add(new Label("type", theDocs.get(i).getType()));
 
@@ -126,7 +133,7 @@ public class VolunteerDocumentView extends VolunteerTrackBaseView
 			};
 			form.add(delete1);
 
-			// update buttons made and added tot he forms
+			// update buttons made and added to he form
 			Button update1 = new Button("updateButton"){
 				@Override
 				public void onSubmit(){     //hello? 
@@ -136,19 +143,18 @@ public class VolunteerDocumentView extends VolunteerTrackBaseView
 			};
 			form.add(update1);
 
-			// view buttons made and added to the form
-		
-			
+			// view buttons made and added to the form. this button simply starts the download stream on click
+			// gets file and name and the name is both the name and file format ending so it downloads right
 			form.add(new DownloadLink("viewButton",theDocs.get(i).getFile(),theDocs.get(i).getName()));
 
-			// add first form
+			// add first form to the repeater
 			item.add(form);
 
 
+			// last update is added as a label
 			item.add(new Label("LastUpdate", theDocs.get(i).getDateUploaded().toString()));
 
 			// make second form for drop down and send button
-
 			Form form2 = new Form("form2"){
 				protected void onSubmit(){
 					info("Form.onSubmit()");
@@ -161,14 +167,13 @@ public class VolunteerDocumentView extends VolunteerTrackBaseView
 			List<String> partnersSharedWIth = new ArrayList<String>();
 			partnersSharedWIth.add(" ");
 
+			// gets all partners the document is shared with and adds them to its drop down which is display only. 
 			ArrayList sharedAlready = dao.getAllPartnersSharedWithDocument(theDocs.get(i));
-			
 			for(int q = 0; q < sharedAlready.size();q++)
 			{
 				partnersSharedWIth.add( ((User) sharedAlready.get(q)).getOrganizationName());
 			}
 			
-
 			DropDownChoice<String> docsSharers = new DropDownChoice<String>("sharedWith", dropdown1, partnersSharedWIth);
 			form2.add(docsSharers);
 
@@ -178,8 +183,7 @@ public class VolunteerDocumentView extends VolunteerTrackBaseView
 			
 			//the drop down for partners that you want to send to. so all partners
 			selected = "Select A Partner";
-			
-
+	
 			listSites3 = new DropDownChoice<String>("sendTo", new PropertyModel<String>(this,"selected"), partners);
 			form2.add(listSites3);
 
@@ -196,8 +200,6 @@ public class VolunteerDocumentView extends VolunteerTrackBaseView
 			form2.add(send1);
 
 			item.add(form2);
-			//add(form);
-
 
 			final int idx = i;
 			item.add(AttributeModifier.replace("class", new AbstractReadOnlyModel<String>()
@@ -212,16 +214,16 @@ public class VolunteerDocumentView extends VolunteerTrackBaseView
 					}));
 		}  	
 
+		// form for add document
 		Form form3 = new Form("form3"){
 			protected void onSubmit(){
 				info("Form.onSubmit()");
 			}
 		};
 
+		// two document text fields
 		NewDocumentName = new TextField<String>("addDocumentName",Model.of("")); 
 		NewDocumentType = new TextField<String>("addDocumentType",Model.of(""));
-
-
 
 		Button addDB = new Button("addDB"){
 			@Override
@@ -234,6 +236,7 @@ public class VolunteerDocumentView extends VolunteerTrackBaseView
 				{
 					File newFile = new File("/home/ubuntu/Desktop/test.txt");
 					
+					//gets file name of uploaded file and gets its file types
 					String fileUploadedName = uploadedFile.getClientFileName();
                     String[] splitted =fileUploadedName.split("\\.");
                     String fileType = splitted[splitted.length-1];
@@ -241,6 +244,8 @@ public class VolunteerDocumentView extends VolunteerTrackBaseView
 					
 
 					try{
+						
+						// makes new file object and saves it in database with name and file type in the same string variable
 						newFile = uploadedFile.writeToTempFile();
 						// set it to session user
 						Document one = new Document(NewDocumentName.getModelObject()+"."+fileType,NewDocumentType.getModelObject(), new Date(),newFile,CurrentUser.getEmail(), false);
@@ -282,15 +287,8 @@ public class VolunteerDocumentView extends VolunteerTrackBaseView
 
 	public void update(int x){
 
-		
-		
-		//VolunteerDocumentUpdateView
-		
 		setResponsePage(new VolunteerDocumentUpdateView(theDocs.get(x)));
 		
-		
-		//this.setResponsePage(VolunteerDocumentView.class);
-
 	}
 
 	public void sendDoc(String receiver, int x)
