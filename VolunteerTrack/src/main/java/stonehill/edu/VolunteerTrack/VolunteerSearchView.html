@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,84 +9,43 @@
 </head>
 <body>
 	<wicket:extend>
-		<div id="main-search">
-			<div id="search-criteria">
-				<form wicket:id="form">
-					<table cellspacing="0">
-						<tr>
-							<td>Partner</td>
-							<td><span><select wicket:id="partners"></select></span></td>
-						</tr>
-						<tr>
-							<td>Location</td>
-							<td><span><select wicket:id="locations"></select></span></td>
-						</tr>
-						<tr>
-							<td>Event</td>
-							<td><span><select wicket:id="events"></select></span></td>
-						</tr>
-						<tr>
-							<td><br> Start Date</td>
-							<td><input type="text" wicket:id="startDateTextField" /></td>
-						</tr>
-						<tr>
-							<td>End Date</td>
-							<td><input type="text" wicket:id="endDateTextField" /></td>
-						</tr>
-					</table>
-				</form>
-				<form wicket:id="form3">
-					<table cellspacing="0">
-						<tr>
-							<td>Start Time</td>
-							<td><span wicket:id="timeField1"></span></td>
-						</tr>
-						<tr>
-							<td>End Time</td>
-							<td><span wicket:id="timeField2"></span></td>
-						</tr>
-					</table>
-				</form>
-			</div>
-			<div id="search-skills">
-				<form wicket:id="form2">
-					<p>Skills:</p>
-					<span wicket:id="skills"></span> <br> <input type="submit"
-						wicket:id="submitButton" name="submit" value="Search" />
-				</form>
-			</div>
-			<div id="search-table">
-				<table cellspacing="6" class="dataview">
-					<tr>
-						<th>Event</th>
-						<th>Location</th>
-						<th>Partner</th>
-						<th>Date</th>
-						<th>Time</th>
-						<th></th>
-					</tr>
-					<tr wicket:id="repeating">
-						<td><span wicket:id="eventName">[en]</span></td>
-						<td><span wicket:id="eventLocation">[el]</span></td>
-						<td><span wicket:id="eventPartner">[ep]</span></td>
-						<td><span wicket:id="eventDate">[ed]</span></td>
-						<td><span wicket:id="eventTime">[et]</span></td>
-						<td>
-							<form wicket:id="form4">
-								<span><input type="submit" wicket:id="applyButton"
-									value="apply" /></span>
-							</form>
-						</td>
-						<td>
-							<form wicket:id="form5">
-								<span><input type="submit" wicket:id="viewButton"
-									value="view" /></span>
-							</form>
-						</td>
-					</tr>
-				</table>
-			</div>
-		</div>
+	
+		<form wicket:id="testFields">
+		Partner Name:<input wicket:id="partnerName" type="text" size="19" />
+		<br>
+		Location: <input wicket:id="location" type="text" size="19" />
+		<br>
+		Event Name: <input wicket:id="eventName" type="text" size="19" />
+		<br>
+		</form>
+		
+		<form wicket:id="dateForm">
+		<br> 
+		Start Date: <input type="text" wicket:id="startDateTextField" /> 
+		<br> 
+		End Date: <input type="text" wicket:id="endDateTextField" /> 
+		<br>
+		</form>
+		
+		<form wicket:id="timeForm">
+		<br>
+		Start Time: Hour:<span><select wicket:id="startHR"></select></span> Minute:<span><select wicket:id="startMIN"></select></span> AM/PM:<span><select wicket:id="startAMPM"></select></span>
+		<br>
+		End Time: Hour:<span><select wicket:id="endHR"></select></span> Minute:<span><select wicket:id="endMIN"></select></span> AM/PM:<span><select wicket:id="endAMPM"></select></span>
+		<br>
+		</form>
+		
+		<form wicket:id="buttonForm">
+		<br>
+		<span><input type="submit" wicket:id="searchButton" value="Search" /></span>
+		<br>
+		</form>
+		
+		
+		
+		
+
 	</wicket:extend>
 </body>
 </html>
+
