@@ -199,7 +199,7 @@ while(resultSet.next()){
 			connectToDatabase();
 			//SQL statement
 			Statement statement=connection.createStatement();
-			ResultSet resultSet=statement.executeQuery("SELECT * FROM Event");
+			ResultSet resultSet=statement.executeQuery("SELECT * FROM Event, UserOwnsEvent WHERE UserOwnsEvent.EventName = Event.Name AND UserOwnsEvent.EventDateTime = Event.CreatedDateTime");
 			//get tuples
 			while(resultSet.next()){
 				String oe=resultSet.getString("UserEmail");
