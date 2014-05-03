@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="kh.css" type="text/css" media="screen"
+	title="Stylesheet" charset="utf-8" />
+<title>Volunteer Track</title>
+</head>
+<body>
+	<wicket:extend>
+		<div id="main">
+			<div id="main-left">
+				<!-- 				<form wicket:id="uploadProfilePicture" action="">
+					ADD DYNAMIC USER IMAGE CODES WHEN DONE
+				</form> -->
+				<img src="no-available-image.png" style="float: left" height="280"
+					width="280" alt="Stonehill Emblem" />
+			</div>
+			<div id="main-center">
+				<span>Profile Information</span>
+				<form wicket:id="profileInformation">
+					<table>
+						<tr>
+							<td>Email</td>
+							<td><input wicket:id="email" /></td>
+						</tr>
+						<tr>
+							<td>First Name</td>
+							<td><input wicket:id="firstName" /></td>
+						</tr>
+						<tr>
+							<td>Last Name</td>
+							<td><input wicket:id="lastName" /></td>
+						</tr>
+						<tr>
+							<td>Street</td>
+							<td><input wicket:id="street" /></td>
+						</tr>
+						<tr>
+							<td>City</td>
+							<td><input wicket:id="city" /></td>
+						</tr>
+						<tr>
+							<td>State</td>
+							<td><input wicket:id="state" /></td>
+						</tr>
+						<tr>
+							<td>Zip</td>
+							<td><input wicket:id="zip" /></td>
+						</tr>
+						<tr>
+							<td>Phone Number</td>
+							<td><input wicket:id="phoneNumber" /></td>
+						</tr>
+						<tr>
+							<td>Description</td>
+							<td><textarea wicket:id="description" rows="6" col="25" /></td>
+						</tr>
+					</table>
+				</form>
+			</div>
+			<div id="main-right">
+				<form wicket:id="form2">
+					<span wicket:id="skills"></span>
+				</form>
+			</div>
+		</div>
+	</wicket:extend>
+</body>
+</html>

@@ -7,87 +7,85 @@
 <title>Volunteer Track</title>
 </head>
 <body>
-	<br>
-	<br>
-	<br>
 	<wicket:extend>
-		<form wicket:id="form">
-			<table cellspacing="0">
-				<tr>
-					<th>Partner: <span><select wicket:id="partners"></select></span>
-					</th>
-					<th>Location: <span><select wicket:id="locations"></select></span>
-					</th>
-					<th>Event:<span><select wicket:id="events"></select></span>
-					</th>
-
-				</tr>
-
-				<tr>
-
-					<th><br> Start Date: <input type="text"
-						wicket:id="startDateTextField" /> <br> End Date: <input
-						type="text" wicket:id="endDateTextField" /> <br> <br></th>
-				</tr>
-			</table>
-		</form>
-
-		<form wicket:id="form3">
-			<table cellspacing="0">
-				<tr>
-					<th>Start Time: <span wicket:id="timeField1"></span> <br>
-						End Time: <span wicket:id="timeField2"></span> <br>
-					</th>
-				</tr>
-			</table>
-		</form>
-
-
-
-		<br>
-		<br>
-
-		<form wicket:id="form2">
-			<p>Skills:</p>
-
-			<span wicket:id="skills"></span> <br> <input type="submit"
-				wicket:id="submitButton" name="submit" value="Search" />
-
-		</form>
-
-
-
-      
-		<table cellspacing="6" class="dataview">
-			<tr>
-				<th>Event</th>
-				<th>Location</th>
-				<th>Partner</th>
-				<th>Date</th>
-				<th>Time</th>
-				<th></th>
-			</tr>
-			<tr wicket:id="repeating">
-
-				<td><span wicket:id="eventName">[en]</span></td>
-				<td><span wicket:id="eventLocation">[el]</span></td>
-				<td><span wicket:id="eventPartner">[ep]</span></td>
-				<td><span wicket:id="eventDate">[ed]</span></td>
-				<td><span wicket:id="eventTime">[et]</span></td>
-				<td>
-				<form wicket:id="form4">
-				<span><input type="submit" wicket:id="applyButton" value="apply" /></span>
+		<div id="main-search">
+			<div id="search-criteria">
+				<form wicket:id="form">
+					<table cellspacing="0">
+						<tr>
+							<td>Partner</td>
+							<td><span><select wicket:id="partners"></select></span></td>
+						</tr>
+						<tr>
+							<td>Location</td>
+							<td><span><select wicket:id="locations"></select></span></td>
+						</tr>
+						<tr>
+							<td>Event</td>
+							<td><span><select wicket:id="events"></select></span></td>
+						</tr>
+						<tr>
+							<td><br> Start Date</td>
+							<td><input type="text" wicket:id="startDateTextField" /></td>
+						</tr>
+						<tr>
+							<td>End Date</td>
+							<td><input type="text" wicket:id="endDateTextField" /></td>
+						</tr>
+					</table>
 				</form>
-				</td>
-
-			</tr>
-		</table>
-		<br>
-	    <br>
-		<br>
-
-
-
+				<form wicket:id="form3">
+					<table cellspacing="0">
+						<tr>
+							<td>Start Time</td>
+							<td><span wicket:id="timeField1"></span></td>
+						</tr>
+						<tr>
+							<td>End Time</td>
+							<td><span wicket:id="timeField2"></span></td>
+						</tr>
+					</table>
+				</form>
+			</div>
+			<div id="search-skills">
+				<form wicket:id="form2">
+					<p>Skills:</p>
+					<span wicket:id="skills"></span> <br> <input type="submit"
+						wicket:id="submitButton" name="submit" value="Search" />
+				</form>
+			</div>
+			<div id="search-table">
+				<table cellspacing="6" class="dataview">
+					<tr>
+						<th>Event</th>
+						<th>Location</th>
+						<th>Partner</th>
+						<th>Date</th>
+						<th>Time</th>
+						<th></th>
+					</tr>
+					<tr wicket:id="repeating">
+						<td><span wicket:id="eventName">[en]</span></td>
+						<td><span wicket:id="eventLocation">[el]</span></td>
+						<td><span wicket:id="eventPartner">[ep]</span></td>
+						<td><span wicket:id="eventDate">[ed]</span></td>
+						<td><span wicket:id="eventTime">[et]</span></td>
+						<td>
+							<form wicket:id="form4">
+								<span><input type="submit" wicket:id="applyButton"
+									value="apply" /></span>
+							</form>
+						</td>
+						<td>
+							<form wicket:id="form5">
+								<span><input type="submit" wicket:id="viewButton"
+									value="view" /></span>
+							</form>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
 	</wicket:extend>
 </body>
 </html>

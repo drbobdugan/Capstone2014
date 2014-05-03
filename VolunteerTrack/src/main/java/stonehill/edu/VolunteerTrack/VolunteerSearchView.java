@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.CheckBoxMultipleChoice;
@@ -38,6 +39,8 @@ public class VolunteerSearchView extends VolunteerTrackBaseView
 	private String eventSelected;
 	private String locationSelected; 
 
+	static Logger logger = Logger.getLogger(VolunteerSearchView.class);
+	
 	public VolunteerSearchView()
 	{
 		EventDao theEvents = new EventDao();
@@ -251,7 +254,7 @@ public class VolunteerSearchView extends VolunteerTrackBaseView
 			item.add(new Label("eventPartner", ((Event) filteredEvents.get(i)).getOwnerEmail()));
 			item.add(new Label("eventDate", ((Event) filteredEvents.get(i)).getStartDateTime().toString()));
 			item.add(new Label("eventTime", ((Event) filteredEvents.get(i)).getStartDateTime().getTime()));
-
+			final User pass = ((Event) filteredEvents.get(i)).getPartner();
 
 			Form form4 = new Form("form4"){
 				protected void onSubmit(){
@@ -265,9 +268,22 @@ public class VolunteerSearchView extends VolunteerTrackBaseView
 					info("Send to: ");
 				}
 			};
+			
+			Form form5 = new Form("form5");
+			
+			Button view = new Button("viewButton") {
+				@Override
+				public void onSubmit() {
+					//KBH redirect to view this user person's profile i.e. in this case partner hosting the event
+					logger.info("## What user are we looking at? "+pass.toString()+" ##");
+					setResponsePage(new SearchPartnerProfileView(pass));
+				}
+			};
+			
 			form4.add(apply);
-
+			form5.add(view);
 			item.add(form4);
+			item.add(form5);
 
 
 
