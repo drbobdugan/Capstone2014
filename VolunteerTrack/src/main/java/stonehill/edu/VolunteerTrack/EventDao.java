@@ -44,7 +44,7 @@ while(resultSet.next()){
 				boolean iap=resultSet.getBoolean("IsApprovedPartner");
 				boolean iac=resultSet.getBoolean("IsApprovedCoordinator");
 				boolean iav=resultSet.getBoolean("IsApprovedVolunteer");
-				String on=resultSet.getString("organizationName");
+				String on=resultSet.getString("OrganizationName");
 				searchResult.add(new User(e,p,fn,ln,s,c,st,z,pn,pd,vd,ip,ic,iv,mj,mi,iap,iac,iav,on));
 			}
 		}
@@ -64,18 +64,20 @@ while(resultSet.next()){
 			ResultSet resultSet=statement.executeQuery("SELECT * FROM Event, UserOwnsEvent,UserSignsUpForEvent, UserEntity WHERE UserOwnsEvent.EventName = Event.Name AND UserOwnsEvent.EventDateTime = Event.CreatedDateTime AND UserSignsUpForEvent.EventName = Event.Name AND UserSignsUpForEvent.EventDateTime = Event.CreatedDateTime AND UserEntity.Email=UserSignsUpForEvent.userEmail AND UserOwnsEvent.UserEmail = '" + partner.getEmail()+"' AND Event.StartDateTime<to_timestamp('"+new java.sql.Timestamp((new Date()).getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF')");
 			//get tuples
 			while(resultSet.next()){
-				String owner = resultSet.getString("UserEmail");
+				String oe=resultSet.getString("UserEmail");
 				String name=resultSet.getString("Name");
 				Date createdDate =resultSet.getTimestamp("CreatedDateTime");
 				Date startDate =resultSet.getTimestamp("StartDateTime");
 				Date endDate =resultSet.getTimestamp("EndDateTime");
 				String description =resultSet.getString("Description");
 				String location =resultSet.getString("Location");
+				String org=("OrganizationName");
 				// TODO no sure how this will be handled yet
-				Skill [] skills= new Skill[0];
+				Skill [] skills= {new Skill("not coded")};
 				int tp=resultSet.getInt("TotalPositions");
 				int tpr =resultSet.getInt("PositionsRemaining");
-				result.add( new Event ( owner, name, createdDate, startDate, endDate, description,  location ,  tp,  tpr, skills));
+				// TODO owners email
+				result.add( new Event ( oe , name,  description,  location ,org,  tp,  tpr,createdDate, startDate, endDate, skills));
 				String e=resultSet.getString("Email");
 				String p=resultSet.getString("Password");
 				String fn=resultSet.getString("FirstName");
@@ -95,7 +97,7 @@ while(resultSet.next()){
 				boolean iap=resultSet.getBoolean("IsApprovedPartner");
 				boolean iac=resultSet.getBoolean("IsApprovedCoordinator");
 				boolean iav=resultSet.getBoolean("IsApprovedVolunteer");
-				String on=resultSet.getString("organizationName");
+				String on=resultSet.getString("OrganizationName");
 				result.add(new User(e,p,fn,ln,s,c,st,z,pn,pd,vd,ip,ic,iv,mj,mi,iap,iac,iav,on));
 			}
 			//clean up
@@ -209,7 +211,7 @@ while(resultSet.next()){
 				Date endDate =resultSet.getTimestamp("EndDateTime");
 				String description =resultSet.getString("Description");
 				String location =resultSet.getString("Location");
-				String org=resultSet.getString("organizationName");
+				String org=("OrganizationName");
 				// TODO no sure how this will be handled yet
 				Skill [] skills= {new Skill("not coded")};
 				int tp=resultSet.getInt("TotalPositions");
@@ -244,7 +246,7 @@ while(resultSet.next()){
 				Date endDate =resultSet.getTimestamp("EndDateTime");
 				String description =resultSet.getString("Description");
 				String location =resultSet.getString("Location");
-				String org=resultSet.getString("organizationName");
+				String org=resultSet.getString("OrganizationName");
 				// TODO no sure how this will be handled yet
 				Skill [] skills= {new Skill("not coded")};
 				int tp=resultSet.getInt("TotalPositions");
@@ -328,7 +330,7 @@ while(resultSet.next()){
 				Date endDate =resultSet.getTimestamp("EndDateTime");
 				String description =resultSet.getString("Description");
 				String location =resultSet.getString("Location");
-				String org=resultSet.getString("organizationName");
+				String org=resultSet.getString("OrganizationName");
 				// TODO no sure how this will be handled yet
 				Skill [] skills= {new Skill("not coded")};
 				int tp=resultSet.getInt("TotalPositions");
@@ -403,7 +405,7 @@ while(resultSet.next()){
 				Date endDate =resultSet.getTimestamp("EndDateTime");
 				String description =resultSet.getString("Description");
 				String location =resultSet.getString("Location");
-				String org=resultSet.getString("organizationName");
+				String org=resultSet.getString("OrganizationName");
 				// TODO no sure how this will be handled yet
 				Skill [] skills= {new Skill("not coded")};
 				int tp=resultSet.getInt("TotalPositions");
@@ -476,7 +478,7 @@ while(resultSet.next()){
 				Date endDate =resultSet.getTimestamp("EndDateTime");
 				String description =resultSet.getString("Description");
 				String location =resultSet.getString("Location");
-				String org=resultSet.getString("organizationName");
+				String org=resultSet.getString("OrganizationName");
 				// TODO no sure how this will be handled yet
 				Skill [] skills= {new Skill("not coded")};
 				int tp=resultSet.getInt("TotalPositions");
