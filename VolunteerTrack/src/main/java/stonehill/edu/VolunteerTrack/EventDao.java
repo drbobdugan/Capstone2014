@@ -10,48 +10,39 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class EventDao extends Dao{
-	public ArrayList<Object> getSearchResults(ArrayList<Object> criteria) {
-		StringBuilder sb=new StringBuilder();
-		for( int i=0; i<criteria.size()-1;i=i+2)
-		{
-			sb.append(" AND UPPER(" + criteria.get(i) + ") LIKE UPPER('%" +criteria.get(i+1)+"%')");
+	public ArrayList<Object> getSearchResults(String organization, String location, String eventname,Date startDate,Date endDate,Date startTime,Date endTime, Skill[] skills) {
+		String skillQuery="";
+		for(int i=0;i<skills.length;i++){
+			skillQuery+=" AND EventRequiresSkill.SkillName="+skills[i].getName();
 		}
-		ArrayList<Object> searchResult=new ArrayList<Object>();
+		ArrayList<Object> result=new ArrayList<Object>();
 		try{
 			//connect
 			connectToDatabase();
 			//SQL statement
 			Statement statement=connection.createStatement();
-			ResultSet resultSet =statement.executeQuery("SELECT * FROM Event WHERE StartDateTime>to_timestamp('"+new java.sql.Timestamp((new Date()).getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF')" + sb);
-while(resultSet.next()){
-				
-				String e=resultSet.getString("Email");
-				String p=resultSet.getString("Password");
-				String fn=resultSet.getString("FirstName");
-				String ln=resultSet.getString("LastName");
-				String s=resultSet.getString("Street");
-				String c=resultSet.getString("City");
-				String st=resultSet.getString("State");
-				String z=resultSet.getString("Zip");
-				String pn=resultSet.getString("PhoneNumber");
-				String pd=resultSet.getString("PartnerDescription");
-				String vd=resultSet.getString("VolunteerDescription");
-				boolean ip=resultSet.getBoolean("IsPartner");
-				boolean ic=resultSet.getBoolean("IsCoordinator");
-				boolean iv=resultSet.getBoolean("IsVolunteer");
-				String mj=resultSet.getString("major");
-				String mi=resultSet.getString("minor");
-				boolean iap=resultSet.getBoolean("IsApprovedPartner");
-				boolean iac=resultSet.getBoolean("IsApprovedCoordinator");
-				boolean iav=resultSet.getBoolean("IsApprovedVolunteer");
-				String on=resultSet.getString("OrganizationName");
-				searchResult.add(new User(e,p,fn,ln,s,c,st,z,pn,pd,vd,ip,ic,iv,mj,mi,iap,iac,iav,on));
+			ResultSet resultSet =statement.executeQuery("SELECT * FROM Event,UserOwnsEvent,UserEntity,EventRequiresSkills WHERE UserOwnsEvent.EventName = Event.Name AND UserOwnsEvent.EventDateTime = Event.CreatedDateTime AND UserEntity.Email=UserOwnsEvent.userEmail AND EventRequiresSkill.EventName = Event.Name AND EventRequiresSkill.EventDateTime = Event.CreatedDateTime AND UPPER(UserEntity.OrganizationName) LIKE UPPER('%" +organization+"%') AND UPPER(Event.Location) LIKE UPPER('%" +location+"%') AND UPPER(Event.Name) LIKE UPPER('%" +eventname+"%') AND Event.StartDateTime>=to_timestamp('"+new java.sql.Timestamp(startDate.getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF') AND Event.StartDateTime<=to_timestamp('"+new java.sql.Timestamp(endDate.getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF') AND EXTRACT(HOUR FROM Event.StartDateTime)>=EXTRACT(HOUR FROM to_timestamp('"+new java.sql.Timestamp(startTime.getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF')) AND EXTRACT(HOUR FROM Event.EndDateTime)<=EXTRACT(HOUR FROM to_timestamp('"+new java.sql.Timestamp(endTime.getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF')) "+skillQuery);
+			while(resultSet.next()){
+				String oe=resultSet.getString("UserEmail");
+				String name=resultSet.getString("Name");
+				Date createdDate =resultSet.getTimestamp("CreatedDateTime");
+				Date sd =resultSet.getTimestamp("StartDateTime");
+				Date ed=resultSet.getTimestamp("EndDateTime");
+				String description =resultSet.getString("Description");
+				String l =resultSet.getString("Location");
+				String org=("OrganizationName");
+				// TODO no sure how this will be handled yet
+				Skill [] s= {new Skill("not coded")};
+				int tp=resultSet.getInt("TotalPositions");
+				int tpr =resultSet.getInt("PositionsRemaining");
+				// TODO owners email
+				result.add( new Event ( oe , name,  description,  l ,org,  tp,  tpr,createdDate, sd, ed, s));
 			}
 		}
 		catch(Exception e) {
 			e.printStackTrace();
 		}
-		return searchResult;
+		return result;
 	}
 	public ArrayList<Object> getAllPendingAplicantsByPartner(User partner) {
 		ArrayList<Object> result=new ArrayList<Object>();
@@ -211,13 +202,12 @@ while(resultSet.next()){
 				Date endDate =resultSet.getTimestamp("EndDateTime");
 				String description =resultSet.getString("Description");
 				String location =resultSet.getString("Location");
-				String org=("OrganizationName");
 				// TODO no sure how this will be handled yet
 				Skill [] skills= {new Skill("not coded")};
 				int tp=resultSet.getInt("TotalPositions");
 				int tpr =resultSet.getInt("PositionsRemaining");
 				// TODO owners email
-				result.add( new Event ( oe , name,  description,  location ,org,  tp,  tpr,createdDate, startDate, endDate, skills));
+				result.add( new Event ( oe , name, createdDate,startDate, endDate, description,  location ,  tp,  tpr, skills));
 			}
 			//clean up
 			resultSet.close();
@@ -246,12 +236,11 @@ while(resultSet.next()){
 				Date endDate =resultSet.getTimestamp("EndDateTime");
 				String description =resultSet.getString("Description");
 				String location =resultSet.getString("Location");
-				String org=resultSet.getString("OrganizationName");
 				// TODO no sure how this will be handled yet
 				Skill [] skills= {new Skill("not coded")};
 				int tp=resultSet.getInt("TotalPositions");
 				int tpr =resultSet.getInt("PositionsRemaining");
-				result.add( new Event ( oe , name,  description,  location ,org,  tp,  tpr,createdDate, startDate, endDate, skills));
+				result.add( new Event ( oe , name, createdDate,startDate, endDate, description,  location ,  tp,  tpr, skills));
 			}
 			//clean up
 			resultSet.close();
@@ -330,12 +319,11 @@ while(resultSet.next()){
 				Date endDate =resultSet.getTimestamp("EndDateTime");
 				String description =resultSet.getString("Description");
 				String location =resultSet.getString("Location");
-				String org=resultSet.getString("OrganizationName");
 				// TODO no sure how this will be handled yet
 				Skill [] skills= {new Skill("not coded")};
 				int tp=resultSet.getInt("TotalPositions");
 				int tpr =resultSet.getInt("PositionsRemaining");
-				result =( new Event ( oe , name,  description,  location ,org,  tp,  tpr,createdDate, startDate, endDate, skills));
+				result =( new Event ( oe , name, createdDate,startDate, endDate, description,  location ,  tp,  tpr, skills));
 			}else{
 				System.out.println("EventDao:getEventByNameDateTime() did not return a tuple.");
 			}
@@ -405,12 +393,11 @@ while(resultSet.next()){
 				Date endDate =resultSet.getTimestamp("EndDateTime");
 				String description =resultSet.getString("Description");
 				String location =resultSet.getString("Location");
-				String org=resultSet.getString("OrganizationName");
 				// TODO no sure how this will be handled yet
 				Skill [] skills= {new Skill("not coded")};
 				int tp=resultSet.getInt("TotalPositions");
 				int tpr =resultSet.getInt("PositionsRemaining");
-				result.add( new Event ( oe , name,  description,  location ,org,  tp,  tpr,createdDate, startDate, endDate, skills));
+				result.add(  new Event ( oe , name, createdDate,startDate, endDate, description,  location ,  tp,  tpr, skills));
 			}
 			//clean up
 			resultSet.close();
@@ -478,12 +465,11 @@ while(resultSet.next()){
 				Date endDate =resultSet.getTimestamp("EndDateTime");
 				String description =resultSet.getString("Description");
 				String location =resultSet.getString("Location");
-				String org=resultSet.getString("OrganizationName");
 				// TODO no sure how this will be handled yet
 				Skill [] skills= {new Skill("not coded")};
 				int tp=resultSet.getInt("TotalPositions");
 				int tpr =resultSet.getInt("PositionsRemaining");
-				result.add( new Event ( oe , name,  description,  location ,org,  tp,  tpr,createdDate, startDate, endDate, skills));
+				result.add( new Event ( oe , name, createdDate,startDate, endDate, description,  location ,  tp,  tpr, skills));
 			}
 			//clean up
 			resultSet.close();
