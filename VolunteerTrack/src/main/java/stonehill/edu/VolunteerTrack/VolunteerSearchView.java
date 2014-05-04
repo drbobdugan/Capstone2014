@@ -52,7 +52,7 @@ public class VolunteerSearchView extends VolunteerTrackBaseView
 	DropDownChoice<String> endMIN;
 	DropDownChoice<String> endAMPM;
 	
-	List<String> hours = new ArrayList<String>(Arrays.asList("","00","01","02","03","04","05","06","07","09","10","12"));
+	List<String> hours = new ArrayList<String>(Arrays.asList("","01","02","03","04","05","06","07","09","10","12"));
 	List<String> mins = new ArrayList<String>(Arrays.asList("","00","05","10","15","20","25","30","35","40","45","50","55"));
 	List<String> ampm = new ArrayList<String>(Arrays.asList("","AM","PM"));
 	
@@ -191,36 +191,80 @@ public class VolunteerSearchView extends VolunteerTrackBaseView
 				ArrayList<Object> theCriteria = new ArrayList<Object>();
 				
 				
-				if(enteredPartnerName != null)
+				if(enteredPartnerName == null)
 				{
-					//add to array
+					enteredPartnerName = "";
 				}
-				if(enteredLocation != null)
+				if(enteredLocation == null)
 				{
-					//add to array
+					enteredLocation = "";
 				}
-				if(enteredEventName != null)
+				if(enteredEventName == null)
 				{
-					//add to array
+					enteredEventName = "";
 				}
 				
-				// ** add both dates to array
+				// ** the start time
+				Date startDateTime;
 				
 				if(!enteredStartHR.equals("") && !enteredStartMIN.equals("")  && !enteredStartAMPM.equals(""))
 				{
+					
+					
+					if(enteredStartAMPM.equals("AM"))
+					{
+						startDateTime = new Date(startDate.getYear(),startDate.getMonth(),startDate.getDate(),Integer.parseInt(enteredStartHR),Integer.parseInt(enteredStartMIN));
+					}
+					else
+					{
+						startDateTime = new Date(startDate.getYear(),startDate.getMonth(),startDate.getDate(),Integer.parseInt(enteredStartHR)+12,Integer.parseInt(enteredStartMIN));
+					}
+					
 					//they entered something for all fields and its a valid time so enter it to array as an object joey decides
 				}
+				else
+				{
+					startDateTime = new Date(startDate.getYear(),startDate.getMonth(),startDate.getDate(),0,0);
+				}
+				
+				// ** endTime object
+				Date endDateTime;
 				
 				if(!enteredEndHR.equals("") && !enteredEndMIN.equals("")  && !enteredEndAMPM.equals(""))
 				{
+                    
+					
+					if(enteredEndAMPM.equals("AM"))
+					{
+						endDateTime = new Date(endDate.getYear(),endDate.getMonth(),endDate.getDate(),Integer.parseInt(enteredEndHR),Integer.parseInt(enteredEndMIN));
+					}
+					else
+					{
+						endDateTime = new Date(endDate.getYear(),endDate.getMonth(),endDate.getDate(),Integer.parseInt(enteredEndHR)+12,Integer.parseInt(enteredEndMIN));
+					}
+					
 					//they entered something for all fields and its a valid time so enter it to array as an object joey decides
+				}
+				else
+				{
+					endDateTime = new Date(endDate.getYear(),endDate.getMonth(),endDate.getDate(),23,59);
 				}
 				
 				// add the selectedSkills array to the array
+				
+				
 
 				
+				
 				EventDao theEvents = new EventDao();
-				ArrayList DaoEvents =  theEvents.selectAll();
+				
+				Skill[] tempSkill = {};
+				
+				
+				//Event temp = new Event("partner@partner.com","steve22" ," " , "campus22", "The Partner Club", 10,10,new Date(), new Date(), new Date(), tempSkill);
+
+				//theEvents.insert(temp);
+				ArrayList DaoEvents =  theEvents.getSearchResults(enteredPartnerName,enteredLocation,enteredEventName,startDate,endDate,startDateTime,endDateTime,selectedSkills);
 				
 				
 				setResponsePage(new VolunteerSearchResultPage(DaoEvents));
