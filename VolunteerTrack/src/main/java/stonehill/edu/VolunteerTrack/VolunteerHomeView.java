@@ -62,10 +62,9 @@ public class VolunteerHomeView extends VolunteerTrackBaseView
 		
 		
 		UserDao userDao = new UserDao();
-		
+		TimesheetEntryDao teDao = new TimesheetEntryDao();
 		EventDao eventDao = new EventDao();
 		
-		TimesheetEntryDao teDao = new TimesheetEntryDao();
 		
 	    ArrayList<Object> userTimesheetEntry = teDao.getAllTimesheetEntriesByUser(currentUser);
 	    

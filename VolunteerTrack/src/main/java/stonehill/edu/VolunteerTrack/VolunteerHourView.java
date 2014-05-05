@@ -161,6 +161,8 @@ public class VolunteerHourView extends VolunteerTrackBaseView
 
 	public void approve(int x){
 		((TimesheetEntry)userTimesheetEntry.get(x)).setIsApproved(true);
+		TimesheetEntry te = ((TimesheetEntry)userTimesheetEntry.get(x));
+		teDao.update(te);
 		this.setResponsePage(VolunteerHourView.class);
    	
     }
