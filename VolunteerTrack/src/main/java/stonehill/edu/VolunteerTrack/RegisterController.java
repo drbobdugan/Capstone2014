@@ -8,6 +8,7 @@ public class RegisterController extends WebPage {
 
 	public boolean RegisterUser(String email, String password, String passwordConfirm, int userType)
 	{
+		
 		UserDao dao = new UserDao();
 		//Check if user already exists              and passwords match
 		if(dao.getUserByUsername(email) == null && password.equals(passwordConfirm))
@@ -19,6 +20,8 @@ public class RegisterController extends WebPage {
 			case 2: user.setIsVolunteer(true);
 			case 3: user.setIsCoordinator(true);
 			}
+			NotificationDao nDao = new NotificationDao();
+			nDao.sendRegistrationNotice(user.getEmail());
 			dao.insert(user);
 			return true;
 		}

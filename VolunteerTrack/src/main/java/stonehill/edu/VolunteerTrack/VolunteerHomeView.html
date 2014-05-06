@@ -2,58 +2,65 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<link rel="stylesheet" href="kh.css" type="text/css" media="screen" title="Stylesheet" charset="utf-8" />
+<link rel="stylesheet" href="kh.css" type="text/css" media="screen"
+	title="Stylesheet" charset="utf-8" />
 <title>Volunteer Track</title>
 </head>
 <body>
-<wicket:extend>
-<p>Upcoming Events</p>
-     <table cellspalceing="0" class="dataView" table-border="1" >
-	     <tbody>
-	          <tr>
-	           <th>&nbsp;</th>
-	               <th>Event Name</th>
-	               <th>Location</th>
-	               <th>Date</th>
-	               <th>Partner Name</th>
-	          </tr>
-	          <tr wicket:id = "simple">
-	          <td><a href="#" wicket:id="view"><input type="button" value="view"/></a></td>
-	               <td><span wicket:id = "name"> The Event Name </span></td>
-	               <td><span wicket:id = "location"> The Event location </span></td>
-	               <td><span wicket:id = "date"> The Event date </span></td>
-	               <td><span wicket:id = "partner"> The Event Partner </span></td>
-	          </tr>
-	          <tr>
-	          <th>&nbsp;</th>
-	               <th>&nbsp;</th>
-	             <td>
-	          <div wicket:id="navigator"></div> 
-	          </td>
-	          </tr>
-	     </tbody>
-	 </table>
-	 <p>Overview of Volunteer Hours</p>
-	 <table cellspalceing="0" class="dataView2" table-border="1" >
-	     <tbody>
-	          <tr>
-	               <th>Partner Name</th>
-	               <th>Number of Hours</th>
-	          </tr>
-	          <tr wicket:id = "simple2">
-	               <td><span wicket:id = "name"> The Event Name </span></td>
-	               <td><span wicket:id = "hours"> The Event location </span></td>
-	          </tr>
-	          <tr>
-	          <th>&nbsp;</th>
-	             <td>
-	          <div wicket:id="navigator2"></div> 
-	          </td>
-	          </tr>
-	     </tbody>
-	 </table>
-  </wicket:extend>
-  </body>
+	<wicket:extend>
+		<div id="main">
+			<div id="main-table-one">
+				<p>Upcoming Events</p>
+				<table cellspalceing="0" class="dataView" table-border="1">
+					<tbody>
+						<tr>
+							<th>&nbsp;</th>
+							<th>Event Name</th>
+							<th>Location</th>
+							<th>Date</th>
+							<th>Partner Name</th>
+						</tr>
+						<tr wicket:id="simple">
+							<td><a href="#" wicket:id="view"><input type="button"
+									value="view" /></a></td>
+							<td><span wicket:id="name"> The Event Name </span></td>
+							<td><span wicket:id="location"> The Event location </span></td>
+							<td><span wicket:id="date"> The Event date </span></td>
+							<td><span wicket:id="partner"> The Event Partner </span></td>
+						</tr>
+						<tr>
+							<th>&nbsp;</th>
+							<th>&nbsp;</th>
+							<td>
+								<div wicket:id="navigator"></div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div id="main-table-two">
+				<p>Overview of Volunteer Hours</p>
+				<table cellspalceing="0" class="dataView2" table-border="1">
+					<tbody>
+						<tr>
+							<th>Partner Name</th>
+							<th>Number of Hours</th>
+						</tr>
+						<tr wicket:id="simple2">
+							<td><span wicket:id="name"> The Event Name </span></td>
+							<td><span wicket:id="hours"> The Event location </span></td>
+						</tr>
+						<tr>
+							<th>&nbsp;</th>
+							<td>
+								<div wicket:id="navigator2"></div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</wicket:extend>
+</body>
 </html>
 
-	

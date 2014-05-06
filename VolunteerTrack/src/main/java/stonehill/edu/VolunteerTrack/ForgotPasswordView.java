@@ -1,6 +1,5 @@
 package stonehill.edu.VolunteerTrack;
 
-import org.apache.commons.mail.EmailException;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Button;
@@ -23,10 +22,10 @@ public class ForgotPasswordView extends WebPage {
 		change.add(new Button("changeButton") {
 			@Override
 			public void onSubmit() {
-				ForgotPasswordController control = new ForgotPasswordController();
 				try {
+				ForgotPasswordController control = new ForgotPasswordController();
 					control.Submit(pass);
-				} catch (EmailException e) {
+				} catch (Exception e) {
 					invalid.setDefaultModel(new Model("There was an issue, try again."));
 				}
 			}
