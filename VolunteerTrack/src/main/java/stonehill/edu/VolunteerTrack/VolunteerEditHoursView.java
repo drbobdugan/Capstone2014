@@ -8,7 +8,6 @@ import java.util.List;
 
 import org.apache.wicket.extensions.yui.calendar.DatePicker;
 import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.CheckBoxMultipleChoice;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextArea;
@@ -17,6 +16,8 @@ import org.apache.wicket.markup.html.image.Image;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.request.resource.ContextRelativeResource;
+
+import com.googlecode.wicket.jquery.ui.form.button.Button;
 
 public class VolunteerEditHoursView extends VolunteerTrackBaseView {
 	/**
