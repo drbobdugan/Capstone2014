@@ -7,6 +7,7 @@ import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.AbstractItem;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
@@ -42,20 +43,17 @@ public class PartnerSearchResultsView extends VolunteerTrackBaseView {
 		
 	f.add(repeating);
 		for(int i=0; i<results.size();i++) {
-   User user=(User)results.get(i);
+       final User user=(User)results.get(i);
 	   final int x=i;
 	    AbstractItem item = new AbstractItem(repeating.newChildId());
 		repeating.add(item);
-		
-		
-	//	item.add(new Label("Name",results.get(i)));
-	//	item.add(new Label("Major",results.get(i)));
-	//	item.add(new Label("Minor", results.get(i)));	
-		
+			
+		item.add(new Link<Void>("profile"){ public void onClick(){ this.setResponsePage(new SearchVolunteerProfileView(user));}});
 		item.add(new Label("Name",user.getFirstName()+" " +user.getLastName()));
 		item.add(new Label("Major",user.getMajor()));
 		item.add(new Label("Minor", user.getMinor()));	
-		
+		item.add(new Label("Email", user.getEmail()));
+	
 		 final int idx = i;
          item.add(AttributeModifier.replace("class", new AbstractReadOnlyModel<String>()
          {

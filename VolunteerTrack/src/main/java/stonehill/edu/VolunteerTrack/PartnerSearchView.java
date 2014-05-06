@@ -27,7 +27,7 @@ public class PartnerSearchView extends VolunteerTrackBaseView {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	TextField<String> FirstName, LastName, DateAvailable, major, minor, startTime, endTime;
+	TextField<String> FirstName, LastName, DateAvailable, major, minor, email, startTime, endTime;
 	UserDao dao=new UserDao();
 	ArrayList<Object> volunteers;
 	
@@ -46,38 +46,20 @@ public class PartnerSearchView extends VolunteerTrackBaseView {
 	public PartnerSearchView()
 	{
 		
-		user1=new User("","","Kelsey","Napolione","","","","","","","",false,false,true,"ComputerScience","Religion",false,false,true,"");	
-		user2=new User("","","Kelsey","Napolione","","","","","","","",false,false,true,"ComputerScience","Religion",false,false,true,"");
-		
-		dao.insert(user1);
-		dao.insert(user2);
-		ArrayList<Object> tempUser=new ArrayList<Object>();
-		tempUser.add(user1);
-		tempUser.add(user2);
-		
-		//insert into dao to test that it grabs from it correctly
-		//dao.insert(user1);
-		//dao.insert(user2);;
-		
-	currentUser=dao.getUserByUsername("partner@partner.com");
+				
+	currentUser=CustomSession.get().getUser();
 	User u=new User();
 	Form form = new Form("form");
 				
 		form.setModel(new Model(currentUser));
 		form.add(FirstName=new TextField<String>("FirstName",new PropertyModel(currentUser,"firstName")));
 		form.add(LastName=new TextField<String>("LastName",new PropertyModel(currentUser,"lastName")));
-	 	//form.add(DateAvailable=new TextField<String>("date"));
 		form.add(major=new TextField<String>("Major",new PropertyModel(currentUser,"major")));
 		form.add(minor=new TextField<String>("Minor",new PropertyModel(currentUser,"minor")));
-	//	form.add(startTime=new TextField<String>("StartTime"));
+		form.add(email=new TextField<String>("Email",new PropertyModel(currentUser,"email")));
+		//form.add(startTime=new TextField<String>("StartTime"));
 	 // form.add(endTime=new TextField<String>("EndTime"));
-		
-		//add all the items to a list
-		
-			
-	  //  populateSkills();
-		
-
+	
 		SkillDao skilldao=new SkillDao();
 		final ArrayList<Object>skillslist=skilldao.selectAll(); //get all skills
 		//ArrayList<String> skillSelect=new ArrayList<String>();
@@ -88,9 +70,9 @@ public class PartnerSearchView extends VolunteerTrackBaseView {
 		}
 		List<String> fixedskills = Arrays.asList(skillarray);
 
-			final CheckBoxMultipleChoice<String> skillBoxes=
-					new CheckBoxMultipleChoice<String>("skills",new Model(skillslist), fixedskills);
-			form.add(skillBoxes);	
+		//	final CheckBoxMultipleChoice<String> skillBoxes=
+			//		new CheckBoxMultipleChoice<String>("skills",new Model(skillslist), fixedskills);
+		//	form.add(skillBoxes);	
 	Button search=new Button("Search") { /**
 		 * 
 		 */
@@ -108,6 +90,7 @@ public class PartnerSearchView extends VolunteerTrackBaseView {
 			String last=LastName.getDefaultModelObjectAsString();
 			String ma=major.getDefaultModelObjectAsString();
 			String mi=minor.getDefaultModelObjectAsString();
+			String e=email.getDefaultModelObjectAsString();
 			temp=new ArrayList<String>();
 			temp.add("firstName");
 			temp.add(first);
@@ -119,6 +102,8 @@ public class PartnerSearchView extends VolunteerTrackBaseView {
 			temp.add(ma);
 			temp.add("minor");
 			temp.add(mi);
+			temp.add("email");
+			temp.add(e);
 			//temp.add("startTime");
 			//temp.add(startTime.toString());
 			//temp.add("endTime");
@@ -129,25 +114,24 @@ public class PartnerSearchView extends VolunteerTrackBaseView {
 			SearchCriteria=new ArrayList<Object>();
 			for(int i=0; i<temp.size(); i+=2) {
 								
-				if(!temp.get(i+1).equals(""))  {	
+				//if(!temp.get(i+1).equals(""))  {	
 					SearchCriteria.add(temp.get(i));
 					SearchCriteria.add(temp.get(i+1));	
-				}	
+			//	}	
 			}
 			
 	ArrayList<Object>resultset=new ArrayList<Object>();
 	
 	//call dao to query the database
-			searchResults= dao.getSearchResults(SearchCriteria);
+		//	searchResults= dao.getSearchResults(SearchCriteria);
 			searchResults=dao.getAllVolunteers();
 			
-		int g=0;
-			
+		int g=0;	
 				
 				for(int h=0;h<searchResults.size(); h++){
 				User user=(User) searchResults.get(h);
 				if(temp.get(g+1).equals(user.getFirstName()) || temp.get(g+3).equals(user.getLastName())
-						|| temp.get(g+5).equals(user.getMajor())) {
+						|| temp.get(g+5).equals(user.getMajor()) || temp.get(g+7).equals(user.getMinor()) ||temp.get(g+9).equals(user.getEmail())) {
 					resultset.add(searchResults.get(h));
 					
 				}

@@ -9,18 +9,23 @@
  <wicket:extend>     
 <form wicket:id="form">
 <h2>Search Results</h2>
-<table  class="dataview" border="1" style="width:500px">
+<table  class="dataview" border="1" style="width:650px">
 
 <tr>
+<th></th>
 <th>Name</th>
 <th>Major</th>
 <th>Minor</th>
+<th>Email</th>
 </tr>
 
 <tr wicket:id="repeating">
-<td><span wicket:id="Name">[Zac Brown]</span></td>
+
+<td><a href="#" wicket:id="profile"><input type="button" value="View Profile"/></a></td>
+<td><span wicket:id="Name">[Name]</span></td>
 <td><span wicket:id="Major">[N/A]</span></td>
 <td><span wicket:id="Minor">[N/A]</span></td>
+<td><span wicket:id="Email">[Email]</span></td>
 </tr>
 </table>
 <br> 

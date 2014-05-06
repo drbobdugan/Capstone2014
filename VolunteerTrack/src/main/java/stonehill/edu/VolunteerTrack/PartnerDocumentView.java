@@ -18,6 +18,7 @@ import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.form.upload.FileUpload;
 import org.apache.wicket.markup.html.form.upload.FileUploadField;
+import org.apache.wicket.markup.html.link.DownloadLink;
 import org.apache.wicket.markup.html.list.AbstractItem;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.repeater.RepeatingView;
@@ -36,7 +37,7 @@ public class PartnerDocumentView  extends VolunteerTrackBaseView {
 	ArrayList<Document> yourdocs;
 	ArrayList<Document> volunteerdocs;
 	final TextField<String> newDocName = new TextField<String>("DocumentName",Model.of("")); 
-   final TextField<String> newDocType=new TextField<String>("DocumentType",Model.of(""));
+    final TextField<String> newDocType=new TextField<String>("DocumentType",Model.of(""));
     FileUploadField fileUpload;
    // Form repeatingform;
     Button viewButton;
@@ -47,13 +48,13 @@ public class PartnerDocumentView  extends VolunteerTrackBaseView {
     Document doc;
 	public PartnerDocumentView()
 	{
-		
+		docDao=new DocumentDao();
 		Form<?>uploadForm=new Form<Void>("uploadform") {
 			protected void onSubmit(){
         		info("Form.onSubmit()");
         	}
 		};
-
+/*
 		upload=new Button("uploadDoc") { 
 			private static final long serialVersionUID = 1L;
 			@Override
@@ -63,40 +64,47 @@ public class PartnerDocumentView  extends VolunteerTrackBaseView {
     //	delete(x);
 			}
 		};
-		uploadForm.add(upload);
+		*/
+		
+		Button add=new Button("Add") {
+			@Override
+			public void onSubmit() {
+				
+			final FileUpload uploadedFile=fileUpload.getFileUpload();
+			//do stuff	
+			if(uploadedFile!=null) {
+				File newFile=new File ("/home/ubuntu/Desktop/test.txt");
+				
+				try {
+					newFile=uploadedFile.writeToTempFile();
+					Document testDoc = new Document (newDocName.getModelObject(),newDocType.getModelObject(),new Date(), newFile, "partner@partner.com",false);
+					docDao.insert(testDoc);
+					this.setResponsePage(PartnerDocumentView.class);
+				}
+		     catch(Exception e) {
+		    	 throw new IllegalStateException("Error trying to do the .create or .writeto");
+		    	    	 
+		     }		
+			}
+			}
+		};
+		uploadForm.setMultiPart(true);
+		
+	//	uploadForm.add(upload);
 		uploadForm.add(newDocName);
 		uploadForm.add(newDocType);
+		uploadForm.add(fileUpload=new FileUploadField("uploadDoc"));
+		uploadForm.add(add);
 		add(uploadForm);
-		docDao=new DocumentDao();
+		
 		userDao=new UserDao();
-		currentUser = userDao.getUserByUsername("ssiff@students.stonehill.edu");
+		currentUser=CustomSession.get().getUser();
         //get the docs from the database
 		partnerdocuments=docDao.getAllDocumentsByUser(currentUser);
-		volunteerdocuments=docDao.getAllSharedDocumentsByUser(currentUser);
-	
-/*
-		 repeatingform = new Form<Void>("repeatingform"){
-        	protected void onSubmit(){
-        		info("Form.onSubmit()");
-        	}
-        };
-      
-/*
-		 newDocName = new TextField<String>("DocumentName",Model.of("")); 
-	     newDocType = new TextField<String>("DocumentType",Model.of(""));
-	     fileUpload = new FileUploadField("fileUpload");  
-	     form.add(newDocName);
-	     form.add(newDocType);
-	     form.add(fileUpload);
-	    
-	 */   
+		volunteerdocuments=docDao.getAllDocumentsSharedWithPartner(currentUser);
+
 	//add(form);
 		yourdocs=new ArrayList<Document>();
-		 doc=new Document();
-		doc.setDateUploaded(new Date());
-		doc.setType("Cori Form");
-		doc.setName("Test Name");
-		yourdocs.add(doc);
 		volunteerdocs=new ArrayList<Document>();
 		for(int i=0; i<partnerdocuments.size();i++) {
 			yourdocs.add((Document)partnerdocuments.get(i));
@@ -118,8 +126,7 @@ public void	generateyourDocs(ArrayList<Document>yourdocs) {
       int  index=0;
  
 		for(int i=0; i<yourdocs.size(); i++) {
-		
-		
+	
         final int x=i;
         AbstractItem item = new AbstractItem(repeating.newChildId());
 
@@ -139,53 +146,12 @@ public void	generateyourDocs(ArrayList<Document>yourdocs) {
 					}
 				};
 		
-			//	item.add(form);
-			//form for delete update and view button	
-				/*
-				Form<?> form2 = new Form<Void>("form2")
-						{
-							@Override
-							protected void onSubmit()
-							{
-								//do some stuff
-								info("Form.onSubmit()");
-							}
-						};
-						add(form2);
-			*/
-		//	item.add(form2);
-		/*		
-		Button addDoc=new Button("addDoc") { /**
-			 * 
-			 
-			private static final long serialVersionUID = 1L;
-			@Override
+	
 		
-	    public void onSubmit() {
-		//add the document
-			info("Add was clicked");
-		//	create();
-		
-			}
-		};
-		
-		repeatingform.add(addDoc);
-		*/
-		 viewButton=new Button("viewButton") { /**
-			 * 
-			 */
-			private static final long serialVersionUID = 1L;
-			@Override
-		
-	    public void onSubmit() {
-		//view the document
-				info("View : " + x);
-     		view(x);
-     		
-			}
-		};
-		
-	  buttonform.add(viewButton);
+		buttonform.add(new DownloadLink("viewButton",yourdocs.get(i).getFile(),yourdocs.get(i).getName()));
+
+		// add first form to the repeater
+	 // buttonform.add(viewButton);
 		
 		 DeleteButton=new Button("deleteButton") { 
 			private static final long serialVersionUID = 1L;
@@ -197,6 +163,7 @@ public void	generateyourDocs(ArrayList<Document>yourdocs) {
 			}
 		};
 		buttonform.add(DeleteButton);
+		
 		 updateButton=new Button("updateButton") { /**
 			 * 
 			 */
@@ -206,7 +173,7 @@ public void	generateyourDocs(ArrayList<Document>yourdocs) {
 	    public void onSubmit() {
 		//view the document
 				info("View : " + x);
-     		view(x);
+     		update(x);
      		
 			}
 		};
@@ -242,12 +209,7 @@ public void	generateyourDocs(ArrayList<Document>yourdocs) {
 
 public void generateVolunteerDocs(ArrayList<Document> volunteerdocs) {
 	
-	Document document=new Document();
-	document.setDateUploaded(new Date());
-	document.setType("Cori Form");
-	document.setName("Animal Shelter Form");
-	document.setUserEmail("Blue Man Group");
-	volunteerdocs.add(document);
+	
 	RepeatingView repeating=new RepeatingView("repeating2");
 	add(repeating);
 	int index=0;
@@ -267,10 +229,10 @@ for(int i=0;i<volunteerdocs.size(); i++) {
 					info("Form.onSubmit()");
 				}
 			};
-
-			viewVolDoc=new Button("viewVolDoc") { /**
-					 * 
-					 */
+/*
+			viewVolDoc=new Button("viewVolDoc") { 
+					 
+					
 					private static final long serialVersionUID = 1L;
 					@Override
 				
@@ -281,10 +243,17 @@ for(int i=0;i<volunteerdocs.size(); i++) {
 		     		
 					}
 				};
-				Volunteerform.add(viewVolDoc);
+				*/
+Volunteerform.add(new DownloadLink("viewVolDoc",volunteerdocs.get(i).getFile(),volunteerdocs.get(i).getName()));
+
+				// add first form to the repeater			
+	//		Volunteerform.add(new DownloadLink("viewVolDoc",volunteerdocs.get(i).getFile(),volunteerdocs.get(i).getName()));
+
+			// add first form to the repeater
+			//	Volunteerform.add(viewVolDoc);
   add(Volunteerform);
 	item.add(Volunteerform);
-	item.add(new Label("Name",volunteerdocs.get(i).getUserEmail()));
+	item.add(new Label("Name",volunteerdocs.get(i).getName()));
 	item.add(new Label("DocName",volunteerdocs.get(i).getName()));
 	item.add(new Label("Date", volunteerdocs.get(i).getDateUploaded()));
 	item.add(new Label("Type",volunteerdocs.get(i).getType()));
@@ -313,8 +282,8 @@ for(int i=0;i<volunteerdocs.size(); i++) {
 	
 
 public void delete(int x){
-	yourdocs.remove(doc);
-	//	docDao.delete(yourdocs.get(x));
+	//yourdocs.remove(x);
+	docDao.delete(yourdocs.get(x));
 		this.setResponsePage(PartnerDocumentView.class);
     }
 /*
@@ -332,9 +301,11 @@ public void create() {
 public void view(int x) {
 	this.setResponsePage(PartnerDocumentView.class);
 }
+public void update(int x) {
+	this.setResponsePage(new PartnerDocumentUpdateView(yourdocs.get(x)));
+}
 
 
 
 	}//end of class
-
 
