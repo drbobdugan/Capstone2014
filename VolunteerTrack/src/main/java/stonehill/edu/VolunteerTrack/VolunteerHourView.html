@@ -2,40 +2,40 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<link rel="stylesheet" href="kh.css" type="text/css" media="screen" title="Stylesheet" charset="utf-8" />
+<link rel="stylesheet" href="kh.css" type="text/css" media="screen"
+	title="Stylesheet" charset="utf-8" />
 <title>Volunteer Track</title>
 </head>
 <body>
-<wicket:extend>
-<table cellspacing="0" class="dataview">
-    <tr>
-        <th>Event</th>
-        <th>Partner</th>
-        <th>Date/Time</th>
-        <th>Hours</th>
-        <th>Options</th>
-    </tr>
-    <tr wicket:id="repeating">
-        
-        <td><span wicket:id="event">[contactid]</span> </td>
-        <td><span wicket:id="partner">[firstname]</span></td>
-        <td><span wicket:id="date">[contactid]</span> </td>
-        <td><span wicket:id="hours">[firstname]</span></td>
-        <td>
-        <form wicket:id="form">
-        <input type = "submit" wicket:id = "update" value = "Update"/>
-        <input type = "submit" wicket:id = "approve" value = "Accept"/>
-        <input type = "submit" wicket:id = "delete" value = "Delete"/>
-        </form>
-        </td>
-    </tr>
-</table>
-
-  
-  <form wicket:id = "form3">
-  <span><input type = "submit" wicket:id = "addevent" value = "Add Event"/></span>
-  </form>
-  
-</wicket:extend>
+	<wicket:extend>
+		<div id="main">
+			<table cellspacing="0" class="dataview">
+				<tr>
+					<th>Event</th>
+					<th>Partner</th>
+					<th>Date/Time</th>
+					<th>Hours</th>
+					<th>Options</th>
+				</tr>
+				<tr wicket:id="repeating">
+					<td><span wicket:id="event">[contactid]</span></td>
+					<td><span wicket:id="partner">[firstname]</span></td>
+					<td><span wicket:id="date">[contactid]</span></td>
+					<td><span wicket:id="hours">[firstname]</span></td>
+					<td>
+						<form wicket:id="form">
+							<input type="submit" wicket:id="update" value="Update" /> <input
+								type="submit" wicket:id="approve" value="Accept" /> <input
+								type="submit" wicket:id="delete" value="Delete" />
+						</form>
+					</td>
+				</tr>
+			</table>
+			<form wicket:id="form3">
+				<span><input type="submit" wicket:id="addevent"
+					value="Add Event" /></span>
+			</form>
+		</div>
+	</wicket:extend>
 </body>
 </html>

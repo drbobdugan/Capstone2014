@@ -117,6 +117,18 @@
 	padding: 5px;
 }
 
+#main-table-one {
+	float: left;
+	width: 400px;
+	padding: 5px;
+}
+
+#main-table-two {
+	float: left;
+	width: 400px;
+	padding: 5px;
+}
+
 #main-search {
 	width: 1150px;
 	margin: 0 auto;
@@ -139,6 +151,24 @@
 	width: 640px;
 	padding: 5px;
 	font-size: 11px;
+}
+
+#main-documents {
+	width:1050px;
+	margin: 0 auto;
+	font-size: 12px;
+}
+
+#documents-table {
+	float: left;
+	width: 800px;
+	padding: 5px;
+}
+
+#documents-form {
+	float: right;
+	width: 230px;
+	padding: 5px;
 }
 
 span.s-left {
