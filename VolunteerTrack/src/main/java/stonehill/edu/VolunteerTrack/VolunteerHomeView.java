@@ -68,13 +68,9 @@ public class VolunteerHomeView extends VolunteerTrackBaseView
 		
 	    ArrayList<Object> userTimesheetEntry = teDao.getAllTimesheetEntriesByUser(currentUser);
 	    
-	    ArrayList<Object> userEvents2 = eventDao.getAllEventsByUserTimeSheetEntries(currentUser);
+	   // ArrayList<Object> userEvents2 = eventDao.getAllEventsByUserTimeSheetEntries(currentUser);
 	    
 	    ArrayList<Object> userEvents = eventDao.getAllEventsByUserTimeSheetEntries(currentUser);
-	    
-	    
-	   
-	    
 	    
 	    for(Object o: userEvents){
 	    	if(((Event)o).getCreatedDateTime().after(new Date())){

@@ -7,10 +7,12 @@
 </head>
 <body>
       <wicket:extend>
-      <h3>Upcoming Events</h3>
-     <table cellspalceing="0" class="dataView">
-	     <tbody>
-	          <tr>
+      <div id="main">
+           <div id="main-table-one">
+                <p>Upcoming Events</p>
+                     <table cellspalceing="0" class="dataView" table-border="1">
+	                       <tbody>
+	                             <tr>
 	               <th>&nbsp;</th>
 	               <th>Name</th>
 	               <th>Location</th>
@@ -31,13 +33,15 @@
 	               <th>&nbsp;</th>  
 	               <th>&nbsp;</th>
 	             <td>
-	          <div wicket:id="navigator"></div> 
-	          </td>
+	              </td>
 	          </tr>
 	     </tbody>
 	 </table>
-	 <h3>Pending Aplicants</h3>
-     <table cellspalceing="0" class="dataView">
+	 <center><div wicket:id="navigator"></div></center>
+	 </div>
+	 <div id="main-table-two">
+	 <p>Pending Aplicants</p>
+     <table cellspalceing="0" class="dataView2" table-border="1">
 	     <tbody>
 	          <tr>
 	               <th>&nbsp;</th>
@@ -59,11 +63,14 @@
 	               <th>&nbsp;</th>
 	               <th>&nbsp;</th>
 	             <td>
-	          <div wicket:id="navigator2"></div> 
+	          
 	          </td>
 	          </tr>
 	     </tbody>
 	 </table>
+	 <center><div wicket:id="navigator2"></div> </center>
+	 </div>
+	 </div>
       </wicket:extend>
 </body>
 </html>

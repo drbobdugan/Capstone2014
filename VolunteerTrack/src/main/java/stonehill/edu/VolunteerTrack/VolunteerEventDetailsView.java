@@ -27,9 +27,12 @@ public class VolunteerEventDetailsView extends VolunteerTrackBaseView
 	private Form form;
 	private String returnTo;
 	private ArrayList daoEvents;
-
+	private ArrayList volunteerList;
+	private int aplicantid;
+	
 	public VolunteerEventDetailsView(Event event1, String returnTo,ArrayList daoEvents)
 	{
+		EventDao eD = new EventDao();
 		event = event1;
 		this.returnTo = returnTo;
 		this.daoEvents = daoEvents;
@@ -51,7 +54,16 @@ public class VolunteerEventDetailsView extends VolunteerTrackBaseView
 			  @Override
 				public void onSubmit() {
 				      EventDao ed = new EventDao();
+				      Event target = ed.getEventByNameDateTime(event.getName(), event.getCreatedDateTime());
+				      if(target == null || target.getNumPositionsRemaining() < 1)
+				    	  return;
+				      target.setNumPositionsRemaining(target.getNumPositionsRemaining()-1);
+				      ed.update(target);
 				      ed.insertUserSignsUpForEvent(CustomSession.get().getUser(), event);
+				      TimesheetEntryDao tS = new TimesheetEntryDao();
+				      tS.insert(new TimesheetEntry(CustomSession.get().getUser().getEmail(), event.getCreatedDateTime(), event.getName(), false, false, 0, CustomSession.get().getUser().getOrganizationName()));
+				     
+				      
 				      if(returnTo.equals("partnerHomeView"))
 						  setResponsePage(PartnerHomeView.class);
 					  else if(returnTo.equals("partnerEventView"))
@@ -78,8 +90,12 @@ public class VolunteerEventDetailsView extends VolunteerTrackBaseView
 				}
 			});
 
+		  
 		  // add the form to the page
 		  add(form);
 	}
-
+	 private void linkTo(int i ){
+		 User toLinkTo = (User)volunteerList.get(i);
+		 setResponsePage(new SearchVolunteerProfileView(toLinkTo));
+	 }
 }

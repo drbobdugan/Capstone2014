@@ -7,7 +7,9 @@
 </head>
 <body>
 <wicket:extend>
-<h3>Upcoming Events</h3>
+ <div id="main">
+           <div id="main-table-one">
+<p>Upcoming Events</p>
      <table cellspalceing="0" class="dataView">
 	     <tbody>
 	          <tr>
@@ -46,12 +48,14 @@
 	               <th>&nbsp;</th>
 	               <th>&nbsp;</th>
 	             <td>
-	          <div wicket:id="navigator"></div> 
 	          </td>
 	          </tr>
 	     </tbody>
 	 </table>
-	 <h3>Past Events</h3>
+	 <center> <div wicket:id="navigator"></div>  </center>
+	 </div>
+           <div id="main-table-two">
+	 <p>Past Events</p>
 	 <table cellspalceing="0" class="dataView">
 	     <tbody>
 	          <tr>
@@ -80,11 +84,14 @@
 	               <th>&nbsp;</th>
 	               <th>&nbsp;</th>
 	             <td>
-	          <div wicket:id="navigator2"></div> 
 	          </td>
 	          </tr>
 	     </tbody>
 	 </table>
+	 <center>
+	          <div wicket:id="navigator2"></div> </center>
+	 </div>
+	 </div>
   </wicket:extend>
   </body>
 </html>

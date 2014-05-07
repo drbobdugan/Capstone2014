@@ -3,6 +3,7 @@ package stonehill.edu.VolunteerTrack;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -26,12 +27,29 @@ public class PartnerHomeView extends VolunteerTrackBaseView{
 		aplicantid = 0;
 	    ArrayList<Object> allEvents = dao.getAllEventsByOwner(currentUser);
 	    for(Object o: allEvents)
-	    	if(((Event)o).getCreatedDateTime().after(new Date()))  // if the date of the event is in the future add it to the list
+	    	if(!((Event)o).getCreatedDateTime().before(new Date()))  // if the date of the event is in the future add it to the list
 	    		futureEvents.add((Event)o);
+	   //sort
+	    for (int i = 0; i < futureEvents.size(); i++){
+	    	for (int j = 0; j < futureEvents.size(); j++){
+		    	if(((Event)futureEvents.get(i)).getCreatedDateTime().before(((Event)futureEvents.get(j)).getCreatedDateTime())){
+		    		Collections.swap(futureEvents, i, j);
+		    	}
+		    }
+	    }
+	    
 	    eventAplicaions = new ArrayList();
 	    ArrayList temp = dao.getAllPendingAplicantsByPartner(currentUser);
 	    for(int i = 0; i < temp.size(); i+=2)
 	    	eventAplicaions.add(new AppEntry((Event)temp.get(i),(User)temp.get(i+1)));
+	    
+	    for (int i = 0; i < eventAplicaions.size(); i++){
+	    	for (int j = 0; j < eventAplicaions.size(); j++){
+		    	if(((Event)((AppEntry)eventAplicaions.get(i)).getEvent()).getCreatedDateTime().before(((Event)((AppEntry)eventAplicaions.get(j)).getEvent()).getCreatedDateTime())){
+		    		Collections.swap(eventAplicaions, i, j);
+		    	}
+		    }
+	    } 
 	    populateTables();
 	}  
 	

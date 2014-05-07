@@ -10,6 +10,7 @@ package stonehill.edu.VolunteerTrack;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -40,11 +41,29 @@ public class PartnerEventView extends VolunteerTrackBaseView
 		// Get all events and split up the events by future and past events
 	    ArrayList<Object> events = dao.getAllEventsByOwner(	 CustomSession.get().getUser());
 	    for(Object o: events)
-	    	if(((Event)o).getCreatedDateTime().after(new Date()))
+	    	if(!((Event)o).getCreatedDateTime().before(new Date()))
 	    		futureEvents.add((Event)o);
 	    	else 
 	    		pastEvents.add((Event)o);
 	
+	    
+	    //sort
+	    for (int i = 0; i < futureEvents.size(); i++){
+	    	for (int j = 0; j < futureEvents.size(); j++){
+		    	if(((Event)futureEvents.get(i)).getCreatedDateTime().before(((Event)futureEvents.get(j)).getCreatedDateTime())){
+		    		Collections.swap(futureEvents, i, j);
+		    	}
+		    }
+	    }
+	    
+	    //sort
+	    for (int i = 0; i < pastEvents.size(); i++){
+	    	for (int j = 0; j < pastEvents.size(); j++){
+		    	if(((Event)pastEvents.get(i)).getCreatedDateTime().after(((Event)pastEvents.get(j)).getCreatedDateTime())){
+		    		Collections.swap(pastEvents, i, j);
+		    	}
+		    }
+	    }
 	    populateTables();
 	}  
 	
