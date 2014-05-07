@@ -53,6 +53,9 @@ public class PartnerSearchResultsView extends VolunteerTrackBaseView {
 		item.add(new Label("Major",user.getMajor()));
 		item.add(new Label("Minor", user.getMinor()));	
 		item.add(new Label("Email", user.getEmail()));
+		item.add(new Label("City",user.getCity()));
+		item.add(new Label("State",user.getState()));
+		item.add(new Label("Zip", user.getZip()));
 	
 		 final int idx = i;
          item.add(AttributeModifier.replace("class", new AbstractReadOnlyModel<String>()

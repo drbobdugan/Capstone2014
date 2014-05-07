@@ -27,7 +27,7 @@ public class PartnerSearchView extends VolunteerTrackBaseView {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	TextField<String> FirstName, LastName, DateAvailable, major, minor, email, startTime, endTime;
+	TextField<String> FirstName, LastName, DateAvailable, major, minor, email, City, State, Zip, endTime;
 	UserDao dao=new UserDao();
 	ArrayList<Object> volunteers;
 	
@@ -57,9 +57,20 @@ public class PartnerSearchView extends VolunteerTrackBaseView {
 		form.add(major=new TextField<String>("Major",new PropertyModel(currentUser,"major")));
 		form.add(minor=new TextField<String>("Minor",new PropertyModel(currentUser,"minor")));
 		form.add(email=new TextField<String>("Email",new PropertyModel(currentUser,"email")));
-		//form.add(startTime=new TextField<String>("StartTime"));
-	 // form.add(endTime=new TextField<String>("EndTime"));
+		form.add(City=new TextField<String>("City",new PropertyModel(currentUser,"city")));
+		form.add(State=new TextField<String>("State",new PropertyModel(currentUser,"state")));
+		form.add(Zip=new TextField<String>("ZipCode",new PropertyModel(currentUser,"zip")));
 	
+	/*
+		form.add(FirstName=new TextField<String>("FirstName");
+		form.add(LastName=new TextField<String>("LastName"));
+		form.add(major=new TextField<String>("Major"));
+		form.add(minor=new TextField<String>("Minor"));
+		form.add(email=new TextField<String>("Email"));
+		form.add(City=new TextField<String>("City"));
+		form.add(State=new TextField<String>("State"));
+		form.add(Zip=new TextField<String>("ZipCode"));
+	*/
 		SkillDao skilldao=new SkillDao();
 		final ArrayList<Object>skillslist=skilldao.selectAll(); //get all skills
 		//ArrayList<String> skillSelect=new ArrayList<String>();
@@ -91,23 +102,27 @@ public class PartnerSearchView extends VolunteerTrackBaseView {
 			String ma=major.getDefaultModelObjectAsString();
 			String mi=minor.getDefaultModelObjectAsString();
 			String e=email.getDefaultModelObjectAsString();
+			String c=City.getDefaultModelObjectAsString();
+			String s=State.getDefaultModelObjectAsString();
+			String z=Zip.getDefaultModelObjectAsString();
 			temp=new ArrayList<String>();
 			temp.add("firstName");
 			temp.add(first);
 			temp.add("lastName");
 			temp.add(last);
-			//temp.add("dateAvaiable");
-		//	temp.add(""+DateAvailable.toString());
 			temp.add("major");
 			temp.add(ma);
 			temp.add("minor");
 			temp.add(mi);
 			temp.add("email");
 			temp.add(e);
-			//temp.add("startTime");
-			//temp.add(startTime.toString());
-			//temp.add("endTime");
-			//temp.add(endTime.toString());
+			temp.add("City");
+			temp.add(c);
+			temp.add("State");
+			temp.add(s);
+			temp.add("ZipCode");
+			temp.add(z);
+			
 			final ResultSet results;
 		
 				//makes array of non null items in search criteria
@@ -131,7 +146,8 @@ public class PartnerSearchView extends VolunteerTrackBaseView {
 				for(int h=0;h<searchResults.size(); h++){
 				User user=(User) searchResults.get(h);
 				if(temp.get(g+1).equals(user.getFirstName()) || temp.get(g+3).equals(user.getLastName())
-						|| temp.get(g+5).equals(user.getMajor()) || temp.get(g+7).equals(user.getMinor()) ||temp.get(g+9).equals(user.getEmail())) {
+						|| temp.get(g+5).equals(user.getMajor()) || temp.get(g+7).equals(user.getMinor()) ||temp.get(g+9).equals(user.getEmail()) 
+						||temp.get(g+11).equals(user.getCity())||temp.get(g+13).equals(user.getState()) || temp.get(g+15).equals(user.getZip())) {
 					resultset.add(searchResults.get(h));
 					
 				}

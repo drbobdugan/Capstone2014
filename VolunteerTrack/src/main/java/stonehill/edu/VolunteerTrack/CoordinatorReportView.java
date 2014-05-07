@@ -165,21 +165,26 @@ public class CoordinatorReportView extends VolunteerTrackBaseView {
 	     
 			UserDao userdao=new UserDao();
 			ArrayList<Object> volunteers=userdao.getAllVolunteers();
-			
+			ArrayList<Integer>eventNum=new ArrayList<Integer>();
+			ArrayList<TimesheetEntry>mostRecentEvent=new ArrayList<TimesheetEntry>();
 			TimesheetEntryDao timedao=new TimesheetEntryDao();
+
 			TimesheetEntry timesheet=new TimesheetEntry();	
 			if(userSelected.equals("Volunteer")) {	
 				if(reportTypeSelected.equals("Summary")) {
 					 
 					for(int i=0;i<volunteers.size();i++) {
 						User user=(User)volunteers.get(i);
+			
 			ArrayList<Object>times=	timedao.getAllTimesheetEntriesByUser((User)volunteers.get(i));
 			for(int j=0; j<times.size(); j++) {
 				timesheet= ((TimesheetEntry)times.get(j));
 				//gets all volunteer hours per volunteers
 				totalVolunteerHours=totalVolunteerHours+timesheet.getHoursLogged();
 			}
-			hours.add(totalVolunteerHours);
+			hours.add(totalVolunteerHours); 
+			
+		
 	
 			totalHours=totalHours+totalVolunteerHours;
 				}
@@ -189,34 +194,59 @@ public class CoordinatorReportView extends VolunteerTrackBaseView {
 				}
 				
 				else if(reportTypeSelected.equals("Details")) {
+					for(int i=0; i<volunteers.size(); i++) {
+						User user=(User)volunteers.get(i);
+						ArrayList<Object>times=	timedao.getAllTimesheetEntriesByUser((User)volunteers.get(i));
+						for(int j=0; j<times.size(); j++) {
+							timesheet= ((TimesheetEntry)times.get(j));
+						//gets all volunteer hours per volunteers
+					totalVolunteerHours=totalVolunteerHours+timesheet.getHoursLogged();
+					
+						}
+						hours.add(totalVolunteerHours);
+					    if(times.size()>0) {
+				        eventNum.add(times.size()-1);
+				        mostRecentEvent.add((TimesheetEntry)times.get(times.size()-1));
+				        }
+					    else {
+					    eventNum.add(0);
+					    mostRecentEvent.add(new TimesheetEntry());
+					    }
+						totalHours=totalHours+totalVolunteerHours;
+				       
+					}
+					
 					//more detailed reports
 					//make HTML more dynamic
-				}		
+				
+				
+				
+				this.setResponsePage(new CoordinatorReportsResultsView (volunteers, hours, new Date(), totalHours,eventNum,mostRecentEvent));
 			}
+			}	
 			
 			else if(userSelected.equals("Partner")) {
 			//get all partners\
 				ArrayList<Object>events=eventdao.selectAll();
 				//ArrayList<Integer>volunteerNum=new ArrayList<Integer>();
-				ArrayList<Object>filteredEvents=new ArrayList<Object>();
+			//	ArrayList<Object>filteredEvents=new ArrayList<Object>();
 				//ArrayList<Object> partners=userdao.getAllPartners();
 				if(reportTypeSelected.equals("Summary")) {
 					
 					 
-					 
+					ArrayList<Object>filteredEvents=new ArrayList<Object>();
 					for(int i=0;i<events.size();i++) {
 						Event event=(Event)events.get(i);
-						if(selected.equals("By Day")) {
-					 if(event.getStartDateTime().after(start)  && event.getStartDateTime().before(end)) {
+					//	if(selected.equals("By Day")) {
+					 if((event.getStartDateTime().compareTo(start)>=0 ) && (event.getStartDateTime().compareTo(end)<=0)) {
 						filteredEvents.add(event);
 					 }
 					 else
 					 {
 						 events.remove(events.get(i));
-					 }
-							
-					}
-					}
+					 }	
+					this.setResponsePage(new CoordinatorReportsResultsView (filteredEvents));
+			    }
 					
 				
 		      this.setResponsePage(new CoordinatorReportsResultsView(events));
@@ -225,17 +255,29 @@ public class CoordinatorReportView extends VolunteerTrackBaseView {
 				
 				
 				else if(reportTypeSelected.equals("Details")) {	
-					//more detailed reports here
+					ArrayList<Object>filteredEvents=new ArrayList<Object>();
+						for(int i=0;i<events.size();i++) {
+							Event event=(Event)events.get(i);
+						//	if(selected.equals("By Day")) {
+						 if((event.getStartDateTime().compareTo(start)>=0 ) && (event.getStartDateTime().compareTo(end)<=0)) {
+							filteredEvents.add(event);
+						 }
+						 else
+						 {
+							events.remove(events.get(i));
+						 }	
+						this.setResponsePage(new CoordinatorReportsResultsView (filteredEvents, "D"));
+				    }
 				}
-			}
+		//	}
+		}
 			
 			 
 			User user=new User();
 			Event event= new Event(); //
 		
 			}
-				
-			
+					
 		};
 
 		startDatePicker.setShowOnFieldClick(true);
