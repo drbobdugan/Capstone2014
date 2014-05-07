@@ -1,6 +1,7 @@
 package stonehill.edu.VolunteerTrack;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -41,7 +42,8 @@ public class PartnerHomeView extends VolunteerTrackBaseView{
 				item.add(new Link<Void>("view"){ public void onClick(){ viewEvent(eventid++);}});
 				item.add(new Label("name", event.getName()));
 				item.add(new Label("location", event.getLocation()));
-				item.add(new Label("date", event.getCreatedDateTime().toString()));
+				SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyy");
+				item.add(new Label("date", dateFormat.format(event.getCreatedDateTime())));
 				item.add(new Label("positions", event.getNumPositions()));
 				item.add(new Label("available", event.getNumPositionsRemaining()));
 			}
@@ -56,21 +58,23 @@ public class PartnerHomeView extends VolunteerTrackBaseView{
 				final AppEntry aE = (AppEntry)item.getModelObject();
 				//item.add(new Link<Void>("aprove"){ public void onClick(){ aprove(aplicantid);}});
 				//item.add(new Link<Void>("deny"){ public void onClick(){ deny(aplicantid++);}});
-				item.add(new Link<Void>("linkTo"){ public void onClick(){ linkTo(aplicantid++);}});
+				final int i = aplicantid++;
+				item.add(new Link<Void>("linkTo"){ public void onClick(){ linkTo(i);}});
 				item.add(new Label("name2", aE.getUser().getFirstName()+ " " + aE.getUser().getLastName()));
 				item.add(new Label("eventName", aE.getEvent().getName()));
-				item.add(new Label("date2",  aE.getEvent().getCreatedDateTime()));
+				SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyy");
+				item.add(new Label("date2",  dateFormat.format(aE.getEvent().getCreatedDateTime())));
 				item.add(new Label("available2", aE.getEvent().getNumPositionsRemaining()));
 			}
 		};
 			
-		dataView.setItemsPerPage(5);
+		dataView2.setItemsPerPage(5);
 		add(dataView2);
 		add(new PagingNavigator("navigator2", dataView2));	
 	}
 	 private void linkTo(int i ){
 		 User toLinkTo = ((AppEntry)eventAplicaions.get(i)).getUser();
-		 // setResponsePage(new ______________(toLinkTO, "partnerHomeView"));
+		 setResponsePage(new SearchVolunteerProfileView(toLinkTo));
 	 }
 	    public void deny(int i){
 	    	Event eventToView = (Event) futureEvents.get(i);

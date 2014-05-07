@@ -8,6 +8,7 @@
 package stonehill.edu.VolunteerTrack;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -58,7 +59,8 @@ public class PartnerEventView extends VolunteerTrackBaseView
 				idFuture++;
 				item.add(new Label("name", event.getName()));
 				item.add(new Label("location", event.getLocation()));
-				item.add(new Label("date", event.getCreatedDateTime().toString()));
+				SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyy");
+				item.add(new Label("date", dateFormat.format(event.getCreatedDateTime())));
 				item.add(new Label("positions", event.getNumPositions()));
 				item.add(new Label("available", event.getNumPositionsRemaining()));
 			}
@@ -73,7 +75,8 @@ public class PartnerEventView extends VolunteerTrackBaseView
 				idPast++;
 				item.add(new Label("name2", event.getName()));
 				item.add(new Label("location2", event.getLocation()));
-				item.add(new Label("date2", event.getCreatedDateTime().toString()));
+				SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyy");
+				item.add(new Label("date2", dateFormat.format(event.getCreatedDateTime())));
 				item.add(new Label("positions2", event.getNumPositions()));
 				item.add(new Label("available2", event.getNumPositionsRemaining()));
 			}

@@ -40,16 +40,13 @@ public class PartnerCreateEventView extends VolunteerTrackBaseView
 	
 	 private void populateItems() {
 		  // create the event to insert
-		 newEvent = new Event();  
-		 newEvent.setOwnerEmail(CustomSession.get().getUser().getEmail());
+		  newEvent = new Event();  
+		  newEvent.setOwnerEmail(CustomSession.get().getUser().getEmail());
 		  //  create the form 
 		  form = new Form("form");
 		  // create elements and add them to the form
 		  form.add(name = new TextField("eventName", new PropertyModel(newEvent, "name")));
 		  form.add(location = new TextField("location", new PropertyModel(newEvent, "location")));
-		  
-		  //form.add(location = new TextField("start", new PropertyModel(newEvent, "location")));
-		  //form.add(location = new TextField("end", new PropertyModel(newEvent, "location")));
 		  
 		  date = new DateTextField("date", new PropertyModel<Date>(newEvent, "createdDateTime"));
 	      datePicker = new DatePicker(){
@@ -58,7 +55,7 @@ public class PartnerCreateEventView extends VolunteerTrackBaseView
 	        		return "${calendar}.cfg.setProperty(\"navigator\",true,false); ${calendar}.render()";
 	        	}
 	        }; 
-		  
+		    
 	        datePicker.setShowOnFieldClick(true);
 	        date.add(datePicker);
 	        form.add(date);
@@ -102,11 +99,4 @@ public class PartnerCreateEventView extends VolunteerTrackBaseView
 	 private Date getEnd() {
 			return time2;
 		}
-/*	 private void saveEvent(){		     
-		 Event newEvent = new Event( , name.toString(), new Date(), description.toString(), 
-				 location.toString(), 2, 2, new Skill[0]);
-	     EventDao eventDao = new EventDao();
-	     eventDao.insert(newEvent);
-	     setResponsePage(PartnerEventView.class); 
-	 }*/
 }

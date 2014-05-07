@@ -34,6 +34,28 @@
 	         <label for="desc" >Description: </label>
              <span id="desc" wicket:id="description" /> 
              <br/>
+             <h3>Volunteers</h3>
+     <table cellspalceing="0" class="dataView">
+	     <tbody>
+	          <tr>
+	               <th>&nbsp;</th>
+	               <th>First Name</th>
+	               <th>Last Name</th>
+	          </tr>
+	          <tr wicket:id = "simple"> 
+	              <td><a href="#" wicket:id="linkTo"><input type="button" value="See Profile"/></a></td>
+	               <td><span wicket:id = "nameFirst"> The Persons Name </span></td>
+	               <td><span wicket:id = "nameLast"> The Prersons last Name </span></td>
+	          </tr>
+	          <tr>
+	               <th>&nbsp;</th>
+	             <td>
+	          <div wicket:id="navigator"></div> 
+	          </td>
+	          </tr>
+	     </tbody>
+	 </table>
+	 <br/>
               <input wicket:id="save" type="submit" value="Close"/>
 	    </form>
 	     </tbody>
