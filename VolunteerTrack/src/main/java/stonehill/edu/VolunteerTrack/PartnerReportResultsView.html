@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:wicket="http://wicket.apache.org/" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <link rel="stylesheet" href="kh.css" type="text/css" media="screen" title="Stylesheet" charset="utf-8" />
@@ -10,20 +11,10 @@
       <form wicket:id="reportResultsView">
      <h1> Report Results</h1>
      <br/>
-     <div style="position: absolute; height: 200px; overflow: auto;">
-     <table class="dataview">
-       <tr>
-         <th>Event Name</th>
-         <th>Date</th>
-         <th>Location</th>
-       </tr>
-       <tr wicket:id="results">
-         <td><span wicket:id="eventname">[eventname]</span></td>
-         <td><span wicket:id="date">[date]</span></td>
-         <td><span wicket:id="location"></span></td>
-       </tr>
-     </table>
-     </div>
+     <div wicket:id="accordion"></div>
+     <br/>
+     <input wicket:id="back" type="submit"value="Back" />
+     <div wicket:id="feedback"></div>
      </form>
       </wicket:extend>
 

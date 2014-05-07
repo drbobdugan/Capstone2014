@@ -63,7 +63,6 @@ public class VolunteerDocumentView extends VolunteerTrackBaseView
 		for(int i = 0; i <temp.size();i++)
 		{
 			theDocs.add((Document)temp.get(i));
-			System.out.println(((Document)temp.get(i)).getName());
 		}
 
         //calls method to make the page with the array of user docs
@@ -231,7 +230,6 @@ public class VolunteerDocumentView extends VolunteerTrackBaseView
 			public void onSubmit(){
 				info("Add Doucment was clicked : ");
 				final FileUpload uploadedFile = fileUpload.getFileUpload();
-				//System.out.println(uploadedFile);
 
 				if(uploadedFile !=null)
 				{

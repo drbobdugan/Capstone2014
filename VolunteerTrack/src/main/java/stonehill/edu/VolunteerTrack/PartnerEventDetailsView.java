@@ -30,11 +30,17 @@ public class PartnerEventDetailsView extends VolunteerTrackBaseView
 	private String returnTo;
 	private final Date time1 = new Date();
 	private final Date time2 = new Date();
+	private ArrayList volunteerList;
+	private int aplicantid;
 
-	public PartnerEventDetailsView(Event event1, String returnTo)
+	public PartnerEventDetailsView(Event event, String returnTo)
 	{
-		event = event1;
+		EventDao eD = new EventDao();
+		this.event = event;
 		this.returnTo = returnTo;
+		volunteerList = new ArrayList(0);
+		volunteerList = eD.getUsersSignedUpForEvent(event);		
+		aplicantid = 0;
 	    populateItems();
 	}  
 	
@@ -70,27 +76,25 @@ public class PartnerEventDetailsView extends VolunteerTrackBaseView
 				}
 			});
 
+			final DataView dataView = new DataView("simple", new ListDataProvider(volunteerList)) {
+				protected void populateItem(Item item) {
+					final AppEntry aE = (AppEntry)item.getModelObject();
+					final int i = aplicantid++;
+					item.add(new Link<Void>("linkTo"){ public void onClick(){ linkTo(i);}});
+					item.add(new Label("nameFirst", aE.getUser().getFirstName()));
+					item.add(new Label("nameLast", aE.getUser().getLastName()));
+				}
+			};
+				
+			dataView.setItemsPerPage(5);
+			form.add(dataView);
+			form.add(new PagingNavigator("navigator", dataView));	
+		  
 		  // add the form to the page
 		  add(form);
 	}
-
-	 // takes in a date object with hours (0-24) and returns a string in the format HH:MM AM/PM
-	private String conver24To12Hour(Date date) {
-		int _24Hour = date.getHours();
-		int min = date.getMinutes();
-		String mins = "";
-		String cat = "AM";
-		if(_24Hour == 0)
-			_24Hour = 12;
-		else if(_24Hour  > 12){
-			_24Hour -= 12;
-			cat = "PM";
-		}
-		if (min < 10)
-			mins="0"+min;
-		else
-			mins = "" + min;
-		return _24Hour + ":" + mins + " " + cat;
-	}
-
+	 private void linkTo(int i ){
+		 User toLinkTo = (User)volunteerList.get(i);
+		 setResponsePage(new SearchVolunteerProfileView(toLinkTo));
+	 }
 }

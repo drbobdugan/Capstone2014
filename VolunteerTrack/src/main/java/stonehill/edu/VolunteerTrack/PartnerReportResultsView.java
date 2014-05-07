@@ -2,6 +2,9 @@ package stonehill.edu.VolunteerTrack;
 
 import java.util.*;
 
+import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.extensions.markup.html.tabs.AbstractTab;
+import org.apache.wicket.extensions.markup.html.tabs.ITab;
 import org.apache.wicket.markup.html.basic.Label;
 //html and date picker 
 import org.apache.wicket.markup.html.form.*;
@@ -9,6 +12,7 @@ import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.navigation.paging.PagingNavigator;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
+import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
@@ -37,32 +41,105 @@ import org.apache.wicket.markup.repeater.data.DataView;
 import org.apache.wicket.markup.repeater.data.ListDataProvider;
 import org.apache.wicket.model.IModel;
 
+import com.googlecode.wicket.jquery.core.Options;
+import com.googlecode.wicket.jquery.ui.panel.JQueryFeedbackPanel;
+import com.googlecode.wicket.jquery.ui.widget.accordion.AccordionPanel;
+import com.googlecode.wicket.jquery.ui.widget.tabs.AjaxTab;
+import com.googlecode.wicket.jquery.ui.widget.tabs.SimpleTab;
+
 
 public class PartnerReportResultsView extends VolunteerTrackBaseView {
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
-	
 	private ArrayList<Event> reportResults = new ArrayList<Event>();
+	private ArrayList<User> usersSignedUpForEvent = new ArrayList<User>();
+	private ArrayList allUsers;
+	private User currentuser = CustomSession.get().getUser();
+	private EventDao dao = new EventDao();
+	private TimesheetEntryDao timesheetEntryDao = new TimesheetEntryDao();
+	private UserDao userDao = new UserDao(); 
+	private Button button;
+	
+	private int numberOfEvents;
+	private int numberOfVolunteers;
+	private int totalNumberofHours;
+	
+	private String timePeriod;
 	
 	public PartnerReportResultsView (ArrayList<Event> e){
 		
-		ListView results = new ListView("results", e){
-        	protected void populateItem(ListItem item){
-        		item.add(new Label("eventname", new PropertyModel(item.getModel(),"name")));
-        		item.add(new Label("date", new PropertyModel(item.getModel(),"startDateTime")));
-        		item.add(new Label("location", new PropertyModel(item.getModel(),"location")));
-        	}
-        };
-        results.setReuseItems(true);
-        
-        
 		Form<?> reportResultsView= new Form<Void> ("reportResultsView");
-		
-		reportResultsView.add(results);
 		add(reportResultsView);
-
+		//Feedback Panel//
+		final FeedbackPanel feedback = new JQueryFeedbackPanel("feedback");
+		reportResultsView.add(feedback.setOutputMarkupId(true));
+		//====================================
+		
+		
+		//populate usersSigned up For each event selected
+		
+		for(int i=0; i<e.size(); i++){
+			//get array list of users for each event
+			ArrayList<User>temp = dao.getUsersThatAreSignedUpForEvent(currentuser, e.get(i));
+			//usersSignedUpForEvent.add(temp);
+		}
+		//=========================
+		Options options= new Options();
+		options.set("heightStyle", Options.asString("content"));
+		
+		//set up Accordion//
+		final AccordionPanel accordion = new AccordionPanel("accordion", this.newTabList(e), options){
+			
+			private static final long serialVersionUID = 1L;
+			
+			@Override
+			public void onActivate(AjaxRequestTarget target, int index, ITab tab)
+			{
+				info(String.format("selected tab: #%d - %s", index, tab.getTitle().getObject()));
+				target.add(feedback);
+				
+			}
+			
+		};
+		button = new Button("back"){
+			@Override
+			public void onSubmit(){
+				setResponsePage(PartnerReportView.class);
+			}
+		};
+		reportResultsView.add(button);
+		reportResultsView.add(accordion);
    }
+	
+	private List<ITab> newTabList(ArrayList<Event> events)
+	{
+		List<ITab> tabs = new ArrayList<ITab>();
+		String tabTitle="";
+		String content="";
+		//generate a new tab for each event
+		for(int i =0; i<events.size(); i++){
+			Event e = events.get(i);
+			 tabTitle= e.getName() + " " + e.getStartDateTime() + " " + e.getLocation();
+			ArrayList<User>volunteers = dao.getUsersThatAreSignedUpForEvent(currentuser, events.get(i));
+			//System.out.println("////////////!!!!!~~~~~~" + volunteers.size() + "////////////!!!!!~~~~~~");
+			if(volunteers.size()!=0)
+			{
+			for(int j=0; j<volunteers.size();j++)
+			{
+			User volunteer= volunteers.get(i);
+			TimesheetEntry t = timesheetEntryDao.getTimesheetEntryByEventName(e.getName(), volunteer.getEmail());
+			//content=content + " " + volunteer.getEmail() + ", ";
+			content =  content + volunteer.getFirstName() + " " +  volunteer.getLastName() + " "  + t.getHoursLogged();
+			tabs.add( new SimpleTab(Model.of(tabTitle), Model.of(content)));
+			}
+		}
+			else
+			{
+				content = "No Volunteers Signed Up for this Event";
+				tabs.add( new SimpleTab(Model.of(tabTitle), Model.of(content)));
+			}
+		}
+		return tabs;
+	}
+	
 }

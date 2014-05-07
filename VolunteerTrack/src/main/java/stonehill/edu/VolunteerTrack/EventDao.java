@@ -12,17 +12,21 @@ import java.util.Date;
 public class EventDao extends Dao{
 	public ArrayList<Object> getSearchResults(String organization, String location, String eventname,Date startDate,Date endDate,Date startTime,Date endTime, ArrayList<String> skills) {
 		String skillQuery="";
-		for(int i=0;i<skills.size();i++){
+		/*for(int i=0;i<skills.size();i++){
 			skillQuery+=" AND EventRequiresSkill.SkillName="+skills.get(i);
-		}
+		}*/
 		ArrayList<Object> result=new ArrayList<Object>();
 		try{
 			//connect
 			connectToDatabase();
 			//SQL statement
 			Statement statement=connection.createStatement();
-			ResultSet resultSet =statement.executeQuery("SELECT * FROM Event,UserOwnsEvent,UserEntity,EventRequiresSkill WHERE UserOwnsEvent.EventName = Event.Name AND UserOwnsEvent.EventDateTime = Event.CreatedDateTime AND UserEntity.Email=UserOwnsEvent.userEmail AND EventRequiresSkill.EventName = Event.Name AND EventRequiresSkill.EventDateTime = Event.CreatedDateTime AND UPPER(UserEntity.OrganizationName) LIKE UPPER('%" +organization+"%') AND UPPER(Event.Location) LIKE UPPER('%" +location+"%') AND UPPER(Event.Name) LIKE UPPER('%" +eventname+"%') AND Event.StartDateTime>=to_timestamp('"+new java.sql.Timestamp(startDate.getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF') AND Event.StartDateTime<=to_timestamp('"+new java.sql.Timestamp(endDate.getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF') AND EXTRACT(HOUR FROM to_timestamp(Event.StartDateTime))>=EXTRACT(HOUR FROM to_timestamp('"+new java.sql.Timestamp(startTime.getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF')) AND EXTRACT(HOUR FROM to_timestamp(Event.EndDateTime))<=EXTRACT(HOUR FROM to_timestamp('"+new java.sql.Timestamp(endTime.getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF')) "+skillQuery);
-			//System.out.println("SELECT * FROM Event,UserOwnsEvent,UserEntity,EventRequiresSkill WHERE UserOwnsEvent.EventName = Event.Name AND UserOwnsEvent.EventDateTime = Event.CreatedDateTime AND UserEntity.Email=UserOwnsEvent.userEmail AND EventRequiresSkill.EventName = Event.Name AND EventRequiresSkill.EventDateTime = Event.CreatedDateTime AND UPPER(UserEntity.OrganizationName) LIKE UPPER('%" +organization+"%') AND UPPER(Event.Location) LIKE UPPER('%" +location+"%') AND UPPER(Event.Name) LIKE UPPER('%" +eventname+"%') AND Event.StartDateTime>=to_timestamp('"+new java.sql.Timestamp(startDate.getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF') AND Event.StartDateTime<=to_timestamp('"+new java.sql.Timestamp(endDate.getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF') AND EXTRACT(HOUR FROM to_timestamp(Event.StartDateTime))>=EXTRACT(HOUR FROM to_timestamp('"+new java.sql.Timestamp(startTime.getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF')) AND EXTRACT(HOUR FROM to_timestamp(Event.EndDateTime))<=EXTRACT(HOUR FROM to_timestamp('"+new java.sql.Timestamp(endTime.getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF')) "+skillQuery);
+			
+			// Old query attempting to use EventRequiresSkill
+			// ResultSet resultSet =statement.executeQuery("SELECT * FROM Event,UserOwnsEvent,UserEntity,EventRequiresSkill WHERE UserOwnsEvent.EventName = Event.Name AND UserOwnsEvent.EventDateTime = Event.CreatedDateTime AND UserEntity.Email=UserOwnsEvent.userEmail AND EventRequiresSkill.EventName = Event.Name AND EventRequiresSkill.EventDateTime = Event.CreatedDateTime AND UPPER(UserEntity.OrganizationName) LIKE UPPER('%" +organization+"%') AND UPPER(Event.Location) LIKE UPPER('%" +location+"%') AND UPPER(Event.Name) LIKE UPPER('%" +eventname+"%') AND Event.StartDateTime>=to_timestamp('"+new java.sql.Timestamp(startDate.getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF') AND Event.StartDateTime<=to_timestamp('"+new java.sql.Timestamp(endDate.getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF') AND EXTRACT(HOUR FROM to_timestamp(Event.StartDateTime))>=EXTRACT(HOUR FROM to_timestamp('"+new java.sql.Timestamp(startTime.getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF')) AND EXTRACT(HOUR FROM to_timestamp(Event.EndDateTime))<=EXTRACT(HOUR FROM to_timestamp('"+new java.sql.Timestamp(endTime.getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF')) "+skillQuery);
+			//
+			
+			ResultSet resultSet =statement.executeQuery("SELECT * FROM Event,UserOwnsEvent,UserEntity WHERE UserOwnsEvent.EventName = Event.Name AND UserOwnsEvent.EventDateTime = Event.CreatedDateTime AND UserEntity.Email=UserOwnsEvent.userEmail AND UPPER(UserEntity.OrganizationName) LIKE UPPER('%" +organization+"%') AND UPPER(Event.Location) LIKE UPPER('%" +location+"%') AND UPPER(Event.Name) LIKE UPPER('%" +eventname+"%') AND Event.StartDateTime>=to_timestamp('"+new java.sql.Timestamp(startDate.getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF') AND Event.StartDateTime<=to_timestamp('"+new java.sql.Timestamp(endDate.getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF') AND EXTRACT(HOUR FROM to_timestamp(Event.StartDateTime))>=EXTRACT(HOUR FROM to_timestamp('"+new java.sql.Timestamp(startTime.getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF')) AND EXTRACT(HOUR FROM to_timestamp(Event.EndDateTime))<=EXTRACT(HOUR FROM to_timestamp('"+new java.sql.Timestamp(endTime.getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF')) "+skillQuery);
 			
 			while(resultSet.next()){
 				String oe=resultSet.getString("UserEmail");
@@ -58,7 +62,7 @@ public class EventDao extends Dao{
 			//SQL statement
 			Statement statement=connection.createStatement();
 			//@@@ ZAC @@@ this query is confusing and might need some work, but it should return an arrayList with even entries being events owned by a partner and odd entries being users who signed up for them
-			ResultSet resultSet=statement.executeQuery("SELECT * FROM Event, UserOwnsEvent,UserSignsUpForEvent, UserEntity WHERE UserOwnsEvent.EventName = Event.Name AND UserOwnsEvent.EventDateTime = Event.CreatedDateTime AND UserSignsUpForEvent.EventName = Event.Name AND UserSignsUpForEvent.EventDateTime = Event.CreatedDateTime AND UserEntity.Email=UserSignsUpForEvent.userEmail AND UserOwnsEvent.UserEmail = '" + partner.getEmail()+"' AND Event.StartDateTime<to_timestamp('"+new java.sql.Timestamp((new Date()).getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF')");
+			ResultSet resultSet=statement.executeQuery("SELECT * FROM Event, UserOwnsEvent,UserSignsUpForEvent, UserEntity WHERE UserOwnsEvent.EventName = Event.Name AND UserOwnsEvent.EventDateTime = Event.CreatedDateTime AND UserSignsUpForEvent.EventName = Event.Name AND UserSignsUpForEvent.EventDateTime = Event.CreatedDateTime AND UserEntity.Email=UserSignsUpForEvent.userEmail AND UserOwnsEvent.UserEmail = '" + partner.getEmail()+"' AND Event.StartDateTime>to_timestamp('"+new java.sql.Timestamp((new Date()).getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF')");
 			//get tuples
 			while(resultSet.next()){
 				String oe=resultSet.getString("UserEmail");
@@ -624,5 +628,40 @@ public class EventDao extends Dao{
 			e.printStackTrace();
 		}
 		return result;
+	}
+	public ArrayList getUsersSignedUpForEvent(Event event) {
+			ArrayList<Object> result=new ArrayList<Object>();
+			try{
+				//connect
+				connectToDatabase();
+				//SQL statement
+				Statement statement=connection.createStatement();
+				ResultSet resultSet=statement.executeQuery("SELECT * FROM Event, UserSignsUpForEvent WHERE "+
+				"UserSignsUpForEvent.EventName = Event.Name AND UserSignsUpForEvent.EventDateTime = Event.CreatedDateTime "+
+						"AND Event.Name = '" + event.getName()+"'");
+				//get tuples
+				while(resultSet.next()){
+					String oe=resultSet.getString("UserEmail");
+					String name=resultSet.getString("Name");
+					Date createdDate =resultSet.getTimestamp("CreatedDateTime");
+					Date startDate =resultSet.getTimestamp("StartDateTime");
+					Date endDate =resultSet.getTimestamp("EndDateTime");
+					String description =resultSet.getString("Description");
+					String location =resultSet.getString("Location");
+					// TODO no sure how this will be handled yet
+					Skill [] skills= {new Skill("not coded")};
+					int tp=resultSet.getInt("TotalPositions");
+					int tpr =resultSet.getInt("PositionsRemaining");
+					result.add(  new Event ( oe , name, createdDate,startDate, endDate, description,  location ,  tp,  tpr, skills));
+				}
+				//clean up
+				resultSet.close();
+				statement.close();
+				disconnectFromDatabase();
+			}
+			catch(Exception e){
+				e.printStackTrace();
+			}
+			return result;
 	}
 }

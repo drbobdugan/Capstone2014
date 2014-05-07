@@ -8,7 +8,7 @@
 <body>
       <wicket:extend>
       <h3>Upcoming Events</h3>
-     <table cellspalceing="0" class="dataView" table-border="1" style="position:relative; top:100px; left: 300px;">
+     <table cellspalceing="0" class="dataView">
 	     <tbody>
 	          <tr>
 	               <th>&nbsp;</th>
@@ -19,7 +19,7 @@
 	               <th>Available</th>
 	          </tr>
 	          <tr wicket:id = "simple"> 
-	              <td><a href="#" wicket:id="view"><input type="button" value="View"/></a></td>
+	              <td><a href="#" wicket:id="view"><input type="button" value="View" /></a></td>
 	               <td><span wicket:id = "name"> The Event Name </span></td>
 	               <td><span wicket:id = "location"> The Event location </span></td>
 	               <td><span wicket:id = "date"> The Event date </span></td>
@@ -30,7 +30,6 @@
 	          <th>&nbsp;</th>
 	               <th>&nbsp;</th>  
 	               <th>&nbsp;</th>
-	               <th>&nbsp;</th>
 	             <td>
 	          <div wicket:id="navigator"></div> 
 	          </td>
@@ -38,10 +37,9 @@
 	     </tbody>
 	 </table>
 	 <h3>Pending Aplicants</h3>
-     <table cellspalceing="0" class="dataView" table-border="1" style="position:relative; top:100px; left: 300px;">
+     <table cellspalceing="0" class="dataView">
 	     <tbody>
 	          <tr>
-	               <th>&nbsp;</th>
 	               <th>&nbsp;</th>
 	               <th>Volunteer's Name</th>
 	               <th>Event Name</th>
@@ -58,8 +56,6 @@
 	               <td><span wicket:id = "available2"> The positions left</span></td>
 	          </tr>
 	          <tr>
-	          <th>&nbsp;</th>
-	               <th>&nbsp;</th>  
 	               <th>&nbsp;</th>
 	               <th>&nbsp;</th>
 	             <td>

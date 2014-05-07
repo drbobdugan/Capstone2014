@@ -19,16 +19,18 @@
               <span wicket:id="calendarRadio"></span>
               <br />
               <p>Events List will go here</p>
+              <input type="submit" wicket:id="filterEvents" value="Filter Events" />
               <br>
               
               <span wicket:id="group">
+              <input type="checkbox" wicket:id="groupselector">check/uncheck all events</input>
               <div style="position: absolute; height: 100px; width: 400px; overflow: auto;">
               <tr wicket:id="events">
               <td><input type="checkbox" wicket:id="checkbox"/></td>
               <td><span wicket:id="eventName">[Event Name]</span></td>
               <br/>
               </tr>
-              <tr><input type="submit" value="Run Report" /></tr>
+              <tr><input type="submit" wicket:id="runReport" value="Run Report" /></tr>
               </div>
               </span>
               <br/>

@@ -29,9 +29,9 @@ public class CoordinatorEditCriteriaView extends VolunteerTrackBaseView{
 	private static final long serialVersionUID = 1L;
 	
 	SkillDao skillsDao = new SkillDao();
-	private static CheckGroup<Skill> group; 
+	private static CheckGroup<Skill> group;
 	private static TextField<String> name;
-	
+	private String message = "";
 	Form editCriteria;
 	CheckBoxMultipleChoice<String> skillBoxes;
 	ListView skills;
@@ -42,9 +42,12 @@ public class CoordinatorEditCriteriaView extends VolunteerTrackBaseView{
 	
 	public CoordinatorEditCriteriaView()
 	{
+		PropertyModel<String> messageModel = new PropertyModel<String>(this, "message");
+		
+		add(new Label ("message", messageModel));
 		
 		Form<?> editCriteria= new Form<Void>("editCriteria");
-		
+		//editCriteria.setDefaultModelObject("");
 		ArrayList<Object> temp = skillsDao.selectAll();
 		ArrayList<Skill> s = new ArrayList<Skill>();
 		
@@ -56,8 +59,7 @@ public class CoordinatorEditCriteriaView extends VolunteerTrackBaseView{
         group = new CheckGroup<Skill>("group", new ArrayList<Skill>());
         
         // name = new TextField<String>("name");
-        name = new TextField<String>("name", new PropertyModel<String>(this,
-                inputValue));
+        name = new TextField<String>("name", messageModel);
         
         ListView skills = new ListView("skills", s){
         	protected void populateItem(ListItem item){
@@ -68,13 +70,13 @@ public class CoordinatorEditCriteriaView extends VolunteerTrackBaseView{
         
         skills.setReuseItems(true);
         group.add(skills);
-        
         addSkills=new Button("addSkills"){
         	@Override
         	public void onSubmit(){
         		
         		String temp = name.getDefaultModelObjectAsString();
-        		Skill s = new Skill("Test");
+        		//message= name.getDefaultModelObjectAsString();
+          		Skill s = new Skill(temp);
         		skillsDao.insert(s);
         		this.setResponsePage(CoordinatorEditCriteriaView.class);
         		

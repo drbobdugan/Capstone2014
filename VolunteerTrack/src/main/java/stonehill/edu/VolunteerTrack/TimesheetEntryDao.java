@@ -135,6 +135,42 @@ public class TimesheetEntryDao extends Dao{
 		return result;
 		
 	}
+	
+	//////////////////////////////////////////////////////////////////////////////////
+	public TimesheetEntry getTimesheetEntryByEventName(String eventName, String userEmail){
+		TimesheetEntry result=null;
+	
+		
+		try{
+			//connect
+			connectToDatabase();
+			//SQL statement
+			Statement statement=connection.createStatement();
+			ResultSet resultSet=statement.executeQuery("SELECT * FROM TimeSheetEntry WHERE  EventName='"+eventName+"' AND UserEmail='"+userEmail+"'");
+			//get tuples
+			if(resultSet.next()){
+				String ue=resultSet.getString("UserEmail");
+				Date d=resultSet.getTimestamp("DateTime");
+				String en=resultSet.getString("EventName");
+				boolean isApproved=resultSet.getBoolean("IsApproved");
+				boolean isSubmitted=resultSet.getBoolean("IsSubmitted");
+				int hoursLogged=resultSet.getInt("HoursLogged");
+				String organizationName=resultSet.getString("OrganizationName");
+				result=(new TimesheetEntry(ue,d,en,isSubmitted,isApproved,hoursLogged,organizationName));
+			}
+			else{
+				System.out.println("TimesheetEntryDao:getTimesheetEntry() did not return a tuple.");
+			}
+			//clean up
+			resultSet.close();
+			statement.close();
+			disconnectFromDatabase();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		return result;
+	}
 	//////////////////////////////////////////////////////////////////////////////////
 	public ArrayList<Object> getAllTimesheetEntriesByUser(User user){
 		ArrayList<Object> result=new ArrayList<Object>();
