@@ -33,6 +33,7 @@ public class VolunteerSearchResultPage extends VolunteerTrackBaseView
 
 	ArrayList DaoEvents;
 	
+	@SuppressWarnings("deprecation")
 	public VolunteerSearchResultPage(ArrayList passList)
 	{
 		
@@ -64,7 +65,8 @@ public class VolunteerSearchResultPage extends VolunteerTrackBaseView
 			AbstractItem item = new AbstractItem(repeating.newChildId());
             repeating.add(item); 
             
-            int year = ((Event) DaoEvents.get(i)).getStartDateTime().getYear() + 1900;
+            @SuppressWarnings("deprecation")
+			int year = ((Event) DaoEvents.get(i)).getStartDateTime().getYear() + 1900;
             DateFormat formatter = new SimpleDateFormat("hh:mm a");
             String time = formatter.format(((Event) DaoEvents.get(i)).getStartDateTime());
            

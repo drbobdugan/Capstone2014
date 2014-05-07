@@ -112,7 +112,7 @@ public class EventDao extends Dao{
 		return result;
 	}
 	
-	private ArrayList getUsersThatAreSignedUpForEvent(User user, Event e) {
+	ArrayList getUsersThatAreSignedUpForEvent(User user, Event e) {
 		ArrayList row = new ArrayList(0);
 		try{
 			//connect

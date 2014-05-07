@@ -92,7 +92,8 @@ public class PartnerReportView extends VolunteerTrackBaseView {
 
         
         filterEvents= new Button("filterEvents"){
-        	@Override
+        	@SuppressWarnings("deprecation")
+			@Override
         	public void onSubmit(){
         		
                 	checkStartDate= new Date(startDateTextField.getDefaultModelObjectAsString());
@@ -187,7 +188,8 @@ public class PartnerReportView extends VolunteerTrackBaseView {
          endDateTextField.add(endDatePicker); 
          
          filterEvents= new Button("filterEvents"){
-         	@Override
+         	@SuppressWarnings("deprecation")
+			@Override
          	public void onSubmit(){
          		
                  	checkStartDate= new Date(startDateTextField.getDefaultModelObjectAsString());
