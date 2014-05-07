@@ -9,43 +9,44 @@
 </head>
 <body>
 	<wicket:extend>
-	
-		<form wicket:id="PageForm">
-		Partner Name:<input wicket:id="partnerName" type="text" size="19" />
-		<br>
-		Location: <input wicket:id="location" type="text" size="19" />
-		<br>
-		Event Name: <input wicket:id="eventName" type="text" size="19" />
-		<br>
-		
-		
-		
-		<br> 
-		Start Date: <input type="text" wicket:id="startDateTextField" /> 
-		<br> 
-		End Date: <input type="text" wicket:id="endDateTextField" /> 
-		<br>
-		
-		
-		
-		<br>
-		Start Time: Hour:<span><select wicket:id="startHR"></select></span> Minute:<span><select wicket:id="startMIN"></select></span> AM/PM:<span><select wicket:id="startAMPM"></select></span>
-		<br>
-		End Time: Hour:<span><select wicket:id="endHR"></select></span> Minute:<span><select wicket:id="endMIN"></select></span> AM/PM:<span><select wicket:id="endAMPM"></select></span>
-		<br>
-		
-
-		
-		
-		<br>
-		<span><input type="submit" wicket:id="searchButton" value="Search" /></span>
-		<br>
-		</form>
-		
-		
-		
-		
-
+		<div id="main">
+			<div id="main-search">
+			<form wicket:id="PageForm">
+				<table>
+					<tr>
+						<td>Partner Name</td>
+						<td><input wicket:id="partnerName" type="text" size="19" /></td>
+					</tr>
+					<tr>
+						<td>Location</td>
+						<td><input wicket:id="location" type="text" size="19" /></td>
+					</tr>
+					<tr>
+						<td>Event Name</td>
+						<td><input wicket:id="eventName" type="text" size="19" /></td>
+					</tr>
+					<tr>
+						<td>Start Date</td>
+						<td><input type="text" wicket:id="startDateTextField" /></td>
+						<td>Hour <select wicket:id="startHR"></select></td>
+						<td>Minute <select wicket:id="startMIN"></select></td>
+						<td>AM/PM <select wicket:id="startAMPM"></select></td>
+					</tr>
+					<tr>
+						<td>End Date</td>
+						<td><input type="text" wicket:id="endDateTextField" /></td>
+						<td>Hour <select wicket:id="endHR"></select></td>
+						<td>Minute <select wicket:id="endMIN"></select></td>
+						<td>AM/PM <select wicket:id="endAMPM"></select></td>
+					</tr>
+					<tr>
+						<td><input type="submit" wicket:id="searchButton"
+							value="Search" /></td>
+					</tr>
+				</table>
+			</form>
+			</div>
+		</div>
 	</wicket:extend>
 </body>
 </html>

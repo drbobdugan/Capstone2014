@@ -27,7 +27,10 @@
 							<form wicket:id="form">
 								<input type="submit" wicket:id="deleteButton" value="Delete" />
 								<input type="submit" wicket:id="updateButton" value="Update" />
-								<input type="button" wicket:id="viewButton" value="View" />
+								<!-- Hard coding button css due to this not being a button in java file but a DownloadLink acting as a button -->
+								<input type="button" wicket:id="viewButton"
+									class="ui-button ui-widget ui-state-default ui-corner-all"
+									value="View" />
 							</form>
 						</td>
 						<td><span wicket:id="LastUpdate">[homephone]</span></td>
@@ -45,8 +48,11 @@
 					<label>Document Name:</label> <input wicket:id="addDocumentName"
 						type="text" size="19" /> <br> <label>Document Type:</label>
 					<input wicket:id="addDocumentType" type="text" size="20" /> <br>
+					<!-- Hard coding button css due to this not being a button in java file but a DownloadLink acting as a button -->
 					<input wicket:id="fileUpload" type="file" /> <br> <span><input
-						type="submit" wicket:id="addDB" value="Add Document" /></span>
+						type="submit" wicket:id="addDB"
+						class="ui-button ui-widget ui-state-default ui-corner-all"
+						value="Add Document" /></span>
 				</form>
 			</div>
 		</div>
