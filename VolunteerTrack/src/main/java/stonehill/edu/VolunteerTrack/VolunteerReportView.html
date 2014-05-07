@@ -2,43 +2,48 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<link rel="stylesheet" href="kh.css" type="text/css" media="screen" title="Stylesheet" charset="utf-8" />
+<link rel="stylesheet" href="kh.css" type="text/css" media="screen"
+	title="Stylesheet" charset="utf-8" />
 <title>Volunteer Track</title>
 </head>
 <body>
-      <wicket:extend>
-      
-      <form wicket:id="form">
-        <p>
-          <label>Time Period</label>
-            <br />
-              <p>Select a Start Date </p> <input type="text" wicket:id="startDateTextField"/>
-              <br />
-              <p>Select an End Date </p> <input type="text"wicket:id="endDateTextField"/>
-              <br />
-              <span wicket:id="calendarRadio"></span>
-              <br />
-              <p>Events List will go here</p>
-              <input type="submit" wicket:id="filterEvents" value="Filter Events" />
-              <br>
-              
-              <span wicket:id="group">
-              <input type="checkbox" wicket:id="groupselector">check/uncheck all events</input>
-              <div style="position: absolute; height: 100px; width: 400px; overflow: auto;">
-              <tr wicket:id="events">
-              <td><input type="checkbox" wicket:id="checkbox"/></td>
-              <td><span wicket:id="eventName">[Event Name]</span></td>
-              <br/>
-              </tr>
-              <tr><input type="submit" wicket:id="runReport" value="Run Report" /></tr>
-              </div>
-              </span>
-              <br/>
+	<wicket:extend>
 
+		<form wicket:id="form">
+			<div id="main">
+				<div id="main-reports">
+					Time Period
+					<table>
+						<tr>
+							<td>Start Date</td>
+							<td><input type="text" wicket:id="startDateTextField" /></td>
+						</tr>
+						<tr>
+							<td>End Date</td>
+							<td><input type="text" wicket:id="endDateTextField" /></td>
+						</tr>
+					</table>
 
-      </form>
-      <span wicket:id="feedback">feedback goes here</span>
-      
-      </wicket:extend>
+					<span wicket:id="calendarRadio"></span>
+				</div>
+			</div>
+			<p>Events List will go here</p>
+			<input type="submit" wicket:id="filterEvents" value="Filter Events" />
+			<span wicket:id="group"> <input type="checkbox"
+				wicket:id="groupselector">check/uncheck all events</input>
+				<div
+					style="position: absolute; height: 100px; width: 400px; overflow: auto;">
+					<tr wicket:id="events">
+						<td><input type="checkbox" wicket:id="checkbox" /></td>
+						<td><span wicket:id="eventName">[Event Name]</span></td>
+						<br />
+					</tr>
+				</div>
+				<tr>
+					<input type="submit" wicket:id="runReport" value="Run Report" />
+				</tr></span> <br />
+		</form>
+		<span wicket:id="feedback">feedback goes here</span>
+	</wicket:extend>
 </body>
 </html>

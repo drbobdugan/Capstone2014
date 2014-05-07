@@ -192,6 +192,19 @@
 	border-color: #C0C0C0;
 }
 
+#main-search {
+	width: 550px;
+	padding: 5px;
+	border-color: #C0C0C0;
+	border-style: solid;
+	border-width: 2px;
+	border-radius: 8px;
+	-moz-border-radius: 8px;
+	-webkit-border-radius: 8px;
+	border-color: C0C0C0;
+	border-color: #C0C0C0;
+}
+
 #edit-hours {
 	width: 250px;
 	padding: 5px;
