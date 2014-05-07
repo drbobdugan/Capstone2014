@@ -32,12 +32,22 @@ public class PartnerProfileView extends VolunteerTrackBaseView {
 	
 	Form uploadProfilePicture, profileInformation, passwordManagement, skillsManagement;
 	TextField organization, email, phoneNumber, street, city, state, zip;
-	TextField current, new_password, confirm_password; 
+	private static TextField current, new_password, confirm_password; 
 	User currentuser;
 	Label feedback;
+	private String currentPasswordPlaceholder = "";
+	private String newPasswordPlaceholder = "";
+	private String confirmPasswordPlaceholder = "";
 	
 	public PartnerProfileView()
 	{
+		final  PropertyModel<String> currentPasswordModel = new PropertyModel<String>(this, "currentPasswordPlaceholder");
+		final  PropertyModel<String> newPasswordModel = new PropertyModel<String>(this, "newPasswordPlaceholder");
+		final  PropertyModel<String> confirmPasswordModel = new PropertyModel<String>(this, "confirmPasswordPlaceholder");
+		
+		add(new Label ("currentPasswordPlaceholder", currentPasswordModel));
+		add(new Label ("newPasswordPlaceholder", newPasswordModel));
+		add(new Label ("confirmPasswordPlaceholder", confirmPasswordModel));
 		//will eventually get from session
 		//currentuser = userDao.getUserByUsername("partner@partner.com");
 		currentuser = CustomSession.get().getUser();
@@ -88,10 +98,10 @@ public class PartnerProfileView extends VolunteerTrackBaseView {
 //Password Management============================================================
 		passwordManagement = new Form<Void>("passwordManagement");
 		passwordManagement.setModel(new Model(currentuser));
-		
-		passwordManagement.add(current = new TextField<String>("current", new PropertyModel(currentuser, "password")));
-		passwordManagement.add(new_password = new TextField<String>("new_password", new PropertyModel(currentuser, "password")));
-		passwordManagement.add(confirm_password = new TextField<String>("confirm_password", new PropertyModel(currentuser, "password")));
+		// new TextField<String>("name", messageModel);
+		passwordManagement.add(current = new TextField<String>("current", currentPasswordModel));
+		passwordManagement.add(new_password = new TextField<String>("new_password", newPasswordModel));
+		passwordManagement.add(confirm_password = new TextField<String>("confirm_password", confirmPasswordModel));
 		passwordManagement.add(feedback= new Label ("feedback"));
 		Button confirm= new Button("updatePassword")
 		{
@@ -103,10 +113,14 @@ public class PartnerProfileView extends VolunteerTrackBaseView {
 				String np= new_password.getDefaultModelObjectAsString();
 				String conp= confirm_password.getDefaultModelObjectAsString();
 				
+				System.out.println(c);
+				System.out.println(np);
+				System.out.println(conp);
 				if(c.equals(currentuser.getPassword())  && np.equals(conp)){
 					currentuser.setPassword(np);
 					userDao.update(currentuser);
 					feedback.setDefaultModel(new Model("Password Change Success"));
+					//messageModel.setObject("Password Change Success");
 				}
 				setResponsePage(PartnerProfileView.class);
 			}
@@ -145,7 +159,7 @@ public class PartnerProfileView extends VolunteerTrackBaseView {
 
 		List<String> fixedskills = Arrays.asList(skillarray);
 		
-		skillsSelect.add("Animals");
+		//skillsSelect.add("Animals");
 		
 		final CheckBoxMultipleChoice<String> skillsBoxes = new CheckBoxMultipleChoice<String>("skills",new Model(skillsSelect),fixedskills);
 		
