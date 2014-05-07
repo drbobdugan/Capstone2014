@@ -148,13 +148,11 @@ public class VolunteerSearchView extends VolunteerTrackBaseView
 		endAMPM = new DropDownChoice<String>("endAMPM", new PropertyModel<String>(this,"selected5"), ampm);
 		form.add(endAMPM);
 		
-		
-
-		
-		
+	
 		
 		// handles skills stuff*******
 		
+		/*
 		SkillDao skillDao = new SkillDao();
 		ArrayList<Object> theSkillObjects = skillDao.selectAll();
 		ArrayList theSkills = new ArrayList();
@@ -166,7 +164,7 @@ public class VolunteerSearchView extends VolunteerTrackBaseView
 		
 		final CheckBoxMultipleChoice<String> skillBoxes = new CheckBoxMultipleChoice<String>("skillsPage",new Model(selectedSkills), theSkills);
 		form.add(skillBoxes);
-
+        */
 		
 		// this is the button for searching
 		Button searchButton = new Button("searchButton"){
@@ -258,12 +256,6 @@ public class VolunteerSearchView extends VolunteerTrackBaseView
 				
 				EventDao theEvents = new EventDao();
 				
-				Skill[] tempSkill = {};
-				
-				
-				//Event temp = new Event("partner@partner.com","steve22" ," " , "campus22", "The Partner Club", 10,10,new Date(), new Date(), new Date(), tempSkill);
-
-				//theEvents.insert(temp);
 				ArrayList DaoEvents =  theEvents.getSearchResults(enteredPartnerName,enteredLocation,enteredEventName,startDate,endDate,startDateTime,endDateTime,selectedSkills);
 				
 				

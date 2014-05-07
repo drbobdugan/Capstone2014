@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,25 +9,36 @@
 <body>
 	<wicket:extend>
 	
+	<br>
+	
+	<form wicket:id="backButton">
+				<input type="submit" wicket:id="back" value="Back to Search">
+   </form>
+	
+	<br>
+	
 	<table cellspacing="6" class="dataview">
 			<tr>
-				<th>Event</th>
-				<th>Location</th>
 				<th>Partner</th>
+				<th>Location</th>
+				<th>Event</th>
 				<th>Date</th>
-				<th>Time</th>
+				<th>Start Time</th>
 				<th></th>
 			</tr>
 			<tr wicket:id="repeating">
 
+                <td><span wicket:id="eventPartner">[ep]</span></td>
+                <td><span wicket:id="eventLocation">[el]</span></td>
 				<td><span wicket:id="eventName">[en]</span></td>
-				<td><span wicket:id="eventLocation">[el]</span></td>
-				<td><span wicket:id="eventPartner">[ep]</span></td>
+					
 				<td><span wicket:id="eventDate">[ed]</span></td>
 				<td><span wicket:id="eventTime">[et]</span></td>
 				<td>
 				<form wicket:id="form4">
-				<span><input type="submit" wicket:id="applyButton" value="View Event" /></span>
+				<span><input type="submit" wicket:id="partnerProfile" value="Partner Profile" /></span>
+				<span><input type="submit" wicket:id="applyButton" value="View/Apply" /></span>
+				
 				</form>
 				</td>
 
@@ -38,4 +48,5 @@
 	</wicket:extend>
 </body>
 </html>
+
 

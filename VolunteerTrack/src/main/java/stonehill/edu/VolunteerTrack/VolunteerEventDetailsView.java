@@ -26,11 +26,13 @@ public class VolunteerEventDetailsView extends VolunteerTrackBaseView
 	private TextArea description;
 	private Form form;
 	private String returnTo;
+	private ArrayList daoEvents;
 
-	public VolunteerEventDetailsView(Event event1, String returnTo)
+	public VolunteerEventDetailsView(Event event1, String returnTo,ArrayList daoEvents)
 	{
 		event = event1;
 		this.returnTo = returnTo;
+		this.daoEvents = daoEvents;
 	    populateItems();
 	}  
 	
@@ -56,8 +58,8 @@ public class VolunteerEventDetailsView extends VolunteerTrackBaseView
 					    setResponsePage(PartnerEventView.class);
 					  else if(returnTo.equals("volunteerHomeView"))
 						    setResponsePage(VolunteerHomeView.class);
-					  else if(returnTo.equals("volunteerSearchPage"))
-						  setResponsePage(VolunteerSearchView.class);
+					  else if(returnTo.equals("volunteerSearchResultPage"))
+						  setResponsePage(new VolunteerSearchResultPage(daoEvents));
 				}
 			});
 		  
@@ -71,8 +73,8 @@ public class VolunteerEventDetailsView extends VolunteerTrackBaseView
 				    setResponsePage(PartnerEventView.class);
 				  else if(returnTo.equals("volunteerHomeView"))
 					    setResponsePage(VolunteerHomeView.class);
-				  else if(returnTo.equals("volunteerSearchPage"))
-					  setResponsePage(VolunteerSearchView.class);
+				  else if(returnTo.equals("volunteerSearchResultPage"))
+					  setResponsePage(new VolunteerSearchResultPage(daoEvents));
 				}
 			});
 
