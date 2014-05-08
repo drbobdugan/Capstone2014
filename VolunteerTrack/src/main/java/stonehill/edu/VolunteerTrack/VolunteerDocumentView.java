@@ -285,6 +285,10 @@ public class VolunteerDocumentView extends VolunteerTrackBaseView
 	{
 		return selected;
 	}
+	public Integer getIndex(int i)
+	{
+		return i;
+	}
 
 	public void delete(int x){
 
