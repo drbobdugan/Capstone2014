@@ -251,9 +251,14 @@ public class VolunteerSearchView extends VolunteerTrackBaseView
 
 				EventDao theEvents = new EventDao();
 
-				ArrayList DaoEvents =  theEvents.getSearchResults(enteredPartnerName,enteredLocation,enteredEventName,startDate,endDate,startDateTime,endDateTime,selectedSkills);
+				ArrayList<Event> DaoEvents =  theEvents.getSearchResults(enteredPartnerName,enteredLocation,enteredEventName,startDate,endDate,startDateTime,endDateTime,selectedSkills);
 
-
+				for(int i=0;i<DaoEvents.size();i++){
+					if(DaoEvents.get(i).getStartDateTime().before(startDate)||DaoEvents.get(i).getStartDateTime().after(endDate)||DaoEvents.get(i).getStartDateTime().getHours()*60+DaoEvents.get(i).getStartDateTime().getMinutes()<=startDateTime.getHours()*60+startDateTime.getMinutes()||DaoEvents.get(i).getStartDateTime().getHours()*60+DaoEvents.get(i).getStartDateTime().getHours()>=endDateTime.getHours()*60+endDateTime.getMinutes()){
+						DaoEvents.remove(i);
+						i--;
+					}
+				}
 				setResponsePage(new VolunteerSearchResultPage(DaoEvents));
 
 
