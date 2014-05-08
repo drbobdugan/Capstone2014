@@ -65,7 +65,7 @@ public class PartnerReportView extends VolunteerTrackBaseView {
 				
 		RadioChoice<String>  reportBy = new RadioChoice<String>(
 				"calendarRadio", new PropertyModel<String>(this,"selected"),TYPES);
-		
+		reportBy.setVisible(false);
 		 startDateTextField = new DateTextField("startDateTextField", new PropertyModel<Date>(this, "startDate"));
          endDateTextField = new DateTextField("endDateTextField", new PropertyModel<Date>(this, "endDate"));
 		
