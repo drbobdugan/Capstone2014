@@ -123,7 +123,7 @@ public class VolunteerReportView extends VolunteerTrackBaseView {
 					}
 				}
 
-				//setResponsePage(new VolunteerReportResultsView(selectedEvents, timesheets));
+				setResponsePage(new VolunteerReportResultsView(selectedEvents, timesheets));
 				//info("selected event(s): " + test);
 			}
 		};
@@ -225,7 +225,7 @@ public class VolunteerReportView extends VolunteerTrackBaseView {
 					timesheets.add(t);
 				}
 
-				//setResponsePage(new VolunteerReportResultsView(selectedEvents, timesheets));
+				setResponsePage(new VolunteerReportResultsView(selectedEvents, timesheets));
 				//info("selected event(s): " + test);
 			}
 		};
