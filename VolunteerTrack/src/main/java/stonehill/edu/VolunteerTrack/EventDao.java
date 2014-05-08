@@ -324,7 +324,6 @@ public class EventDao extends Dao{
 							+ " Name='"+eventName+"'");
 			//get tuple
 			if(resultSet.next()){
-				String oe=resultSet.getString("UserEmail");
 				String name=resultSet.getString("Name");
 				Date createdDate =resultSet.getTimestamp("CreatedDateTime");
 				Date startDate =resultSet.getTimestamp("StartDateTime");
@@ -335,7 +334,7 @@ public class EventDao extends Dao{
 				Skill [] skills= {new Skill("not coded")};
 				int tp=resultSet.getInt("TotalPositions");
 				int tpr =resultSet.getInt("PositionsRemaining");
-				result =( new Event ( oe , name, createdDate,startDate, endDate, description,  location ,  tp,  tpr, skills));
+				result =( new Event ( email, name, createdDate,startDate, endDate, description,  location ,  tp,  tpr, skills));
 			}else{
 				System.out.println("EventDao:getEventByNameDateTime() did not return a tuple.");
 			}
@@ -460,7 +459,7 @@ public class EventDao extends Dao{
 			e.printStackTrace();
 		}
 	}
-	public ArrayList<Object> getAllEventsByUserTimeSheetEntries(User user) {
+	public ArrayList<Object> getAllEventsByUserTimeSheetEntries(User user) {		
 		ArrayList<Object> result=new ArrayList<Object>();
 		try{
 			//connect
@@ -470,7 +469,6 @@ public class EventDao extends Dao{
 			ResultSet resultSet=statement.executeQuery("SELECT * FROM Event, TimeSheetEntry WHERE TimeSheetEntry.EventName = Event.Name AND TimeSheetEntry.DateTime = Event.CreatedDateTime AND TimeSheetEntry.UserEmail = '" + user.getEmail()+"'");
 			//get tuples
 			while(resultSet.next()){
-				String oe=resultSet.getString("UserEmail");
 				String name=resultSet.getString("Name");
 				Date createdDate =resultSet.getTimestamp("CreatedDateTime");
 				Date startDate =resultSet.getTimestamp("StartDateTime");
@@ -481,12 +479,62 @@ public class EventDao extends Dao{
 				Skill [] skills= {new Skill("not coded")};
 				int tp=resultSet.getInt("TotalPositions");
 				int tpr =resultSet.getInt("PositionsRemaining");
-				result.add( new Event ( oe , name, createdDate,startDate, endDate, description,  location ,  tp,  tpr, skills));
+				
+				String email = "";
+				
+				try{
+					//SQL statement
+					Statement statement2=connection.createStatement();
+					ResultSet resultSet2=statement2.executeQuery("SELECT * FROM UserOwnsEvent WHERE EventDateTime=to_timestamp('"+new java.sql.Timestamp(createdDate.getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF') AND"
+									+ " EventName='"+name+"'");
+					//get tuple
+					if(resultSet2.next()){
+						email = resultSet2.getString("UserEmail");
+					}else{
+						System.out.println("EventDao:getEventByNameDateTime() did not return a tuple.");
+					}
+					//clean up
+					resultSet2.close();
+					statement2.close();
+				}
+				catch(Exception e){
+					e.printStackTrace();
+				}
+				
+				result.add( new Event ( email , name, createdDate,startDate, endDate, description,  location ,  tp,  tpr, skills));
 			}
 			//clean up
 			resultSet.close();
 			statement.close();
 			disconnectFromDatabase();
+			
+			/*for (Object o : result)
+			{
+				Event event = (Event)o;
+				String email = "";
+				
+				try{
+					//connect
+					connectToDatabase();
+					//SQL statement
+					Statement statement2=connection.createStatement();
+					ResultSet resultSet2=statement.executeQuery("SELECT * FROM UserOwnsEvent WHERE EventDateTime=to_timestamp('"+new java.sql.Timestamp(event.getCreatedDateTime().getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF') AND"
+									+ " EventName='"+event.getName()+"'");
+					//get tuple
+					if(resultSet2.next()){
+						email = resultSet.getString("UserEmail");
+					}else{
+						System.out.println("EventDao:getEventByNameDateTime() did not return a tuple.");
+					}
+					//clean up
+					resultSet.close();
+					statement.close();
+					disconnectFromDatabase();
+				}
+				catch(Exception e){
+					e.printStackTrace();
+				}
+			}*/
 		}
 		catch(Exception e){
 			e.printStackTrace();

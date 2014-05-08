@@ -141,13 +141,7 @@ public class Event implements Serializable {
 		this.endDateTime = endDateTime;
 	}
 	public String getOrganizationName() {
-		if(organizationName == null)
-			organizationName = getPartner().getOrganizationName();
-		
-		return organizationName;
-	}
-	public void setOrganizationName(String organizationName) {
-		this.organizationName = organizationName;
+		return getPartner().getOrganizationName();
 	}
 	/**
 	 * @param skills the skills to set
