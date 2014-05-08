@@ -1,10 +1,10 @@
+
 package stonehill.edu.VolunteerTrack;
 
 
 import java.io.File;
 
 import org.apache.wicket.markup.html.basic.Label;
-
 import org.apache.wicket.markup.html.form.DropDownChoice;
 //import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
@@ -16,6 +16,7 @@ import org.apache.wicket.markup.html.form.upload.FileUploadField;
 import org.apache.wicket.markup.html.form.upload.FileUpload;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -63,6 +64,15 @@ public class VolunteerDocumentView extends VolunteerTrackBaseView
 		{
 			theDocs.add((Document)temp.get(i));
 		}
+		
+		
+		  for (int i = 0; i < theDocs.size(); i++){
+		    	for (int j = 0; j < theDocs.size(); j++){
+			    	if(((Document)theDocs.get(i)).getDateUploaded().after(((Document)theDocs.get(j)).getDateUploaded())){
+			    		Collections.swap(theDocs, i, j);
+			    	}
+			    }
+		    }
 
         //calls method to make the page with the array of user docs
 		makePage(theDocs);
