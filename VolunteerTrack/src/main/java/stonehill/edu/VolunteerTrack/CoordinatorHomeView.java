@@ -7,7 +7,6 @@ import java.util.*;
 
 import org.apache.wicket.markup.html.*;
 import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
@@ -25,6 +24,8 @@ import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.markup.html.list.AbstractItem;
 import org.apache.wicket.markup.repeater.RepeatingView;
 import org.apache.wicket.model.AbstractReadOnlyModel;
+
+import com.googlecode.wicket.jquery.ui.form.button.Button;
 
 
 public class CoordinatorHomeView extends VolunteerTrackBaseView

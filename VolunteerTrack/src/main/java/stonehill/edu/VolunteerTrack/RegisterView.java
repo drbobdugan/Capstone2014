@@ -46,13 +46,21 @@ public class RegisterView extends WebPage {
 		register.add(new Button("create") {
 			@Override
 			public void onSubmit() {
+				System.out.println("OnSubmit for create user");
 				RegisterController control = new RegisterController();	
 				int pass = 0;
+				//System.out.print(" Int is "+pass+" which should be a ");
 				for(int i =0; i < TYPES.size(); i++)
 					if(TYPES.get(i).equals(select))
+					{
 						pass=i;
-				if(control.RegisterUser(user.getEmail(), user.getPassword(), check, pass) == true)
+						System.out.print(" Int is "+pass+" which should be a ");
+						System.out.println(select);
+					}
+				if(control.RegisterUser(user.getEmail(), user.getPassword(), check, pass) == true) {
+					System.out.println("Redirect to login after successful input of user");
 					control.RedirectLogin();
+				}
 				else
 					invalid.setDefaultModel(new Model("There was an issue, please try again"));
 					
