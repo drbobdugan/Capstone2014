@@ -204,15 +204,24 @@ public class VolunteerSearchView extends VolunteerTrackBaseView
 
 				if(!enteredStartHR.equals("") && !enteredStartMIN.equals("")  && !enteredStartAMPM.equals(""))
 				{
-
-
-					if(enteredStartAMPM.equals("AM"))
+					if(enteredStartAMPM.equals("AM") && enteredStartHR.equals("12"))
 					{
-						startDateTime = new Date(startDate.getYear(),startDate.getMonth(),startDate.getDate(),Integer.parseInt(enteredStartHR),Integer.parseInt(enteredStartMIN));
+						startDateTime = new Date(startDate.getYear(),startDate.getMonth(),startDate.getDate(),0,Integer.parseInt(enteredStartMIN));
+					}
+					else if(enteredStartAMPM.equals("PM") && enteredStartHR.equals("12"))
+					{
+						startDateTime = new Date(startDate.getYear(),startDate.getMonth(),startDate.getDate(),12,Integer.parseInt(enteredStartMIN));
 					}
 					else
 					{
-						startDateTime = new Date(startDate.getYear(),startDate.getMonth(),startDate.getDate(),Integer.parseInt(enteredStartHR)+12,Integer.parseInt(enteredStartMIN));
+					  if(enteredStartAMPM.equals("AM"))
+					  {
+					  	startDateTime = new Date(startDate.getYear(),startDate.getMonth(),startDate.getDate(),Integer.parseInt(enteredStartHR),Integer.parseInt(enteredStartMIN));
+					  }
+					  else
+					  {
+						  startDateTime = new Date(startDate.getYear(),startDate.getMonth(),startDate.getDate(),Integer.parseInt(enteredStartHR)+12,Integer.parseInt(enteredStartMIN));
+					  }
 					}
 
 					//they entered something for all fields and its a valid time so enter it to array as an object joey decides
@@ -227,16 +236,27 @@ public class VolunteerSearchView extends VolunteerTrackBaseView
 
 				if(!enteredEndHR.equals("") && !enteredEndMIN.equals("")  && !enteredEndAMPM.equals(""))
 				{
-
-
-					if(enteredEndAMPM.equals("AM"))
+					if(enteredEndAMPM.equals("AM") && enteredEndHR.equals("12"))
 					{
-						endDateTime = new Date(endDate.getYear(),endDate.getMonth(),endDate.getDate(),Integer.parseInt(enteredEndHR),Integer.parseInt(enteredEndMIN));
+						endDateTime = new Date(endDate.getYear(),endDate.getMonth(),endDate.getDate(),0,Integer.parseInt(enteredEndMIN));
+					    
+					}
+					else if(enteredEndAMPM.equals("PM") && enteredEndHR.equals("12"))
+					{
+						endDateTime = new Date(endDate.getYear(),endDate.getMonth(),endDate.getDate(),12,Integer.parseInt(enteredEndMIN));
 					    
 					}
 					else
 					{
-						endDateTime = new Date(endDate.getYear(),endDate.getMonth(),endDate.getDate(),Integer.parseInt(enteredEndHR)+12,Integer.parseInt(enteredEndMIN));
+					  if(enteredEndAMPM.equals("AM"))
+					  {
+					  	endDateTime = new Date(endDate.getYear(),endDate.getMonth(),endDate.getDate(),Integer.parseInt(enteredEndHR),Integer.parseInt(enteredEndMIN));
+					    
+					  }
+					  else
+					  {
+						  endDateTime = new Date(endDate.getYear(),endDate.getMonth(),endDate.getDate(),Integer.parseInt(enteredEndHR)+12,Integer.parseInt(enteredEndMIN));
+					  }
 					}
 
 					//they entered something for all fields and its a valid time so enter it to array as an object joey decides
@@ -257,19 +277,7 @@ public class VolunteerSearchView extends VolunteerTrackBaseView
 
 				ArrayList<Event> DaoEvents =  theEvents.getSearchResults(enteredPartnerName,enteredLocation,enteredEventName,startDate,endDate,startDateTime,endDateTime,selectedSkills);
 
-				
-				/*
-				for(int i=0;i<DaoEvents.size();i++)
-				{
-					System.out.println("$$$ ***" + DaoEvents.get(i).getStartDateTime().toString());
-					if(DaoEvents.get(i).getStartDateTime().before(startDate)||DaoEvents.get(i).getStartDateTime().after(endDate)||DaoEvents.get(i).getStartDateTime().getHours()*60+DaoEvents.get(i).getStartDateTime().getMinutes()<=startDateTime.getHours()*60+startDateTime.getMinutes()||DaoEvents.get(i).getStartDateTime().getHours()*60+DaoEvents.get(i).getStartDateTime().getHours()>=endDateTime.getHours()*60+endDateTime.getMinutes())
-					{
-						DaoEvents.remove(i);
-						i--;
-					}
-				}
-				
-				*/
+
 				ArrayList<Event> DaoEvents2 = new ArrayList<Event>();
 				
 			    startDate.setHours(startDateTime.getHours());
