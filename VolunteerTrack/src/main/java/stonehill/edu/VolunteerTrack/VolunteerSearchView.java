@@ -181,8 +181,7 @@ public class VolunteerSearchView extends VolunteerTrackBaseView
 				// selectedSkills is the array with all checked off skills. 
 				// startDate and endDate hold the two dates. .toString() will give yout the data as a String
 				
-				startDate.setMonth(startDate.getMonth()+1);
-				endDate.setMonth(endDate.getMonth()+1);
+				
 
 				ArrayList<Object> theCriteria = new ArrayList<Object>();
 
@@ -233,6 +232,7 @@ public class VolunteerSearchView extends VolunteerTrackBaseView
 					if(enteredEndAMPM.equals("AM"))
 					{
 						endDateTime = new Date(endDate.getYear(),endDate.getMonth(),endDate.getDate(),Integer.parseInt(enteredEndHR),Integer.parseInt(enteredEndMIN));
+					    
 					}
 					else
 					{
@@ -247,24 +247,51 @@ public class VolunteerSearchView extends VolunteerTrackBaseView
 				}
 
 				// add the selectedSkills array to the array
-
-
-                System.out.println("#### " + startDate.toString() + " $$$$ " + startDate.getMonth());
-                
+				
+				
+				
+				
+				
 
 				EventDao theEvents = new EventDao();
 
 				ArrayList<Event> DaoEvents =  theEvents.getSearchResults(enteredPartnerName,enteredLocation,enteredEventName,startDate,endDate,startDateTime,endDateTime,selectedSkills);
 
+				
+				/*
 				for(int i=0;i<DaoEvents.size();i++)
 				{
+					System.out.println("$$$ ***" + DaoEvents.get(i).getStartDateTime().toString());
 					if(DaoEvents.get(i).getStartDateTime().before(startDate)||DaoEvents.get(i).getStartDateTime().after(endDate)||DaoEvents.get(i).getStartDateTime().getHours()*60+DaoEvents.get(i).getStartDateTime().getMinutes()<=startDateTime.getHours()*60+startDateTime.getMinutes()||DaoEvents.get(i).getStartDateTime().getHours()*60+DaoEvents.get(i).getStartDateTime().getHours()>=endDateTime.getHours()*60+endDateTime.getMinutes())
 					{
 						DaoEvents.remove(i);
 						i--;
 					}
 				}
-				setResponsePage(new VolunteerSearchResultPage(DaoEvents));
+				
+				*/
+				ArrayList<Event> DaoEvents2 = new ArrayList<Event>();
+				
+			    startDate.setHours(startDateTime.getHours());
+			    startDate.setMinutes(startDateTime.getMinutes());
+			    
+			    endDate.setHours(endDateTime.getHours());
+			    endDate.setMinutes(endDateTime.getMinutes());
+			    
+			 
+				for(int i=0;i<DaoEvents.size();i++)
+				{
+					System.out.println("$$$ ***" + DaoEvents.get(i).getStartDateTime().toString());
+					if(DaoEvents.get(i).getStartDateTime().after(startDate) && DaoEvents.get(i).getStartDateTime().before(endDate))
+					{
+						if(DaoEvents.get(i).getStartDateTime().getHours()*60+DaoEvents.get(i).getStartDateTime().getMinutes()>=startDateTime.getHours()*60+startDateTime.getMinutes() && DaoEvents.get(i).getStartDateTime().getHours()*60+DaoEvents.get(i).getStartDateTime().getHours()<=endDateTime.getHours()*60+endDateTime.getMinutes() )
+						{
+						DaoEvents2.add(DaoEvents.get(i));
+						}
+					}
+				}
+				
+				setResponsePage(new VolunteerSearchResultPage(DaoEvents2));
 
 
 			}

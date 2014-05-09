@@ -77,6 +77,7 @@ public class VolunteerSearchResultPage extends VolunteerTrackBaseView
             
             @SuppressWarnings("deprecation")
 			int year = ((Event) DaoEvents.get(i)).getStartDateTime().getYear() + 1900;
+            int month = ((Event) DaoEvents.get(i)).getStartDateTime().getMonth()+1;
             DateFormat formatter = new SimpleDateFormat("hh:mm a");
             String time = formatter.format(((Event) DaoEvents.get(i)).getStartDateTime());
            
@@ -84,7 +85,7 @@ public class VolunteerSearchResultPage extends VolunteerTrackBaseView
             item.add(new Label("eventName", ((Event) DaoEvents.get(i)).getName()));
             item.add(new Label("eventLocation", ((Event) DaoEvents.get(i)).getLocation()));
             item.add(new Label("eventPartner", ((Event) DaoEvents.get(i)).getPartner().getOrganizationName()));         
-            item.add(new Label("eventDate", (((Event) DaoEvents.get(i)).getStartDateTime().getMonth() + "/" + ((Event) DaoEvents.get(i)).getStartDateTime().getDate() + "/" +  year)));
+            item.add(new Label("eventDate", (month + "/" + ((Event) DaoEvents.get(i)).getStartDateTime().getDate() + "/" +  year)));
             item.add(new Label("eventTime", time));
             
             
