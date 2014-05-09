@@ -31,7 +31,7 @@ public class CoordinatorReportView extends VolunteerTrackBaseView {
 //	private static final List<String> TYPES = Arrays
 	//		.asList(new String [] { "By Day", "By Week","By Month", "By Year", "By End Date"});
 	//default selected option
-	private String selected ="By Week";
+	//private String selected ="By Week";
 	
 	private static final List<String> TYPE2 = Arrays .asList(new String[] {"Volunteer","Partner"});
 	private String userSelected="Volunteer";
