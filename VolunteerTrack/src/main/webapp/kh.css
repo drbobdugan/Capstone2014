@@ -491,3 +491,11 @@ span.s-right {
 	width: auto;
 	clear: none;
 }
+	 .buttonBtn input:hover{
+	      color: #000;
+	      background-color: #56188c;
+	 }
+	 .buttonBtn input:active{
+	        color: #ff0000;
+	      background-color: #fff;
+	 }
