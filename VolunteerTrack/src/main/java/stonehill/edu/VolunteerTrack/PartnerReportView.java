@@ -63,9 +63,9 @@ public class PartnerReportView extends VolunteerTrackBaseView {
 	{
 		//add(new FeedbackPanel("feedback"));
 				
-		RadioChoice<String>  reportBy = new RadioChoice<String>(
-				"calendarRadio", new PropertyModel<String>(this,"selected"),TYPES);
-		reportBy.setVisible(false);
+	//	RadioChoice<String>  reportBy = new RadioChoice<String>(
+	//			"calendarRadio", new PropertyModel<String>(this,"selected"),TYPES);
+	//	reportBy.setVisible(false);
 		 startDateTextField = new DateTextField("startDateTextField", new PropertyModel<Date>(this, "startDate"));
          endDateTextField = new DateTextField("endDateTextField", new PropertyModel<Date>(this, "endDate"));
 		
@@ -152,7 +152,7 @@ public class PartnerReportView extends VolunteerTrackBaseView {
         form.add(group);
 		form.add(startDateTextField);
 		form.add(endDateTextField);
-		form.add(reportBy);
+	//	form.add(reportBy);
 		add(form);
 		
 	}
