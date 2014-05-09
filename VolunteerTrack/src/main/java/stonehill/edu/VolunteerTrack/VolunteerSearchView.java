@@ -46,7 +46,7 @@ public class VolunteerSearchView extends VolunteerTrackBaseView
 	DropDownChoice<String> endMIN;
 	DropDownChoice<String> endAMPM;
 
-	List<String> hours = new ArrayList<String>(Arrays.asList("","01","02","03","04","05","06","07","09","10","12"));
+	List<String> hours = new ArrayList<String>(Arrays.asList("","01","02","03","04","05","06","07","08","09","10","11","12"));
 	List<String> mins = new ArrayList<String>(Arrays.asList("","00","05","10","15","20","25","30","35","40","45","50","55"));
 	List<String> ampm = new ArrayList<String>(Arrays.asList("","AM","PM"));
 
@@ -180,6 +180,9 @@ public class VolunteerSearchView extends VolunteerTrackBaseView
 
 				// selectedSkills is the array with all checked off skills. 
 				// startDate and endDate hold the two dates. .toString() will give yout the data as a String
+				
+				startDate.setMonth(startDate.getMonth()+1);
+				endDate.setMonth(endDate.getMonth()+1);
 
 				ArrayList<Object> theCriteria = new ArrayList<Object>();
 
@@ -246,15 +249,17 @@ public class VolunteerSearchView extends VolunteerTrackBaseView
 				// add the selectedSkills array to the array
 
 
-
-
+                System.out.println("#### " + startDate.toString() + " $$$$ " + startDate.getMonth());
+                
 
 				EventDao theEvents = new EventDao();
 
 				ArrayList<Event> DaoEvents =  theEvents.getSearchResults(enteredPartnerName,enteredLocation,enteredEventName,startDate,endDate,startDateTime,endDateTime,selectedSkills);
 
-				for(int i=0;i<DaoEvents.size();i++){
-					if(DaoEvents.get(i).getStartDateTime().before(startDate)||DaoEvents.get(i).getStartDateTime().after(endDate)||DaoEvents.get(i).getStartDateTime().getHours()*60+DaoEvents.get(i).getStartDateTime().getMinutes()<=startDateTime.getHours()*60+startDateTime.getMinutes()||DaoEvents.get(i).getStartDateTime().getHours()*60+DaoEvents.get(i).getStartDateTime().getHours()>=endDateTime.getHours()*60+endDateTime.getMinutes()){
+				for(int i=0;i<DaoEvents.size();i++)
+				{
+					if(DaoEvents.get(i).getStartDateTime().before(startDate)||DaoEvents.get(i).getStartDateTime().after(endDate)||DaoEvents.get(i).getStartDateTime().getHours()*60+DaoEvents.get(i).getStartDateTime().getMinutes()<=startDateTime.getHours()*60+startDateTime.getMinutes()||DaoEvents.get(i).getStartDateTime().getHours()*60+DaoEvents.get(i).getStartDateTime().getHours()>=endDateTime.getHours()*60+endDateTime.getMinutes())
+					{
 						DaoEvents.remove(i);
 						i--;
 					}
@@ -296,3 +301,7 @@ public class VolunteerSearchView extends VolunteerTrackBaseView
 	}
 
 }
+
+
+
+

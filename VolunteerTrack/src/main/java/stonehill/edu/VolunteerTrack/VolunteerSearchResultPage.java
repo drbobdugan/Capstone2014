@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.wicket.markup.html.basic.Label;
@@ -36,6 +37,15 @@ public class VolunteerSearchResultPage extends VolunteerTrackBaseView
 	@SuppressWarnings("deprecation")
 	public VolunteerSearchResultPage(ArrayList passList)
 	{
+		
+		//sort
+		for (int i = 0; i < passList.size(); i++){
+	    	for (int j = 0; j < passList.size(); j++){
+		    	if(((Event)passList.get(i)).getStartDateTime().before(((Event)passList.get(j)).getStartDateTime())){
+		    		Collections.swap(passList, i, j);
+		    	}
+		    }
+	    }
 		
 		Form form2 = new Form("backButton"){
 			protected void onSubmit(){
