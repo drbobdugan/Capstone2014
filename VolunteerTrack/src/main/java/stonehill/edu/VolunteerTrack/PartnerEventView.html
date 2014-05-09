@@ -7,10 +7,10 @@
 </head>
 <body>
 <wicket:extend>
- <div id="main">
-           <div id="main-table-one">
+ <div id="main" style="width:950px">
+           <div id="main-table-one" style="width:500px">
 <p>Upcoming Events</p>
-     <table cellspalceing="0" class="dataView">
+     <table cellspalceing="0" class="dataView list">
 	     <tbody>
 	          <tr>
 	               <th>&nbsp;</th>
@@ -23,17 +23,17 @@
 	               <th>Available</th>
 	          </tr>
 	          <tr wicket:id = "simple"> 
-	               <td><a href="#" wicket:id="delete"><input type="button" value="Delete"/></a></td>
-	              <td><a href="#" wicket:id="edit"><input type="button" value="Edit"/></a></td>
-	              <td><a href="#" wicket:id="view"><input type="button" value="View"/></a></td>
+	               <td><a href="#" wicket:id="delete"><input type="button" value="Delete" class = "buttonBtn ui-button ui-widget ui-state-default ui-corner-all"/></a></td>
+	              <td><a href="#" wicket:id="edit"><input type="button" value="Edit" class = "buttonBtn ui-button ui-widget ui-state-default ui-corner-all"/></a></td>
+	              <td><a href="#" wicket:id="view"><input type="button" value="View" class = "buttonBtn ui-button ui-widget ui-state-default ui-corner-all"/></a></td>
 	               <td><span wicket:id = "name"> The Event Name </span></td>
 	               <td><span wicket:id = "location"> The Event location </span></td>
 	               <td><span wicket:id = "date"> The Event date </span></td>
-	               <td><span wicket:id = "positions"> The number of positions </span></td>
-	               <td><span wicket:id = "available"> The positions left</span></td>
+	               <td class="r"><span wicket:id = "positions"> The number of positions </span></td>
+	               <td class="r"><span wicket:id = "available"> The positions left</span></td>
 	          </tr>
 	           <tr>
-	               <td><a href="#" wicket:id="new"><input type="button" value="New"/></a></td>
+	               <td><a href="#" wicket:id="new"><input type="button" value="New" class = "buttonBtn ui-button ui-widget ui-state-default ui-corner-all"/></a></td>
 	               <th>&nbsp;</th>
 	               <th>&nbsp;</th>
 	               <th>&nbsp;</th>
@@ -56,7 +56,7 @@
 	 </div>
            <div id="main-table-two">
 	 <p>Past Events</p>
-	 <table cellspalceing="0" class="dataView">
+	 <table cellspalceing="0" class="dataView list">
 	     <tbody>
 	          <tr>
 	               <th>&nbsp;</th>
@@ -69,14 +69,14 @@
 	               <th>Available</th>
 	          </tr>
 	          <tr wicket:id = "simple2">
-	                <td><a href="#" wicket:id="delete"><input type="button" value="Delete"/></a></td>
-	              <td><a href="#" wicket:id="edit"><input type="button" value="Edit"/></a></td>
-	              <td><a href="#" wicket:id="view"><input type="button" value="View"/></a></td>
+	                <td><a href="#" wicket:id="delete"><input type="button" value="Delete"  class = "buttonBtn ui-button ui-widget ui-state-default ui-corner-all"/></a></td>
+	              <td><a href="#" wicket:id="edit"><input type="button" value="Edit"  class = "buttonBtn ui-button ui-widget ui-state-default ui-corner-all"/></a></td>
+	              <td><a href="#" wicket:id="view"><input type="button" value="View"  class = "buttonBtn ui-button ui-widget ui-state-default ui-corner-all"/></a></td>
 	               <td><span wicket:id = "name2"> The Event Name </span></td>
 	               <td><span wicket:id = "location2"> The Event location </span></td>
 	               <td><span wicket:id = "date2"> The Event date </span></td>
-	               <td><span wicket:id = "positions2"> The number of positions </span></td>
-	               <td><span wicket:id = "available2"> The positions left</span></td>
+	               <td class="r"><span wicket:id = "positions2"> The number of positions </span></td>
+	               <td class="r"><span wicket:id = "available2"> The positions left</span></td>
 	          </tr>
 	          <tr>
 	          <th>&nbsp;</th>
@@ -92,6 +92,11 @@
 	          <div wicket:id="navigator2"></div> </center>
 	 </div>
 	 </div>
+	 	 <style>
+	 table.list td.r {
+	 text-align: right;
+	 }
+	 </style>
   </wicket:extend>
   </body>
 </html>
