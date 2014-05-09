@@ -28,8 +28,8 @@ public class CoordinatorReportView extends VolunteerTrackBaseView {
 	
 
 	//radio button choices
-	private static final List<String> TYPES = Arrays
-			.asList(new String [] { "By Day", "By Week","By Month", "By Year", "By End Date"});
+//	private static final List<String> TYPES = Arrays
+	//		.asList(new String [] { "By Day", "By Week","By Month", "By Year", "By End Date"});
 	//default selected option
 	private String selected ="By Week";
 	
@@ -55,12 +55,12 @@ public class CoordinatorReportView extends VolunteerTrackBaseView {
 				form = new Form<Void>("form"){
 					@Override
 					protected void onSubmit(){
-						info("Report By :" + selected);
+				//		info("Report By :" + selected);
 					}
 				};			
 		//choose time interval
-		RadioChoice<String> reportBy=new RadioChoice<String>(
-				"calendarRadio", new PropertyModel<String>(this,"selected"),TYPES);
+	//	RadioChoice<String> reportBy=new RadioChoice<String>(
+	//			"calendarRadio", new PropertyModel<String>(this,"selected"),TYPES);
 		
 	    //coordinator can choose from searching by volunteer
 		RadioChoice<String> userType=new RadioChoice<String>(
@@ -225,7 +225,7 @@ public class CoordinatorReportView extends VolunteerTrackBaseView {
         
     	form.add(startDateTextField);
 		form.add(endDateTextField);
-		form.add(reportBy); 
+	//	form.add(reportBy); 
 		form.add(userType);//
 		form.add(sumOrDetails);
 		form.add(reports); //add button
