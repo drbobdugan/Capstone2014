@@ -16,46 +16,41 @@ public class LoginView extends WebPage {
 	PasswordTextField password;
 	Form login, register, change;
 	Label invalid;
-	LoginController log;
+	LoginController loginController;
 	
 	public LoginView()
 	{
 		user = new User();
-		log = new LoginController();
+		loginController = new LoginController();
 		login = new Form("login");
-		register = new Form("register");
-		change = new Form("change");
-
+		add(login);
 		add(invalid = new Label("invalid", ""));
+		
 		login.add(email = new TextField("emailTextField", new PropertyModel(user, "email")));
 		login.add(password = new PasswordTextField("passwordTextField", new PropertyModel(user,"password")));
 		
-		login.add(new Button("log") {
+		login.add(new Button("login-button") {
 			@Override
 			public void onSubmit() {
-				if(log.authenticateLogin(user.getEmail(), user.getPassword()) == true)
-					log.redirectHome();
+				if(loginController.authenticateLogin(user.getEmail(), user.getPassword()) == true)
+					loginController.redirectHome();
 				else
 					invalid.setDefaultModel(new Model("There was an issue, try again."));	
 			}
 		});
-		add(login);
 		
-		register.add(new Button("reg") {
+		login.add(new Button("register-button") {
 			@Override
 			public void onSubmit() {
-				log.redirectRegister();
+				loginController.redirectRegister();
 			}
 		});
-		add(register);
 		
-		change.add(new Button("pass") {
+		login.add(new Button("forgot-password-button") {
 			@Override
 			public void onSubmit() {
-				log.redirectPassword();
+				loginController.redirectPassword();
 			}
-		});
-		add(change);		
+		});	
 	}
-	 
 }

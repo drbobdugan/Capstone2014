@@ -1,54 +1,40 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<link href="css/custom-theme/jquery-ui-1.10.4.custom.css"
-	rel="stylesheet">
+<link href="css/custom-theme/jquery-ui-1.10.4.custom.css" rel="stylesheet">
 <script src="js/jquery-1.10.2.js"></script>
 <script src="js/jquery-ui-1.10.4.custom.js"></script>
-<link rel="stylesheet" href="kh.css" type="text/css" media="screen"
-	title="stylesheet" charset="utf-8" />
+<link rel="stylesheet" href="kh.css" type="text/css" media="screen" title="stylesheet" charset="utf-8" />
 <title>Volunteer Track Login</title>
 
 </head>
 <body>
 	<div id="head">
 		<div id="head-left">
-			<img src="Stonehill.png" style="float: left" height="102px"
-				width="500px" alt="Stonehill Emblem" />
-		</div>
-		<div id="head-right">
-			<form wicket:id="login">
-				<table>
-					<tr>
-						<td><span>Email</span></td>
-						<td><input wicket:id="emailTextField" type="text" /></td>
-					</tr>
-					<tr>
-						<td><span>Password</span></td>
-						<td><input wicket:id="passwordTextField" type="password" /></td>
-					</tr>
-					<tr>
-						<td><input wicket:id="log" type="submit"
-							value="Login" /></td>
-					</tr>
-				</table>
-			</form>
-			<table>
-				<tr>
-					<td><form wicket:id="register">
-							<input wicket:id="reg" type="submit" value="Register" />
-						</form></td>
-					<td><form wicket:id="change">
-							<input wicket:id="pass" type="submit"
-								value="Change Password" />
-						</form></td>
-				</tr>
-			</table>
+			<img src="Stonehill.png" style="float: left" height="102px" width="500px" alt="Stonehill Emblem" />
 		</div>
 	</div>
-	<div id="menu-contain">
-		<span class="s-right" wicket:id="invalid">BAD</span>
+	
+	<span class="s-right" wicket:id="invalid">BAD</span>
+
+	
+	<div id="login-section">
+	   <form wicket:id="login">
+	   
+	      <table>
+	      <tr><td>email:   </td> <td><input wicket:id="emailTextField" class="login-text" type="text" />              </td></tr>
+		  <tr><td>password:</td> <td><input wicket:id="passwordTextField" class="login-text" type="password"/>        </td></tr>
+		  <tr><td>         </td> <td class="float-right"><input wicket:id="login-button" type="submit" value="Login" /></td></tr>
+		   <tr><td><input wicket:id="forgot-password-button" type="button" class="button-to-text" value="Forgot password?" /></td> <td class="float-right"><input wicket:id="register-button" type="submit" class="button-to-text" value="Register" /></td></tr>
+	      </table>
+	      
+		  
+		 
+		   
+		  
+	   </form>
 	</div>
+  
 </body>
 </html>

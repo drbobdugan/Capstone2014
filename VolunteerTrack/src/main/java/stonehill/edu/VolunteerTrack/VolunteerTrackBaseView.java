@@ -5,17 +5,26 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.markup.html.WebPage;
+import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
+import org.apache.wicket.markup.html.link.Link;
+import org.apache.wicket.markup.html.list.AbstractItem;
+import org.apache.wicket.markup.html.list.ListItem;
+import org.apache.wicket.markup.html.list.ListView;
+import org.apache.wicket.markup.repeater.RepeatingView;
+import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
+import org.apache.wicket.model.StringResourceModel;
 import org.eclipse.jetty.util.log.Logger;
 
 import com.googlecode.wicket.jquery.ui.form.RadioChoice;
 import com.googlecode.wicket.jquery.ui.form.button.Button;
 
 public class VolunteerTrackBaseView extends WebPage implements Serializable {
-	
+
 	BookmarkablePageLink vhome;
 	BookmarkablePageLink phome;
 	BookmarkablePageLink chome;
@@ -32,60 +41,96 @@ public class VolunteerTrackBaseView extends WebPage implements Serializable {
 	BookmarkablePageLink vsearch;
 	BookmarkablePageLink csearch;
 	BookmarkablePageLink ccriteria;
-	
+
 	Form logout;
 	String select = CustomSession.get().getState();
 	Button switchSingle, switchDaul;
 	LoginController log = new LoginController();
-	
+
 	public VolunteerTrackBaseView()
 	{
 		//Check someone is logged in, if not redirect to login page
 		if(log.authenticate() == false)
-			setResponsePage(LoginView.class);;
-			
-		logout = new Form("logout");
-		logout.add(new Button("logoutButton"){
-			@Override
-			public void onSubmit() {
+			setResponsePage(LoginView.class);
+
+		// Logout link always appears
+		add(new Link("logout-link")
+		{
+			public void onClick()
+			{
 				CustomSession.get().setUser(null);
 				setResponsePage(LoginView.class);
 			}
 		});
+
 		
-		ArrayList<String> TYPES = new ArrayList<String>();
-		User user = CustomSession.get().getUser();
-		if(user.getIsApprovedCoordinator())
-			TYPES.add("Coordinator");
-		if(user.getIsApprovedPartner())
-			TYPES.add("Partner");
-		if(user.getIsApprovedVolunteer())
-			TYPES.add("Volunteer");
+		int countPersonas = 0;
+		if (CustomSession.get().getUser().getIsApprovedCoordinator()) countPersonas++;
+		if (CustomSession.get().getUser().getIsApprovedPartner()) countPersonas++;
+		if (CustomSession.get().getUser().getIsApprovedVolunteer()) countPersonas++;
+		if (CustomSession.get().getSwitchOn()) countPersonas++;
 		
-		RadioChoice<String> userType = new RadioChoice<String>("userType", new PropertyModel<String>(this, "select"), TYPES);
-		logout.add(userType);
-		switchSingle = new Button("switchButton") {
-			@Override
-			public void onSubmit() {
-				System.out.println("###### State switched to "+select+" ######");
-				CustomSession.get().setState(select);
+
+		Label personaSwitchToLabel = new Label("persona-switch-to-label","Switch To:");
+		add(personaSwitchToLabel);
+		personaSwitchToLabel.setVisible(countPersonas > 1);
+
+		Link personaCoordinatorLink = new Link("persona-coordinator-link")
+		{
+			public void onClick()
+			{
+				System.out.println("###### State switched to Coordinator ######");
+				CustomSession.get().setState("Coordinator");
 				LoginController log = new LoginController();
 				log.redirectHome();
 			}
 		};
-		logout.add(switchSingle);
-		switchDaul = new Button("duality") {
-			@Override
-			public void onSubmit() {
-				System.out.println("###### Switching back to Coordinator #####");
-				LoginController log = new LoginController();
-				log.switchBack();
-				log.redirectHome();
+		add(personaCoordinatorLink);
+		personaCoordinatorLink.setVisible(CustomSession.get().getUser().getIsApprovedCoordinator() && (countPersonas > 1));
+
+		Link personaPartnerLink = new Link("persona-partner-link")
+		{
+			public void onClick()
+			{
+				if (CustomSession.get().getUser().getIsApprovedPartner())
+				{
+					System.out.println("###### State switched to Partner ######");
+					CustomSession.get().setState("Partner");
+					LoginController log = new LoginController();
+					log.redirectHome();
+				}
 			}
 		};
-		logout.add(switchDaul);
-		add(logout);
-		
+		add(personaPartnerLink);
+		personaPartnerLink.setVisible(CustomSession.get().getUser().getIsApprovedPartner() && (countPersonas > 1));
+
+
+		Link personaVolunteerLink = new Link("persona-volunteer-link")
+		{
+			public void onClick()
+			{
+				if (CustomSession.get().getUser().getIsApprovedVolunteer())
+				{
+					System.out.println("###### State switched to Volunteer ######");
+					CustomSession.get().setState("Volunteer");
+					LoginController log = new LoginController();
+					log.redirectHome();
+				}
+			}
+		};
+		add(personaVolunteerLink);
+		personaVolunteerLink.setVisible(CustomSession.get().getUser().getIsApprovedVolunteer() && (countPersonas > 1));
+
+		Link switchUserLink = new Link("switch-user-link") 
+		{
+			public void onClick() {
+				System.out.println("###### Clicked on switch-users-link TBD ######");
+			}
+		};
+		add(switchUserLink);
+		switchUserLink.setVisible(CustomSession.get().getSwitchOn());
+
+
 		//Add all the links to the bar for menu, set visibility depending on which persona is in use
 		add(vhome = new BookmarkablePageLink("vhome", VolunteerHomeView.class));
 		add(phome = new BookmarkablePageLink("phome", PartnerHomeView.class));
@@ -103,7 +148,7 @@ public class VolunteerTrackBaseView extends WebPage implements Serializable {
 		add(psearch = new BookmarkablePageLink( "psearch", PartnerSearchView.class));
 		add(csearch = new BookmarkablePageLink( "csearch", CoordinatorSearchPage.class));
 		add(ccriteria = new BookmarkablePageLink( "ccriteria", CoordinatorEditCriteriaView.class));
-		
+
 		if(CustomSession.get().getState().equals("Coordinator")) {
 			phome.setVisible(false);
 			pevent.setVisible(false);
@@ -140,10 +185,5 @@ public class VolunteerTrackBaseView extends WebPage implements Serializable {
 			preport.setVisible(false);
 			psearch.setVisible(false);
 		}
-		
-		if(CustomSession.get().getSwitchOn() == false) {
-			switchDaul.setVisible(false);			
-		}
-		//How to handle coordinator?
 	}
 }

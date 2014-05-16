@@ -28,7 +28,7 @@ public class NotificationDao extends WebPage implements Serializable {
 	{
 		try {
 			//send notice of approved registration
-			String message = "Hello, We have approved your registration request and you are now able to log in to Volunteer Track. Thank you for your registration and future use of use of our services.";
+			String message = "Hello, We have approved your registration request and you are now able to loginController in to Volunteer Track. Thank you for your registration and future use of use of our services.";
 			EmailSender sendMail = new EmailSender(email, admin, "Volunteer Track Registration approval", message);
 			sendMail.start();
 		}
