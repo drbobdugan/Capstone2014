@@ -48,11 +48,6 @@
 			<artifactId>wicket-core</artifactId>
 			<version>${wicket.version}</version>
 		</dependency>
-		<dependency>
-		      <groupId>com.oracle</groupId>
-              <artifactId>ojdbc</artifactId>
-              <version>11.2.0.4</version>
-		</dependency>
 		<!-- OPTIONAL DEPENDENCY -->
 		<dependency>
 			<groupId>org.apache.wicket</groupId>
@@ -111,6 +106,11 @@
 		<groupId>com.googlecode.wicket-jquery-ui</groupId>
 		<artifactId>wicket-jquery-ui</artifactId>
 		<version>6.14.0</version> <!-- or 1.5.10 -->
+	</dependency>
+	<dependency>
+		<groupId>com.oracle</groupId>
+		<artifactId>ojdbc</artifactId>
+		<version>11.2.0.4</version>
 	</dependency>
 	</dependencies>
 	<build>

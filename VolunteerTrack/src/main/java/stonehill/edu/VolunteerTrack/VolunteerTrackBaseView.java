@@ -15,6 +15,7 @@ import org.apache.wicket.markup.html.list.AbstractItem;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.repeater.RepeatingView;
+import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.model.StringResourceModel;
@@ -24,6 +25,8 @@ import com.googlecode.wicket.jquery.ui.form.RadioChoice;
 import com.googlecode.wicket.jquery.ui.form.button.Button;
 
 public class VolunteerTrackBaseView extends WebPage implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
 
 	BookmarkablePageLink vhome;
 	BookmarkablePageLink phome;
@@ -70,11 +73,29 @@ public class VolunteerTrackBaseView extends WebPage implements Serializable {
 		if (CustomSession.get().getUser().getIsApprovedVolunteer()) countPersonas++;
 		if (CustomSession.get().getSwitchOn()) countPersonas++;
 		
-
+		/*
+		System.out.println("persona-switch-label creation");
 		Label personaSwitchToLabel = new Label("persona-switch-to-label","Switch To:");
+		System.out.println("persona-switch-label complete");
 		add(personaSwitchToLabel);
 		personaSwitchToLabel.setVisible(countPersonas > 1);
+		System.out.println("persona=switch-label visiable");
+		*/
 
+
+		IModel personaCoordinatorModel = new Model<String>(){
+			@Override
+			public String getObject() {
+				if (CustomSession.get().getState().equals("Coordinator"))
+				{
+					return "[Coordinator] ";
+				}
+				else
+				{
+					return "Coordinator ";
+				}
+			}
+		};
 		Link personaCoordinatorLink = new Link("persona-coordinator-link")
 		{
 			public void onClick()
@@ -85,9 +106,23 @@ public class VolunteerTrackBaseView extends WebPage implements Serializable {
 				log.redirectHome();
 			}
 		};
+		personaCoordinatorLink.setBody(personaCoordinatorModel);
 		add(personaCoordinatorLink);
 		personaCoordinatorLink.setVisible(CustomSession.get().getUser().getIsApprovedCoordinator() && (countPersonas > 1));
 
+		IModel personaPartnerModel = new Model<String>(){
+			@Override
+			public String getObject() {
+				if (CustomSession.get().getState().equals("Partner"))
+				{
+					return "[Partner] ";
+				}
+				else
+				{
+					return "Partner ";
+				}
+			}
+		};
 		Link personaPartnerLink = new Link("persona-partner-link")
 		{
 			public void onClick()
@@ -101,11 +136,26 @@ public class VolunteerTrackBaseView extends WebPage implements Serializable {
 				}
 			}
 		};
+		personaPartnerLink.setBody(personaPartnerModel);
 		add(personaPartnerLink);
 		personaPartnerLink.setVisible(CustomSession.get().getUser().getIsApprovedPartner() && (countPersonas > 1));
 
 
-		Link personaVolunteerLink = new Link("persona-volunteer-link")
+		IModel personaVolunteerModel = new Model<String>(){
+			@Override
+			public String getObject() {
+				if (CustomSession.get().getState().equals("Volunteer"))
+				{
+					return "[Volunteer]";
+				}
+				else
+				{
+					return "Volunteer";
+				}
+			}
+		};
+		
+		Link personaVolunteerLink = new Link("persona-volunteer-link", personaVolunteerModel)
 		{
 			public void onClick()
 			{
@@ -118,6 +168,7 @@ public class VolunteerTrackBaseView extends WebPage implements Serializable {
 				}
 			}
 		};
+		personaVolunteerLink.setBody(personaVolunteerModel);
 		add(personaVolunteerLink);
 		personaVolunteerLink.setVisible(CustomSession.get().getUser().getIsApprovedVolunteer() && (countPersonas > 1));
 

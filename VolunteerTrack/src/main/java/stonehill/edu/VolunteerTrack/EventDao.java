@@ -10,6 +10,10 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class EventDao extends Dao{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public ArrayList<Event> getSearchResults(String organization, String location, String eventname,Date startDate,Date endDate,Date startTime,Date endTime, ArrayList<String> skills) {
 		String skillQuery="";
 		/*for(int i=0;i<skills.size();i++){
@@ -29,8 +33,9 @@ public class EventDao extends Dao{
 			//ResultSet resultSet =statement.executeQuery("SELECT * FROM Event,UserOwnsEvent,UserEntity WHERE UserOwnsEvent.EventName = Event.Name AND UserOwnsEvent.EventDateTime = Event.CreatedDateTime AND UserEntity.Email=UserOwnsEvent.userEmail AND UPPER(UserEntity.OrganizationName) LIKE UPPER('%" +organization+"%') AND UPPER(Event.Location) LIKE UPPER('%" +location+"%') AND UPPER(Event.Name) LIKE UPPER('%" +eventname+"%') AND Event.StartDateTime>=to_timestamp('"+new java.sql.Timestamp(startDate.getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF') AND Event.StartDateTime<=to_timestamp('"+new java.sql.Timestamp(endDate.getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF') AND EXTRACT(HOUR FROM to_timestamp(Event.StartDateTime))>=EXTRACT(HOUR FROM to_timestamp('"+new java.sql.Timestamp(startTime.getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF')) AND EXTRACT(HOUR FROM to_timestamp(Event.EndDateTime))<=EXTRACT(HOUR FROM to_timestamp('"+new java.sql.Timestamp(endTime.getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF')) "+skillQuery);
 			
 			
-			ResultSet resultSet =statement.executeQuery("SELECT * FROM Event,UserOwnsEvent,UserEntity WHERE UserOwnsEvent.EventName = Event.Name AND UserOwnsEvent.EventDateTime = Event.CreatedDateTime AND UserEntity.Email=UserOwnsEvent.userEmail AND UPPER(UserEntity.OrganizationName) LIKE UPPER('%" +organization+"%') AND UPPER(Event.Location) LIKE UPPER('%" +location+"%') AND UPPER(Event.Name) LIKE UPPER('%" +eventname+"%')");
+			ResultSet resultSet =statement.executeQuery("SELECT * FROM Event,UserOwnsEvent,UserEntity WHERE UserOwnsEvent.EventId = Event.Id AND  UserEntity.Email=UserOwnsEvent.userEmail AND UPPER(UserEntity.OrganizationName) LIKE UPPER('%" +organization+"%') AND UPPER(Event.Location) LIKE UPPER('%" +location+"%') AND UPPER(Event.Name) LIKE UPPER('%" +eventname+"%')");
 			while(resultSet.next()){
+				int id = resultSet.getInt("EventId");
 				String oe=resultSet.getString("UserEmail");
 				String name=resultSet.getString("Name");
 				Date createdDate =resultSet.getTimestamp("CreatedDateTime");
@@ -44,7 +49,7 @@ public class EventDao extends Dao{
 				int tp=resultSet.getInt("TotalPositions");
 				int tpr =resultSet.getInt("PositionsRemaining");
 				// TODO owners email
-				result.add( new Event ( oe , name,  description,  l ,org,  tp,  tpr,createdDate, sd, ed, s));
+				result.add( new Event (id , oe,  name,  description ,l,  org,  tp,tpr, createdDate, sd, ed, s));
 			}
 			//clean up
 			resultSet.close();
@@ -64,9 +69,10 @@ public class EventDao extends Dao{
 			//SQL statement
 			Statement statement=connection.createStatement();
 			//@@@ ZAC @@@ this query is confusing and might need some work, but it should return an arrayList with even entries being events owned by a partner and odd entries being users who signed up for them
-			ResultSet resultSet=statement.executeQuery("SELECT * FROM Event, UserOwnsEvent,UserSignsUpForEvent, UserEntity WHERE UserOwnsEvent.EventName = Event.Name AND UserOwnsEvent.EventDateTime = Event.CreatedDateTime AND UserSignsUpForEvent.EventName = Event.Name AND UserSignsUpForEvent.EventDateTime = Event.CreatedDateTime AND UserEntity.Email=UserSignsUpForEvent.userEmail AND UserOwnsEvent.UserEmail = '" + partner.getEmail()+"' AND Event.StartDateTime<to_timestamp('"+new java.sql.Timestamp((new Date()).getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF')");
+			ResultSet resultSet=statement.executeQuery("SELECT * FROM Event, UserOwnsEvent,UserSignsUpForEvent, UserEntity WHERE UserOwnsEvent.EventId = Event.Id AND UserSignsUpForEvent.EventId = Event.Id AND UserEntity.Email=UserSignsUpForEvent.userEmail AND UserOwnsEvent.UserEmail = '" + partner.getEmail()+"' AND Event.StartDateTime<to_timestamp('"+new java.sql.Timestamp((new Date()).getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF')");
 			//get tuples
 			while(resultSet.next()){
+				int id = resultSet.getInt("EventId");
 				String oe=resultSet.getString("UserEmail");
 				String name=resultSet.getString("Name");
 				Date createdDate =resultSet.getTimestamp("CreatedDateTime");
@@ -79,8 +85,9 @@ public class EventDao extends Dao{
 				Skill [] skills= {new Skill("not coded")};
 				int tp=resultSet.getInt("TotalPositions");
 				int tpr =resultSet.getInt("PositionsRemaining");
+				
 				// TODO owners email
-				result.add( new Event ( oe , name,  description,  location ,org,  tp,  tpr,createdDate, startDate, endDate, skills));
+				result.add( new Event (id , oe,  name,  description ,location,  org,  tp,tpr, createdDate, startDate, endDate, skills));
 				String e=resultSet.getString("Email");
 				String p=resultSet.getString("Password");
 				String fn=resultSet.getString("FirstName");
@@ -121,13 +128,10 @@ public class EventDao extends Dao{
 			connectToDatabase();
 			//SQL statement
 			Statement statement=connection.createStatement();
-			ResultSet resultSet=statement.executeQuery("SELECT * FROM UserEntity, UserSignsUpForEvent "+
-					"WHERE User.Email=UserSignsUpForEvent.UserEmail AND "+
-					"UserSignsUpForEvent.EventName= '"+e.getName()+"' AND "+
-					"UserSignsUpForEvent.EventDateTime=to_timestamp('"+new java.sql.Timestamp(e.getCreatedDateTime().getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF')");
+			ResultSet resultSet=statement.executeQuery("SELECT * FROM UserEntity, UserSignsUpForEvent WHERE User.Email=UserSignsUpForEvent.UserEmail AND UserSignsUpForEvent.EventId="+e.getId());
 			//get tuples
 			while(resultSet.next()){
-				row.add(new Object[]{resultSet.getString("EventName"), resultSet.getTimestamp("CreatedDateTime"), resultSet.getInt("PositionsRemaining")});
+				row.add(new Object[]{resultSet.getInt("EventId"), resultSet.getString("EventName"), resultSet.getTimestamp("CreatedDateTime"), resultSet.getInt("PositionsRemaining")});
 		    }
 			//clean up
 			resultSet.close();
@@ -147,9 +151,7 @@ public class EventDao extends Dao{
 			connectToDatabase();
 			//SQL statement
 			Statement statement=connection.createStatement();
-			statement.executeQuery("DELETE FROM Event WHERE name = '"+  event.getName()  + "' AND " +
-			"location = '" + event.getLocation()  + "' AND " +
-			"CreatedDateTime=to_timestamp('"+new java.sql.Timestamp(event.getCreatedDateTime().getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF')");
+			statement.executeQuery("DELETE FROM Event WHERE id = "+  event.getId());
 			
 			statement.close();
 			disconnectFromDatabase();
@@ -161,20 +163,24 @@ public class EventDao extends Dao{
 	public void insert(Object value) {
 		Event event=(Event) value;
 		
+		event.setId(getUniqueId());
 		try{
 			//connect
 			connectToDatabase();
 			//SQL statement
+			
 			Statement statement=connection.createStatement();
-			statement.executeQuery("INSERT INTO Event VALUES('"+
-		    event.getName()+"', "+
+			statement.execute("INSERT INTO Event VALUES('"+
+		    event.getName() + "', "+
 			"to_timestamp('"+new java.sql.Timestamp(event.getCreatedDateTime().getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF'), "+
 			"to_timestamp('"+new java.sql.Timestamp(event.getStartDateTime().getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF'), "+
 			"to_timestamp('"+new java.sql.Timestamp(event.getEndDateTime().getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF'), "+
 			"'"+event.getDescription()+"', "+ 
 			"'"+event.getLocation()+"', "+ 
-		    "'"+event.getNumPositions()+"', "+
-		    "'"+event.getNumPositionsRemaining()+"')");
+		    event.getNumPositions()+", "+
+		    event.getNumPositionsRemaining()+", " +
+		    event.getId() + ")");
+			
 			statement.close();
 			disconnectFromDatabase();
 		}
@@ -189,7 +195,9 @@ public class EventDao extends Dao{
 			statement.executeQuery("INSERT INTO UserOwnsEvent VALUES('"+ 
 			event.getOwnerEmail() + "', '"+
 			event.getName()+"', "+
-			"to_timestamp('"+new java.sql.Timestamp(event.getCreatedDateTime().getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF'))");
+			"to_timestamp('"+new java.sql.Timestamp(event.getCreatedDateTime().getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF'), " +
+			event.getId() + ")");
+			
 			statement.close();
 			disconnectFromDatabase();
 		}
@@ -204,9 +212,10 @@ public class EventDao extends Dao{
 			connectToDatabase();
 			//SQL statement
 			Statement statement=connection.createStatement();
-			ResultSet resultSet=statement.executeQuery("SELECT * FROM Event, UserOwnsEvent WHERE UserOwnsEvent.EventName = Event.Name AND UserOwnsEvent.EventDateTime = Event.CreatedDateTime");
+			ResultSet resultSet=statement.executeQuery("SELECT * FROM Event, UserOwnsEvent WHERE UserOwnsEvent.EventId = Event.Id");
 			//get tuples
 			while(resultSet.next()){
+				int id = resultSet.getInt("EventId");
 				String oe=resultSet.getString("UserEmail");
 				String name=resultSet.getString("Name");
 				Date createdDate =resultSet.getTimestamp("CreatedDateTime");
@@ -219,7 +228,7 @@ public class EventDao extends Dao{
 				int tp=resultSet.getInt("TotalPositions");
 				int tpr =resultSet.getInt("PositionsRemaining");
 				// TODO owners email
-				result.add( new Event ( oe , name, createdDate,startDate, endDate, description,  location ,  tp,  tpr, skills));
+				result.add( new Event (id , oe, name,createdDate, startDate, endDate,  description ,  location,  tp, tpr, skills));
 			}
 			//clean up
 			resultSet.close();
@@ -231,16 +240,17 @@ public class EventDao extends Dao{
 		}
 		return result;
 	}
-	public ArrayList<Object> getAllEventsByOwner(User user) {
-		ArrayList<Object> result=new ArrayList<Object>();
+	public ArrayList<Event> getAllEventsByOwner(User user) {
+		ArrayList<Event> result=new ArrayList<Event>();
 		try{
 			//connect
 			connectToDatabase();
 			//SQL statement
 			Statement statement=connection.createStatement();
-			ResultSet resultSet=statement.executeQuery("SELECT * FROM Event, UserOwnsEvent WHERE UserOwnsEvent.EventName = Event.Name AND UserOwnsEvent.EventDateTime = Event.CreatedDateTime AND UserOwnsEvent.UserEmail = '" + user.getEmail()+"'");
+			ResultSet resultSet=statement.executeQuery("SELECT * FROM Event, UserOwnsEvent WHERE UserOwnsEvent.EventId = Event.Id AND UserOwnsEvent.UserEmail = '" + user.getEmail()+"'");
 			//get tuples
 			while(resultSet.next()){
+				int id = resultSet.getInt("EventId");
 				String oe=resultSet.getString("UserEmail");
 				String name=resultSet.getString("Name");
 				Date createdDate =resultSet.getTimestamp("CreatedDateTime");
@@ -252,7 +262,7 @@ public class EventDao extends Dao{
 				Skill [] skills= {new Skill("not coded")};
 				int tp=resultSet.getInt("TotalPositions");
 				int tpr =resultSet.getInt("PositionsRemaining");
-				result.add( new Event ( oe , name, createdDate,startDate, endDate, description,  location ,  tp,  tpr, skills));
+				result.add( new Event (id , oe, name,createdDate, startDate, endDate,  description ,  location,  tp, tpr, skills));
 			}
 			//clean up
 			resultSet.close();
@@ -272,16 +282,18 @@ public class EventDao extends Dao{
 			//SQL statement
 			Statement statement=connection.createStatement();
 
-			statement.executeQuery("UPDATE Event SET "+
+			String query = "UPDATE Event SET "+
+			"Name='"+event.getName()+"', " +
 			"StartDateTime=to_timestamp('"+new java.sql.Timestamp(event.getStartDateTime().getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF'), "+
 			"EndDateTime=to_timestamp('"+new java.sql.Timestamp(event.getEndDateTime().getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF'), "+
 		    "Description='"+event.getDescription()+"', "+
 		    "Location='"+event.getLocation()+"', "+
-		    "TotalPositions='"+event.getNumPositions()+"', "+
-		    "PositionsRemaining='"+event.getNumPositionsRemaining()+"'WHERE "+   
-		    "Name='"+event.getName()+"' AND "+
-		    "CreatedDateTime=to_timestamp('"+new java.sql.Timestamp(event.getCreatedDateTime().getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF') ");
-		
+		    "TotalPositions="+event.getNumPositions()+", "+
+		    "PositionsRemaining="+event.getNumPositionsRemaining()+" WHERE "+   
+		    "Id="+event.getId();
+		    
+			System.out.println("Query is: "+ query);
+		    statement.executeQuery(query);
 			statement.close();
 			disconnectFromDatabase();
 		}
@@ -289,6 +301,8 @@ public class EventDao extends Dao{
 			e.printStackTrace();
 		}
 	}
+	
+
 	public Event getEventByNameDateTime(String eventName, Date dateTime) {
 		Event result = null;
 		String email = "";
@@ -324,6 +338,7 @@ public class EventDao extends Dao{
 							+ " Name='"+eventName+"'");
 			//get tuple
 			if(resultSet.next()){
+				int id = resultSet.getInt("Id");
 				String name=resultSet.getString("Name");
 				Date createdDate =resultSet.getTimestamp("CreatedDateTime");
 				Date startDate =resultSet.getTimestamp("StartDateTime");
@@ -334,7 +349,7 @@ public class EventDao extends Dao{
 				Skill [] skills= {new Skill("not coded")};
 				int tp=resultSet.getInt("TotalPositions");
 				int tpr =resultSet.getInt("PositionsRemaining");
-				result =( new Event ( email, name, createdDate,startDate, endDate, description,  location ,  tp,  tpr, skills));
+				result =( new Event (id, email, name,createdDate, startDate, endDate,  description ,  location,  tp, tpr, skills));
 			}else{
 				System.out.println("EventDao:getEventByNameDateTime() did not return a tuple.");
 			}
@@ -348,6 +363,70 @@ public class EventDao extends Dao{
 		}
 		return result;
 	}
+	
+	public Event getEventById(int id) {
+		Event result = null;
+		String email = "";
+		
+		try{
+			//connect
+			connectToDatabase();
+			//SQL statement
+			Statement statement=connection.createStatement();
+			ResultSet resultSet=statement.executeQuery("SELECT * FROM UserOwnsEvent WHERE EventId = " + id);
+			
+			//get tuple
+			if(resultSet.next()){
+				email = resultSet.getString("UserEmail");
+			}else{
+				System.out.println("EventDao:getEventByNameDateTime() did not return a tuple.");
+			}
+			//clean up
+			resultSet.close();
+			statement.close();
+			disconnectFromDatabase();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		try{
+			//connect
+			connectToDatabase();
+			//SQL statement
+			Statement statement=connection.createStatement();
+			ResultSet resultSet=statement.executeQuery("SELECT * FROM Event WHERE Id = " + id);
+			
+			//get tuple
+			if(resultSet.next()){
+				int EventId = resultSet.getInt("Id");
+				String name=resultSet.getString("Name");
+				Date createdDate =resultSet.getTimestamp("CreatedDateTime");
+				Date startDate =resultSet.getTimestamp("StartDateTime");
+				Date endDate =resultSet.getTimestamp("EndDateTime");
+				String description =resultSet.getString("Description");
+				String location =resultSet.getString("Location");
+				// TODO no sure how this will be handled yet
+				Skill [] skills= {new Skill("not coded")};
+				int tp=resultSet.getInt("TotalPositions");
+				int tpr =resultSet.getInt("PositionsRemaining");
+				result =( new Event (EventId, email, name,createdDate, startDate, endDate,  description ,  location,  tp, tpr, skills));
+			}else{
+				System.out.println("EventDao:getEventByNameDateTime() did not return a tuple.");
+			}
+			//clean up
+			resultSet.close();
+			statement.close();
+			disconnectFromDatabase();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	
+	
 	public void insertUserOwnsEvent(Object user1, Object event2) {
 		User user=(User) user1;
 		Event event=(Event) event2;
@@ -359,7 +438,8 @@ public class EventDao extends Dao{
 			statement.executeQuery("INSERT INTO UserOwnsEvent VALUES("+
 		    "'"+user.getEmail()+"', "+
 		    "'"+event.getName()+"', "+
-			"to_timestamp('"+new java.sql.Timestamp(event.getCreatedDateTime().getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF'))");
+			"to_timestamp('"+new java.sql.Timestamp(event.getCreatedDateTime().getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF')," +
+			event.getId() + ")");
 			statement.close();
 			disconnectFromDatabase();
 		}
@@ -376,10 +456,7 @@ public class EventDao extends Dao{
 			connectToDatabase();
 			//SQL statement
 			Statement statement=connection.createStatement();
-			statement.executeQuery("DELETE FROM UserOwnsEvent WHERE "+
-		    "UserEmail='"+user.getEmail()+"', AND "+
-		    "EventName='"+event.getName()+"', AND "+
-			"EventDateTime=to_timestamp('"+new java.sql.Timestamp(event.getCreatedDateTime().getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF')");
+			statement.executeQuery("DELETE FROM UserOwnsEvent WHERE UserEmail='"+user.getEmail()+"' AND EventId="+event.getId());
 			statement.close();
 			disconnectFromDatabase();
 		}
@@ -394,9 +471,10 @@ public class EventDao extends Dao{
 			connectToDatabase();
 			//SQL statement
 			Statement statement=connection.createStatement();
-			ResultSet resultSet=statement.executeQuery("SELECT * FROM Event, UserSignsUpForEvent WHERE UserSignsUpForEvent.EventName = Event.Name AND UserSignsUpForEvent.EventDateTime = Event.CreatedDateTime AND UserSignsUpForEvent.UserEmail = '" + user.getEmail()+"'");
+			ResultSet resultSet=statement.executeQuery("SELECT * FROM Event,UserSignsUpForEvent WHERE UserSignsUpForEvent.EventId = Event.Id AND UserSignsUpForEvent.UserEmail = '" + user.getEmail()+"'");
 			//get tuples
 			while(resultSet.next()){
+				int id= resultSet.getInt("EventId");
 				String oe=resultSet.getString("UserEmail");
 				String name=resultSet.getString("Name");
 				Date createdDate =resultSet.getTimestamp("CreatedDateTime");
@@ -404,11 +482,13 @@ public class EventDao extends Dao{
 				Date endDate =resultSet.getTimestamp("EndDateTime");
 				String description =resultSet.getString("Description");
 				String location =resultSet.getString("Location");
+				
+				
 				// TODO no sure how this will be handled yet
-				Skill [] skills= {new Skill("not coded")};
+				Skill [] skills= {new Skill("not coded from getAllEventsSignedUpFor")};
 				int tp=resultSet.getInt("TotalPositions");
 				int tpr =resultSet.getInt("PositionsRemaining");
-				result.add(  new Event ( oe , name, createdDate,startDate, endDate, description,  location ,  tp,  tpr, skills));
+				result.add(  new Event ( id , oe, name,createdDate, startDate, endDate,  description ,  location,  tp, tpr, skills));
 			}
 			//clean up
 			resultSet.close();
@@ -429,9 +509,10 @@ public class EventDao extends Dao{
 			//SQL statement
 			Statement statement=connection.createStatement();
 			statement.executeQuery("INSERT INTO UserSignsUpForEvent VALUES("+
-		    "'"+user.getEmail()+"', "+
-		    "'"+event.getName()+"', "+
-			"to_timestamp('"+new java.sql.Timestamp(event.getCreatedDateTime().getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF'))");
+		    "'"+user.getEmail()+"', " +
+		    "'"+event.getName()+"', " +
+			"to_timestamp('"+new java.sql.Timestamp(event.getCreatedDateTime().getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF')," +
+			event.getId()+")");
 			statement.close();
 			disconnectFromDatabase();
 		}
@@ -448,10 +529,7 @@ public class EventDao extends Dao{
 			connectToDatabase();
 			//SQL statement
 			Statement statement=connection.createStatement();
-			statement.executeQuery("DELETE FROM UserSignsUpForEvent WHERE "+
-		    "UserEmail='"+user.getEmail()+"', AND "+
-		    "EventName='"+event.getName()+"', AND "+
-			"EventDateTime=to_timestamp('"+new java.sql.Timestamp(event.getCreatedDateTime().getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF')");
+			statement.executeQuery("DELETE FROM UserSignsUpForEvent WHERE UserEmail='"+user.getEmail()+"' AND EventId="+event.getId());
 			statement.close();
 			disconnectFromDatabase();
 		}
@@ -466,9 +544,10 @@ public class EventDao extends Dao{
 			connectToDatabase();
 			//SQL statement
 			Statement statement=connection.createStatement();
-			ResultSet resultSet=statement.executeQuery("SELECT * FROM Event, TimeSheetEntry WHERE TimeSheetEntry.EventName = Event.Name AND TimeSheetEntry.DateTime = Event.CreatedDateTime AND TimeSheetEntry.UserEmail = '" + user.getEmail()+"'");
+			ResultSet resultSet=statement.executeQuery("SELECT * FROM Event, TimeSheetEntry WHERE TimeSheetEntry.EventId = Event.Id AND TimeSheetEntry.UserEmail = '" + user.getEmail()+"'");
 			//get tuples
 			while(resultSet.next()){
+				int id = resultSet.getInt("EventId");
 				String name=resultSet.getString("Name");
 				Date createdDate =resultSet.getTimestamp("CreatedDateTime");
 				Date startDate =resultSet.getTimestamp("StartDateTime");
@@ -480,28 +559,7 @@ public class EventDao extends Dao{
 				int tp=resultSet.getInt("TotalPositions");
 				int tpr =resultSet.getInt("PositionsRemaining");
 				
-				String email = "";
-				
-				try{
-					//SQL statement
-					Statement statement2=connection.createStatement();
-					ResultSet resultSet2=statement2.executeQuery("SELECT * FROM UserOwnsEvent WHERE EventDateTime=to_timestamp('"+new java.sql.Timestamp(createdDate.getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF') AND"
-									+ " EventName='"+name+"'");
-					//get tuple
-					if(resultSet2.next()){
-						email = resultSet2.getString("UserEmail");
-					}else{
-						System.out.println("EventDao:getEventByNameDateTime() did not return a tuple.");
-					}
-					//clean up
-					resultSet2.close();
-					statement2.close();
-				}
-				catch(Exception e){
-					e.printStackTrace();
-				}
-				
-				result.add( new Event ( email , name, createdDate,startDate, endDate, description,  location ,  tp,  tpr, skills));
+				result.add( new Event ( id , user.getEmail(), name,createdDate, startDate, endDate,  description ,  location,  tp, tpr, skills));
 			}
 			//clean up
 			resultSet.close();
@@ -550,7 +608,8 @@ public class EventDao extends Dao{
 			statement.executeQuery("INSERT INTO EventRequiresSkill VALUES("+
 		    "'"+event.getName()+"', "+
 			"to_timestamp('"+new java.sql.Timestamp(event.getCreatedDateTime().getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF'), "+
-			 "'"+skill.getName()+"'");
+			 "'"+skill.getName()+"', " + 
+			 event.getId() + ")");
 			statement.close();
 			disconnectFromDatabase();
 		}
@@ -565,10 +624,7 @@ public class EventDao extends Dao{
 			connectToDatabase();
 			//SQL statement
 			Statement statement=connection.createStatement();
-			statement.executeQuery("DELETE FROM EventRequiresSkill WHERE "+
-		    "SkillName='"+skill.getName()+"' AND "+
-		    "EventName='"+event.getName()+"' AND "+
-			"EventDateTime=to_timestamp('"+new java.sql.Timestamp(event.getCreatedDateTime().getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF')");
+			statement.executeQuery("DELETE FROM EventRequiresSkill WHERE SkillName='"+skill.getName()+"' AND EventId="+event.getId());
 			statement.close();
 			disconnectFromDatabase();
 		}
@@ -583,7 +639,7 @@ public class EventDao extends Dao{
 			connectToDatabase();
 			//SQL statement
 			Statement statement=connection.createStatement();
-			ResultSet resultSet=statement.executeQuery("SELECT * FROM Event, EventRequiresSkill WHERE EventRequiresSkill.EventName = Event.Name AND EventRequiresSkill.EventDateTime = Event.CreatedDateTime AND Event.name = '" + event.getName()+"' AND Event.CreatedDateTime= to_timestamp('"+new java.sql.Timestamp(event.getCreatedDateTime().getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF')");
+			ResultSet resultSet=statement.executeQuery("SELECT * FROM Event, EventRequiresSkill WHERE EventRequiresSkill.EventId = Event.Id AND Event.Id = " + event.getId());
 			//get tuples
 			while(resultSet.next()){
 				String name=resultSet.getString("SkillName");
@@ -610,7 +666,8 @@ public class EventDao extends Dao{
 			"to_timestamp('"+new java.sql.Timestamp(event.getCreatedDateTime().getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF'), "+
 			"'"+document.getName()+"', "+
 			"to_timestamp('"+new java.sql.Timestamp(document.getDateUploaded().getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF'), "+
-			"'"+document.getUserEmail()+"'");
+			"'"+document.getUserEmail()+"', " + 
+			 event.getId() + ")");
 			statement.close();
 			disconnectFromDatabase();
 		}
@@ -629,8 +686,7 @@ public class EventDao extends Dao{
 		    "DocumentName='"+document.getName()+"' AND "+
 		    "DocumentDataUploaded=to_timestamp('"+new java.sql.Timestamp(document.getDateUploaded().getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF') AND "+
 		    "DocumentUserEmail='"+document.getUserEmail()+"' AND "+
-		    "EventName='"+event.getName()+"' AND "+
-			"EventDateTime=to_timestamp('"+new java.sql.Timestamp(event.getCreatedDateTime().getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF')");
+		    "EventId="+event.getId());
 			statement.close();
 			disconnectFromDatabase();
 		}
@@ -645,7 +701,7 @@ public class EventDao extends Dao{
 			connectToDatabase();
 			//SQL statement
 			Statement statement=connection.createStatement();
-			ResultSet resultSet=statement.executeQuery("SELECT * FROM Document, EventRequiresDocument WHERE Document.UserEmail=EventRequiresDocument.DocumentUserEmail AND Document.DateUploaded=EventRequiresDocument.DocumentDateUploaded AND Document.Name=EventRequiresDocument.DocumentName and EventRequiresDocument.EventName='"+event.getName()+"EventRequiresDocument.EventDateTime=to_timestamp('"+new java.sql.Timestamp(event.getCreatedDateTime().getTime()).toString()+"','YYYY-MM-DD HH24:MI:SS.FF')");
+			ResultSet resultSet=statement.executeQuery("SELECT * FROM Document, EventRequiresDocument WHERE Document.UserEmail=EventRequiresDocument.DocumentUserEmail AND Document.DateUploaded=EventRequiresDocument.DocumentDateUploaded AND Document.Name=EventRequiresDocument.DocumentName and EventRequiresDocument.EventId="+event.getId());
 			//get tuples
 			while(resultSet.next()){
 				String name=resultSet.getString("Name");
@@ -686,11 +742,10 @@ public class EventDao extends Dao{
 				connectToDatabase();
 				//SQL statement
 				Statement statement=connection.createStatement();
-				ResultSet resultSet=statement.executeQuery("SELECT * FROM Event, UserSignsUpForEvent WHERE "+
-				"UserSignsUpForEvent.EventName = Event.Name AND UserSignsUpForEvent.EventDateTime = Event.CreatedDateTime "+
-						"AND Event.Name = '" + event.getName()+"'");
+				ResultSet resultSet=statement.executeQuery("SELECT * FROM Event, UserSignsUpForEvent WHERE UserSignsUpForEvent.EventId = Event.Id AND Event.Id =" + event.getId());
 				//get tuples
 				while(resultSet.next()){
+					int id = resultSet.getInt("EventId");
 					String oe=resultSet.getString("UserEmail");
 					String name=resultSet.getString("Name");
 					Date createdDate =resultSet.getTimestamp("CreatedDateTime");
@@ -702,7 +757,7 @@ public class EventDao extends Dao{
 					Skill [] skills= {new Skill("not coded")};
 					int tp=resultSet.getInt("TotalPositions");
 					int tpr =resultSet.getInt("PositionsRemaining");
-					result.add(  new Event ( oe , name, createdDate,startDate, endDate, description,  location ,  tp,  tpr, skills));
+					result.add(  new Event ( id , oe, name,createdDate, startDate, endDate,  description ,  location,  tp, tpr, skills));
 				}
 				//clean up
 				resultSet.close();

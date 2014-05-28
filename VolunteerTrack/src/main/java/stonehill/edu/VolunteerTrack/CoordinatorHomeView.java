@@ -31,6 +31,7 @@ import com.googlecode.wicket.jquery.ui.form.button.Button;
 public class CoordinatorHomeView extends VolunteerTrackBaseView
 {
 
+	private static final long serialVersionUID = 1L;
 	public Label message;
  	public String selected;
  	public ArrayList<User> thePartners;
@@ -40,6 +41,9 @@ public class CoordinatorHomeView extends VolunteerTrackBaseView
  	
 	public CoordinatorHomeView()
 	{
+		
+		System.out.println("Got to CoordinatorHomeView()");
+		
 		thePartners = new ArrayList<User>();
 		theUsers = new ArrayList<User>();
 		theCoordinators = new ArrayList<User>();
@@ -67,10 +71,12 @@ public class CoordinatorHomeView extends VolunteerTrackBaseView
 	}
 	public void makePage(List<User> thePartners, List<User> theCoordinators){
 		
-	   
+		System.out.println("Got to makePage()");
+		
 		RepeatingView repeating = new RepeatingView("repeating");
         add(repeating);
 		
+        /*
 		for(int i = 0; i < thePartners.size(); i++)
 		{
 			final int x = i;
@@ -80,14 +86,14 @@ public class CoordinatorHomeView extends VolunteerTrackBaseView
             //item.add(new ActionPanel("actions", new DetachableContactModel(contact)));
             item.add(new Label("name", thePartners.get(i).getOrganizationName()));
             
-       // form is made    
+            // form is made    
             Form form = new Form("form"){
             	protected void onSubmit(){
             		info("Form.onSubmit()");
             	}
             };
             
-        // delete buttons made and added to the form
+           // delete buttons made and added to the form
             Button delete1 = new Button("notapprove"){
             	@Override
             	public void onSubmit(){
@@ -130,11 +136,13 @@ public class CoordinatorHomeView extends VolunteerTrackBaseView
             }));
 		}  	
 		
-		
+		*/
+        
 		RepeatingView repeating2 = new RepeatingView("repeating2");
         add(repeating2);
 		
-		for(int i = 0; i < theCoordinators.size(); i++)
+		/*
+        for(int i = 0; i < theCoordinators.size(); i++)
 		{
 			final int x = i;
 			AbstractItem item2 = new AbstractItem(repeating2.newChildId());
@@ -192,6 +200,10 @@ public class CoordinatorHomeView extends VolunteerTrackBaseView
                 }
             }));
 		} 
+		
+		*/
+        
+		System.out.println("finished makePage()");
 		
     }
 	

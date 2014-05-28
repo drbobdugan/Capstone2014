@@ -30,8 +30,8 @@ public class PartnerEventView extends VolunteerTrackBaseView
     private int idFuture, idPast;
 	public PartnerEventView()
 	{
-		futureEvents = new ArrayList<Event>(0);
-		pastEvents = new ArrayList<Event>(0);
+		futureEvents = new ArrayList<Event>();
+		pastEvents = new ArrayList<Event>();
 		 
 		idFuture = 0;
 		idPast = 0;
@@ -39,18 +39,19 @@ public class PartnerEventView extends VolunteerTrackBaseView
 		EventDao dao = new EventDao();
 		
 		// Get all events and split up the events by future and past events
-	    ArrayList<Object> events = dao.getAllEventsByOwner(	 CustomSession.get().getUser());
-	    for(Object o: events)
-	    	if(!((Event)o).getCreatedDateTime().before(new Date()))
-	    		futureEvents.add((Event)o);
+	    ArrayList<Event> events = dao.getAllEventsByOwner(CustomSession.get().getUser());
+	    for(Event event: events)
+	    {	
+	    	if (event.getStartDateTime().after(new Date()))
+	    		futureEvents.add(event);
 	    	else 
-	    		pastEvents.add((Event)o);
-	
+	    		pastEvents.add(event);
+	    }
 	    
 	    //sort
 	    for (int i = 0; i < futureEvents.size(); i++){
 	    	for (int j = 0; j < futureEvents.size(); j++){
-		    	if(((Event)futureEvents.get(i)).getCreatedDateTime().before(((Event)futureEvents.get(j)).getCreatedDateTime())){
+		    	if(((Event)futureEvents.get(i)).getStartDateTime().before(((Event)futureEvents.get(j)).getStartDateTime())){
 		    		Collections.swap(futureEvents, i, j);
 		    	}
 		    }
@@ -59,7 +60,7 @@ public class PartnerEventView extends VolunteerTrackBaseView
 	    //sort
 	    for (int i = 0; i < pastEvents.size(); i++){
 	    	for (int j = 0; j < pastEvents.size(); j++){
-		    	if(((Event)pastEvents.get(i)).getCreatedDateTime().after(((Event)pastEvents.get(j)).getCreatedDateTime())){
+		    	if(((Event)pastEvents.get(i)).getStartDateTime().after(((Event)pastEvents.get(j)).getStartDateTime())){
 		    		Collections.swap(pastEvents, i, j);
 		    	}
 		    }
@@ -78,8 +79,8 @@ public class PartnerEventView extends VolunteerTrackBaseView
 				idFuture++;
 				item.add(new Label("name", event.getName()));
 				item.add(new Label("location", event.getLocation()));
-				SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyy");
-				item.add(new Label("date", dateFormat.format(event.getCreatedDateTime())));
+				SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyy");
+				item.add(new Label("date", dateFormat.format(event.getStartDateTime())));
 				item.add(new Label("positions", event.getNumPositions()));
 				item.add(new Label("available", event.getNumPositionsRemaining()));
 			}
@@ -94,8 +95,8 @@ public class PartnerEventView extends VolunteerTrackBaseView
 				idPast++;
 				item.add(new Label("name2", event.getName()));
 				item.add(new Label("location2", event.getLocation()));
-				SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyy");
-				item.add(new Label("date2", dateFormat.format(event.getCreatedDateTime())));
+				SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyy");
+				item.add(new Label("date2", dateFormat.format(event.getStartDateTime())));
 				item.add(new Label("positions2", event.getNumPositions()));
 				item.add(new Label("available2", event.getNumPositionsRemaining()));
 			}

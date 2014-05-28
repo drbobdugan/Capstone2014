@@ -6,76 +6,62 @@
 <title>Volunteer Track</title>
 </head>
 <body>
-      <wicket:extend>
-      <div id="main">
-           <div id="main-table-one">
-                <p>Upcoming Events</p>
-                     <table cellspalceing="0" class="dataView list" table-border="1">
-	                       <tbody>
-	                             <tr>
-	               <th>&nbsp;</th>
-	               <th>Name</th>
-	               <th>Location</th>
-	               <th>Date</th>
-	               <th>Positions</th>
-	               <th>Available</th>
-	          </tr>
-	          <tr wicket:id = "simple"> 
-	              <td><a href="#" wicket:id="view"><input type="button" value="View" class = "buttonBtn ui-button ui-widget ui-state-default ui-corner-all"/></a></td>
-	               <td><span wicket:id = "name"> The Event Name </span></td>
-	               <td><span wicket:id = "location"> The Event location </span></td>
-	               <td><span wicket:id = "date"> The Event date </span></td>
-	               <td class="r"><span wicket:id = "positions"> The number of positions </span></td>
-	               <td class="r"><span wicket:id = "available"> The positions left</span></td>
-	          </tr>
-	          <tr>
-	          <th>&nbsp;</th>
-	               <th>&nbsp;</th>  
-	               <th>&nbsp;</th>
-	             <td>
-	              </td>
-	          </tr>
-	     </tbody>
-	 </table>
-	 <center><div wicket:id="navigator"></div></center>
-	 </div>
-	 <div id="main-table-two">
-	 <p>Volunteers For Upcoming Events</p>
-     <table cellspalceing="0" class="dataView2 list" table-border="1">
-	     <tbody>
-	          <tr>
-	               <th>&nbsp;</th>
-	               <th>Volunteer's Name</th>
-	               <th>Event Name</th>
-	               <th>Date</th>
-	               <th>Positions</th>
-	          </tr>
-	          <tr wicket:id = "simple2"> 
-	            <!--  <td><a href="#" wicket:id="aprove"><input type="button" value="Aprove"/></a></td>
-	              <td><a href="#" wicket:id="deny"><input type="button" value="Deny"/></a></td> -->
-	              <td><a href="#" wicket:id="linkTo" ><input type="button" value="See Profile" class = "buttonBtn ui-button ui-widget ui-state-default ui-corner-all"/></a></td>
-	               <td><span wicket:id = "name2"> The Persons Name </span></td>
-	               <td><span wicket:id = "eventName"> The Event Name </span></td>
-	               <td><span wicket:id = "date2"> The Event date </span></td>
-	               <td class="r"><span wicket:id = "available2"> The positions left</span></td>
-	          </tr>
-	          <tr>
-	               <th>&nbsp;</th>
-	               <th>&nbsp;</th>
-	             <td>
-	          
-	          </td>
-	          </tr>
-	     </tbody>
-	 </table>
-	 <center><div wicket:id="navigator2"></div> </center>
-	 </div>
-	 </div>
-	 <style>
-	 table.list td.r {
-	 text-align: right;
-	 }
-	 </style>
-     </wicket:extend>
+	<wicket:extend>
+		<div id="main">
+			<div id="main-table-one">
+				<table class="dataview">
+					<caption>Upcoming Events</caption>
+					<tbody>
+						<tr>
+							<th>&nbsp;</th>
+							<th>Name</th>
+							<th>Location</th>
+							<th>Date</th>
+							<th>Positions</th>
+							<th>Available</th>
+						</tr>
+						<tr wicket:id="simple">
+							<td><a href="#" wicket:id="view"><input type="button"value="View" class="buttonBtn ui-button ui-widget ui-state-default ui-corner-all" /></a></td>
+							<td><span wicket:id="name"> The Event Name </span></td>
+							<td><span wicket:id="location"> The Event location </span></td>
+							<td><span wicket:id="date"> The Event date </span></td>
+							<td class="r"><span wicket:id="positions"> The numberof positions </span></td>
+							<td class="r"><span wicket:id="available"> The positions left</span></td>
+						</tr>
+					</tbody>
+				</table>
+				<center><div wicket:id="navigator"></div></center>
+			</div>
+			<div id="main-table-two">
+				<table class="dataview">
+					<caption>Volunteers For Upcoming Events</caption>
+					<tbody>
+						<tr>
+							<th>&nbsp;</th>
+							<th>Volunteer's Name</th>
+							<th>Event Name</th>
+							<th>Date</th>
+							<th>Positions</th>
+						</tr>
+						<tr wicket:id="simple2">
+							<!--  <td><a href="#" wicket:id="aprove"><input type="button" value="Aprove"/></a></td>
+                                  <td><a href="#" wicket:id="deny"><input type="button" value="Deny"/></a></td> -->
+							<td><a href="#" wicket:id="linkTo"><input type="button" value="View" class="buttonBtn ui-button ui-widget ui-state-default ui-corner-all" /></a></td>
+							<td><span wicket:id="name2"> The Persons Name </span></td>
+							<td><span wicket:id="eventName"> The Event Name </span></td>
+							<td><span wicket:id="date2"> The Event date </span></td>
+							<td class="r"><span wicket:id="available2"> The positions left</span></td>
+						</tr>
+					</tbody>
+				</table>
+				<center><div wicket:id="navigator2"></div></center>
+			</div>
+		</div>
+		<style>
+table.list td.r {
+	text-align: right;
+}
+</style>
+	</wicket:extend>
 </body>
 </html>

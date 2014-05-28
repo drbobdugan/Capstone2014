@@ -5,6 +5,7 @@ public class TimesheetEntry implements Serializable{
 	private String UserEmail;
 	private Date DateTime;
 	private String EventName;
+	private int EventId;
 	private boolean IsSubmitted;
 	private boolean IsApproved;
 	private int HoursLogged;
@@ -13,24 +14,27 @@ public class TimesheetEntry implements Serializable{
 		UserEmail="";
 		DateTime=new Date();
 		EventName="";
+		EventId=-1;
 		IsSubmitted=false;
 		IsApproved=false;
 		HoursLogged=0;
 		OrganizationName="";
 	}
-	public TimesheetEntry(String ue,Date dt,String en,boolean is,boolean ia,int hl,String on){
+	public TimesheetEntry(String ue,Date dt,String en,boolean is,boolean ia,int hl,String on, int eventId){
 		UserEmail=ue;
 		DateTime=dt;
 		EventName=en;
+		this.EventId = eventId;
 		IsSubmitted=is;
 		IsApproved=ia;
 		HoursLogged=hl;
 		OrganizationName=on;
 	}
-	public TimesheetEntry(String ue,String en,boolean is,boolean ia,int hl,String on){
+	public TimesheetEntry(String ue,String en,boolean is,boolean ia,int hl,String on, int eventId){
 		UserEmail=ue;
 		DateTime=new Date();
 		EventName=en;
+		this.EventId = eventId;
 		IsSubmitted=is;
 		IsApproved=ia;
 		HoursLogged=hl;
@@ -47,6 +51,12 @@ public class TimesheetEntry implements Serializable{
 	}
 	public String getEventName(){
 		return EventName;
+	}
+	public void setEventId(int eventId){
+		EventId=eventId;
+	}
+	public int getEventId(){
+		return EventId;
 	}
 	public void setEventName(String en){
 		EventName=en;

@@ -55,7 +55,7 @@ public class PartnerEventDetailsView extends VolunteerTrackBaseView
 		  form.add(new Label("positions", event.getNumPositions()));
 		  form.add(new Label("positionsLeft", event.getNumPositionsRemaining()));
 		  
-		  SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyy");
+		  SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyy");
 		  form.add(new Label("date", dateFormat.format(event.getCreatedDateTime())));
 		  
 		  dateFormat = new SimpleDateFormat("h:mm a");

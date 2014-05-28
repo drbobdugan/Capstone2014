@@ -2,18 +2,23 @@ package stonehill.edu.VolunteerTrack;
 
 import java.awt.Point;
 import java.io.Serializable;
+import java.sql.RowId;
 import java.util.*;
 
+
 public class Event implements Serializable {
+	 private int id;
      private String OwnerEmail, name, description, location, organizationName;
      private int numPositions, numPositionsRemaining;
      private Date createdDateTime, startDateTime, endDateTime;
      private Skill [] skills;
      
-     public Event(String ownerEmail, String name, String description,
-			String location, String organizationName, int numPositions,
-			int numPositionsRemaining, Date createdDateTime,
-			Date startDateTime, Date endDateTime, Skill[] skills) {
+     public Event(int id, String ownerEmail, String name,
+			String description, String location, String organizationName,
+			int numPositions, int numPositionsRemaining,
+			Date createdDateTime, Date startDateTime, Date endDateTime, Skill[] skills) {
+    	 
+    	this.id = id;
 		OwnerEmail = ownerEmail;
 		this.name = name;
 		this.description = description;
@@ -27,6 +32,7 @@ public class Event implements Serializable {
 		this.skills = skills;
 	}
 	public Event () {
+		 id = -1;
     	 OwnerEmail = "";
     	 name = "";
     	 createdDateTime = new Date();
@@ -38,8 +44,9 @@ public class Event implements Serializable {
     	 numPositionsRemaining = 0;
     	 skills = new Skill[0];
      }
-     public Event (String partnerEmail, String name, Date createdDateTime, Date startDateTime, Date endDateTime, String description, String location , int numPositions, int numPositionsRemaining,Skill[] skills) {
-     	 this.OwnerEmail = partnerEmail;
+     public Event (int id, String partnerEmail, String name, Date createdDateTime, Date startDateTime, Date endDateTime, String description , String location, int numPositions,int numPositionsRemaining, Skill[] skills) {
+     	 this.id = id;
+    	 this.OwnerEmail = partnerEmail;
     	 this.name = name;
     	 this.createdDateTime = createdDateTime;
     	 this.startDateTime = startDateTime;
@@ -165,5 +172,11 @@ public class Event implements Serializable {
 	}
 	public void setTime2(Date value){
 		this.setEndDateTime(value);
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
 	}
 }

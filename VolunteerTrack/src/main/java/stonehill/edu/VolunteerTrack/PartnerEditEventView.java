@@ -69,6 +69,7 @@ public class PartnerEditEventView extends VolunteerTrackBaseView
 				  //try{
 					  EventDao eD = new EventDao();
 					  eD.update(theEvent); 
+					  System.out.println("Updating event name with: "+ theEvent.getName());
 				//  } catch(Exception e){
 				//	  success = false;
 				//  }

@@ -3,6 +3,8 @@ import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.Driver;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 public abstract class Dao implements Serializable { 
@@ -35,6 +37,26 @@ public abstract class Dao implements Serializable {
 		catch(Exception e){
 			e.printStackTrace();
 		}
+	}
+	
+	public int getUniqueId()
+	{
+		int result=0;
+		try
+		{
+			connectToDatabase();
+			Statement statement=connection.createStatement();	
+			ResultSet resultSet =statement.executeQuery("select ids.nextval from dual");
+			resultSet.next();
+			
+			result = resultSet.getInt(1);
+		
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		
+		return result;
 	}
 	public abstract void delete(Object value);
 	public abstract void insert(Object value);
