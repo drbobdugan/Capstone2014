@@ -14,7 +14,7 @@ public class PhotoTest {
 
 	@Test
 	public void testGetName() {
-		Photo testPhoto = new Photo("KaushalTest","Kaushal@Kaushal.com",new Date(),new BufferedImage(1,2,3), false,true, true, false);
+		Photo testPhoto = new Photo(-1,"KaushalTest","Kaushal@Kaushal.com",new Date(), new BufferedImage(1,2,3),false, true, true, false);
 		String testName = testPhoto.getName();
 		boolean compareNames = "KaushalTest".equals(testName);
 		assertTrue(compareNames);
@@ -22,7 +22,7 @@ public class PhotoTest {
 
 	@Test
 	public void testGetUserEmail() {
-		Photo testPhoto = new Photo("KaushalTest","Kaushal@Kaushal.com",new Date(),new BufferedImage(1,2,3), false,true, true, false);
+		Photo testPhoto = new Photo(-1,"KaushalTest","Kaushal@Kaushal.com",new Date(), new BufferedImage(1,2,3),false, true, true, false);
 		String testEmail = testPhoto.getUserEmail();
 		boolean compareEmails = "Kaushal@Kaushal.com".equals(testEmail);
 		assertTrue(compareEmails);

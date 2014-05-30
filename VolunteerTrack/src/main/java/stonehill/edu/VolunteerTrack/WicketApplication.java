@@ -16,7 +16,6 @@ public class WicketApplication extends WebApplication
 	// This method allows us to create a customized session object which we can populate with 
 	public Session newSession(Request request, Response response) {
 		System.out.println("newSession()");
-		//daoTest.test();
 		newFileName.start();
 		return new CustomSession(request);
 	}
@@ -29,5 +28,4 @@ public class WicketApplication extends WebApplication
 		this.getMarkupSettings().setStripWicketTags(true); //IMPORTANT!
 		return LoginView.class;
 	}
-
 }

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.extensions.yui.calendar.TimeField;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
@@ -18,6 +19,7 @@ import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.repeater.data.DataView;
 import org.apache.wicket.markup.repeater.data.ListDataProvider;
+import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 
@@ -30,71 +32,83 @@ public class PartnerEventDetailsView extends VolunteerTrackBaseView
 	private String returnTo;
 	private final Date time1 = new Date();
 	private final Date time2 = new Date();
-	private ArrayList volunteerList;
+	private ArrayList<User> volunteerList;
 	private int aplicantid;
 
 	public PartnerEventDetailsView(Event event, String returnTo)
 	{
-		EventDao eD = new EventDao();
 		this.event = event;
 		this.returnTo = returnTo;
-		volunteerList = new ArrayList(0);
-		volunteerList = eD.getUsersSignedUpForEvent(event);		
-		aplicantid = 0;
-	    populateItems();
-	}  
-	
-	 @SuppressWarnings("deprecation")
-	private void populateItems() {
-		  //  create the form 
-		  form = new Form("form");
-		  // create elements and add them to the form
-		  form.add(new Label("eventName", event.getName()));
-		  form.add(new Label("location", event.getLocation()));
-		  form.add(new Label("description", event.getDescription()));
-		  form.add(new Label("positions", event.getNumPositions()));
-		  form.add(new Label("positionsLeft", event.getNumPositionsRemaining()));
-		  
-		  SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyy");
-		  form.add(new Label("date", dateFormat.format(event.getCreatedDateTime())));
-		  
-		  dateFormat = new SimpleDateFormat("h:mm a");
-		  form.add(new Label("timeField1",dateFormat.format(event.getStartDateTime())));
-		  form.add(new Label("timeField2",dateFormat.format(event.getEndDateTime())));
-		
-		  form.add(new Button("save"){  
-			  @Override
-				public void onSubmit() {
-				  if(returnTo.equals("partnerHomeView"))
-					  setResponsePage(PartnerHomeView.class);
-				  else if(returnTo.equals("partnerEventView"))
-				    setResponsePage(PartnerEventView.class);
-				  else if(returnTo.equals("volunteerHomeView"))
-					    setResponsePage(VolunteerHomeView.class);
-				  else if(returnTo.equals("volunteerSearchPage"))
-					  setResponsePage(VolunteerSearchView.class);
-				}
-			});
 
-			final DataView dataView = new DataView("simple", new ListDataProvider(volunteerList)) {
-				protected void populateItem(Item item) {
-					final AppEntry aE = (AppEntry)item.getModelObject();
-					final int i = aplicantid++;
-					item.add(new Link<Void>("linkTo"){ public void onClick(){ linkTo(i);}});
-					item.add(new Label("nameFirst", aE.getUser().getFirstName()));
-					item.add(new Label("nameLast", aE.getUser().getLastName()));
-				}
-			};
-				
-			dataView.setItemsPerPage(5);
-			form.add(dataView);
-			form.add(new PagingNavigator("navigator", dataView));	
-		  
-		  // add the form to the page
-		  add(form);
+		EventDao eD = new EventDao();
+		volunteerList = eD.getUsersSignedUpForEvent(event);		
+		populateItems();
+	}  
+
+	@SuppressWarnings("deprecation")
+	private void populateItems() {
+
+		// create elements and add them to the form
+		add(new TextField("eventName", new Model(event.getName())));
+		add(new TextField("location", new Model(event.getLocation())));
+		add(new TextArea("description", new Model(event.getDescription())));
+		add(new TextField("positions", new Model(event.getNumPositions())));
+		add(new TextField("positionsLeft", new Model(event.getNumPositionsRemaining())));
+
+		SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyy");
+		add(new TextField("startDate", new Model(dateFormat.format(event.getStartDateTime()))));
+		add(new TextField("endDate", new Model(dateFormat.format(event.getEndDateTime()))));
+
+
+		dateFormat = new SimpleDateFormat("h:mm a");
+		add(new TextField("timeField1",new Model(dateFormat.format(event.getStartDateTime()))));
+		add(new TextField("timeField2",new Model(dateFormat.format(event.getEndDateTime()))));
+
+		//  create the form 
+		form = new Form("form");
+		form.add(new Button("save"){  
+			@Override
+			public void onSubmit() {
+				if(returnTo.equals("partnerHomeView"))
+					setResponsePage(PartnerHomeView.class);
+				else if(returnTo.equals("partnerEventView"))
+					setResponsePage(PartnerEventView.class);
+				else if(returnTo.equals("volunteerHomeView"))
+					setResponsePage(VolunteerHomeView.class);
+				else if(returnTo.equals("volunteerSearchPage"))
+					setResponsePage(VolunteerSearchView.class);
+			}
+		});
+
+		final DataView dataView = new DataView("simple", new ListDataProvider(volunteerList)) {
+			protected void populateItem(final Item item) {
+				final User user = (User)item.getModelObject();
+				item.add(new Link<Void>("linkTo"){ public void onClick(){ linkTo(user);}});
+				item.add(new Label("nameFirst", user.getFirstName()));
+				item.add(new Label("nameLast", user.getLastName()));
+				item.add(new Label("userEmail", user.getEmail()));
+
+				item.add(AttributeModifier.replace("class", new AbstractReadOnlyModel<String>()
+				{
+					private static final long serialVersionUID = 1L;
+
+					@Override
+					public String getObject()
+					{
+						return (item.getIndex() % 2 == 1) ? "even" : "odd";
+					}
+				}));
+			}
+		};
+
+		dataView.setItemsPerPage(5);
+		add(dataView);
+		add(new PagingNavigator("navigator", dataView));	
+
+		// add the form to the page
+		add(form);
 	}
-	 private void linkTo(int i ){
-		 User toLinkTo = (User)volunteerList.get(i);
-		 setResponsePage(new SearchVolunteerProfileView(toLinkTo));
-	 }
+	private void linkTo(User user ){
+		setResponsePage(new SearchVolunteerProfileView(user));
+	}
 }

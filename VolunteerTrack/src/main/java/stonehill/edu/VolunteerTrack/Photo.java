@@ -6,6 +6,7 @@ import java.util.Date;
 
 public class Photo implements Serializable 
 {
+	private int id;
 	private String name;
 	private String userEmail;
 	private Date date;
@@ -17,10 +18,12 @@ public class Photo implements Serializable
 	
 	
 	/**
+	 * @param id TODO
 	 * @return the name 
 	 */
-	public Photo(String name,String userEmail,Date date,BufferedImage image, Boolean isProfilePicture, Boolean isVolunteerPicture, Boolean isCoordinatorPicture, Boolean isPartnerPicture)
+	public Photo(int id,String name,String userEmail,Date date, BufferedImage image, Boolean isProfilePicture, Boolean isVolunteerPicture, Boolean isCoordinatorPicture, Boolean isPartnerPicture)
 	{
+	 this.setId(-1);
 	 this.name = name;
 	 this.image = image;
 	 this.date=date;
@@ -157,5 +160,15 @@ public class Photo implements Serializable
 	 */
 	public void setIsPartnerPicture(Boolean isPartnerPicture) {
 		this.isPartnerPicture = isPartnerPicture;
+	}
+
+
+	public int getId() {
+		return id;
+	}
+
+
+	public void setId(int id) {
+		this.id = id;
 	}
 }

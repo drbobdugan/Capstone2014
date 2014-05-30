@@ -17,14 +17,13 @@
 			<div id="main-left">
 			<br><span>Profile Picture</span>
 				<form wicket:id="uploadProfilePicture" action="">
-						<label></label> <input wicket:id="upload_photo"
-							type="file" /> <input type="submit" value="Upload">
+				   <input wicket:id="uploadPhoto"type="file" /> 
+				   <input type="submit" value="Upload">
 				</form>
-				<img src="no-available-image.png" style="float: left" height="280"
-					width="280" alt="Stonehill Emblem" />
+				<img src="no_profile_picture.jpeg" wicket:id="profilePicture" style="float: left" height="280" width="280" alt="Profile Picture" />
 			</div>
 			<div id="main-center">
-			<span>Password Management</span>
+			<span>Password</span>
 				<form wicket:id="passwordManagement" action="">
 					<span wicket:id="feedback">feedback</span>
 					<table>
@@ -41,8 +40,7 @@
 							<td><input type="text" wicket:id="confirm_password" /></td>
 						</tr>
 						<tr>
-							<td><input wicket:id="updatePassword" type="submit"
-								value="Confirm" /></td>
+							<td><input wicket:id="updatePassword" type="submit" value="Save" /></td>
 						</tr>
 					</table>
 				</form>
@@ -89,22 +87,20 @@
 
 					<table>
 						<tr>
-							<td><input wicket:id="saveProfile" type="submit"
-								value="Save" /> <input wicket:id="cancel" type="submit"
-								value="Cancel" /></td>
+							<td><input wicket:id="saveProfile" type="submit" value="Save" /> 
+							    <input wicket:id="cancel"      type="submit" value="Cancel" /></td>
 						</tr>
 					</table>
 				</form>
 			</div>
 
 			<div id="main-right">
-			<br><span>Skills Management</span>
+			<br><span>Skills</span>
 				<form wicket:id="skillsManagement" action="">
 					<span wicket:id="skills"></span>
 					<table>
 						<tr>
-							<td><input wicket:id="saveSkills" type="submit"
-								value="Save Skills"></td>
+							<td><input wicket:id="saveSkills" type="submit" value="Save"></td>
 						</tr>
 					</table>
 				</form>

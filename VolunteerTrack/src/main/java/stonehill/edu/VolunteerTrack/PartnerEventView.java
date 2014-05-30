@@ -14,6 +14,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.navigation.paging.PagingNavigator;
@@ -21,12 +22,17 @@ import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.repeater.data.DataView;
 import org.apache.wicket.markup.repeater.data.ListDataProvider;
+import org.apache.wicket.model.AbstractReadOnlyModel;
 
 
 public class PartnerEventView extends VolunteerTrackBaseView
 {
 	private static final long serialVersionUID = 1L;
-	private ArrayList futureEvents,pastEvents;  // list of events specific to the partner
+	private static final int VIEWBUTTON   = 0;
+	private static final int EDITBUTTON   = 1;
+	private static final int DELETEBUTTON = 2;
+	
+	private ArrayList<Event> futureEvents,pastEvents;  // list of events specific to the partner
     private int idFuture, idPast;
 	public PartnerEventView()
 	{
@@ -70,35 +76,53 @@ public class PartnerEventView extends VolunteerTrackBaseView
 	
 	 private void populateTables() {
 		final DataView dataView = new DataView("simple", new ListDataProvider(futureEvents)) {
-			protected void populateItem(Item item) {
+			protected void populateItem(final Item item) {
 				final Event event = (Event)item.getModelObject();
-				final int id =idFuture;
-				item.add(new Link<Void>("delete"){ public void onClick(){ deleteEventFuture(id);}});
-				item.add(new Link<Void>("edit"){ public void onClick(){ editEventFuture(id);}});
-				item.add(new Link<Void>("view"){ public void onClick(){ viewEventFuture(id);}});
-				idFuture++;
+				item.add(new Link<Void>("delete"){ public void onClick(){ processEventButton(event.getId(), DELETEBUTTON, true);}});
+				item.add(new Link<Void>("edit"){ public void onClick(){ processEventButton(event.getId(), EDITBUTTON, true);}});
+				item.add(new Link<Void>("view"){ public void onClick(){ processEventButton(event.getId(), VIEWBUTTON, true);}});
 				item.add(new Label("name", event.getName()));
 				item.add(new Label("location", event.getLocation()));
 				SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyy");
 				item.add(new Label("date", dateFormat.format(event.getStartDateTime())));
 				item.add(new Label("positions", event.getNumPositions()));
 				item.add(new Label("available", event.getNumPositionsRemaining()));
+				
+				item.add(AttributeModifier.replace("class", new AbstractReadOnlyModel<String>()
+						{
+							 private static final long serialVersionUID = 1L;
+
+							 @Override
+							 public String getObject()
+							 {
+								 return (item.getIndex() % 2 == 1) ? "even" : "odd";
+							 }
+						}));
 			}
 		};
 		final DataView dataView2 = new DataView("simple2", new ListDataProvider(pastEvents)) {
-			protected void populateItem(Item item) {
+			protected void populateItem(final Item item) {
 				final Event event = (Event)item.getModelObject();
-				final int id = idPast;
-				item.add(new Link<Void>("delete"){ public void onClick(){ deleteEventPast(id);}});
-				item.add(new Link<Void>("edit"){ public void onClick(){ editEventPast(id);}});
-				item.add(new Link<Void>("view"){ public void onClick(){ viewEventPast(id);}});
-				idPast++;
+				item.add(new Link<Void>("delete"){ public void onClick(){ processEventButton(event.getId(), DELETEBUTTON, false);}});
+				item.add(new Link<Void>("edit"){ public void onClick(){ processEventButton(event.getId(), EDITBUTTON, false);}});
+				item.add(new Link<Void>("view"){ public void onClick(){ processEventButton(event.getId(), VIEWBUTTON, false);}});
 				item.add(new Label("name2", event.getName()));
 				item.add(new Label("location2", event.getLocation()));
 				SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyy");
 				item.add(new Label("date2", dateFormat.format(event.getStartDateTime())));
 				item.add(new Label("positions2", event.getNumPositions()));
 				item.add(new Label("available2", event.getNumPositionsRemaining()));
+				
+				item.add(AttributeModifier.replace("class", new AbstractReadOnlyModel<String>()
+						{
+							 private static final long serialVersionUID = 1L;
+
+							 @Override
+							 public String getObject()
+							 {
+								 return (item.getIndex() % 2 == 1) ? "even" : "odd";
+							 }
+						}));
 			}
 		};
 		
@@ -119,48 +143,46 @@ public class PartnerEventView extends VolunteerTrackBaseView
 	    setResponsePage(PartnerCreateEventView.class);
 	}
 	
-	public void viewEventFuture(int i ){
-		System.out.println("viewEventFuture " + i +"\n\n\n\n");
-		if(i < futureEvents.size())
-		     viewEvent((Event)futureEvents.get(i));
+	public void processEventButton(int eventId, int viewEditDelete, boolean isFuture)
+	{
+		Event event = null;
+		ArrayList<Event> events = null;
+		
+		// Select future/past events
+		if (isFuture)
+		{
+			events = futureEvents;
+		}
+		else
+		{
+			events = pastEvents;
+		}
+		
+		// Find event
+		for (int i=0; i < events.size(); i++)
+		{
+			event = events.get(i);
+		
+			if (eventId == event.getId() )
+			{
+				break;
+			}
+		}
+		
+		// Process the event
+		switch (viewEditDelete)
+		{
+		case VIEWBUTTON:   
+			setResponsePage(new PartnerEventDetailsView(event, "partnerEventView"));   
+			break;
+		case EDITBUTTON:   
+			setResponsePage(new PartnerEditEventView(event));  
+			break;
+		case DELETEBUTTON: 
+			EventDao eventDao = new EventDao();
+	    	eventDao.delete(event);
+	    	setResponsePage(PartnerEventView.class);
+	    	break;
+		}
 	}
-	public void viewEventPast(int i ){
-		System.out.println("viewEventPast " + i +"\n\n\n\n");
-		if(i < pastEvents.size())
-		     viewEvent((Event)pastEvents.get(i));
-	}
-	public void editEventFuture(int i ){
-		if(i < futureEvents.size())
-		     editEvent((Event)futureEvents.get(i));
-	}
-	public void editEventPast(int i ){
-		if(i < pastEvents.size())
-		    editEvent((Event)pastEvents.get(i));
-	}
-	public void deleteEventFuture(int i ){
-		if(i < futureEvents.size())
-		     deleteEvent((Event)futureEvents.get(i));
-	}
-	public void deleteEventPast(int i ){
-		if(i < pastEvents.size())
-		     deleteEvent((Event)pastEvents.get(i));
-	}
-	    
-	// view an event
-    public void viewEvent(Event e){
-    	setResponsePage(new PartnerEventDetailsView(e, "partnerEventView"));
-    }
-    
-    // edit an event
-    public void editEvent(Event e){
-   	    setResponsePage(new PartnerEditEventView(e));
-    }
-    
-    // delete an event
-    public void deleteEvent(Event e){
-		System.out.println("deleteEvent " + new java.sql.Timestamp(e.getCreatedDateTime().getTime()).toString() +"\n\n\n\n");
-    	EventDao eventDao = new EventDao();
-    	eventDao.delete(e);
-    	setResponsePage(PartnerEventView.class);
-    }
 }

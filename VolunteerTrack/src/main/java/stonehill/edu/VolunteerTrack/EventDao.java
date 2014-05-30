@@ -736,33 +736,30 @@ public class EventDao extends Dao{
 		return result;
 	}
 	public ArrayList getUsersSignedUpForEvent(Event event) {
-			ArrayList<Object> result=new ArrayList<Object>();
-			try{
-				//connect
+			ArrayList<User> result=new ArrayList<User>();
+			try
+			{	
 				connectToDatabase();
-				//SQL statement
 				Statement statement=connection.createStatement();
-				ResultSet resultSet=statement.executeQuery("SELECT * FROM Event, UserSignsUpForEvent WHERE UserSignsUpForEvent.EventId = Event.Id AND Event.Id =" + event.getId());
-				//get tuples
-				while(resultSet.next()){
-					int id = resultSet.getInt("EventId");
-					String oe=resultSet.getString("UserEmail");
-					String name=resultSet.getString("Name");
-					Date createdDate =resultSet.getTimestamp("CreatedDateTime");
-					Date startDate =resultSet.getTimestamp("StartDateTime");
-					Date endDate =resultSet.getTimestamp("EndDateTime");
-					String description =resultSet.getString("Description");
-					String location =resultSet.getString("Location");
-					// TODO no sure how this will be handled yet
-					Skill [] skills= {new Skill("not coded")};
-					int tp=resultSet.getInt("TotalPositions");
-					int tpr =resultSet.getInt("PositionsRemaining");
-					result.add(  new Event ( id , oe, name,createdDate, startDate, endDate,  description ,  location,  tp, tpr, skills));
+				ResultSet resultSet=statement.executeQuery("SELECT * FROM UserSignsUpForEvent WHERE UserSignsUpForEvent.EventId = " + event.getId());
+				//get user emails
+				ArrayList<String> userEmails = new ArrayList<String>();
+				while(resultSet.next())
+				{
+					userEmails.add(resultSet.getString("UserEmail"));
 				}
 				//clean up
 				resultSet.close();
 				statement.close();
 				disconnectFromDatabase();
+				
+				System.out.println("Number of user emails retreived is: "+userEmails.size());
+				
+				UserDao userDao = new UserDao();
+				for (String userEmail : userEmails)
+				{
+					result.add(userDao.getUserByUsername(userEmail));
+				}
 			}
 			catch(Exception e){
 				e.printStackTrace();

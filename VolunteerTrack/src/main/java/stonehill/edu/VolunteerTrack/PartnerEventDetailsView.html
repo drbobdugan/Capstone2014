@@ -2,66 +2,87 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<link rel="stylesheet" href="kh.css" type="text/css" media="screen" title="Stylesheet" charset="utf-8" />
+<link rel="stylesheet" href="kh.css" type="text/css" media="screen"
+	title="Stylesheet" charset="utf-8" />
 <title>Volunteer Track</title>
 </head>
 <body>
-<wicket:extend>
-<div id="main">
-     <h3>Events Details</h3>
-     <table cellspalceing="0" class="dataView" table-border="1" style="position:relative; top:100px; left: 300px;">
-	     <tbody>
-	     <form wicket:id="form">
-	         <label for="name" >Event Name: </label>
-	         <span  id="name" wicket:id="eventName"/>
-	          <br />
-	         <label for="loc" >Location: </label>
-	         <span  id="loc" wicket:id="location"/>
-	         <label for="date" >Start Time: </label>
-	          <span id="date" wicket:id="date"></span>
-	          <br/>
-	          <label for="start" >Start Time: </label>
-	          <span id="start" wicket:id="timeField1"></span>
-	         <br> 
-	         <label for="end" >End Time: </label>
-	          <span id="end" wicket:id="timeField2"></span>
-	         <br />
-	         <label for="pos" >Positions: </label>
-	         <span id="pos" wicket:id="positions"/>
-	          <br />
-	         <label for="pos" >Positions Left: </label>
-	         <span id="pos" wicket:id="positionsLeft"/>
-	         <br />
-	         <label for="desc" >Description: </label>
-             <span id="desc" wicket:id="description" /> 
-             <br/>
-             <h3>Volunteers</h3>
-     <table cellspalceing="0" class="dataView">
-	     <tbody>
-	          <tr>
-	               <th>&nbsp;</th>
-	               <th>First Name</th>
-	               <th>Last Name</th>
-	          </tr>
-	          <tr wicket:id = "simple"> 
-	              <td><a href="#" wicket:id="linkTo"><input type="button" value="See Profile"/></a></td>
-	               <td><span wicket:id = "nameFirst"> The Persons Name </span></td>
-	               <td><span wicket:id = "nameLast"> The Prersons last Name </span></td>
-	          </tr>
-	          <tr>
-	               <th>&nbsp;</th>
-	             <td>
-	          <div wicket:id="navigator"></div> 
-	          </td>
-	          </tr>
-	     </tbody>
-	 </table>
-	 <br/>
-              <input wicket:id="save" type="submit" value="Close"/>
-	    </form>
-	     </tbody>
-	 </table>
-	 </div>
-  </wicket:extend>
-  </body>
+	<wicket:extend>
+		<div id="main">
+			<table class="dataview">
+			<caption>Event Details</caption>
+				<tbody>
+				<tr>
+				<td>Event Name:</td>
+			    <td><input type="text" wicket:id="eventName" /></td>
+			    </tr>
+			    
+			    <tr>
+				<td>Location:</td>
+			    <td><input type="text" wicket:id="location" /></td>
+			    </tr>
+			    
+			    <tr>
+			    <td>Start Date:</td>
+				<td><input type="text" wicket:id="startDate"></td>
+				</tr>
+				
+				<tr>
+			    <td>End Date:</td>
+				<td><input type="text" wicket:id="endDate"></td>
+				</tr>
+				
+				<tr>
+				<td>Start Time:</td>
+				<td><input type="text" wicket:id="timeField1"></td>
+				</tr>
+				
+				<tr>
+				<td>End Time:</td>
+				<td><input type="text" wicket:id="timeField2"></td>
+				</tr>
+				
+				<tr>
+				<td>Positions:</td>
+			    <td><input type="text" wicket:id="positions" /></td>
+			    </tr>
+			    
+			    <tr>
+				<td>Available:</td>
+				<td><input type="text" wicket:id="positionsLeft" /></td>
+				</tr>
+				
+				<tr>
+				<td>Description</td>
+				<td><input type="textarea" wicket:id="description" /></td>
+				</tr>	
+				</tbody>
+			</table>
+
+			<table class="dataview">
+				<caption>Volunteers</caption>
+				<tbody>
+					<tr>
+						<th>Action</th>
+						<th>First Name</th>
+						<th>Last Name</th>
+						<th>Email</th>
+					</tr>
+					<tr wicket:id="simple">
+						<td><a href="#" wicket:id="linkTo"><input type="button" value="View" /></a></td>
+						<td><span wicket:id="nameFirst">First Name </span></td>
+						<td><span wicket:id="nameLast">Last Name</span></td>
+						<td><span wicket:id="userEmail">User Email</span></td>
+					</tr>
+				</tbody>
+			</table>
+			<div wicket:id="navigator"></div>
+
+			<form wicket:id="form">
+				<input wicket:id="save" type="submit" value="Back" />
+			</form>
+
+		</div>
+	</wicket:extend>
+</body>
 </html>
