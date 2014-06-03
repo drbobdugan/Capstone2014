@@ -11,8 +11,7 @@ public class UserDao extends Dao{
 			connectToDatabase();
 			//SQL statement
 			Statement statement=connection.createStatement();
-			statement.executeQuery("DELETE FROM UserEntity WHERE "+
-		    "Email='"+user.getEmail()+"'");
+			statement.executeQuery("DELETE FROM UserEntity WHERE id = " + user.getId());
 			statement.close();
 			disconnectFromDatabase();
 		}
@@ -47,7 +46,9 @@ public class UserDao extends Dao{
 			"'"+(user.getIsApprovedPartner()?1:0)+"', "+
 			"'"+(user.getIsApprovedCoordinator()?1:0)+"', "+
 			"'"+(user.getIsApprovedVolunteer()?1:0)+"', "+
-			"'"+user.getOrganizationName()+"')");
+			"'"+user.getOrganizationName()+"', " +
+			"'"+user.getMissionStatement()+"', " + 
+			user.getId());
 			statement.close();
 			disconnectFromDatabase();
 		}
@@ -65,6 +66,7 @@ public class UserDao extends Dao{
 			ResultSet resultSet=statement.executeQuery("SELECT * FROM UserEntity");
 			//get tuples
 			while(resultSet.next()){
+				int id = resultSet.getInt("Id");
 				String e=resultSet.getString("Email");
 				String p=resultSet.getString("Password");
 				String fn=resultSet.getString("FirstName");
@@ -85,7 +87,8 @@ public class UserDao extends Dao{
 				boolean iac=resultSet.getBoolean("IsApprovedCoordinator");
 				boolean iav=resultSet.getBoolean("IsApprovedVolunteer");
 				String on=resultSet.getString("organizationName");
-				result.add(new User(e,p,fn,ln,s,c,st,z,pn,pd,vd,ip,ic,iv,mj,mi,iap,iac,iav,on));
+				String missionStatement=resultSet.getString("missionStatement");
+				result.add(new User(id,e,p,fn,ln,s,c,st,z,pn,pd,vd,ip,ic,iv,mj,mi,iap,iac,iav, on, missionStatement));
 			}
 			//clean up
 			resultSet.close();
@@ -105,6 +108,7 @@ public class UserDao extends Dao{
 			//SQL statement
 			Statement statement=connection.createStatement();
 			statement.executeQuery("UPDATE UserEntity SET "+
+			"Email='"+user.getEmail()+"', "+
 		    "Password='"+user.getPassword()+"', "+
 		    "FirstName='"+user.getFirstName()+"', "+
 		    "LastName='"+user.getLastName()+"', "+
@@ -124,7 +128,7 @@ public class UserDao extends Dao{
 			"IsApprovedCoordinator='"+(user.getIsApprovedCoordinator()?1:0)+"', "+
 			"IsApprovedVolunteer='"+(user.getIsApprovedVolunteer()?1:0)+"', "+
 			"OrganizationName='"+user.getOrganizationName()+"' WHERE "+
-			"Email='"+user.getEmail()+"'");
+			"Id="+user.getId()+"");
 			statement.close();
 			disconnectFromDatabase();
 		}
@@ -142,6 +146,7 @@ public class UserDao extends Dao{
 			ResultSet resultSet=statement.executeQuery("SELECT * FROM UserEntity WHERE Email='"+name+"'");
 			//get tuples
 			if(resultSet.next()){
+				int id = resultSet.getInt("Id");
 				String e=resultSet.getString("Email");
 				String p=resultSet.getString("Password");
 				String fn=resultSet.getString("FirstName");
@@ -162,7 +167,8 @@ public class UserDao extends Dao{
 				boolean iac=resultSet.getBoolean("IsApprovedCoordinator");
 				boolean iav=resultSet.getBoolean("IsApprovedVolunteer");
 				String on=resultSet.getString("organizationName");
-				result = (new User(e,p,fn,ln,s,c,st,z,pn,pd,vd,ip,ic,iv,mj,mi,iap,iac,iav,on));
+				String missionStatement = resultSet.getString("missionStatement");
+				result = (new User(id,e,p,fn,ln,s,c,st,z,pn,pd,vd,ip,ic,iv,mj,mi,iap,iac,iav, on, missionStatement));
 			}
 			//clean up
 			resultSet.close();
@@ -184,6 +190,7 @@ public class UserDao extends Dao{
 			ResultSet resultSet=statement.executeQuery("SELECT * FROM UserEntity WHERE IsPartner='1'");
 			//get tuples
 			while(resultSet.next()){
+				int id = resultSet.getInt("Id");
 				String e=resultSet.getString("Email");
 				String p=resultSet.getString("Password");
 				String fn=resultSet.getString("FirstName");
@@ -204,7 +211,8 @@ public class UserDao extends Dao{
 				boolean iac=resultSet.getBoolean("IsApprovedCoordinator");
 				boolean iav=resultSet.getBoolean("IsApprovedVolunteer");
 				String on=resultSet.getString("organizationName");
-				result.add(new User(e,p,fn,ln,s,c,st,z,pn,pd,vd,ip,ic,iv,mj,mi,iap,iac,iav,on));
+				String missionStatement = resultSet.getString("missionstatement");
+				result.add(new User(id,e,p,fn,ln,s,c,st,z,pn,pd,vd,ip,ic,iv,mj,mi,iap,iac,iav, on, missionStatement));
 			}
 			//clean up
 			resultSet.close();
@@ -216,16 +224,20 @@ public class UserDao extends Dao{
 		}
 		return result;
 	}
-	public ArrayList<Object> getAllCoordinators() {
-		ArrayList<Object> result=new ArrayList<Object>();
+	
+	public User getUserByUserId(int id) {
+		
+		User result=null;
+		
 		try{
 			//connect
 			connectToDatabase();
 			//SQL statement
 			Statement statement=connection.createStatement();
-			ResultSet resultSet=statement.executeQuery("SELECT * FROM UserEntity WHERE IsCoordinator='1'");
+			ResultSet resultSet=statement.executeQuery("SELECT * FROM UserEntity WHERE Id="+id);
 			//get tuples
 			while(resultSet.next()){
+				int rsId = resultSet.getInt("Id");
 				String e=resultSet.getString("Email");
 				String p=resultSet.getString("Password");
 				String fn=resultSet.getString("FirstName");
@@ -246,7 +258,53 @@ public class UserDao extends Dao{
 				boolean iac=resultSet.getBoolean("IsApprovedCoordinator");
 				boolean iav=resultSet.getBoolean("IsApprovedVolunteer");
 				String on=resultSet.getString("organizationName");
-				result.add(new User(e,p,fn,ln,s,c,st,z,pn,pd,vd,ip,ic,iv,mj,mi,iap,iac,iav,on));
+				String missionStatement = resultSet.getString("missionstatement");
+				result = new User(rsId,e,p,fn,ln,s,c,st,z,pn,pd,vd,ip,ic,iv,mj,mi,iap,iac,iav, on, missionStatement);
+			}
+			//clean up
+			resultSet.close();
+			statement.close();
+			disconnectFromDatabase();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	public ArrayList<Object> getAllCoordinators() {
+		ArrayList<Object> result=new ArrayList<Object>();
+		try{
+			//connect
+			connectToDatabase();
+			//SQL statement
+			Statement statement=connection.createStatement();
+			ResultSet resultSet=statement.executeQuery("SELECT * FROM UserEntity WHERE IsCoordinator='1'");
+			//get tuples
+			while(resultSet.next()){
+				int id = resultSet.getInt("Id");
+				String e=resultSet.getString("Email");
+				String p=resultSet.getString("Password");
+				String fn=resultSet.getString("FirstName");
+				String ln=resultSet.getString("LastName");
+				String s=resultSet.getString("Street");
+				String c=resultSet.getString("City");
+				String st=resultSet.getString("State");
+				String z=resultSet.getString("Zip");
+				String pn=resultSet.getString("PhoneNumber");
+				String pd=resultSet.getString("PartnerDescription");
+				String vd=resultSet.getString("VolunteerDescription");
+				boolean ip=resultSet.getBoolean("IsPartner");
+				boolean ic=resultSet.getBoolean("IsCoordinator");
+				boolean iv=resultSet.getBoolean("IsVolunteer");
+				String mj=resultSet.getString("major");
+				String mi=resultSet.getString("minor");
+				boolean iap=resultSet.getBoolean("IsApprovedPartner");
+				boolean iac=resultSet.getBoolean("IsApprovedCoordinator");
+				boolean iav=resultSet.getBoolean("IsApprovedVolunteer");
+				String on=resultSet.getString("organizationName");
+				String missionStatement = resultSet.getString("missionstatement");
+				result.add(new User(id,e,p,fn,ln,s,c,st,z,pn,pd,vd,ip,ic,iv,mj,mi,iap,iac,iav, on, missionStatement));
 			}
 			//clean up
 			resultSet.close();
@@ -268,7 +326,7 @@ public class UserDao extends Dao{
 			ResultSet resultSet=statement.executeQuery("SELECT * FROM UserEntity WHERE IsVolunteer='1'");
 			//get tuples
 			while(resultSet.next()){
-				
+				int id = resultSet.getInt("Id");
 				String e=resultSet.getString("Email");
 				String p=resultSet.getString("Password");
 				String fn=resultSet.getString("FirstName");
@@ -289,7 +347,8 @@ public class UserDao extends Dao{
 				boolean iac=resultSet.getBoolean("IsApprovedCoordinator");
 				boolean iav=resultSet.getBoolean("IsApprovedVolunteer");
 				String on=resultSet.getString("organizationName");
-				result.add(new User(e,p,fn,ln,s,c,st,z,pn,pd,vd,ip,ic,iv,mj,mi,iap,iac,iav,on));
+				String missionStatement = resultSet.getString("missionstatement");
+				result.add(new User(id,e,p,fn,ln,s,c,st,z,pn,pd,vd,ip,ic,iv,mj,mi,iap,iac,iav, on, missionStatement));
 			}
 			//clean up
 			resultSet.close();
@@ -316,8 +375,10 @@ public class UserDao extends Dao{
 			//SQL statement
 			Statement statement=connection.createStatement();
 			ResultSet resultSet =statement.executeQuery("SELECT * FROM UserEntity WHERE IsVolunteer='1'" + sb);
-while(resultSet.next()){
-				
+			
+			while(resultSet.next())
+			{	
+				int id = resultSet.getInt("Id");
 				String e=resultSet.getString("Email");
 				String p=resultSet.getString("Password");
 				String fn=resultSet.getString("FirstName");
@@ -338,7 +399,8 @@ while(resultSet.next()){
 				boolean iac=resultSet.getBoolean("IsApprovedCoordinator");
 				boolean iav=resultSet.getBoolean("IsApprovedVolunteer");
 				String on=resultSet.getString("organizationName");
-				searchResult.add(new User(e,p,fn,ln,s,c,st,z,pn,pd,vd,ip,ic,iv,mj,mi,iap,iac,iav,on));
+				String missionStatement = resultSet.getString("missionstatement");
+				searchResult.add(new User(id,e,p,fn,ln,s,c,st,z,pn,pd,vd,ip,ic,iv,mj,mi,iap,iac,iav,on, missionStatement));
 			}
 		}
 		catch(Exception e) {
@@ -355,9 +417,7 @@ while(resultSet.next()){
 			connectToDatabase();
 			//SQL statement
 			Statement statement=connection.createStatement();
-			statement.executeQuery("INSERT INTO UserHasSkill VALUES("+
-		    "'"+user.getEmail()+"', "+
-			"'"+skill.getName()+"')");
+			statement.executeQuery("INSERT INTO UserHasSkill VALUES("+user.getEmail()+","+skill.getName()+"',"+user.getId()+")");
 			statement.close();
 			disconnectFromDatabase();
 		}
@@ -374,9 +434,7 @@ while(resultSet.next()){
 			connectToDatabase();
 			//SQL statement
 			Statement statement=connection.createStatement();
-			statement.executeQuery("DELETE FROM UserHasSkill WHERE "+
-		    "UserEmail='"+user.getEmail()+"', AND "+
-			"SkillName='"+skill.getName()+"'");
+			statement.executeQuery("DELETE FROM UserHasSkill WHERE UserEntityId="+user.getId()+", AND SkillName='"+skill.getName()+"'");
 			statement.close();
 			disconnectFromDatabase();
 		}
@@ -392,8 +450,7 @@ while(resultSet.next()){
 			connectToDatabase();
 			//SQL statement
 			Statement statement=connection.createStatement();
-			statement.executeQuery("DELETE FROM UserHasSkill WHERE "+
-		    "UserEmail='"+user.getEmail()+"'");
+			statement.executeQuery("DELETE FROM UserHasSkill WHERE UserEntityId="+user.getId());
 			statement.close();
 			disconnectFromDatabase();
 		}
@@ -411,7 +468,7 @@ while(resultSet.next()){
 			connectToDatabase();
 			//SQL statement
 			Statement statement=connection.createStatement();
-			ResultSet resultSet=statement.executeQuery("SELECT * FROM UserHasSkill WHERE UserEmail='" + user.getEmail() + "'");
+			ResultSet resultSet=statement.executeQuery("SELECT * FROM UserHasSkill WHERE UserEntityId=" + user.getId());
 			//get tuples
 			while(resultSet.next()){
 				String n=resultSet.getString("SkillName");
@@ -456,6 +513,7 @@ while(resultSet.next()){
 			ResultSet resultSet=statement.executeQuery("SELECT * FROM UserEntity WHERE UPPER(OrganizationName) LIKE UPPER('%"+organization+"%')");
 			//get tuples
 			while(resultSet.next()){
+				int id = resultSet.getInt("Id");
 				String e=resultSet.getString("Email");
 				String p=resultSet.getString("Password");
 				String fn=resultSet.getString("FirstName");
@@ -476,7 +534,8 @@ while(resultSet.next()){
 				boolean iac=resultSet.getBoolean("IsApprovedCoordinator");
 				boolean iav=resultSet.getBoolean("IsApprovedVolunteer");
 				String on=resultSet.getString("organizationName");
-				result.add(new User(e,p,fn,ln,s,c,st,z,pn,pd,vd,ip,ic,iv,mj,mi,iap,iac,iav,on));
+				String missionStatement = resultSet.getString("missionstatement");
+				result.add(new User(id,e,p,fn,ln,s,c,st,z,pn,pd,vd,ip,ic,iv,mj,mi,iap,iac,iav,on, missionStatement));
 			}
 			//clean up
 			resultSet.close();
@@ -506,6 +565,7 @@ public ArrayList SearchUsersByNameMajorMinor(String name,String  major, String m
 		}
 		//get tuples
 		while(resultSet.next()){
+			int id = resultSet.getInt("Id");
 			String e=resultSet.getString("Email");
 			String p=resultSet.getString("Password");
 			String fn=resultSet.getString("FirstName");
@@ -526,7 +586,8 @@ public ArrayList SearchUsersByNameMajorMinor(String name,String  major, String m
 			boolean iac=resultSet.getBoolean("IsApprovedCoordinator");
 			boolean iav=resultSet.getBoolean("IsApprovedVolunteer");
 			String on=resultSet.getString("organizationName");
-			result.add(new User(e,p,fn,ln,s,c,st,z,pn,pd,vd,ip,ic,iv,mj,mi,iap,iac,iav,on));
+			String missionStatement = resultSet.getString("missionstatement");
+			result.add(new User(id,e,p,fn,ln,s,c,st,z,pn,pd,vd,ip,ic,iv,mj,mi,iap,iac,iav, on, missionStatement));
 		}
 		//clean up
 		resultSet.close();

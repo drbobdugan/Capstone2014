@@ -3,6 +3,7 @@ package stonehill.edu.VolunteerTrack;
 import java.io.Serializable;
 
 public class User implements Serializable {
+	private int    id;
 	private String email;
 	private String password;
 	private String firstName;
@@ -23,6 +24,7 @@ public class User implements Serializable {
 	private boolean isApprovedCoordinator;
 	private boolean isApprovedVolunteer;
 	private String organizationName;
+	private String missionStatement;
 	
 	
 	// For serialization
@@ -30,6 +32,7 @@ public class User implements Serializable {
 	
 	public User()
 	{
+		int id=-1;
 		email = "";
 		password = "";
 		firstName = "";
@@ -50,35 +53,39 @@ public class User implements Serializable {
 		isApprovedCoordinator = false;
 		isApprovedVolunteer = false;
 		organizationName = "";
+		missionStatement = "";
 	}
 
-	public User(String ema, String pass, String fir, String las, String str, String cit, String sta, String zi, String pho, String par, String vol, boolean isp, boolean isc, boolean isv, String maj, String min, boolean isApprovedPartner, boolean isApprovedCoordinator, boolean isApprovedVolunteer, String organizationName)
+	public User(int id, String email, String password, String first, String last, String street, String city, String state, String zip, String phone, String partnerDescription, String volunteerDescription, boolean isPartner, boolean isCoordinator, boolean isVolunteer, String major, String minor, boolean isApprovedPartner, boolean isApprovedCoordinator, boolean isApprovedVolunteer, String organizationName, String missionStatement)
 	{
-		email = ema;
-		password = pass;
-		firstName = fir;
-		lastName = las;
-		street = str;
-		city = cit;
-		state = sta;
-		zip = zi;
-		phoneNumber = pho;
-		partnerDescription = par;
-		volunteerDescription = vol;
-		isPartner = isp;
-		isCoordinator = isc;
-		isVolunteer = isv;
-		major=maj;
-		minor=min;
+		this.id = id;
+		this.email = email;
+		this.password = password;
+		this.firstName = first;
+		this.lastName = last;
+		this.street = street;
+		this.city = city;
+		this.state = state;
+		this.zip = zip;
+		this.phoneNumber = phone;
+		this.partnerDescription = partnerDescription;
+		this.volunteerDescription = volunteerDescription;
+		this.isPartner = isPartner;
+		this.isCoordinator = isCoordinator;
+		this.isVolunteer = isVolunteer;
+		this.major=major;
+		this.minor=minor;
 		this.isApprovedPartner = isApprovedPartner;
 		this.isApprovedCoordinator = isApprovedCoordinator;
 		this.isApprovedVolunteer = isApprovedVolunteer;
 		this.organizationName = organizationName;
+		this.missionStatement = missionStatement;
 	}
 	
 	//added constructor to create a user from a user for login purpose
 	public User(User user)
 	{
+		id = user.getId();
 		email = user.getEmail();
 		password = user.getPassword();
 		firstName = user.getFirstName();
@@ -99,6 +106,7 @@ public class User implements Serializable {
 		isApprovedCoordinator = user.getIsApprovedCoordinator();
 		isApprovedVolunteer = user.getIsApprovedVolunteer();
 		organizationName = user.getOrganizationName();
+		missionStatement = user.getMissionStatement();
 	}
 	
 	public String getMinor() {
@@ -349,6 +357,22 @@ public class User implements Serializable {
 	public String toString()
 	{
 		return ""+email+" / "+password+" / "+firstName+" / "+lastName;
+	}
+
+	public String getMissionStatement() {
+		return missionStatement;
+	}
+
+	public void setMissionStatement(String missionStatement) {
+		this.missionStatement = missionStatement;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 	
 	

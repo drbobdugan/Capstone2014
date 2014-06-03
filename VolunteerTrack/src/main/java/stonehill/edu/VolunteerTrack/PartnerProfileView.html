@@ -15,94 +15,75 @@
 	<span wicket:id="confirmPasswordPlaceholder" id="confirmPasswordPlaceholder">Message Goes Here</span>
 		<div id="main">
 			<div id="main-left">
-			<br><span>Profile Picture</span>
+			<h3>Profile Picture</h3>
+			    <img src="no_profile_picture.jpeg" wicket:id="profilePicture" style="float: left" height="280" width="280" alt="Profile Picture" />
 				<form wicket:id="uploadProfilePicture" action="">
-				   <input wicket:id="uploadPhoto"type="file" /> 
-				   <input type="submit" value="Upload">
+				   <input wicket:id="uploadPhoto" type="file" value="Choose profile picture:" /> 
+				   <input type="submit" value="Save">
 				</form>
-				<img src="no_profile_picture.jpeg" wicket:id="profilePicture" style="float: left" height="280" width="280" alt="Profile Picture" />
 			</div>
 			<div id="main-center">
-			<span>Password</span>
+			<h3>Password</h3>
 				<form wicket:id="passwordManagement" action="">
 					<span wicket:id="feedback">feedback</span>
 					<table>
 						<tr>
-							<td>Current Password:</td>
-							<td><input type="text" wicket:id="current" /></td>
+							<td>Current Password:</td><td><input type="text" wicket:id="current" /></td>
 						</tr>
 						<tr>
-							<td>New Password:</td>
-							<td><input type="text" wicket:id="new_password" /></td>
+							<td>New Password:</td><td><input type="text" wicket:id="new_password" /></td>
 						</tr>
 						<tr>
-							<td>Confirm New Password:</td>
-							<td><input type="text" wicket:id="confirm_password" /></td>
+							<td>Confirm New Password:</td><td><input type="text" wicket:id="confirm_password" /></td>
 						</tr>
 						<tr>
 							<td><input wicket:id="updatePassword" type="submit" value="Save" /></td>
 						</tr>
 					</table>
 				</form>
-				<br><span>Profile Information</span>
+				
+				<h3>Profile Information</h3>
 				<form wicket:id="profileInformation" action="">
 					<table>
 						<tr>
-							<td>Organization:</td>
-							<td><input type="text" wicket:id="organization" /></td>
+							<td>Organization:</td><td><input type="text" wicket:id="organization" /></td>
 						</tr>
 						<tr>
-							<td>Email:</td>
-							<td><input type="text" wicket:id="email" /></td>
+							<td>Email:</td><td><input type="text" wicket:id="email" /></td>
 						</tr>
 						<tr>
-							<td>Phone Number:</td>
-							<td><input type="text" wicket:id="phoneNumber" /></td>
+							<td>Phone Number:</td><td><input type="text" wicket:id="phoneNumber" /></td>
 						</tr>
 						<tr>
-							<td>Street Address:</td>
-							<td><input type="text" wicket:id="street" /></td>
+							<td>Street Address:</td><td><input type="text" wicket:id="street" /></td>
 						</tr>
 						<tr>
-							<td>City:</td>
-							<td><input type="text" wicket:id="city" /></td>
+							<td>City:</td><td><input type="text" wicket:id="city" /></td>
 						</tr>
 						<tr>
-							<td>State:</td>
-							<td><input type="text" wicket:id="state" /></td>
+							<td>State:</td><td><input type="text" wicket:id="state" /></td>
 						</tr>
 						<tr>
-							<td>Zip:</td>
-							<td><input type="text" wicket:id="zip" /></td>
+							<td>Zip:</td><td><input type="text" wicket:id="zip" /></td>
 						</tr>
-						<!-- 	<tr> -->
-						<!-- 	<td>Links:</td> -->
-						<!-- 	<td><input type="text" wicket:id="links"/></td> -->
-						<!-- 	</tr> -->
-					</table>
-
-
-					<!-- 	<p>Mission Statement</p> -->
-					<!-- 	<textarea wicket:id="mission" rows ="6" cols="25">Mission Statement goes here</textarea> -->
-
-					<table>
 						<tr>
-							<td><input wicket:id="saveProfile" type="submit" value="Save" /> 
-							    <input wicket:id="cancel"      type="submit" value="Cancel" /></td>
+					       	<td>Mission Statement</td><td><textarea wicket:id="missionStatement" rows ="6" cols="25">Mission Statement goes here</textarea></td>
+						</tr>
+						<tr>
+							<td>Links:</td><td><!-- <input type="text" wicket:id="links"/> --> </td> 
+						</tr>
+						<tr>
+							<td><input wicket:id="saveProfile" type="submit" value="Save" /><input wicket:id="cancel"      type="submit" value="Cancel" /></td><td></td>
 						</tr>
 					</table>
 				</form>
 			</div>
 
 			<div id="main-right">
-			<br><span>Skills</span>
+			Skills
 				<form wicket:id="skillsManagement" action="">
 					<span wicket:id="skills"></span>
-					<table>
-						<tr>
-							<td><input wicket:id="saveSkills" type="submit" value="Save"></td>
-						</tr>
-					</table>
+				    <input wicket:id="saveSkills" type="submit" value="Save">
 				</form>
 			</div>
 		</div>

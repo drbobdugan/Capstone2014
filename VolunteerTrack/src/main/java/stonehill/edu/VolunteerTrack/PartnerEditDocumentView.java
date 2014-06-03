@@ -12,11 +12,11 @@ import org.apache.wicket.model.Model;
 
 
 
-public class PartnerDocumentUpdateView extends VolunteerTrackBaseView {
+public class PartnerEditDocumentView extends VolunteerTrackBaseView {
 	final TextField<String> newDocName = new TextField<String>("DocumentName",Model.of("")); 
     final TextField<String> newDocType=new TextField<String>("DocumentType",Model.of(""));
     FileUploadField fileUpload;
-	public PartnerDocumentUpdateView(final Document doc) {
+	public PartnerEditDocumentView(final Document doc) {
 		//update document stuff here
 		
 		
@@ -53,7 +53,7 @@ public class PartnerDocumentUpdateView extends VolunteerTrackBaseView {
 					try {
 						DocumentDao docDao=new DocumentDao();
 						newFile=uploadedFile.writeToTempFile();
-						Document test = new Document (newDocName.getModelObject(),newDocType.getModelObject(),new Date(), newFile, "partner@partner.com",false);
+						Document test = new Document (-1,newDocName.getModelObject(),newDocType.getModelObject(), new Date(), newFile,"partner@partner.com", false, -1);
 						docDao.delete(doc);
 						docDao.insert(test);
 						this.setResponsePage(PartnerDocumentView.class);

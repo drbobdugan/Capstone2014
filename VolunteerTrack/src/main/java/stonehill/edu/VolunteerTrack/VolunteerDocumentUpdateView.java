@@ -106,7 +106,7 @@ public class VolunteerDocumentUpdateView extends VolunteerTrackBaseView
 					try{
 						newFile = uploadedFile.writeToTempFile();
 						// set it to session user
-						Document one = new Document(newName+"."+fileType,newType, new Date(),newFile,CurrentUser.getEmail(), false);
+						Document one = new Document(-1,newName+"."+fileType, newType,new Date(),newFile, CurrentUser.getEmail(), false, -1);
 						
 						DocumentDao dao = new DocumentDao();
 						dao.delete(theDoc);
@@ -126,7 +126,7 @@ public class VolunteerDocumentUpdateView extends VolunteerTrackBaseView
                     String[] splitted =fileUploadedName.split("\\.");
                     String fileType = splitted[splitted.length-1];
                     
-					    Document one = new Document(newName+"."+fileType,newType, new Date(),theDoc.getFile(),CurrentUser.getEmail(), false);
+					    Document one = new Document(-1,newName+"."+fileType, newType,new Date(),theDoc.getFile(), CurrentUser.getEmail(), false, -1);
 					    DocumentDao dao = new DocumentDao();
 						dao.delete(theDoc);
 						dao.insert(one);

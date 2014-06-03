@@ -2,27 +2,55 @@ package stonehill.edu.VolunteerTrack;
 
 import java.util.Date;
 import java.io.File;
+import java.io.Serializable;
 
-public class Document {
-	
+public class Document implements Serializable {
+	int id;
 	String name;
 	String type;
 	Date dateUploaded;
 	File file;
 	String userEmail;
 	boolean isSharedDocument;
-public Document() {
+	int userId;
 	
+public Document() {
+	id = -1;
+	name = null;
+	type = null;
+	dateUploaded = null;
+	file = null;
+	userEmail = null;
+	isSharedDocument = false;
+	int userId = -1;
 }
 
-public Document(String a, String b, Date c, File d, String e,boolean f)
+public Document(int id, String name, String type, Date dateUploaded, File file,String userEmail, boolean isSharedDocument, int userId)
 {
-	name=a;
-	type=b;
-	dateUploaded=c;
-	file=d;
-	userEmail=e;
-	isSharedDocument=f;
+	this.id = id;
+	this.name=name;
+	this.type=type;
+	this.dateUploaded=dateUploaded;
+	this.file=file;
+	this.userEmail=userEmail;
+	this.isSharedDocument=isSharedDocument;
+	this.userId = userId;
+}
+
+public int getId() {
+	return id;
+}
+
+public void setId(int id) {
+	this.id = id;
+}
+
+public int getUserId() {
+	return userId;
+}
+
+public void setUserId(int userId) {
+	this.userId = userId;
 }
 
 /**

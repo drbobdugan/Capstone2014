@@ -1,39 +1,38 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<link rel="stylesheet" href="kh.css" type="text/css" media="screen" title="Stylesheet" charset="utf-8" />
-<title>Volunteer Track</title>
-</head>
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+      <link rel="stylesheet" href="kh.css" type="text/css" media="screen" title="Stylesheet" charset="utf-8" />
+      <title>Volunteer Track</title>
+   </head>
 <body>
-<wicket:extend> 
- <p></p>
- <br> 
-<table border="1" style="width:600px">
-<tr><th>Your Documents</th></tr>
-<tr>
-<td>    </td>
-<td>Document Name</td>
-<td>Date</td>
-<td>Description</td>
-</tr>
+   <wicket:extend> 
 
-<tr wicket:id="repeating">
-<td><form wicket:id="buttonform">
-       <input type = "submit" wicket:id = "deleteButton" value = "Delete"/>
-       <input type = "submit" wicket:id = "updateButton" value = "Update"/>
-       <input type = "submit" wicket:id = "viewButton" value = "View"/>
- </form>  
-  </td>
-<td><span wicket:id="document">[Document Name]</span></td>
-<td><span wicket:id="dateUploaded">[Date]</span></td>
-<td><span wicket:id="Description">[Description]</span></td>
-</tr>
+   <div id="main-table-one">
+      <table class="dataview">
+      <caption>Your Documents</caption>
+	     <tbody>
+		    <tr>
+			   <th>Action</th>
+			   <th>Document Name</th>
+			   <th>Document Type</th>
+			   <th>Date Uploaded</th>
+			   <th>Description</th>
+			</tr>
+			<tr wicket:id="simple">
+			   <td><a href="#" wicket:id="view">  <input  type="button" value="View"   class="buttonBtn ui-button ui-widget ui-state-default ui-corner-all" /></a>
+			       <a href="#" wicket:id="edit">  <input  type="button" value="Edit"   class="buttonBtn ui-button ui-widget ui-state-default ui-corner-all" /></a>
+				   <a href="#" wicket:id="delete"><input  type="button" value="Delete" class="buttonBtn ui-button ui-widget ui-state-default ui-corner-all" /></a>
+			   </td>
+			   <td><span wicket:id="name">[Document Name]</span></td>
+			   <td><span wicket:id="type">[Type]</span></td>
+			   <td><span wicket:id="dateUploaded">[Date Uploaded]</span></td>
+			</tr>
+	      </tbody>
+	   </table>
+	   <center><div wicket:id="navigator"></div></center>
+    </div>
 
-
-
-</table>
-<br>
 <form wicket:id="uploadform">
 <p>Document Name:
 <input type="text" wicket:id="DocumentName"></p>
@@ -44,30 +43,29 @@
 </form>
 <br>
 
-<table border="1" style="width:600px">
-<tr><th>Volunteer Documents</th></tr>
-<tr>
-<td></td>
-<td> Volunteer's Name </td>
-<td> Document Name   </td>
-<td>  Date  </td>
-<td> Type</td>
-</tr>
-<tr wicket:id="repeating2">
-<td>
-<form wicket:id="Volunteerform"> 
-<input type="submit" wicket:id="viewVolDoc" value="View"/>
-</form>
-</td>
-<td><span wicket:id="Name">[Name]</span></td>
-<td><span wicket:id="DocName">[Doc]</span></td>
-<td><span wicket:id="Date">[Date]</span></td>
-<td><span wicket:id="Type">[Type]</span></td>
-</tr>
-
-</table>
-
-
+   <div id="main-table-two">
+      <table class="dataview">
+      <caption>Volunteer's Documents</caption>
+	     <tbody>
+		    <tr>
+			   <th>Action</th>
+			   <th>Document Name</th>
+			   <th>Document Type</th>
+			   <th>Date Uploaded</th>
+			   <th>Volunteer Email</th>
+			</tr>
+			<tr wicket:id="simple2">
+			   <td><a href="#" wicket:id="volunteerDocumentView">  <input  type="button" value="View"   class="buttonBtn ui-button ui-widget ui-state-default ui-corner-all" /></a>
+			   </td>
+			   <td><span wicket:id="volunteerDocumentName">[Document Name]</span></td>
+			   <td><span wicket:id="volunteerDocumentType">[Type]</span></td>
+			   <td><span wicket:id="volunteerDocumentDateUploaded">[Date Uploaded]</span></td>
+			   <td><span wicket:id="volunteerDocumentEmail">[Volunteer Email]</span></td>
+			</tr>
+	      </tbody>
+	   </table>
+	   <center><div wicket:id="navigator2"></div></center>
+    </div>
 </wicket:extend>
 </body>
 </html>

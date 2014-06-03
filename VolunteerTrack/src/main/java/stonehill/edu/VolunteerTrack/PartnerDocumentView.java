@@ -3,6 +3,7 @@ import java.awt.*;
 
 import java.awt.List;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.io.*;
 
@@ -19,23 +20,27 @@ import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.form.upload.FileUpload;
 import org.apache.wicket.markup.html.form.upload.FileUploadField;
 import org.apache.wicket.markup.html.link.DownloadLink;
+import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.AbstractItem;
 import org.apache.wicket.markup.html.list.ListItem;
+import org.apache.wicket.markup.html.navigation.paging.PagingNavigator;
+import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.RepeatingView;
+import org.apache.wicket.markup.repeater.data.DataView;
+import org.apache.wicket.markup.repeater.data.ListDataProvider;
 public class PartnerDocumentView  extends VolunteerTrackBaseView {
+	private static final int VIEWBUTTON   = 0;
+	private static final int EDITBUTTON   = 1;
+	private static final int DELETEBUTTON = 2;
 	
 	User[]User; //user array that populates the volunteers that have entered documents linked to this partner
-	ArrayList<Object> partnerdocuments;
-	ArrayList<Object> volunteerdocuments;
+	ArrayList<Document> partnerDocuments;
+	ArrayList<Document> volunteerDocuments;
 	//FileUpload file=new FileUpload("fileUpload");
 	//will populate with View/Delete Buttons connected to that document
-	DocumentDao docDao;
-	UserDao userDao;
 	//ArrayList<Document> docs;
 	//DocumentModel document=new DocumentModel("Cori Form","Animal shelter",a,"link","knap@gmail.com",true);
 	User currentUser;
-	ArrayList<Document> yourdocs;
-	ArrayList<Document> volunteerdocs;
 	final TextField<String> newDocName = new TextField<String>("DocumentName",Model.of("")); 
     final TextField<String> newDocType=new TextField<String>("DocumentType",Model.of(""));
     FileUploadField fileUpload;
@@ -46,8 +51,11 @@ public class PartnerDocumentView  extends VolunteerTrackBaseView {
     Button viewVolDoc;
     Button upload;
     Document doc;
+	transient DocumentDao docDao;
+	transient UserDao userDao;
 	public PartnerDocumentView()
 	{
+	
 		docDao=new DocumentDao();
 		Form<?>uploadForm=new Form<Void>("uploadform") {
 			protected void onSubmit(){
@@ -77,7 +85,7 @@ public class PartnerDocumentView  extends VolunteerTrackBaseView {
 				
 				try {
 					newFile=uploadedFile.writeToTempFile();
-					Document testDoc = new Document (newDocName.getModelObject(),newDocType.getModelObject(),new Date(), newFile, "partner@partner.com",false);
+					Document testDoc = new Document (-1,newDocName.getModelObject(),newDocType.getModelObject(), new Date(), newFile,"partner@partner.com", false, -1);
 					docDao.insert(testDoc);
 					this.setResponsePage(PartnerDocumentView.class);
 				}
@@ -99,193 +107,72 @@ public class PartnerDocumentView  extends VolunteerTrackBaseView {
 		
 		userDao=new UserDao();
 		currentUser=CustomSession.get().getUser();
+		
         //get the docs from the database
-		partnerdocuments=docDao.getAllDocumentsByUser(currentUser);
-		volunteerdocuments=docDao.getAllDocumentsSharedWithPartner(currentUser);
-
-	//add(form);
-		yourdocs=new ArrayList<Document>();
-		volunteerdocs=new ArrayList<Document>();
-		for(int i=0; i<partnerdocuments.size();i++) {
-			yourdocs.add((Document)partnerdocuments.get(i));
-		}
-		for(int i=0;i<volunteerdocuments.size();i++) {
-			volunteerdocs.add((Document)volunteerdocuments.get(i));
-		}
-		//generate the tables
-		generateyourDocs(yourdocs);
-		generateVolunteerDocs(volunteerdocs);	
+		partnerDocuments=docDao.getAllDocumentsByUser(currentUser);
+		volunteerDocuments=docDao.getAllDocumentsSharedWithPartner(currentUser);
 		
+		populateTables();	
 	}
+	private void populateTables() {
+		final DataView dataView = new DataView("simple", new ListDataProvider(partnerDocuments)) {
+			protected void populateItem(final Item item) {
+				final Document document = (Document)item.getModelObject();
+				item.add(new Link<Void>("delete"){ public void onClick(){ processDocumentButton(document.getId(), DELETEBUTTON, true);}});
+				item.add(new Link<Void>("edit"){ public void onClick(){ processDocumentButton(document.getId(), EDITBUTTON, true);}});
+				item.add(new Link<Void>("view"){ public void onClick(){ processDocumentButton(document.getId(), VIEWBUTTON, true);}});
+				item.add(new Label("name", document.getName()));
+				item.add(new Label("type", document.getName()));
+				SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yy");
+				item.add(new Label("dateUploaded", dateFormat.format(document.getDateUploaded())));
 	
-public void	generateyourDocs(ArrayList<Document>yourdocs) {
-		
-		RepeatingView repeating = new RepeatingView("repeating");
-        add(repeating);
-        //repeatingform.add(repeating);
-      int  index=0;
- 
-		for(int i=0; i<yourdocs.size(); i++) {
-	
-        final int x=i;
-        AbstractItem item = new AbstractItem(repeating.newChildId());
-
-     repeating.add(item);
-    
-    
- 	//add the forms
-     //form for add button
-     
-		Form<?> buttonform = new Form<Void>("buttonform")
-				{
-					@Override
-					protected void onSubmit()
-					{
-						//do some stuff
-						info("Form.onSubmit()");
-					}
-				};
-		
-	
-		
-		buttonform.add(new DownloadLink("viewButton",yourdocs.get(i).getFile(),yourdocs.get(i).getName()));
-
-		// add first form to the repeater
-	 // buttonform.add(viewButton);
-		
-		 DeleteButton=new Button("deleteButton") { 
-			private static final long serialVersionUID = 1L;
-			@Override
-	    public void onSubmit() {
-		//delete the document
-			info("Delete : " + x);
-     	delete(x);
-			}
-		};
-		buttonform.add(DeleteButton);
-		
-		 updateButton=new Button("updateButton") { /**
-			 * 
-			 */
-			private static final long serialVersionUID = 1L;
-			@Override
-		
-	    public void onSubmit() {
-		//view the document
-				info("View : " + x);
-     		update(x);
-     		
-			}
-		};
-		buttonform.add(updateButton);
-	//	add(repeatingform);
-		add(buttonform);
-	  	 item.add(buttonform);
-		 item.add(new Label("document",yourdocs.get(i).getName()));
-	     item.add(new Label("dateUploaded", yourdocs.get(i).dateUploaded));
-	     item.add(new Label("Description",yourdocs.get(i).getType()));
-		//repeatingform.add(repeating);
-		final int idx = i;
-            item.add(AttributeModifier.replace("class", new AbstractReadOnlyModel<String>()
-            {
-                private static final long serialVersionUID = 1L;
-
-                @Override
-                public String getObject()
-                {
-                    return (idx % 2 == 1) ? "even" : "odd";
-                }
-                
-               
-            }));
-            index++;
-            
-         //   item.add(form);
-    	//	item.add(form2);
-		}
-	
-		}
-
-
-public void generateVolunteerDocs(ArrayList<Document> volunteerdocs) {
-	
-	
-	RepeatingView repeating=new RepeatingView("repeating2");
-	add(repeating);
-	int index=0;
-for(int i=0;i<volunteerdocs.size(); i++) {
-	
-	  final int x=i;
-	    AbstractItem item = new AbstractItem(repeating.newChildId());
-	    
-		repeating.add(item);
-
-	Form<?> Volunteerform = new Form<Void>("Volunteerform")
-			{
-				@Override
-				protected void onSubmit()
-				{
-					//do some stuff
-					info("Form.onSubmit()");
-				}
-			};
-/*
-			viewVolDoc=new Button("viewVolDoc") { 
-					 
-					
-					private static final long serialVersionUID = 1L;
-					@Override
 				
-			    public void onSubmit() {
-				//view the document
-						info("View : " + x);
-		     		view(x);
-		     		
-					}
-				};
-				*/
-Volunteerform.add(new DownloadLink("viewVolDoc",volunteerdocs.get(i).getFile(),volunteerdocs.get(i).getName()));
+				item.add(AttributeModifier.replace("class", new AbstractReadOnlyModel<String>()
+				{
+					 private static final long serialVersionUID = 1L;
 
-				// add first form to the repeater			
-	//		Volunteerform.add(new DownloadLink("viewVolDoc",volunteerdocs.get(i).getFile(),volunteerdocs.get(i).getName()));
+					 @Override
+					 public String getObject()
+					 {
+						 return (item.getIndex() % 2 == 1) ? "even" : "odd";
+					 }
+				}));
+			}
+		};
+			
+		dataView.setItemsPerPage(5);
+		add(dataView);
+		add(new PagingNavigator("navigator", dataView));
+			
+		final DataView dataView2 = new DataView("simple2", new ListDataProvider(volunteerDocuments)) {
+			protected void populateItem(final Item item) {
+				final Document document = (Document)item.getModelObject();
+				item.add(new Link<Void>("volunteerDocumentView"){ public void onClick(){ processDocumentButton(document.getId(), VIEWBUTTON, true);}});
+				item.add(new Label("volunteerDocumentName", document.getName()));
+				item.add(new Label("volunteerDocumentType", document.getName()));
+				SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyy");
+				item.add(new Label("volunteerDocumentDateUploaded", dateFormat.format(document.getDateUploaded())));
+				item.add(new Label("volunteerDocumentEmail", document.getUserEmail()));
+	
+				
+				item.add(AttributeModifier.replace("class", new AbstractReadOnlyModel<String>()
+				{
+					 private static final long serialVersionUID = 1L;
 
-			// add first form to the repeater
-			//	Volunteerform.add(viewVolDoc);
-  add(Volunteerform);
-	item.add(Volunteerform);
-	item.add(new Label("Name",volunteerdocs.get(i).getName()));
-	item.add(new Label("DocName",volunteerdocs.get(i).getName()));
-	item.add(new Label("Date", volunteerdocs.get(i).getDateUploaded()));
-	item.add(new Label("Type",volunteerdocs.get(i).getType()));
-	
-		
-		final int idx = i;
-        item.add(AttributeModifier.replace("class", new AbstractReadOnlyModel<String>()
-        {
-            private static final long serialVersionUID = 1L;
+					 @Override
+					 public String getObject()
+					 {
+						 return (item.getIndex() % 2 == 1) ? "even" : "odd";
+					 }
+				}));
+			}
+		};
+			
+		dataView2.setItemsPerPage(5);
+		add(dataView2);
+		add(new PagingNavigator("navigator2", dataView2));
+	}
 
-            @Override
-            public String getObject()
-            {
-                return (idx % 2 == 1) ? "even" : "odd";
-            }
-            
-           
-        }));
-        index++;
-}
-	
-	
-	
-}//end of volunteer doc table method
-
-	
-
-public void delete(int x){
-	//yourdocs.remove(x);
-	docDao.delete(yourdocs.get(x));
-		this.setResponsePage(PartnerDocumentView.class);
-    }
 /*
 public void create() {
 	//get the filename
@@ -298,11 +185,50 @@ public void create() {
     this.setResponsePage(VolunteerDocumentView.class);
 }
 */
-public void view(int x) {
-	this.setResponsePage(PartnerDocumentView.class);
-}
-public void update(int x) {
-	this.setResponsePage(new PartnerDocumentUpdateView(yourdocs.get(x)));
+
+
+public void processDocumentButton(int documentId, int viewEditDelete, boolean isPartner)
+{
+	Document document = null;
+	ArrayList<Document> documents = null;
+	
+	// Select future/past events
+	if (isPartner)
+	{
+		documents = partnerDocuments;
+	}
+	else
+	{
+		documents = volunteerDocuments;
+	}
+	
+	// Find event
+	for (int i=0; i < documents.size(); i++)
+	{
+		document = documents.get(i);
+	
+		if (documentId == document.getId() )
+		{
+			break;
+		}
+	}
+	
+	// Process the event
+	switch (viewEditDelete)
+	{
+	case VIEWBUTTON:   
+		System.out.println("PartnerDocumentView: processDocumentButton() viewing: " + document.getId() + ": " + document.getName());
+		setResponsePage(new PartnerDocumentDetailsView(document, "partnerDocumentView"));   
+		break;
+	case EDITBUTTON:   
+		setResponsePage(new PartnerEditDocumentView(document));  
+		break;
+	case DELETEBUTTON: 
+		DocumentDao documentDao = new DocumentDao();
+		documentDao.delete(document);
+    	setResponsePage(PartnerDocumentView.class);
+    	break;
+	}
 }
 
 

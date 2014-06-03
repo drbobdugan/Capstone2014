@@ -13,7 +13,7 @@ public class RegisterController extends WebPage {
 		//Check if user already exists              and passwords match
 		if(dao.getUserByUsername(email) == null && password.equals(passwordConfirm))
 		{
-			User user = new User(email, password, "", "", "", "", "", "", "", "", "", false, false, false, "", "", false, false, false, "");
+			User user = new User(-1, email, password, "", "", "", "", "", "", "", "", "", false, false, false, "", "", false, false, false, "", "");
 
 			if(userType == 0)
 				user.setIsPartner(true);

@@ -108,7 +108,7 @@ public class EventDao extends Dao{
 				boolean iac=resultSet.getBoolean("IsApprovedCoordinator");
 				boolean iav=resultSet.getBoolean("IsApprovedVolunteer");
 				String on=resultSet.getString("OrganizationName");
-				result.add(new User(e,p,fn,ln,s,c,st,z,pn,pd,vd,ip,ic,iv,mj,mi,iap,iac,iav,on));
+				result.add(new User(-1,e,p,fn,ln,s,c,st,z,pn,pd,vd,ip,ic,iv,mj,mi,iap,iac,iav, on, ""));
 			}
 			//clean up
 			resultSet.close();
@@ -723,7 +723,7 @@ public class EventDao extends Dao{
 				out.close();
 				in.close();
 				blob.free();
-				result.add(new Document(name,type,date,file,userEmail,isSharedDocument));
+				result.add(new Document(-1,name,type,date,file,userEmail, isSharedDocument, -1));
 			}
 			//clean up
 			resultSet.close();

@@ -50,6 +50,7 @@ public class PartnerProfileView extends VolunteerTrackBaseView {
 	private String currentPasswordPlaceholder = "";
 	private String newPasswordPlaceholder = "";
 	private String confirmPasswordPlaceholder = "";
+	private TextArea<String> missionStatement;
 
 	public PartnerProfileView()
 	{
@@ -119,6 +120,7 @@ public class PartnerProfileView extends VolunteerTrackBaseView {
 		profileInformation.add(city = new TextField<String>("city", new PropertyModel(currentuser, "city")));
 		profileInformation.add(state = new TextField<String>("state", new PropertyModel(currentuser, "state")));
 		profileInformation.add(zip = new TextField<String>("zip", new PropertyModel(currentuser, "zip")));
+		profileInformation.add(missionStatement = new TextArea<String>("missionStatement", new PropertyModel(currentuser, "missionStatement")));
 
 		Button save = new Button("saveProfile")
 		{

@@ -58,11 +58,11 @@ public class VolunteerDocumentView extends VolunteerTrackBaseView
 		dao = new DocumentDao();
 
 		// runs through and adds all documents for current user to the array
-		ArrayList<Object> temp = dao.getAllDocumentsByUser(CurrentUser);
+		ArrayList<Document> temp = dao.getAllDocumentsByUser(CurrentUser);
 
 		for(int i = 0; i <temp.size();i++)
 		{
-			theDocs.add((Document)temp.get(i));
+			theDocs.add(temp.get(i));
 		}
 		
 		
@@ -256,7 +256,7 @@ public class VolunteerDocumentView extends VolunteerTrackBaseView
 						// makes new file object and saves it in database with name and file type in the same string variable
 						newFile = uploadedFile.writeToTempFile();
 						// set it to session user
-						Document one = new Document(NewDocumentName.getModelObject()+"."+fileType,NewDocumentType.getModelObject(), new Date(),newFile,CurrentUser.getEmail(), false);
+						Document one = new Document(-1,NewDocumentName.getModelObject()+"."+fileType, NewDocumentType.getModelObject(),new Date(),newFile, CurrentUser.getEmail(), false, -1);
 						dao.insert(one);
 						this.setResponsePage(VolunteerDocumentView.class);
 					}

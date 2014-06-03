@@ -23,7 +23,7 @@ public class daoTest {
 		UserDao dao2=new UserDao();
 		ArrayList<Object> list2=new ArrayList<Object>();
 		User u;
-		dao2.insert(u=new User("jscherr@gmail.com","g","","","","","","","","","",true,false,false,"","",true,false,false,""));
+		dao2.insert(u=new User(-1,"jscherr@gmail.com","g","","","","","","","","","",true,false,false,"","",true,false,false, "", ""));
 		list2=dao2.selectAll();
 		for(Iterator i=list2.iterator();i.hasNext();){
 			System.out.println(((User)i.next()).getEmail());
@@ -34,7 +34,7 @@ public class daoTest {
 		DocumentDao dao3=new DocumentDao();
 		ArrayList<Object> list3=new ArrayList<Object>();
 		Document d;
-		dao3.insert(d=new Document("doc","",new Date(8),new File("/home/ubuntu/Desktop/test.txt"),"j.com",true));
+		dao3.insert(d=new Document(-1,"doc","",new Date(8),new File("/home/ubuntu/Desktop/test.txt"),"j.com", true, -1));
 		list3=dao3.selectAll();
 		for(Iterator i=list3.iterator();i.hasNext();){
 			System.out.println(((Document)i.next()).getName());

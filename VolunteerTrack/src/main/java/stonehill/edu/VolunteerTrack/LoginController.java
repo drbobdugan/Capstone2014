@@ -98,13 +98,13 @@ public class LoginController extends WebPage implements Serializable {
 		 * String maj, String min, boolean isApprovedPartner, boolean isApprovedCoordinator, boolean isApprovedVolunteer, 
 		 * String organizationName */
 		UserDao dao = new UserDao();                                                                                                                                                                                               //boolean isp, boolean isc, boolean isv,           boolean isAPartner, boolean isACoordinator, boolean isAVolunteer  
-		User user = new User("test1@gmail.com","csrocks55", "Micheal","Singleton", "320 Washington Street", "Easton", "MA", "02356", "Blank Photo", "This student has no partner description", "This is a volunteer description string", false, true, true, "Computer Science", "Database Programming", false, true, true, "This student has no partner name");
+		User user = new User(-1,"test1@gmail.com", "csrocks55","Micheal", "Singleton", "320 Washington Street", "Easton", "MA", "02356", "Blank Photo", "This student has no partner description", "This is a volunteer description string", false, true, true, "Computer Science", "Database Programming", false, true, true, "This student has no partner name", "");
 		dao.insert(user);
-		user = new User("test2@gmail.com","csrocks55", "Joey","Scherr", "320 Washington Street", "Easton", "MA", "02356", "Blank Photo", "This is a partner description string", "This partner has no volunteer description string", true, false, false, "None", "None", true, false, false, "Joeys Wildlife Rescue");
+		user = new User(-1,"test2@gmail.com", "csrocks55","Joey", "Scherr", "320 Washington Street", "Easton", "MA", "02356", "Blank Photo", "This is a partner description string", "This partner has no volunteer description string", true, false, false, "None", "None", true, false, false, "Joeys Wildlife Rescue", "");
 		dao.insert(user);
-		user = new User("test3@gmail.com","csrocks55", "Zachery","Brown", "320 Washington Street", "Easton", "MA", "02356", "Blank Photo", "This is a student has no partner description string", "This partner has no volunteer description string", false, false, true, "Computer Science", "Project Management", false, false, true, "This student has no partner name");
+		user = new User(-1,"test3@gmail.com", "csrocks55","Zachery", "Brown", "320 Washington Street", "Easton", "MA", "02356", "Blank Photo", "This is a student has no partner description string", "This partner has no volunteer description string", false, false, true, "Computer Science", "Project Management", false, false, true, "This student has no partner name", "");
 		dao.insert(user);
-		user = new User("test4@gmail.com","csrocks55", "Keith","Holmander", "320 Washington Street", "Easton", "MA", "02356", "Blank Photo", "This is a partner description string", "This is a volunteer description string", true, true, true, "Computer Science", "Wicket Programming", true, true, true, "Veterns Hopistal");
+		user = new User(-1,"test4@gmail.com", "csrocks55","Keith", "Holmander", "320 Washington Street", "Easton", "MA", "02356", "Blank Photo", "This is a partner description string", "This is a volunteer description string", true, true, true, "Computer Science", "Wicket Programming", true, true, true, "Veterns Hopistal", "");
 		dao.insert(user);	
 	}
 
