@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="kh.css" type="text/css" media="screen"
+	title="Stylesheet" charset="utf-8" />
+<title>Volunteer Track</title>
+</head>
+
+	this.name=name;
+	this.type=type;
+	this.dateUploaded=dateUploaded;
+	this.file=file;
+	this.userEmail=userEmail;
+	this.isSharedDocument=isSharedDocument;
+	this.userId = userId;
+
+<body>
+	<wicket:extend>
+		<div id="main">
+			<table class="dataview">
+			<caption>Document Details</caption>
+				<tbody>
+				<tr>
+				<td>Document Name:</td>
+			    <td><input type="text" wicket:id="name" /></td>
+			    </tr>
+			    
+			    <tr>
+				<td>Document Type:</td>
+			    <td><input type="text" wicket:id="type" /></td>
+			    </tr>
+			    
+			    <tr>
+			    <td>Date Uploaded:</td>
+				<td><input type="text" wicket:id="dateUploaded"></td>
+				</tr>
+				
+				<tr>
+			    <td>File:</td>
+				<td><a href="#" wicket:id="file">Download</a></td>
+				</tr>
+				
+				<tr>
+				<td>Owner Email:</td>
+				<td><input type="text" wicket:id="userEmail"></td>
+				</tr>
+				
+				</tbody>
+			</table>
+
+			<table class="dataview">
+				<caption>List of Partners Document is Shared With</caption>
+				<tbody>
+					<tr>
+						<th>Action</th>
+						<th>Partner Name</th>
+						<th>Partner Email</th>
+					</tr>
+					<tr wicket:id="simple">
+						<td><a href="#" wicket:id="view"><input type="button" value="View" /></a></td>
+						<td><span wicket:id="organizationName">Organization Name</span></td>
+						<td><span wicket:id="userEmail">User Email</span></td>
+					</tr>
+				</tbody>
+			</table>
+			<div wicket:id="navigator"></div>
+
+			<form wicket:id="form">
+				<input wicket:id="back" type="submit" value="Back" />
+			</form>
+
+		</div>
+	</wicket:extend>
+</body>
+</html>

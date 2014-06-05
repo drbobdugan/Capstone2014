@@ -28,6 +28,11 @@ public class DocumentDao extends Dao{
 	public void insert(Object value){
 		//working with file
 		Document document=(Document) value;
+		UserDao userDao = new UserDao();
+		document.setId( getUniqueId());
+		User user = userDao.getUserByUsername(document.getUserEmail());
+		document.setUserId(user.getId());
+		
 		try{
 			//create fileInputStream
 			File file=document.getFile();
@@ -35,15 +40,19 @@ public class DocumentDao extends Dao{
 			//connect
 			connectToDatabase();
 			//SQL statement
-			PreparedStatement statement=connection.prepareStatement("INSERT INTO Document VALUES("+
+			String sql = "INSERT INTO Document VALUES("+
 		    "'"+document.getName()+"', "+
 		    "'"+document.getType()+"', "+
 		    "to_date('"+new java.sql.Date(document.getDateUploaded().getTime())+"', 'yyyy-mm-dd'), "+
 		    " ? , "+
 		    "'"+document.getUserEmail()+"', "+
-		    "'"+(document.getIsSharedDocument()?1:0)+"'), " +
+		    "'"+(document.getIsSharedDocument()?1:0)+"', " +
 		    document.getId() + ", " + 
-		    document.getUserId());
+		    document.getUserId() + ")";
+			
+			System.out.println(sql);
+		    
+		    PreparedStatement statement=connection.prepareStatement(sql);
 			statement.setBinaryStream(1, in, (int) file.length());
 			statement.executeUpdate();
 			disconnectFromDatabase();

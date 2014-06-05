@@ -17,7 +17,6 @@
 			   <th>Document Name</th>
 			   <th>Document Type</th>
 			   <th>Date Uploaded</th>
-			   <th>Description</th>
 			</tr>
 			<tr wicket:id="simple">
 			   <td><a href="#" wicket:id="view">  <input  type="button" value="View"   class="buttonBtn ui-button ui-widget ui-state-default ui-corner-all" /></a>
@@ -33,15 +32,14 @@
 	   <center><div wicket:id="navigator"></div></center>
     </div>
 
-<form wicket:id="uploadform">
-<p>Document Name:
-<input type="text" wicket:id="DocumentName"></p>
-<p> Document Type: 
-<input type="text" wicket:id="DocumentType"></p>
-<p><input type="file" wicket:id="uploadDoc" value="Upload Document"><p>
-<p><input type="submit" wicket:id="Add" value="Add Document"></p>
+<form wicket:id="uploadDocumentForm" class="uploadDocumentForm">
+<table>
+ <tr><td>Document Name:</td> <td><input type="text" wicket:id="documentName"></td></tr>
+ <tr><td>Document Type:</td> <td><input type="text" wicket:id="documentType"></td></tr>
+ <tr><td><input type="file" wicket:id="uploadDocument" value="Select Document"></td><td></td></tr>
+ <tr><td><input type="submit" value="Save"></td><td></td></tr>
+</table>
 </form>
-<br>
 
    <div id="main-table-two">
       <table class="dataview">

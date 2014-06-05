@@ -267,7 +267,7 @@ public class VolunteerDocumentView extends VolunteerTrackBaseView
 				}
 
 
-				// create(NewDocumentName, NewDocumentType,fileUpload);
+				// create(NewDocumentName, NewDocumentType,fileUploadField);
 			}
 		};
 
@@ -275,7 +275,7 @@ public class VolunteerDocumentView extends VolunteerTrackBaseView
 
 		form3.add(NewDocumentName);
 		form3.add(NewDocumentType);
-		form3.add(fileUpload= new FileUploadField("fileUpload"));
+		form3.add(fileUpload= new FileUploadField("fileUploadField"));
 		form3.add(addDB);
 
 		add(form3);

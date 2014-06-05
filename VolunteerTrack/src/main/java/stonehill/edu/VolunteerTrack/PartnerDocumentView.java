@@ -1,116 +1,77 @@
 package stonehill.edu.VolunteerTrack;
-import java.awt.*;
 
-import java.awt.List;
-import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.io.*;
 
-import javax.swing.text.html.ListView;
-
 import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.model.*;
-import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.*;
-import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.form.upload.FileUpload;
 import org.apache.wicket.markup.html.form.upload.FileUploadField;
-import org.apache.wicket.markup.html.link.DownloadLink;
 import org.apache.wicket.markup.html.link.Link;
-import org.apache.wicket.markup.html.list.AbstractItem;
-import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.navigation.paging.PagingNavigator;
 import org.apache.wicket.markup.repeater.Item;
-import org.apache.wicket.markup.repeater.RepeatingView;
 import org.apache.wicket.markup.repeater.data.DataView;
 import org.apache.wicket.markup.repeater.data.ListDataProvider;
-public class PartnerDocumentView  extends VolunteerTrackBaseView {
+
+public class PartnerDocumentView  extends VolunteerTrackBaseView 
+{
+	private static final long serialVersionUID = 1L;
+	
 	private static final int VIEWBUTTON   = 0;
 	private static final int EDITBUTTON   = 1;
 	private static final int DELETEBUTTON = 2;
 	
-	User[]User; //user array that populates the volunteers that have entered documents linked to this partner
 	ArrayList<Document> partnerDocuments;
 	ArrayList<Document> volunteerDocuments;
-	//FileUpload file=new FileUpload("fileUpload");
-	//will populate with View/Delete Buttons connected to that document
-	//ArrayList<Document> docs;
-	//DocumentModel document=new DocumentModel("Cori Form","Animal shelter",a,"link","knap@gmail.com",true);
 	User currentUser;
-	final TextField<String> newDocName = new TextField<String>("DocumentName",Model.of("")); 
-    final TextField<String> newDocType=new TextField<String>("DocumentType",Model.of(""));
-    FileUploadField fileUpload;
-   // Form repeatingform;
-    Button viewButton;
-    Button DeleteButton;
-    Button updateButton;
-    Button viewVolDoc;
-    Button upload;
-    Document doc;
-	transient DocumentDao docDao;
-	transient UserDao userDao;
+	
+	final TextField<String> documentName = new TextField<String>("documentName",Model.of("")); 
+    final TextField<String> documentType=new TextField<String>("documentType",Model.of(""));
+    FileUploadField fileUploadField;
+	transient DocumentDao documentDao;
+	
 	public PartnerDocumentView()
 	{
-	
-		docDao=new DocumentDao();
-		Form<?>uploadForm=new Form<Void>("uploadform") {
-			protected void onSubmit(){
-        		info("Form.onSubmit()");
-        	}
-		};
-/*
-		upload=new Button("uploadDoc") { 
-			private static final long serialVersionUID = 1L;
-			@Override
-	    public void onSubmit() {
-		//delete the document
-	//		info("Delete : " + x);
-    //	delete(x);
-			}
-		};
-		*/
+		documentDao = new DocumentDao();
 		
-		Button add=new Button("Add") {
+		// Add a new document
+		Form<?>uploadForm=new Form<Void>("uploadDocumentForm") 
+		{
 			@Override
-			public void onSubmit() {
-				
-			final FileUpload uploadedFile=fileUpload.getFileUpload();
-			//do stuff	
-			if(uploadedFile!=null) {
-				File newFile=new File ("/home/ubuntu/Desktop/test.txt");
-				
-				try {
-					newFile=uploadedFile.writeToTempFile();
-					Document testDoc = new Document (-1,newDocName.getModelObject(),newDocType.getModelObject(), new Date(), newFile,"partner@partner.com", false, -1);
-					docDao.insert(testDoc);
-					this.setResponsePage(PartnerDocumentView.class);
+			public void onSubmit() 
+			{
+				try 
+				{
+					final FileUpload uploadedFile=fileUploadField.getFileUpload();
+					
+					if (uploadedFile!=null) 
+					{
+						File file = uploadedFile.writeToTempFile();
+						Document document = new Document (documentDao.getUniqueId(), documentName.getModelObject(),documentType.getModelObject(), new Date(), file, currentUser.getEmail(), false, currentUser.getId());
+						documentDao.insert(document);
+						this.setResponsePage(PartnerDocumentView.class);
+					}
 				}
-		     catch(Exception e) {
-		    	 throw new IllegalStateException("Error trying to do the .create or .writeto");
-		    	    	 
-		     }		
-			}
+				catch(Exception e) 
+				{
+					throw new IllegalStateException("Error trying to do the .create or .writeto");
+				}		
 			}
 		};
 		uploadForm.setMultiPart(true);
-		
-	//	uploadForm.add(upload);
-		uploadForm.add(newDocName);
-		uploadForm.add(newDocType);
-		uploadForm.add(fileUpload=new FileUploadField("uploadDoc"));
-		uploadForm.add(add);
+		uploadForm.add(documentName);
+		uploadForm.add(documentType);
+		uploadForm.add(fileUploadField=new FileUploadField("uploadDocument"));
 		add(uploadForm);
 		
-		userDao=new UserDao();
+        // Display Partner and Volunteer Shared with Partner Documents
 		currentUser=CustomSession.get().getUser();
-		
-        //get the docs from the database
-		partnerDocuments=docDao.getAllDocumentsByUser(currentUser);
-		volunteerDocuments=docDao.getAllDocumentsSharedWithPartner(currentUser);
+		partnerDocuments=documentDao.getAllDocumentsByUser(currentUser);
+		volunteerDocuments=documentDao.getAllDocumentsSharedWithPartner(currentUser);
 		
 		populateTables();	
 	}
@@ -173,26 +134,12 @@ public class PartnerDocumentView  extends VolunteerTrackBaseView {
 		add(new PagingNavigator("navigator2", dataView2));
 	}
 
-/*
-public void create() {
-	//get the filename
-	Document newDocument;
-	String filename=fileUpload.toString();
-	//this part is still uncertain
-    File newFile=new File(filename);
-  //  newDocument=new Document(filename, newDocType.toString(),new Date(),newFile, "knapolione@students.stonehill.edu",false);
-	docDao.insert(newDocument);
-    this.setResponsePage(VolunteerDocumentView.class);
-}
-*/
-
 
 public void processDocumentButton(int documentId, int viewEditDelete, boolean isPartner)
 {
 	Document document = null;
 	ArrayList<Document> documents = null;
 	
-	// Select future/past events
 	if (isPartner)
 	{
 		documents = partnerDocuments;
@@ -202,7 +149,7 @@ public void processDocumentButton(int documentId, int viewEditDelete, boolean is
 		documents = volunteerDocuments;
 	}
 	
-	// Find event
+	// Find document
 	for (int i=0; i < documents.size(); i++)
 	{
 		document = documents.get(i);
@@ -213,7 +160,7 @@ public void processDocumentButton(int documentId, int viewEditDelete, boolean is
 		}
 	}
 	
-	// Process the event
+	// Process the document
 	switch (viewEditDelete)
 	{
 	case VIEWBUTTON:   
@@ -231,7 +178,4 @@ public void processDocumentButton(int documentId, int viewEditDelete, boolean is
 	}
 }
 
-
-
-	}//end of class
-
+}//end of class
