@@ -7,15 +7,35 @@
 </head>
 <body>
    <wicket:extend>
-   <form wicket:id="form">
+  
+   <form wicket:id="eventDateForm">
       <p>Start Date: <input type="text" wicket:id="startDateTextField"/></p>
       <p>End Date:<input type="text"wicket:id="endDateTextField"/></p>
+      
+      <input type="submit" value="Select Date Range" />
+   </form>
+   
+   <form wicket:id="form">
       <span wicket:id="calendarRadio"></span>
       
       <span wicket:id="group">
          <input type="checkbox" wicket:id="groupselector">check/uncheck all events</input>  
-         <table>
-            <tr wicket:id="events"><td><input type="checkbox" wicket:id="checkbox"/></td><td><span wicket:id="eventName">[Event Name]</span></td></tr>
+         <table class="dataview">
+            <caption>Events in Date Range</caption>
+            <tr>
+               <th>Action</th>
+               <th>Name</th>
+               <th>Location</th>
+               <th>Start Date</th>
+               <th>End Date</th>
+            </tr>
+            <tr wicket:id="events">
+               <td><input type="checkbox" wicket:id="checkbox"/></td>
+               <td><span wicket:id="name">[Name]</span></td>
+               <td><span wicket:id="location">[Location]</span></td>
+               <td><span wicket:id="startDate">[Start Date]</span></td>
+               <td><span wicket:id="endDate">[End Date]</span></td>
+            </tr>
          </table>
       </span>
       
