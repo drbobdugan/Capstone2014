@@ -2,6 +2,9 @@ package stonehill.edu.VolunteerTrack;
 import java.util.*;
 import java.io.Serializable;
 public class TimesheetEntry implements Serializable{
+	
+	private int Id;
+	private int UserId;
 	private String UserEmail;
 	private Date DateTime;
 	private String EventName;
@@ -10,7 +13,10 @@ public class TimesheetEntry implements Serializable{
 	private boolean IsApproved;
 	private int HoursLogged;
 	private String OrganizationName;
+	
 	public TimesheetEntry(){
+		Id = -1;
+		UserId = -1;
 		UserEmail="";
 		DateTime=new Date();
 		EventName="";
@@ -20,26 +26,46 @@ public class TimesheetEntry implements Serializable{
 		HoursLogged=0;
 		OrganizationName="";
 	}
-	public TimesheetEntry(String ue,Date dt,String en,boolean is,boolean ia,int hl,String on, int eventId){
-		UserEmail=ue;
-		DateTime=dt;
-		EventName=en;
+	public TimesheetEntry(String userEmail,Date dateTime,String eventName,boolean isSubmitted,boolean isApproved,int hoursLogged,String organizationName, int eventId, int userId, int Id){
+		UserEmail=userEmail;
+		DateTime=dateTime;
+		EventName=eventName;
 		this.EventId = eventId;
-		IsSubmitted=is;
-		IsApproved=ia;
-		HoursLogged=hl;
-		OrganizationName=on;
+		IsSubmitted=isSubmitted;
+		IsApproved=isApproved;
+		HoursLogged=hoursLogged;
+		OrganizationName=organizationName;
+		this.UserId = userId;
+		this.Id = Id;
 	}
-	public TimesheetEntry(String ue,String en,boolean is,boolean ia,int hl,String on, int eventId){
-		UserEmail=ue;
+	public TimesheetEntry(String userEmail,String eventName,boolean isSubmitted,boolean isApproved,int hoursLogged,String organizationName, int eventId, int Id){
+		UserEmail=userEmail;
 		DateTime=new Date();
-		EventName=en;
+		EventName=eventName;
 		this.EventId = eventId;
-		IsSubmitted=is;
-		IsApproved=ia;
-		HoursLogged=hl;
-		OrganizationName=on;
+		IsSubmitted=isSubmitted;
+		IsApproved=isApproved;
+		HoursLogged=hoursLogged;
+		OrganizationName=organizationName;
+		this.Id = Id;
+		this.UserId = UserId;
 	}
+	
+	
+	
+	public int getId() {
+		return Id;
+	}
+	public void setId(int id) {
+		Id = id;
+	}
+	public int getUserId() {
+		return UserId;
+	}
+	public void setUserId(int userId) {
+		UserId = userId;
+	}
+	
 	public String getUserEmail(){
 		return UserEmail;
 	}

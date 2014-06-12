@@ -1,22 +1,18 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
- xmlns:wicket="http://wicket.apache.org/" xml:lang="en" lang="en">
+<html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<link rel="stylesheet" href="kh.css" type="text/css" media="screen" title="Stylesheet" charset="utf-8" />
-<title>Volunteer Track</title>
+   <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+   <link rel="stylesheet" href="kh.css" type="text/css" media="screen" title="Stylesheet" charset="utf-8" />
+   <title>Volunteer Track</title>
 </head>
 <body>
-      <wicket:extend>
-      <form wicket:id="reportResultsView">
-     <h1> Report Results</h1>
-     <br/>
-     <div wicket:id="accordion"></div>
-     <br/>
-     <input wicket:id="back" type="submit"value="Back" />
-     <div wicket:id="feedback"></div>
-     </form>
-      </wicket:extend>
-
+	<wicket:extend>
+	   <h1>Report Results</h1>
+	   <div wicket:id="results"></div>
+			
+	   <form wicket:id="reportResultsView">
+	      <input wicket:id="back" type="submit" value="Back" />
+	   </form>
+	</wicket:extend>
 </body>
 </html>

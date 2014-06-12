@@ -70,7 +70,7 @@ public class TimesheetEntryDao extends Dao{
 				boolean isSubmitted=resultSet.getBoolean("IsSubmitted");
 				int hoursLogged=resultSet.getInt("HoursLogged");
 				String organizationName=resultSet.getString("OrganizationName");
-				result.add(new TimesheetEntry(userEmail,date,eventName,isSubmitted,isApproved,hoursLogged,organizationName,eventId));
+				result.add(new TimesheetEntry(userEmail,date,eventName,isSubmitted,isApproved,hoursLogged,organizationName,eventId, -1, -1));
 			}
 			//clean up
 			resultSet.close();
@@ -125,7 +125,7 @@ public class TimesheetEntryDao extends Dao{
 				boolean isSubmitted=resultSet.getBoolean("IsSubmitted");
 				int hoursLogged=resultSet.getInt("HoursLogged");
 				String organizationName=resultSet.getString("OrganizationName");
-				result=(new TimesheetEntry(ue,d,en,isSubmitted,isApproved,hoursLogged,organizationName, eventId));
+				result=(new TimesheetEntry(ue,d,en,isSubmitted,isApproved,hoursLogged,organizationName, eventId, -1, -1));
 			}else{
 				System.out.println("TimesheetEntryDao:getTimesheetEntry() did not return a tuple.");
 			}
@@ -162,7 +162,7 @@ public class TimesheetEntryDao extends Dao{
 				boolean isSubmitted=resultSet.getBoolean("IsSubmitted");
 				int hoursLogged=resultSet.getInt("HoursLogged");
 				String organizationName=resultSet.getString("OrganizationName");
-				result=(new TimesheetEntry(ue,d,en,isSubmitted,isApproved,hoursLogged,organizationName, eventId));
+				result=(new TimesheetEntry(ue,d,en,isSubmitted,isApproved,hoursLogged,organizationName, eventId, -1, -1));
 			}
 			else{
 				System.out.println("TimesheetEntryDao:getTimesheetEntry() did not return a tuple.");
@@ -196,7 +196,7 @@ public class TimesheetEntryDao extends Dao{
 				boolean isSubmitted=resultSet.getBoolean("IsSubmitted");
 				int hoursLogged=resultSet.getInt("HoursLogged");
 				String organizationName=resultSet.getString("OrganizationName");
-				result.add(new TimesheetEntry(userEmail,date,eventName,isSubmitted,isApproved,hoursLogged,organizationName, eventId));
+				result.add(new TimesheetEntry(userEmail,date,eventName,isSubmitted,isApproved,hoursLogged,organizationName, eventId, -1, -1));
 			}
 			//clean up
 			resultSet.close();

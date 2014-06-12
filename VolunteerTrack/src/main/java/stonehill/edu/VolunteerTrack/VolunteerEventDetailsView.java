@@ -61,7 +61,7 @@ public class VolunteerEventDetailsView extends VolunteerTrackBaseView
 				      ed.update(event);
 				      ed.insertUserSignsUpForEvent(CustomSession.get().getUser(), event);
 				      TimesheetEntryDao tS = new TimesheetEntryDao();
-				      tS.insert(new TimesheetEntry(CustomSession.get().getUser().getEmail(), event.getCreatedDateTime(), event.getName(), false, false, 0, CustomSession.get().getUser().getOrganizationName(), -1));
+				      tS.insert(new TimesheetEntry(CustomSession.get().getUser().getEmail(), event.getCreatedDateTime(), event.getName(), false, false, 0, CustomSession.get().getUser().getOrganizationName(), -1, -1, -1));
 				     
 				      
 				      if(returnTo.equals("partnerHomeView"))

@@ -66,23 +66,33 @@ public class PartnerReportResultsView extends VolunteerTrackBaseView {
 	
 	private String timePeriod;
 	
-	public PartnerReportResultsView (ArrayList<Event> e){
+	public PartnerReportResultsView (ArrayList<Event> events){
 		
-		Form<?> reportResultsView= new Form<Void> ("reportResultsView");
+		// Set up back button on page
+		Form reportResultsView= new Form("reportResultsView")
+		{
+			@Override
+			public void onSubmit() 
+			{
+				setResponsePage(PartnerReportView.class);
+			}
+		};
 		add(reportResultsView);
-		//Feedback Panel//
-		final FeedbackPanel feedback = new JQueryFeedbackPanel("feedback");
-		reportResultsView.add(feedback.setOutputMarkupId(true));
-		//====================================
 		
+		// Get users signed up for each event
+		ArrayList<User> eventUsers[] = new ArrayList[events.size()];
 		
-		//populate usersSigned up For each event selected
-		
-		for(int i=0; i<e.size(); i++){
-			//get array list of users for each event
-			ArrayList<User>temp = dao.getUsersThatAreSignedUpForEvent(currentuser, e.get(i));
-			//usersSignedUpForEvent.add(temp);
+		int pos = 0;
+		for (Event event : events)
+		{
+			
+			eventUsers[pos] = dao.getUsersThatAreSignedUpForEvent(currentuser, event);
+			TimesheetEntry t = timesheetEntryDao.getTimesheetEntryByEventName(e.getName(), volunteer.getEmail());
+			pos++;
 		}
+		
+		
+		/
 		//=========================
 		Options options= new Options();
 		options.set("heightStyle", Options.asString("content"));
@@ -96,18 +106,9 @@ public class PartnerReportResultsView extends VolunteerTrackBaseView {
 			public void onActivate(AjaxRequestTarget target, int index, ITab tab)
 			{
 				info(String.format("selected tab: #%d - %s", index, tab.getTitle().getObject()));
-				target.add(feedback);
-				
 			}
 			
 		};
-		button = new Button("back"){
-			@Override
-			public void onSubmit(){
-				setResponsePage(PartnerReportView.class);
-			}
-		};
-		reportResultsView.add(button);
 		reportResultsView.add(accordion);
    }
 	

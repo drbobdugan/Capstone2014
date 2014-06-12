@@ -173,7 +173,7 @@ public class VolunteerHourView extends VolunteerTrackBaseView
 		@SuppressWarnings("deprecation")
 		//Date date = new Date(114, 6, 12);
 		Date date = new Date();
-		TimesheetEntry te = new TimesheetEntry(currentUser.getEmail(), date, "", false, false, 0, "", -1);
+		TimesheetEntry te = new TimesheetEntry(currentUser.getEmail(), date, "", false, false, 0, "", -1, -1, -1);
 		setResponsePage(new VolunteerEditHoursView(te, true));
    	 
     }
