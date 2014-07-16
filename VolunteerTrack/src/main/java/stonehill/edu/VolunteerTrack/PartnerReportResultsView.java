@@ -80,25 +80,33 @@ public class PartnerReportResultsView extends VolunteerTrackBaseView {
 		add(reportResultsView);
 		
 		// Get users signed up for each event
-		ArrayList<User> eventUsers[] = new ArrayList[events.size()];
+		HashMap<Event, ArrayList<TimesheetEntry>> eventTimesheetMap = new HashMap<Event, ArrayList<TimesheetEntry>>();
 		
-		int pos = 0;
 		for (Event event : events)
 		{
+			ArrayList<TimesheetEntry> timesheetsForEvent = new ArrayList<TimesheetEntry>();
 			
-			eventUsers[pos] = dao.getUsersThatAreSignedUpForEvent(currentuser, event);
-			TimesheetEntry t = timesheetEntryDao.getTimesheetEntryByEventName(e.getName(), volunteer.getEmail());
-			pos++;
+			for (User user : dao.getUsersThatAreSignedUpForEvent(currentuser, event))
+			{
+			   ArrayList<TimesheetEntry> userTimeSheets = timesheetEntryDao.getTimesheetEntriesByEventUser(event, user);
+			   
+			   for (TimesheetEntry entry : userTimeSheets)
+			   {
+				   timesheetsForEvent.add(entry);
+			   }
+			}
+			
+			eventTimesheetMap.put(event, timesheetsForEvent);
 		}
 		
 		
-		/
+		//
 		//=========================
 		Options options= new Options();
 		options.set("heightStyle", Options.asString("content"));
 		
 		//set up Accordion//
-		final AccordionPanel accordion = new AccordionPanel("accordion", this.newTabList(e), options){
+		final AccordionPanel accordion = new AccordionPanel("accordion", this.newTabList(null), options){
 			
 			private static final long serialVersionUID = 1L;
 			
@@ -128,9 +136,9 @@ public class PartnerReportResultsView extends VolunteerTrackBaseView {
 			for(int j=0; j<volunteers.size();j++)
 			{
 			User volunteer= volunteers.get(i);
-			TimesheetEntry t = timesheetEntryDao.getTimesheetEntryByEventName(e.getName(), volunteer.getEmail());
+			ArrayList<TimesheetEntry> t = timesheetEntryDao.getTimesheetEntriesByEventUser(e, volunteer);
 			//content=content + " " + volunteer.getEmail() + ", ";
-			content =  content + volunteer.getFirstName() + " " +  volunteer.getLastName() + " "  + t.getHoursLogged();
+			//content =  content + volunteer.getFirstName() + " " +  volunteer.getLastName() + " "  + t.getHoursLogged();
 			tabs.add( new SimpleTab(Model.of(tabTitle), Model.of(content)));
 			}
 		}

@@ -115,7 +115,7 @@ public class CoordinatorReportView extends VolunteerTrackBaseView {
 					for(int i=0;i<volunteers.size();i++) {
 						User user=(User)volunteers.get(i);
 			
-			ArrayList<Object>times=	timedao.getAllTimesheetEntriesByUser((User)volunteers.get(i));
+			ArrayList<TimesheetEntry>times=	timedao.getTimesheetEntriesByUser((User)volunteers.get(i));
 			for(int j=0; j<times.size(); j++) {
 				timesheet= ((TimesheetEntry)times.get(j));
 				//gets all volunteer hours per volunteers
@@ -135,7 +135,7 @@ public class CoordinatorReportView extends VolunteerTrackBaseView {
 				else if(reportTypeSelected.equals("Details")) {
 					for(int i=0; i<volunteers.size(); i++) {
 						User user=(User)volunteers.get(i);
-						ArrayList<Object>times=	timedao.getAllTimesheetEntriesByUser((User)volunteers.get(i));
+						ArrayList<TimesheetEntry>times=	timedao.getTimesheetEntriesByUser((User)volunteers.get(i));
 						for(int j=0; j<times.size(); j++) {
 							timesheet= ((TimesheetEntry)times.get(j));
 						//gets all volunteer hours per volunteers

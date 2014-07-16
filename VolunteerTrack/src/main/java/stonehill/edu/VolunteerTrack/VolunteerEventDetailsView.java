@@ -54,14 +54,15 @@ public class VolunteerEventDetailsView extends VolunteerTrackBaseView
 			  @Override
 				public void onSubmit() {
 				      EventDao ed = new EventDao();
-				     
+				      User user = CustomSession.get().getUser();
+				      
 				      if( event.getNumPositionsRemaining() < 1)
 				    	  return;
 				      event.setNumPositionsRemaining(event.getNumPositionsRemaining()-1);
 				      ed.update(event);
 				      ed.insertUserSignsUpForEvent(CustomSession.get().getUser(), event);
 				      TimesheetEntryDao tS = new TimesheetEntryDao();
-				      tS.insert(new TimesheetEntry(CustomSession.get().getUser().getEmail(), event.getCreatedDateTime(), event.getName(), false, false, 0, CustomSession.get().getUser().getOrganizationName(), -1, -1, -1));
+				      tS.insert(new TimesheetEntry(CustomSession.get().getUser().getEmail(), event.getCreatedDateTime(), event.getName(), false, false, 0, user.getOrganizationName(), event.getId(), user.getId(), -1));
 				     
 				      
 				      if(returnTo.equals("partnerHomeView"))

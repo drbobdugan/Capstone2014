@@ -95,7 +95,7 @@ public class DocumentDao extends Dao{
 	
 	public ArrayList<Object> selectAll() {
 		String sql = "SELECT * FROM Document";
-		ArrayList<Document> documentList =documentsSelectProcessor(sql);
+		ArrayList<Document> documentList =selectProcessor(sql);
 		ArrayList<Object> result = new ArrayList<Object>();
 		
 		for (Document document : documentList)
@@ -108,23 +108,23 @@ public class DocumentDao extends Dao{
 	
 	public Document getDocumentByUserNameAndDateTime(User user, String n, Date d) {
 			String sql = "SELECT * FROM Document WHERE UserEmail='"+user.getEmail()+"' AND Name='"+n+"' AND DateUploaded=to_date('"+new java.sql.Date(d.getTime())+"', 'yyyy-mm-dd')";
-			return documentSelectProcessor(sql);
+			return selectProcessor(sql).get(0);
 	}
 	
 	public ArrayList<Document> getAllDocumentsByUser(User user) {
 		String sql = "SELECT * FROM Document WHERE UserId="+user.getId();
-		return documentsSelectProcessor(sql);
+		return selectProcessor(sql);
 	}
 	
 	public ArrayList<Document> getAllSharedDocumentsByUser(User user) {
 		String sql = "SELECT * FROM Document WHERE UserId="+user.getId() + " AND IsSharedDocument='1'";
-		return documentsSelectProcessor(sql);
+		return selectProcessor(sql);
 	}
 	
 	
 	public ArrayList<Document> getAllDocumentsSharedWithPartner(User partner) {
 		String sql = "SELECT * FROM Document,DocumentSharedWithPartnerUser WHERE DocumentSharedWithPartnerUser.PartnerUserEmail='"+partner.getEmail()+"' AND DocumentSharedWithPartnerUser.DocumentName=Document.Name AND DocumentSharedWithPartnerUser.DocumentDateUploaded=Document.DateUploaded AND DocumentSharedWithPartnerUser.DocumentUserEmail=Document.UserEmail";
-		return documentsSelectProcessor(sql);	
+		return selectProcessor(sql);	
 	}
 	
 	public void insertDocumentSharedWithPartner(Document document, User partner){
@@ -207,7 +207,7 @@ public class DocumentDao extends Dao{
 	}
 	
 	
-	public ArrayList<Document> documentsSelectProcessor(String sql) {
+	public ArrayList<Document> selectProcessor(String sql) {
 		ArrayList<Document> result=new ArrayList<Document>();
 		try{
 			//connect
@@ -231,32 +231,6 @@ public class DocumentDao extends Dao{
 		}
 		return result;
 	}
-	
-	public Document documentSelectProcessor(String sql) {
-		Document result=null;
-		try{
-			//connect
-			connectToDatabase();
-	
-			//SQL statement
-			Statement statement=connection.createStatement();
-			ResultSet resultSet=statement.executeQuery(sql);
-			while (resultSet.next())
-			{
-				result = (processTuple(resultSet));
-			}
-	
-			//clean up
-			resultSet.close();
-			statement.close();
-			disconnectFromDatabase();
-		}
-		catch(Exception e){
-			e.printStackTrace();
-		}
-		return result;
-	}
-
 
 	Document processTuple(ResultSet resultSet) 
 	{

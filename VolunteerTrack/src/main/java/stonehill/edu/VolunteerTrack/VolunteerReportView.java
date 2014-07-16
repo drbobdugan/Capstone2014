@@ -94,10 +94,10 @@ public class VolunteerReportView extends VolunteerTrackBaseView {
 			@Override
 			public void onSubmit(){
 				//info("Report By :" + selected);
-				ArrayList<Object> temp = new ArrayList<Object>();
+				ArrayList<TimesheetEntry> temp = new ArrayList<TimesheetEntry>();
 				ArrayList<TimesheetEntry> timesheets = new ArrayList<TimesheetEntry>();
 				ArrayList<Event> selectedEvents = (ArrayList<Event>) group.getDefaultModelObject();
-				temp =timesheetEntryDao.getAllTimesheetEntriesByUser(currentUser);
+				temp =timesheetEntryDao.getTimesheetEntriesByUser(currentUser);
 				//temp =timesheetEntryDao.selectAll();
 				System.out.println("-------------------------------------------------");
 				System.out.println("-------------------------------------------------");
@@ -214,15 +214,15 @@ public class VolunteerReportView extends VolunteerTrackBaseView {
 			@Override
 			public void onSubmit(){
 				//info("Report By :" + selected);
-				ArrayList<Object> temp = new ArrayList<Object>();
+				ArrayList<TimesheetEntry> temp = new ArrayList<TimesheetEntry>();
 				ArrayList<TimesheetEntry> timesheets = new ArrayList<TimesheetEntry>();
 				ArrayList<Event> selectedEvents = (ArrayList<Event>) group.getDefaultModelObject();
-				temp =timesheetEntryDao.getAllTimesheetEntriesByUser(currentUser);
+				temp =timesheetEntryDao.getTimesheetEntriesByUser(currentUser);
 
 				for(int i=0; i<selectedEvents.size(); i++){
 					Event e = selectedEvents.get(i);
-					TimesheetEntry t = timesheetEntryDao.getTimesheetEntry(e.getCreatedDateTime(), e.getName(), currentUser.getEmail());
-					timesheets.add(t);
+					ArrayList<TimesheetEntry> t = timesheetEntryDao.getTimesheetEntriesByEventUser(e,currentUser);
+					timesheets.addAll(t);
 				}
 
 				setResponsePage(new VolunteerReportResultsView(selectedEvents, timesheets));

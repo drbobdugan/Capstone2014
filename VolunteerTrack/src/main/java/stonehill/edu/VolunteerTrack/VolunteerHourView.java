@@ -20,7 +20,7 @@ public class VolunteerHourView extends VolunteerTrackBaseView
 
 	public Label message;
  	public String selected;
- 	public ArrayList<Object> userTimesheetEntry;
+ 	public ArrayList<TimesheetEntry> userTimesheetEntry;
  	TimesheetEntryDao teDao;
  	User currentUser;
  	
@@ -30,7 +30,7 @@ public class VolunteerHourView extends VolunteerTrackBaseView
 		 
 		teDao = new TimesheetEntryDao();
 		
-	    userTimesheetEntry = teDao.getAllTimesheetEntriesByUser(currentUser);
+	    userTimesheetEntry = teDao.getTimesheetEntriesByUser(currentUser);
 	    ArrayList userTEtemp = userTimesheetEntry;
 	    int counter = 0;
 		

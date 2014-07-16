@@ -61,7 +61,7 @@ public class EventDao extends Dao{
 		}
 		return result;
 	}
-	public ArrayList<Object> getAllPendingAplicantsByPartner(User partner) {
+	public ArrayList<Object> getAllPendingApplicantsByPartner(User partner) {
 		ArrayList<Object> result=new ArrayList<Object>();
 		try{
 			//connect
@@ -121,18 +121,23 @@ public class EventDao extends Dao{
 		return result;
 	}
 	
-	ArrayList getUsersThatAreSignedUpForEvent(User user, Event e) {
-		ArrayList row = new ArrayList(0);
+	ArrayList<User> getUsersThatAreSignedUpForEvent(User user, Event e) {
+		ArrayList<User> result = new ArrayList<User>();
+		ArrayList<Integer> userIds = new ArrayList<Integer>();
+			
 		try{
 			//connect
 			connectToDatabase();
 			//SQL statement
 			Statement statement=connection.createStatement();
-			ResultSet resultSet=statement.executeQuery("SELECT * FROM UserEntity, UserSignsUpForEvent WHERE User.Email=UserSignsUpForEvent.UserEmail AND UserSignsUpForEvent.EventId="+e.getId());
+			ResultSet resultSet=statement.executeQuery("SELECT UserEntity.Id FROM UserEntity, UserSignsUpForEvent WHERE User.Email=UserSignsUpForEvent.UserEmail AND UserSignsUpForEvent.EventId="+e.getId());
 			//get tuples
-			while(resultSet.next()){
-				row.add(new Object[]{resultSet.getInt("EventId"), resultSet.getString("EventName"), resultSet.getTimestamp("CreatedDateTime"), resultSet.getInt("PositionsRemaining")});
-		    }
+			
+			while(resultSet.next())
+			{
+				userIds.add(new Integer(resultSet.getInt("UserEntity.Id")));
+			}
+			
 			//clean up
 			resultSet.close();
 			statement.close();
@@ -141,9 +146,16 @@ public class EventDao extends Dao{
 		catch(Exception ex){
 			ex.printStackTrace();
 		}
-		return row;
 		
+		UserDao userDao = new UserDao();
+		for (int userId : userIds)
+		{
+			result.add(userDao.getUserByUserId(userId));
+		}
+	
+		return result;
 	}
+	
 	public void delete(Object value) {
 		Event event=(Event) value;
 		try{

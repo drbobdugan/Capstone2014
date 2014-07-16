@@ -47,7 +47,7 @@ public class PartnerHomeView extends VolunteerTrackBaseView{
 	    
 	    
 	    eventVolunteers = new ArrayList();
-	    ArrayList temp = dao.getAllPendingAplicantsByPartner(currentUser);
+	    ArrayList temp = dao.getAllPendingApplicantsByPartner(currentUser);
 	    for(int i = 0; i < temp.size(); i+=2)
 	    	eventVolunteers.add(new AppEntry((Event)temp.get(i),(User)temp.get(i+1)));
 	    
@@ -62,7 +62,8 @@ public class PartnerHomeView extends VolunteerTrackBaseView{
 	}  
 	
 	 private void populateTables() {
-		final DataView dataView = new DataView("simple", new ListDataProvider(futureEvents)) {
+		
+		 final DataView dataView = new DataView("simple", new ListDataProvider(futureEvents)) {
 			protected void populateItem(final Item item) {
 				final Event event = (Event)item.getModelObject();
 				item.add(new Link<Void>("view"){ public void onClick(){ viewEvent(eventid++);}});
